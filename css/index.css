@@ -1,0 +1,43 @@
+.container{
+    display:flex;
+    align-items: center;
+    min-height: 100vh;
+    padding:20px;
+}
+.cajaForm{
+    width:100%;
+}
+img{
+    margin:auto !important;
+    width:70% !important;
+}
+.rowForm{
+    display: flex;
+    justify-content: center;
+}
+.textoLabel{
+    color: purple;
+    font-size:18px;
+}
+.inputLabel{
+    height:30px;
+    border: solid 1px purple;
+    border-radius: 7px;
+    margin-bottom:10px;
+}
+.botonSubmit{
+    background-color: purple;
+    color:white;
+    border: solid 1px purple;
+    border-radius: 7px;
+    outline: none;
+    height:40px;
+}
+.botonSubmit:hover{
+    font-size:18px;
+}
+.mensajeError{
+    color: red;
+    font-size: 12px;
+    text-align: center;
+}

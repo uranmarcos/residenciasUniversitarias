@@ -1,0 +1,100 @@
+.header{
+    height: 16vh;
+    border: solid purple 1px;
+}
+.logoHeader{
+    background-image: url("../img/logohor.jpg");
+    background-size: contain;
+    background-repeat:no-repeat;
+    background-position: center;
+}
+
+/* contenedor de aside y main */
+.contenedorSecundario{
+    min-height: 84vh;
+    margin:0;
+    padding: 0px !important;
+}
+aside{
+    background-color: lightgray;
+    padding:0 !important;
+    border-right: solid 1px grey;
+    
+}
+.main{
+
+}
+
+/* SHARED */
+.hidden{
+    display: none;
+}
+
+
+/* ASIDE */
+.navAside{
+    height: 30px;
+    background-color: purple;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    width: 100%;
+    padding:0;
+    margin: auto;
+    border-bottom: solid 1px grey;
+}
+.asideButton{
+    height: 50px;
+    background-color: lightgrey;;
+    font-size:20px;
+    width: 100%;;
+    padding:0px;
+    text-transform: uppercase;
+    border: none;
+    color:purple;
+    outline:none;
+}
+.asideButton:hover{
+    background-color: grey;;
+    font-size:20px;
+    color:white;
+    outline:none;
+}
+
+
+
+/*MAIN */
+.navHome{
+    height: 30px;
+    background-color: purple;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    width: 100%;
+    padding:0;
+    display: flex;
+    justify-content: space-between;
+       margin: auto;
+       border-bottom: solid 1px grey;;
+}
+.opcionSection{
+    width:100%;
+    height:94%;
+   
+}
+
+
+/*SECCIONES */
+.logoInicio{
+    background-image: url("../img/si.jpg");
+    height:100%;
+    display: flex;
+    align-items: center;
+    background-size: 50%;
+       background-repeat: no-repeat;
+    background-position: center;
+  
+}
+
+
+
