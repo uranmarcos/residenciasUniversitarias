@@ -33,3 +33,58 @@ function mostrarSection(param){
     opcionSeleccionada.classList.remove("hidden")
 
 }
+
+
+let cajaAlimentos = document.getElementById("cajaAlimentos")
+let textoAlimentos = "+"
+let navAlimentos = document.getElementById("navAlimentos")
+
+navAlimentos.innerHTML = textoAlimentos
+
+function mostrarAlimentos(){
+    if(textoAlimentos == "+"){
+        textoAlimentos = "-"
+        navAlimentos.innerHTML = textoAlimentos
+        cajaAlimentos.classList.remove("hidden")
+    } else{
+        textoAlimentos = "+"
+        navAlimentos.innerHTML = textoAlimentos
+        cajaAlimentos.classList.add("hidden")
+    }
+}
+
+let cajaLimpieza = document.getElementById("cajaLimpieza")
+let textoLimpieza = "+"
+let navLimpieza = document.getElementById("navLimpieza")
+
+navLimpieza.innerHTML = textoLimpieza
+
+function mostrarLimpieza(){
+    if(textoLimpieza == "+"){
+        textoLimpieza = "-"
+        navLimpieza.innerHTML = textoLimpieza
+        cajaLimpieza.classList.remove("hidden")
+    } else{
+        textoLimpieza = "+"
+        navLimpieza.innerHTML = textoLimpieza
+        cajaLimpieza.classList.add("hidden")
+    }
+}
+
+let cajaOtros = document.getElementById("cajaOtros")
+let textoOtros = "+"
+let navOtros = document.getElementById("navOtros")
+
+navOtros.innerHTML = textoOtros
+
+function mostrarOtros(){
+    if(textoOtros == "+"){
+        textoOtros = "-"
+        navOtros.innerHTML = textoOtros
+        cajaOtros.classList.remove("hidden")
+    } else{
+        textoOtros = "+"
+        navOtros.innerHTML = textoOtros
+        cajaOtros.classList.add("hidden")
+    }
+}
