@@ -1,4 +1,4 @@
-<button name="miPerfil" disabled class="asideButton" id="miPerfil" onclick="remarcarBoton('miPerfil')">Mi perfil</button>
-<button name="admin" class="asideButton" id="admin" onclick="remarcarBoton('aside')">Admin</button>
-<button name="iniciarPedido" class="asideButton" id="pedidos" onclick="remarcarBoton('pedidos')">Pedidos</button>
-<button name="entrevistas" disabled class="asideButton" id="entrevistas" onclick="remarcarBoton('entrevistas')">Entrevistas</button>
+<button name="miPerfil" disabled class="asideButton" id="perfil" onclick="activarBoton('perfil', 'perfilSeccion')">Mi perfil</button>
+<button name="admin" class="asideButton" id="admin" onclick="activarBoton('admin', 'adminSeccion')">Admin</button>
+<button name="iniciarPedido" class="asideButton" id="pedido" onclick="activarBoton('pedido', 'pedidoSeccion')">Pedidos</button>
+<button name="entrevistas" disabled class="asideButton" id="entrevistas" onclick="activarBoton('entrevistas', 'entrevistasSeccion')">Entrevistas</button>

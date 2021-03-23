@@ -21,15 +21,15 @@ aside{
     border-right: solid 1px grey;
     
 }
-.main{
 
-}
 
 /* SHARED */
 .hidden{
     display: none;
 }
-
+p{
+    margin:0;
+}
 
 /* ASIDE */
 .navAside{
@@ -70,12 +70,15 @@ aside{
     color: white;
     font-size: 20px;
     text-align: center;
-    width: 100%;
+    width: 100% !important;
     padding:0;
     display: flex;
     justify-content: space-between;
        margin: auto;
        border-bottom: solid 1px grey;;
+}
+main{
+    padding:0 !important;
 }
 .opcionSection{
     width:100%;
@@ -92,9 +95,18 @@ aside{
     align-items: center;
     background-size: 50%;
        background-repeat: no-repeat;
-    background-position: center;
-  
+    background-position: center;  
+}
+.section{
+    width:100%;
 }
 
+/* CLASES CON JS */
+.botonRemarcado{
+    background-color: grey;
+    outline: none !important;
+    border: none;
+    color: white;
+}
 
 

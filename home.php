@@ -96,15 +96,15 @@ require("funciones/pdo.php");
             </div>
             <div class="row contenedorSecundario">               
                 <aside class="col-12 aside col-md-3">
-                    <nav class="row centrarTexto navAside navHome">
+                    <nav class="row centrarTexto navAside">
                         <div class="col-12">
                             MENU              
                         </div>    
                     </nav> 
                     <?php require("componentes/aside.php") ?>
                 </aside> 
-                <main class="col-12 col-md-9 contenedorSecundario">
-                    <nav class="row navHome justify-content-between ">
+                <main class="col-12 col-md-9">
+                    <nav class="row navHome justify-content-around ">
                         <div class="col-6 col-md-4 leftTexto">
                             <p>Hola <?php echo $_SESSION["name"]?>!</p>
                         </div>    
@@ -118,22 +118,24 @@ require("funciones/pdo.php");
                         </div>    
                     </nav> 
                     <div class="section">
-                        <div class="opcionSection" name="inicio">
+                        <div class="opcionSection" id="inicioSeccion" name="inicio">
                             <?php require("componentes/subcomponentes/inicio.php")?>
                         </div>
-                        <div class="opcionSection hidden" name="pedido">
+                        <div class="opcionSection hidden" id="pedidoSeccion" name="pedido">
+                            <?php require("componentes/subcomponentes/pedido.php")?>
                         </div>
-                        <div class="opcionSection hidden" name="confirmPedido">
+                        <div class="opcionSection hidden" id="confirmSeccion" name="confirmPedido">
+                            <?php require("componentes/subcomponentes/confirmPedido.php")?>
                         </div>
-                        <div class="opcionSection hidden" name="admin">
+                        <div class="opcionSection hidden" id="adminSeccion" name="admin">
+                            <?php require("componentes/subcomponentes/admin.php")?>
                         </div>
-
                     </div>
                 </main>   
             </div>        
         </div>
        
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-
+        <script typescript="javascript" src="js/funciones.js"></script>
     </body>
 </html>
