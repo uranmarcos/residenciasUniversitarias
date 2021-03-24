@@ -1,10 +1,13 @@
 .header{
     height: 16vh;
-    border: solid purple 1px;
 }
 .logoHeader{
+   
     background-image: url("../img/logohor.jpg");
-    background-size: contain;
+    background-size:contain;
+    height:100%;
+   
+    
     background-repeat:no-repeat;
     background-position: center;
 }
@@ -30,6 +33,10 @@ aside{
 p{
     margin:0;
 }
+.rowBoton{
+    width:100% !important;
+    margin: auto;
+}
 .botonSubmit{
     height:50px;
     background-color: purple;
@@ -43,6 +50,7 @@ p{
     color: yellow;
    
 }
+
 
 /* ASIDE */
 .navAside{
@@ -96,7 +104,6 @@ main{
 .opcionSection{
     width:100%;
     height:94%;
-   
 }
 .contenedorSeccion{
     width:100%;
@@ -130,7 +137,20 @@ main{
     width:90%;
     height:100px;
 }
-
+.confirmarPedido{
+    z-index:3;
+    position: absolute;
+    top:16vh;;
+    left:5%;
+    background: rgba(77, 75, 75, 0.7);
+    margin:auto;
+    border: solid 1px black;
+    border-radius:10px;
+    width: 90%;
+    height:auto;
+    min-height:500px;
+    COLOR:WHITE;
+}
 
 /*SECCIONES */
 .logoInicio{
@@ -145,6 +165,52 @@ main{
 .section{
     width:100%;
 }
+.titleSection{
+    color: purple;
+    font-size:18px;
+    padding:20px 0 0;
+    margin:20px;
+    text-transform: uppercase;
+    border-bottom: solid 1px purple
+}
+/* CONFIRMACION */
+.rowTitulo{
+    background-color: grey;
+    color: white;
+    border-radius: 10px;;
+    width:100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    text-transform: uppercase;
+    margin:0 auto;
+}
+.cardPedido{
+    background-color: lightgray;
+    color: black;
+    min-height: 200px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: bolder;
+    border: solid 1px grey;
+    border-radius:10px;
+}
+.cajaProductos{
+    display: flex;
+    justify-content: space-around;
+}
+.listadoTitle{
+    text-transform: uppercase;
+    margin:10px auto 5px;
+}
+.listado{
+    width:90%;
+    margin:auto;
+    margin-bottom:10px;
+}
+
+
+
 
 /* CLASES CON JS */
 .botonRemarcado{

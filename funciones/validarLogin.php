@@ -21,7 +21,7 @@ if(empty($datosUsuarios)){
         $_SESSION["dni"] = $datosUsuarios[0]["dni"];
         $_SESSION["sede"] = $datosUsuarios[0]["sede"];
 
-        echo "<script>location.href='home.php';</script>";
+        echo "<script>location.href='inicio.php';</script>";
     } else {
         $error="Los datos ingresados son erróneos";
     }

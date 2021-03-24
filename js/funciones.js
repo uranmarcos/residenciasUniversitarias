@@ -12,27 +12,26 @@ function quitarClase(selector, clase){
 }
 
 //asigno clase" boton remarcado" al boton aside seleccionado
-function activarBoton(param, param2){
+function activarBoton(param){
     quitarClase("asideButton", "botonRemarcado")
 
     let botonSeleccionado = document.getElementById(param)
     botonSeleccionado.classList.add("botonRemarcado")
-    mostrarSection(param2)
 }
 
 
-let cajasSecciones = document.getElementsByClassName("opcionSection")
+// let cajasSecciones = document.getElementsByClassName("opcionSection")
 
-function mostrarSection(param){
-    for (let item of cajasSecciones) {
-        if(item.classList.contains("hidden") == false){
-            item.classList.add("hidden")
-        }
-    } 
-    let opcionSeleccionada = document.getElementById(param)
-    opcionSeleccionada.classList.remove("hidden")
+// function mostrarSection(param){
+//     for (let item of cajasSecciones) {
+//         if(item.classList.contains("hidden") == false){
+//             item.classList.add("hidden")
+//         }
+//     } 
+//     let opcionSeleccionada = document.getElementById(param)
+//     opcionSeleccionada.classList.remove("hidden")
 
-}
+// }
 
 
 let cajaAlimentos = document.getElementById("cajaAlimentos")
@@ -40,7 +39,6 @@ let textoAlimentos = "+"
 let navAlimentos = document.getElementById("navAlimentos")
 
 navAlimentos.innerHTML = textoAlimentos
-
 function mostrarAlimentos(){
     if(textoAlimentos == "+"){
         textoAlimentos = "-"

@@ -1,6 +1,17 @@
 <?php
 session_start();
 require("funciones/pdo.php");
+
+$mostrarConfirmacion = "none";
+
+if(isset($_POST["prepararPedido"])){
+    $mostrarConfirmacion = "block";
+
+}
+if(isset($_POST["modificarPedido"])){
+    $mostrarConfirmacion = "none";
+}
+
 // require("funciones/funcionesPedidos.php");
 // include("componentes/header.php");
 
@@ -124,14 +135,16 @@ require("funciones/pdo.php");
                         <div class="opcionSection hidden" id="pedidoSeccion" name="pedido">
                             <?php require("componentes/subcomponentes/pedido.php")?>
                         </div>
-                        <div class="opcionSection hidden" id="confirmSeccion" name="confirmPedido">
-                            <?php require("componentes/subcomponentes/confirmPedido.php")?>
-                        </div>
                         <div class="opcionSection hidden" id="adminSeccion" name="admin">
                             <?php require("componentes/subcomponentes/admin.php")?>
                         </div>
                     </div>
-                </main>   
+                </main> 
+                <section class="col-12 confirmarPedido" style="display:<?php echo $mostrarConfirmacion ?>">
+                        <div id="confirmSeccion" name="confirmPedido">
+                            <?php require("componentes/subcomponentes/confirmPedido.php")?>
+                        </div>
+                </section>               
             </div>        
         </div>
        

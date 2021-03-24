@@ -6,6 +6,7 @@ if($_SESSION["autenticado"] != true){
 }
 ?>
 
-<div class="col-12 col-md-3 logoHeader">
+<div class="col-12 col-md-3 justify-self-left logoHeader">
+   
 </div>
    
