@@ -1,15 +1,22 @@
 .header{
     height: 16vh;
 }
+img{
+    width:80%;
+    max-width: 300px;
+    margin:auto;
+}
+.alignRight{
+    text-align: right;
+    padding-right: 30px;;
+}
 .logoHeader{
-   
-    background-image: url("../img/logohor.jpg");
-    background-size:contain;
-    height:100%;
-   
-    
-    background-repeat:no-repeat;
-    background-position: center;
+    display: flex;
+    justify-content: center;
+}
+.anchoTotal{
+    width:100%;
+    margin: auto;
 }
 
 /* contenedor de aside y main */
@@ -17,6 +24,14 @@
     min-height: 84vh;
     margin:0;
     padding: 0px !important;
+}
+.cajaInternaPedido{
+    padding:24px;
+    height:70vh;
+    display:flex;
+    font-size: 20px;
+    align-items: center;
+    justify-content: center;
 }
 aside{
     background-color: lightgray;
@@ -47,8 +62,18 @@ p{
     outline: none;
 }
 .botonSubmit:hover{
-    color: yellow;
-   
+    color: yellow;  
+}
+.botonConfirmar{
+    height:40px;
+    background-color: purple;
+    border-radius: 10px;
+    color:white;
+    width:200px;
+    margin-top:10px;
+    font-size: 14px;
+    text-transform: uppercase;
+    outline: none;
 }
 
 
@@ -126,6 +151,8 @@ main{
 }
 .cajaInternaBloque{
     padding:20px 0;
+    width: 100%;
+    margin: auto;
 }
 .bloque{
     background-color: lightgray;
@@ -164,6 +191,11 @@ main{
 }
 .section{
     width:100%;
+}
+.subtitle{
+    color: purple;
+    font-size:18px;
+    padding-left: 20px;;
 }
 .titleSection{
     color: purple;
@@ -220,4 +252,11 @@ main{
     color: white;
 }
 
-
+@media (max-width: 767px) {
+   .botonesAside{
+       height:150px;
+   }
+   .ocultarResponsive{
+       display: none;
+   }
+}

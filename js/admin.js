@@ -14,3 +14,19 @@ function mostrarAdminArticulos(){
     }
 }
 
+
+let cajaAdminUsuarios = document.getElementById("adminUsuarios")
+let textoAdminUsuarios = "+"
+let navAdminUsuarios = document.getElementById("navAdminUsuarios")
+navAdminUsuarios.innerHTML = textoAdminUsuarios
+function mostrarAdminUsuarios(){
+    if(textoAdminUsuarios == "+"){
+        textoAdminUsuarios = "-"
+        navAdminUsuarios.innerHTML = textoAdminUsuarios
+        cajaAdminUsuarios.classList.remove("hidden")
+    } else{
+        textoAdminUsuarios = "+"
+        navAdminUsuarios.innerHTML = textoAdminUsuarios
+        cajaAdminUsuarios.classList.add("hidden")
+    }
+}

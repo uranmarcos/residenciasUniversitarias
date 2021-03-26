@@ -1,6 +1,12 @@
-<form method="POST" action="inicio.php">
-    <button name="miPerfil" disabled class="asideButton" id="perfil" onclick="activarBoton('perfil', 'perfilSeccion')">Mi perfil</button>
-    <button name="admin" disabled class="asideButton" id="admin" onclick="activarBoton('admin', 'adminSeccion')">Admin</button>
+<?php
+$mostrarAdmin = "none";
+if($_SESSION["rol"] == "admin"){
+    $mostrarAdmin = "block";
+}
+?>
+
+<form method="POST" action="inicio.php" class="botonesAside">
+    <button name="cerrarSesion" class="asideButton" id="perfil" onclick="activarBoton('perfil', 'perfilSeccion')">Cerrar sesión</button>
+    <button name="admin" style="display:<?php echo $mostrarAdmin ?>"  class="asideButton" id="admin" onclick="activarBoton('admin', 'adminSeccion')">Admin</button>
     <button name="iniciarPedido" class="asideButton" id="pedido" onclick="activarBoton('pedido', 'pedidoSeccion')">Pedidos</button>
-    <button name="entrevistas" disabled class="asideButton" id="entrevistas" onclick="activarBoton('entrevistas', 'entrevistasSeccion')">Entrevistas</button>
 </form>

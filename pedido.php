@@ -6,6 +6,8 @@ $producto="";
 $categoria="";
 $medida="";
 $mensaje = "";
+$pedido = null;
+$sede = $_SESSION["sede"];
 
 
 $consultaAlimentos = $baseDeDatos ->prepare("SELECT * FROM productos WHERE categoria='alimentos' ORDER BY producto ASC");
@@ -15,6 +17,8 @@ $alimentos = $consultaAlimentos -> fetchAll(PDO::FETCH_ASSOC);
 $consultaLimpieza = $baseDeDatos ->prepare("SELECT * FROM productos WHERE categoria='limpieza'");
 $consultaLimpieza->execute();
 $limpieza = $consultaLimpieza -> fetchAll(PDO::FETCH_ASSOC);
+
+
 
 ?>
 <html>
@@ -44,22 +48,14 @@ $limpieza = $consultaLimpieza -> fetchAll(PDO::FETCH_ASSOC);
                 </aside> 
                 <main class="col-12 col-md-9">
                     <nav class="row navHome justify-content-around ">
-                        <div class="col-6 col-md-4 leftTexto">
+                        <div class="col-12 alignRight">
                             <p>Hola <?php echo $_SESSION["name"]?>!</p>
-                        </div>    
-                        
-                        <div class="col-6 col-md-5" class="row d-flex justify-end">
-                            Sede: <?php echo $_SESSION["sede"]?> -
-                            <script>
-                                var f = new Date();
-                                document.write(f.getDate() + "/" + (f.getMonth() +1) + "/" + f.getFullYear());
-                            </script>                   
                         </div>    
                     </nav> 
                     <div class="section">
-                        <!-- <div class="opcionSection" id="inicioSeccion" name="inicio"> -->
+                        
                             <?php require("componentes/subcomponentes/pedido.php")?>
-                        <!-- </div> -->
+                      
                     </div>
                 </main>        
             </div>        
@@ -67,8 +63,6 @@ $limpieza = $consultaLimpieza -> fetchAll(PDO::FETCH_ASSOC);
        
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
         <script typescript="javascript" src="js/funciones.js"></script>
-        <!-- <script>
-            activarBoton("pedido")
-        </script> -->
+       
     </body>
 </html>

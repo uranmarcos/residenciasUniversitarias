@@ -10,15 +10,42 @@ if(isset($_POST["iniciarPedido"])){
 if(isset($_POST["admin"])){
     header("Location: admin.php");
 }
+if(isset($_POST["cerrarSesion"])){
+    header("Location: destroy.php");
+}
 if(isset($_POST["modificarPedido"])){
     header("Location: pedido.php");
 }
-// if(isset($_POST["modificarPedido"])){
-//     $mostrarConfirmacion = "none";
-// }
-// header("Location: http://www.ejemplo.es");
+$pedido = [];
+$mostrarInicio = "block";
+$mostrarPedido = "none";
+$mensajePedido = "";
+if(isset($_POST["confirmar"])){
+    $pedido["sede"] = $_SESSION["sede"];
+    $pedido["casa"] = $_SESSION["casa"];
+    $pedido["nombre"] = $_SESSION["name"];
+    $pedido["apellido"] = $_SESSION["apellido"];
+    $pedido["fecha"] = getDate();
 
-
+    foreach ($_POST["articulo"] as $producto){
+        if($producto["cantidad"] != 0){
+            array_push($pedido, $producto);
+        }  
+    }
+   
+    try{
+        $json_string = json_encode($pedido);
+        $file = 'json/pedidos.json';
+        file_put_contents($file, $json_string, FILE_APPEND);
+    }catch(Exception $e){
+        header("Location: error.php");
+        echo $e;
+        return;
+    }
+    $mensajePedido="Listo! El pedido se realizó correctamente!";
+    $mostrarInicio = "none";
+    $mostrarPedido = "block";
+}
 
 
 ?>
@@ -49,21 +76,20 @@ if(isset($_POST["modificarPedido"])){
                 </aside> 
                 <main class="col-12 col-md-9">
                     <nav class="row navHome justify-content-around ">
-                        <div class="col-6 col-md-4 leftTexto">
+                        <div class="col-12 alignRight">
                             <p>Hola <?php echo $_SESSION["name"]?>!</p>
-                        </div>    
-                        
-                        <div class="col-6 col-md-5" class="row d-flex justify-end">
-                            Sede: <?php echo $_SESSION["sede"]?> -
-                            <script>
-                                var f = new Date();
-                                document.write(f.getDate() + "/" + (f.getMonth() +1) + "/" + f.getFullYear());
-                            </script>                   
                         </div>    
                     </nav> 
                     <div class="section">
-                        <div class="logoInicio">
+                        <div class="logoInicio" style="display: <?php echo $mostrarInicio ?>">
                            
+                        </div>
+                        <div style="display: <?php echo $mostrarPedido ?>">
+                            <div class="bloque">
+                                <div class="cajaInternaPedido">
+                                    <?php echo $mensajePedido ?>
+                                </div>    
+                            </div>                   
                         </div>
                      
                     </div>
@@ -72,6 +98,5 @@ if(isset($_POST["modificarPedido"])){
         </div>
        
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-        <script typescript="javascript" src="js/funciones.js"></script>
     </body>
 </html>

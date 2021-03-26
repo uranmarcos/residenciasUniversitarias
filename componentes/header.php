@@ -6,7 +6,10 @@ if($_SESSION["autenticado"] != true){
 }
 ?>
 
-<div class="col-12 col-md-3 justify-self-left logoHeader">
+<div class="col-12 logoHeader">
+    <img src="img/logohor.jpg">
    
 </div>
+
+
    
