@@ -154,7 +154,7 @@
                                                         <?php foreach($usuarios as $usuario){ ?>
                                                             <div class="row rowProducto justify-content-around">
                                                                 <?php echo $usuario["nombre"] . " " . $usuario["apellido"] . 
-                                                                " - rol: " . $usuario["rol"] . " - Sede: " . $usuario["sede"] ." - Casa: " . 
+                                                                " - " . $usuario["rol"] . " - " . $usuario["sede"] ." - Casa: " . 
                                                                 $usuario["casa"] ?>                               
                                                             </div>
                                                         <?php } ?> 
