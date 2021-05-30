@@ -10,7 +10,6 @@ function quitarClase(selector, clase){
         }
     } 
 }
-
 //asigno clase" boton remarcado" al boton aside seleccionado
 function activarBoton(param){
     quitarClase("asideButton", "botonRemarcado")
@@ -18,6 +17,20 @@ function activarBoton(param){
     let botonSeleccionado = document.getElementById(param)
     botonSeleccionado.classList.add("botonRemarcado")
 }
+
+//FUNCIONES PARA MOSTRAR/OCULTAR CONFIRMACION DE PEDIDO
+let confirmarPedido = document.getElementById("confirmacionPedido")
+function mostrarConfirmarPedido(){
+    confirmarPedido.classList.remove("hidden")
+}
+function ocultarConfirmarPedido(){
+    console.log("ocultar")
+    confirmarPedido.classList.add("hidden")
+}
+
+
+
+
 
 
 // let cajasSecciones = document.getElementsByClassName("opcionSection")
@@ -33,7 +46,7 @@ function activarBoton(param){
 
 // }
 
-
+//FUNCIONES CAJA ALIMENTOS
 let cajaAlimentos = document.getElementById("cajaAlimentos")
 let textoAlimentos = "+"
 let navAlimentos = document.getElementById("navAlimentos")
@@ -51,12 +64,47 @@ function mostrarAlimentos(){
     }
 }
 
+//FUNCIONES CAJA MERIENDA
+let cajaMeriendas = document.getElementById("cajaMeriendas")
+let textoMeriendas = "+"
+let navMeriendas = document.getElementById("navMeriendas")
+
+navMeriendas.innerHTML = textoMeriendas
+function mostrarMeriendas(){
+    if(textoMeriendas == "+"){
+        textoMeriendas = "-"
+        navMeriendas.innerHTML = textoMeriendas
+        cajaMeriendas.classList.remove("hidden")
+    } else{
+        textoMeriendas = "+"
+        navMeriendas.innerHTML = textoMeriendas
+        cajaMeriendas.classList.add("hidden")
+    }
+}
+
+//FUNCIONES CAJA USO PERSONAL
+let cajaUsoPersonal = document.getElementById("cajaUsoPersonal")
+let textoUsoPersonal = "+"
+let navUsoPersonal = document.getElementById("navUsoPersonal")
+
+navUsoPersonal.innerHTML = textoUsoPersonal
+function mostrarUsoPersonal(){
+    if(textoUsoPersonal == "+"){
+        textoUsoPersonal = "-"
+        navUsoPersonal.innerHTML = textoUsoPersonal
+        cajaUsoPersonal.classList.remove("hidden")
+    } else{
+        textoUsoPersonal = "+"
+        navUsoPersonal.innerHTML = textoUsoPersonal
+        cajaUsoPersonal.classList.add("hidden")
+    }
+}
+
 let cajaLimpieza = document.getElementById("cajaLimpieza")
 let textoLimpieza = "+"
 let navLimpieza = document.getElementById("navLimpieza")
 
 navLimpieza.innerHTML = textoLimpieza
-
 function mostrarLimpieza(){
     if(textoLimpieza == "+"){
         textoLimpieza = "-"

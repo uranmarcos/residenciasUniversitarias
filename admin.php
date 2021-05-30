@@ -6,6 +6,14 @@
     $consultaAlimentos->execute();
     $alimentos = $consultaAlimentos -> fetchAll(PDO::FETCH_ASSOC);
 
+    $consultaMeriendas = $baseDeDatos ->prepare("SELECT * FROM productos WHERE categoria='merienda' ORDER BY producto ASC");
+    $consultaMeriendas->execute();
+    $meriendas = $consultaMeriendas -> fetchAll(PDO::FETCH_ASSOC);
+
+    $consultaUsosPersonales = $baseDeDatos ->prepare("SELECT * FROM productos WHERE categoria='uso personal' ORDER BY producto ASC");
+    $consultaUsosPersonales->execute();
+    $usosPersonales = $consultaUsosPersonales -> fetchAll(PDO::FETCH_ASSOC);
+
     $consultaLimpieza = $baseDeDatos ->prepare("SELECT * FROM productos WHERE categoria='limpieza'");
     $consultaLimpieza->execute();
     $limpieza = $consultaLimpieza -> fetchAll(PDO::FETCH_ASSOC);
@@ -94,8 +102,7 @@
                                     <div class="titleSection">
                                         Admin
                                     </div>
-                                    <form class="col-12 contenedorBloques" action="admin.php" method="POST">
-                                        <!-- CAJA ARTICULOS -->
+                                    <form class="col-12 contenedorBloques" action="inicio.php" method="POST">
                                          <!-- CAJA USUARIOS -->  
                                          <div class="bloque">            
                                             <div class="row justify-content-between rowTipoProducto" onclick="mostrarAdminUsuarios()">
@@ -162,6 +169,7 @@
                                                 </div>
                                             </div>  
                                         </div>      
+                                        <!-- CAJA ARTICULOS -->
                                         <div class="bloque">
                                             <div class="row justify-content-between rowTipoProducto" onclick="mostrarAdminArticulos()">
                                                 <div class="col-6">
@@ -183,9 +191,14 @@
                                                             <label class="col-11" for="medida"> Medida: </label>
                                                             <select class="col-11" name="medida">
                                                                 <option value="">Seleccionar</option>
-                                                                <option value="kg">Kilogramos</option>
-                                                                <option value="lt">Litros</option>
-                                                                <option value="un">Unidades</option>   
+                                                                <option value="Cajas">Cajas</option>
+                                                                <option value="Kilogramos">Kilogramos</option>
+                                                                <option value="Latas">Latas</option>
+                                                                <option value="Litros">Litros</option>
+                                                                <option value="Rollos">Rollos</option>
+                                                                <option value="Saquitos">Saquitos</option>
+                                                                <option value="Sobres">Sobres</option>
+                                                                <option value="Unidades">Unidades</option>   
                                                             </select> 
                                                         </div>
                                                     </div> 
@@ -194,8 +207,10 @@
                                                             <label class="col-11" for="categoria"> Categoria: </label>
                                                             <select class="col-11" name="categoria">  
                                                                 <option value="">Seleccionar</option>
-                                                                <option value="limpieza">Limpieza</option>
                                                                 <option value="alimentos">Alimentos</option>
+                                                                <option value="merienda">Merienda</option>
+                                                                <option value="uso personal">Uso Personal</option>
+                                                                <option value="limpieza">Limpieza</option>
                                                             </select>
                                                         </div>
                                                     </div>        
@@ -209,7 +224,7 @@
                                                 <div class="row  cajaInternaBloque">
                                                     <div class="row anchoTotal">
                                                         <div class="cajaSeparadoraListado">
-                                                            <div class="subtitle">Alimentos cargados</div>
+                                                            <div class="subtitle">Alimentos</div>
                                                             <div class="row rowTitle justify-content-around">
                                                                 <label class="col-8" for="producto"> Producto: </label>           
                                                                 <label class="col-2" for="cantidad"> Medida: </label>   
@@ -222,7 +237,33 @@
                                                             <?php } ?> 
                                                         </div>
                                                         <div class="cajaSeparadoraListado">
-                                                            <div class="subtitle">Limpieza cargada</div>
+                                                            <div class="subtitle">Desayuno/Merienda</div>
+                                                            <div class="row rowTitle justify-content-around">
+                                                                <label class="col-8" for="producto"> Producto: </label>           
+                                                                <label class="col-2" for="cantidad"> Medida: </label>   
+                                                            </div>
+                                                            <?php foreach($meriendas as $merienda){?>
+                                                                <div class="row rowProducto justify-content-around">
+                                                                    <input readonly class="col-8" value="<?php echo $merienda['producto']?>" name="articulo[<?php echo $merienda['id']?>][producto]?>]" autocomplete="off" for="producto"> 
+                                                                    <input readonly value = "<?php echo $merienda["medida"] ?>" name="articulo[<?php echo $merienda["id"] ?>][medida]?>" class="col-2" for="medida">
+                                                                </div>
+                                                            <?php } ?> 
+                                                        </div>
+                                                        <div class="cajaSeparadoraListado">
+                                                            <div class="subtitle">Uso Personal</div>
+                                                            <div class="row rowTitle justify-content-around">
+                                                                <label class="col-8" for="producto"> Producto: </label>           
+                                                                <label class="col-2" for="cantidad"> Medida: </label>   
+                                                            </div>
+                                                            <?php foreach($usosPersonales as $usoPersonal){?>
+                                                                <div class="row rowProducto justify-content-around">
+                                                                    <input readonly class="col-8" value="<?php echo $usoPersonal['producto']?>" name="articulo[<?php echo $usoPersonal['id']?>][producto]?>]" autocomplete="off" for="producto"> 
+                                                                    <input readonly value = "<?php echo $usoPersonal["medida"] ?>" name="articulo[<?php echo $usoPersonal["id"] ?>][medida]?>" class="col-2" for="medida">
+                                                                </div>
+                                                            <?php } ?> 
+                                                        </div>
+                                                        <div class="cajaSeparadoraListado">
+                                                            <div class="subtitle">Limpieza</div>
                                                                 <div class="row rowTitle justify-content-around">
                                                                     <label class="col-8" for="producto"> Producto: </label>        
                                                                     <label class="col-2" for="cantidad"> Medida: </label>            
@@ -238,9 +279,7 @@
                                                     </div>
                                                 </div> 
                                             </div>
-                                        </div>        
-                                    
-                                                   
+                                        </div>                  
                                     </form>
                                 </div> 
                             </div>   

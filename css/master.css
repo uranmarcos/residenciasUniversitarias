@@ -251,6 +251,50 @@ main{
 
 
 
+/* CONFIRMACION PEDIDO */
+.confirmacionPedido{
+    min-height: 200px;
+    border: grey solid 1px;
+    border-radius: 10px;
+    position: absolute;
+    width: 50%;
+    margin: auto;
+    top:35%;
+    z-index: 2;
+    background-color: lightgray;
+}
+.rowConfirmarPedido{
+    text-align: center;
+    color: purple;
+    font-weight: bolder;;
+    width:100%;
+    margin-top:20px;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+}
+.botonConfirmarPedido{
+    height:50px;
+    line-height: 50px;
+    background-color: purple;
+    border-radius: 10px;
+    color:white;
+    font-weight: normal;
+    font-size: 14px;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    outline: none;
+    margin:10px;
+}
+a .botonConfirmarPedido{
+    text-decoration: none;
+}
+.botonConfirmarPedido:hover{
+    color: yellow;  
+    cursor: pointer !important;
+}
+
 
 /* CLASES CON JS */
 .botonRemarcado{

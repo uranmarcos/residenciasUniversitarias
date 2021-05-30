@@ -2,13 +2,14 @@
 session_start();
 require("funciones/pdo.php");
 
-// $mostrarConfirmacion = "none";
-
 if(isset($_POST["iniciarPedido"])){
     header("Location: pedido.php");
 }
 if(isset($_POST["admin"])){
     header("Location: admin.php");
+}
+if(isset($_POST["listadoPedidos"])){
+    header("Location: listadoPedidos.php");
 }
 if(isset($_POST["cerrarSesion"])){
     header("Location: destroy.php");
@@ -16,27 +17,77 @@ if(isset($_POST["cerrarSesion"])){
 if(isset($_POST["modificarPedido"])){
     header("Location: pedido.php");
 }
+if(isset($_POST["crearUsuario"])){
+    header("Location: admin.php");
+}
+if(isset($_POST["crearArticulo"])){
+    header("Location: admin.php");
+}
 $pedido = [];
 $mostrarInicio = "block";
 $mostrarPedido = "none";
 $mensajePedido = "";
 if(isset($_POST["confirmar"])){
-    $pedido["sede"] = $_SESSION["sede"];
-    $pedido["casa"] = $_SESSION["casa"];
-    $pedido["nombre"] = $_SESSION["name"];
-    $pedido["apellido"] = $_SESSION["apellido"];
-    $pedido["fecha"] = getDate();
-
+        
+    // PEDIDO QUE SE GENERA
+    $pedido = [];
     foreach ($_POST["articulo"] as $producto){
         if($producto["cantidad"] != 0){
             array_push($pedido, $producto);
         }  
     }
+    // array_push($pedido, $_POST["otros"]);
+    if(($_POST["otros"]) != ""){
+        $otros = [];
+        $otros["producto"] = "Otros";
+        $otros["cantidad"] = $_POST["otros"];
+        $otros["medida"] = "";
+        
+        array_push($pedido, $otros);
+    }
+    
+    
+
+    //para mandar por mail
+    $fecha = getDate();
+    $day = $fecha["mday"];
+    $month = $fecha["month"];
+    $year = $fecha["year"];
+    $hora = $fecha["hours"];
+    $minutos = $fecha["minutes"];
+    $segundos = $fecha["seconds"];
+        
+    $pedidoMail = $_SESSION["sede"] . " - Casa " . $_SESSION["casa"] . " - " . $_SESSION["name"] . " " . $_SESSION["apellido"] . "<br>".
+        $day . "/" . $month . "/" . $year . " - " . $hora . ":" . $minutos . "hs.<br>";
+    
+    foreach($pedido as $p){
+       $pedidoMail = $pedidoMail . $p["producto"] . ": " . $p["cantidad"] . " " . $p["medida"] . ",<br>"; 
+    }
+
+    
+    $message = $pedidoMail;
    
+    //ALMACENO EN PEDIDO QUE VIENE DE JSON EL PEDIDO NUEVO
+    $pedidosAnteriores = file_get_contents("json/pedidos.json");
+    $data = json_decode($pedidosAnteriores);
+    $pedidoGenerado[] = [
+            "sede" => $_SESSION["sede"],
+            "casa" => $_SESSION["casa"],
+            "nombre" => $_SESSION["name"] ." " . $_SESSION["apellido"],
+            "fecha" => getDate(),
+            "pedido" => $pedido
+    ];
+    array_push($data, $pedidoGenerado);
+  
     try{
-        $json_string = json_encode($pedido);
-        $file = 'json/pedidos.json';
-        file_put_contents($file, $json_string, FILE_APPEND);
+        // $json_string = json_encode($pedido);
+        // $file = 'json/pedidos.json';
+        // file_put_contents($file, $json_string, FILE_APPEND);
+        $json_string = json_encode($data);
+        file_put_contents("json/pedidos.json", $json_string);
+        // echo $message;
+        include("mail.php");
+        // mail($to, $subject, $message);
     }catch(Exception $e){
         header("Location: error.php");
         echo $e;

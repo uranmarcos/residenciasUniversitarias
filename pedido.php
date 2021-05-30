@@ -14,6 +14,14 @@ $consultaAlimentos = $baseDeDatos ->prepare("SELECT * FROM productos WHERE categ
 $consultaAlimentos->execute();
 $alimentos = $consultaAlimentos -> fetchAll(PDO::FETCH_ASSOC);
 
+$consultaMerienda = $baseDeDatos ->prepare("SELECT * FROM productos WHERE categoria='merienda' ORDER BY producto ASC");
+$consultaMerienda->execute();
+$meriendas = $consultaMerienda -> fetchAll(PDO::FETCH_ASSOC);
+
+$consultaUsoPersonal = $baseDeDatos ->prepare("SELECT * FROM productos WHERE categoria='uso personal' ORDER BY producto ASC");
+$consultaUsoPersonal->execute();
+$usosPersonales = $consultaUsoPersonal -> fetchAll(PDO::FETCH_ASSOC);
+
 $consultaLimpieza = $baseDeDatos ->prepare("SELECT * FROM productos WHERE categoria='limpieza'");
 $consultaLimpieza->execute();
 $limpieza = $consultaLimpieza -> fetchAll(PDO::FETCH_ASSOC);
@@ -31,6 +39,13 @@ $limpieza = $consultaLimpieza -> fetchAll(PDO::FETCH_ASSOC);
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
         <link href="css/master.css" rel="stylesheet">
+        <script>
+        
+            function pulsar(e) {
+            tecla = (document.querySelectorAll) ? e.keyCode : e.which;
+            return (tecla != 13);
+            }
+        </script>    
     </head>
     <body>
         <div class="contenedorPrincipal">

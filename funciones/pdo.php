@@ -3,6 +3,9 @@
   $dsn = "mysql:dbname=pedidos; host=localhost; port=3306";
   $usuario = "root";
   $pass = "";
+  // $dsn = "mysql:dbname=fundaci_pedidos; host=localhost; port=21";
+  // $usuario = "fundaci_pedidos";
+  // $pass = "pedidos.1379";
 
   try {
     $baseDeDatos = new PDO($dsn, $usuario, $pass);
