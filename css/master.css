@@ -54,7 +54,7 @@ p{
 }
 .botonSubmit{
     height:50px;
-    background-color: purple;
+    background-color: rgb(163, 73, 164);
     border-radius: 10px;
     color:white;
     font-size: 14px;
@@ -66,7 +66,7 @@ p{
 }
 .botonConfirmar{
     height:40px;
-    background-color: purple;
+    background-color: rgb(163, 73, 164);
     border-radius: 10px;
     color:white;
     width:200px;
@@ -80,7 +80,7 @@ p{
 /* ASIDE */
 .navAside{
     height: 30px;
-    background-color: purple;
+    background-color: rgb(163, 73, 164);
     color: white;
     font-size: 20px;
     text-align: center;
@@ -97,13 +97,14 @@ p{
     padding:0px;
     text-transform: uppercase;
     border: none;
-    color:purple;
+    color: rgb(163, 73, 164);
     outline:none;
 }
 .asideButton:hover{
-    background-color: grey;;
+    /* background-color: grey; */
+    color:purple;
     font-size:20px;
-    color:white;
+    
     outline:none;
 }
 
@@ -112,7 +113,7 @@ p{
 /*MAIN */
 .navHome{
     height: 30px;
-    background-color: purple;
+    background-color: rgb(163, 73, 164);;
     color: white;
     font-size: 20px;
     text-align: center;
@@ -153,6 +154,11 @@ main{
     padding:20px 0;
     width: 100%;
     margin: auto;
+}
+.sectionBloque{
+    width:100%;
+    padding:0px 20px;
+    margin-bottom: 10px;
 }
 .bloque{
     background-color: lightgray;
@@ -195,17 +201,17 @@ main{
     min-height:80vh;;
 }
 .subtitle{
-    color: purple;
+    color: rgb(163, 73, 164);
     font-size:18px;
     padding-left: 20px;;
 }
 .titleSection{
-    color: purple;
+    color: rgb(163, 73, 164);
     font-size:18px;
-    padding:20px 0 0;
+    padding:0 !important; 
     margin:20px;
     text-transform: uppercase;
-    border-bottom: solid 1px purple
+    border-bottom: solid 1px rgb(163, 73, 164);
 }
 /* CONFIRMACION */
 .rowTitulo{
@@ -265,7 +271,7 @@ main{
 }
 .rowConfirmarPedido{
     text-align: center;
-    color: purple;
+    color: rgb(163, 73, 164);
     font-weight: bolder;;
     width:100%;
     margin-top:20px;
@@ -276,8 +282,8 @@ main{
 .botonConfirmarPedido{
     height:50px;
     line-height: 50px;
-    background-color: purple;
-    border-radius: 10px;
+    background-color: rgb(163, 73, 164);
+    border-radius: .25rem;
     color:white;
     font-weight: normal;
     font-size: 14px;
@@ -294,6 +300,23 @@ a .botonConfirmarPedido{
     color: yellow;  
     cursor: pointer !important;
 }
+
+
+
+
+.accordion-button{
+    color: white;
+    background-color: rgb(163, 73, 164);
+}
+.accordion-body{
+    background-color: lightgray
+}
+
+
+
+
+
+
 
 
 /* CLASES CON JS */

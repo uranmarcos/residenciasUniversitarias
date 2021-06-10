@@ -1,15 +1,26 @@
 <?php
 session_start();
 require("funciones/pdo.php");
+require("funciones/funciones.php");
+
+$mostrarInicio = "block";
+$mostrarBloque = "none";
+$bloque = "";
 
 if(isset($_POST["iniciarPedido"])){
-    header("Location: pedido.php");
+    $mostrarInicio = "none";
+    $mostrarBloque = "block";
+    $bloque = "main/iniciarPedido.php";
 }
 if(isset($_POST["admin"])){
-    header("Location: admin.php");
+    $mostrarInicio = "none";
+    $mostrarBloque = "block";
+    $bloque = "main/admin.php";
 }
-if(isset($_POST["listadoPedidos"])){
-    header("Location: listadoPedidos.php");
+if(isset($_POST["pedidosAnteriores"])){
+    $mostrarInicio = "none";
+    $mostrarBloque = "block";
+    $bloque = "main/pedidosAnteriores.php";
 }
 if(isset($_POST["cerrarSesion"])){
     header("Location: destroy.php");
@@ -24,7 +35,7 @@ if(isset($_POST["crearArticulo"])){
     header("Location: admin.php");
 }
 $pedido = [];
-$mostrarInicio = "block";
+
 $mostrarPedido = "none";
 $mensajePedido = "";
 if(isset($_POST["confirmar"])){
@@ -116,38 +127,40 @@ if(isset($_POST["confirmar"])){
             <div class="header">
                 <?php require("componentes/header.php")?>
             </div>
-            <div class="row contenedorSecundario">               
+            <div class="row contenedorSecundario">   
+                <!-- ASIDE -->            
                 <aside class="col-12 aside col-md-3">
                     <nav class="row centrarTexto navAside">
                         <div class="col-12">
                             MENU              
                         </div>    
                     </nav> 
-                    <?php require("componentes/aside.php") ?>
+                    <?php require("aside/aside.php") ?>
                 </aside> 
+                <!-- MAIN -->
                 <main class="col-12 col-md-9">
                     <nav class="row navHome justify-content-around ">
                         <div class="col-12 alignRight">
                             <p>Hola <?php echo $_SESSION["name"]?>!</p>
                         </div>    
                     </nav> 
-                    <div class="section">
-                        <div class="logoInicio" style="display: <?php echo $mostrarInicio ?>">
+                    <div class="section" style="display: <?php echo $mostrarInicio ?>">
+                        <div class="logoInicio">
                            
                         </div>
-                        <div style="display: <?php echo $mostrarPedido ?>">
-                            <div class="bloque">
-                                <div class="cajaInternaPedido">
-                                    <?php echo $mensajePedido ?>
-                                </div>    
-                            </div>                   
-                        </div>
-                     
                     </div>
+                    <div class="section" style="display: <?php echo $mostrarBloque ?>">
+                        <div>
+                            <?php require($bloque) ?>
+                        </div>
+                    </div>
+                  
                 </main>        
             </div>        
         </div>
        
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+        <script type="text/javascript"  src="js/admin.js"></script>        
+
     </body>
 </html>
