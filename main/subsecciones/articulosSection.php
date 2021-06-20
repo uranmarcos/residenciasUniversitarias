@@ -5,7 +5,7 @@
                 Articulos
             </button>
         </h2>
-        <div id="collapseArticulos" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionArticulos">
+        <div id="collapseArticulos" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionArticulos">
             <div class="accordion-body">
                 <div class="row cajaInternaBloque justify-content-around" id="adminArticulos">
                     <div class="row rowTitle justify-content-around">    

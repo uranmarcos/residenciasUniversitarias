@@ -6,7 +6,6 @@
     $pedido = null;
     $sede = $_SESSION["sede"];
 
-
     $consultaAlimentos = $baseDeDatos ->prepare("SELECT * FROM productos WHERE categoria='alimentos' ORDER BY producto ASC");
     $consultaAlimentos->execute();
     $alimentos = $consultaAlimentos -> fetchAll(PDO::FETCH_ASSOC);
@@ -37,7 +36,7 @@
                             Alimentos
                         </button>
                     </h2>
-                    <div id="collapseAlimentos" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionAlimentos">
+                    <div id="collapseAlimentos" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionAlimentos">
                         <div class="accordion-body">
                             <div class="row cajaInternaBloque" id="cajaAlimentos">
                             <!-- <div class="row rowTitle justify-content-around"> -->
@@ -73,7 +72,7 @@
                             Desayunos/Meriendas
                         </button>
                     </h2>
-                    <div id="collapseDesayunos" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionDesayunos">
+                    <div id="collapseDesayunos" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionDesayunos">
                         <div class="accordion-body">
                             <div class="row cajaInternaBloque" id="cajaMeriendas">
                             <!-- <div class="row rowTitle justify-content-around"> -->
@@ -110,7 +109,7 @@
                             Uso personal
                         </button>
                     </h2>
-                    <div id="collapseUsoPersonal" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionUsoPersonal">
+                    <div id="collapseUsoPersonal" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionUsoPersonal">
                         <div class="accordion-body">
                             <div class="row cajaInternaBloque" id="cajaUsoPersonal">
                                 <?php foreach($usosPersonales as $usoPersonal){ ?>
@@ -146,7 +145,7 @@
                             Limpieza
                         </button>
                     </h2>
-                    <div id="collapseLimpieza" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionLimpieza">
+                    <div id="collapseLimpieza" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionLimpieza">
                         <div class="accordion-body">
                             <div class="row cajaInternaBloque" id="cajaLimpieza">
                                 <?php foreach($limpieza as $producto){ ?>
@@ -181,7 +180,7 @@
                             Otros
                         </button>
                     </h2>
-                    <div id="collapseOtros" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionOtros">
+                    <div id="collapseOtros" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionOtros">
                         <div class="accordion-body">
                             <div class="row cajaInternaBloque" id="cajaOtros">
                                 <div class="row justify-content-around">
@@ -195,20 +194,31 @@
         </div>
         <div>
             <div class="row rowBoton justify-content-center"> 
-                <a href="#confirmacionPedido" class="botonConfirmarPedido col-10 col-md-8 col-lg-4">
-                    <div onclick="mostrarConfirmarPedido()">Confirmar</div>
+                <a href="#confirmacionPedido" class=" col-10 col-md-2">
+                    <button type="button" onclick="mostrarConfirmarPedido()" class="btn btn-secondary">Confirmar</button>
+                    <!-- <div onclick="mostrarConfirmarPedido()">Confirmar</div> -->
                 </a>
             </div>
         </div> 
-        <div id="confirmacionPedido" class="row confirmacionPedido hidden">
-            <div class="col-12 rowConfirmarPedido">
-                ¿Desea confirmar el pedido?
+        <div id="confirmacionPedido" class="sectionBloque bloqueConfirmar hidden">
+            <div class="row confirmacionPedido">
+                <div class="col-12 rowConfirmarPedido">
+                    ¿Desea confirmar el pedido?
+                </div>
+                <div class="col-12 rowConfirmarPedido" id="cajaConfirmarPedido">
+                    <div class="botonConfirmarPedido col-10 col-md-4 col-lg-3" onclick="ocultarConfirmarPedido()">
+                        Cancelar
+                    </div>
+                    <input class="botonConfirmarPedido col-10 col-md-4 col-lg-3" onclick="mostrarSpinner()" type="submit" name="confirmar" value="Confirmar">   
+                </div> 
+            </div>  
+            <div class="col-12 row confirmacionPedido hidden" id="spinner">
+                <div class="col-12 rowConfirmarPedido d-flex align-items-center">
+                    <div class="spinner-border text-secondary" role="status">
+                        <span class="sr-only"></span>
+                    </div>
+                </div>
             </div>
-            <div class="col-10 rowConfirmarPedido">
-                <div class="botonConfirmarPedido col-10 col-md-8 col-lg-4" onclick="ocultarConfirmarPedido()">Cancelar</div>
-                    <input class="botonConfirmarPedido col-10 col-md-8 col-lg-4" type="submit" name="confirmar" value="Confirmar">
-                </div>        
-            </div> 
         </div>
     </form>
 </div>

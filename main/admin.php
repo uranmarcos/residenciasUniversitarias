@@ -75,7 +75,7 @@
                         Sedes
                     </button>
                 </h2>
-                <div id="collapseSedes" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionSedes">
+                <div id="collapseSedes" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionSedes">
                     <div class="accordion-body">
                         CREAR SEDE
                     </div>
@@ -92,7 +92,7 @@
                         Categorias
                     </button>
                 </h2>
-                <div id="collapseCategorias" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionCategorias">
+                <div id="collapseCategorias" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionCategorias">
                     <div class="accordion-body">
                         CREAR CATEGORIA
                     </div>

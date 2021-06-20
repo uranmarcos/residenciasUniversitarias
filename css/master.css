@@ -266,6 +266,7 @@ main{
     width: 50%;
     margin: auto;
     top:35%;
+    left:20%;
     z-index: 2;
     background-color: lightgray;
 }
@@ -302,14 +303,40 @@ a .botonConfirmarPedido{
 }
 
 
-
-
+.accordion-header{
+    background-color: rgb(163, 73, 164);
+}
+.accordion-button:not(.collapsed) {
+    color: white;
+    background-color: rgb(163, 73, 164);
+}
+.accordion-button:focus {
+    z-index: 3;
+    border-color: grey;
+    outline: 0;
+    box-shadow: none !important;
+}
 .accordion-button{
     color: white;
     background-color: rgb(163, 73, 164);
 }
 .accordion-body{
     background-color: lightgray
+}
+
+
+.btn-opciones{
+    background-color: lightgray !important;
+    border-color: red;
+}
+
+.bloqueConfirmar{
+    z-index: 2;
+    background-color: rgba(255, 255, 255, 0.7);
+    height:75vh;
+    width: 75%;
+    position: absolute;
+    top:15vh;
 }
 
 

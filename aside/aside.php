@@ -6,7 +6,8 @@ if($_SESSION["rol"] == "admin"){
 ?>
 
 <form method="POST" action="inicio.php">
-    <button name="cerrarSesion" class="asideButton" id="perfil" onclick="activarBoton('perfil', 'perfilSeccion')">Cerrar sesión</button>
+    <button name="cerrarSesion" class="asideButton" id="cerrarSesion" onclick="activarBoton('cerrarSesion', 'cerrarSesion')">Cerrar sesión</button>
+    <button name="perfil" class="asideButton" id="perfil" onclick="activarBoton('perfil', 'perfilSeccion')">Perfil</button>
     <button name="admin" style="display:<?php echo $mostrarBotonAdmin ?>"  class="asideButton" id="admin" onclick="activarBoton('admin', 'adminSeccion')">Admin</button>
     <button name="pedidosAnteriores" class="asideButton" id="listadoPedidos" onclick="activarBoton('listadoPedidos', 'listadoPedidosSeccion')">Pedidos Realizados</button>
     <button name="iniciarPedido" class="asideButton" id="pedido" onclick="activarBoton('pedido', 'pedidoSeccion')">Iniciar pedido</button>

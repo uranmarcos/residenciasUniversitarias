@@ -24,8 +24,15 @@ function mostrarConfirmarPedido(){
     confirmarPedido.classList.remove("hidden")
 }
 function ocultarConfirmarPedido(){
-    console.log("ocultar")
     confirmarPedido.classList.add("hidden")
+}
+
+function mostrarSpinner(){
+    console.log("a");
+    let cajaConfirmarPedido = document.getElementById("cajaConfirmarPedido");
+    cajaConfirmarPedido.classList.add("hidden");
+    let spinner = document.getElementById("spinner");
+    spinner.classList.remove("hidden")
 }
 
 
