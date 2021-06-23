@@ -6,6 +6,18 @@ img{
     max-width: 300px;
     margin:auto;
 }
+.logoHeaderResponsive{
+    height:20vh;
+
+}
+.logoInicioHeader{
+    background-image: url("../img/si.jpg");
+    height:16vh;
+   
+    background-size: 10vh;
+    background-repeat: no-repeat;
+    background-position: left;  
+}
 .alignRight{
     text-align: right;
     padding-right: 30px;;
@@ -102,8 +114,9 @@ p{
 }
 .asideButton:hover{
     /* background-color: grey; */
-    color:purple;
+    color:white;
     font-size:20px;
+    background-color: purple;
     
     outline:none;
 }
@@ -138,6 +151,7 @@ main{
 .paddingCero{
     padding:0;
 }
+
 .rowTipoProducto{
     background-color: grey;
     color: white;
@@ -159,6 +173,21 @@ main{
     width:100%;
     padding:0px 20px;
     margin-bottom: 10px;
+}
+.cajaFlecha{
+   display: flex;
+   align-items: center;
+}
+
+
+.mensajeConfirmacion{
+    height:80vh;
+    /* width:80%; */
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color:purple;
+    /* font-size: 1rem; */
 }
 .bloque{
     background-color: lightgray;
@@ -323,7 +352,13 @@ a .botonConfirmarPedido{
 .accordion-body{
     background-color: lightgray
 }
-
+.mensajeConfirmacion{
+    height: 100%;
+    color: purple;
+    width:100% !important;
+    margin-left:25%;
+    text-align: centerf;
+}
 
 .btn-opciones{
     background-color: lightgray !important;
@@ -333,6 +368,14 @@ a .botonConfirmarPedido{
 .bloqueConfirmar{
     z-index: 2;
     background-color: rgba(255, 255, 255, 0.7);
+    height:75vh;
+    width: 75%;
+    position: absolute;
+    top:15vh;
+}
+.mensajeConfirmar{
+    text-align: center;
+    z-index: 2;
     height:75vh;
     width: 75%;
     position: absolute;
@@ -354,12 +397,26 @@ a .botonConfirmarPedido{
     color: white;
 }
 
+.headerResponsive{
+    display: none;
+    z-index: 4;
+    height: 80vh;
+}
+
 @media (max-width: 767px) {
-    
-   .aside{
-       height: 100%;
-       max-height:250px !important;     
+   aside{
+       display: none;
    }
+   .logoHeader{
+       display: none;
+   }
+   .headerResponsive{
+       display: block;
+   }
+   
+
+
+
    .section{
     width:100%;
     height:100%;
@@ -367,12 +424,47 @@ a .botonConfirmarPedido{
 }
    .asideButton{
        height:50px;
-       margin: 5px 0;
+       margin: 0px 0;
    }
    .cajaInternaPedido{
     height:40vh;
    }
-   .ocultarResponsive{
+.ocultarResponsive{
        display: none;
    }
-}
+
+   /* Menu responsive */
+    .menuResponsive{
+        display: none;
+        position: absolute;
+        top: 21vh;
+        z-index: 2;
+        left:0;
+        width: 100%;
+        height: 79vh;
+        background-color: lightgrey;
+    }
+    /* .iconoBurguer{
+        margin-top: 6vh;
+    } */
+    .navBurguer{
+        width: 100%;
+    }
+    input{
+        display: none;
+    }
+    label {
+        box-sizing: border-box;
+        display: inline-block;
+        border: 1px solid black;
+        border-radius: 5px;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        font-weight: bold;
+        text-align: center;
+        user-select: none;
+    }
+    input:checked  ~ .menuResponsive{
+        display:block;
+    }

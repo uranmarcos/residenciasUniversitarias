@@ -34,6 +34,12 @@ function mostrarSpinner(){
     let spinner = document.getElementById("spinner");
     spinner.classList.remove("hidden")
 }
+$(document).ready(function(){
+    $('.dropdown-toggle').dropdown()
+});
+function mostrarMensaje(){
+    
+}
 
 
 
