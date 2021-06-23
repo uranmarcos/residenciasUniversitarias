@@ -12,7 +12,7 @@ foreach($pedidos as $pedido){
     <div class="titleSection">
         Pedidos Realizados - <?php echo $_SESSION["sede"] . " - Casa " . $_SESSION["casa"] ?>
     </div>
-    <div>
+    <div class="d-flex flex-column-reverse">
    
         <?php 
             if(count($pedidosPorSede) == 0){

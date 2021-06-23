@@ -193,8 +193,8 @@
             </div>
         </div>
         <div>
-            <div class="row rowBoton justify-content-center"> 
-                <a href="#confirmacionPedido" class=" col-10 col-md-2">
+            <div class="row rowBoton d-flex justify-center"> 
+                <a href="#confirmacionPedido">
                     <button type="button" onclick="mostrarConfirmarPedido()" class="btn btn-secondary">Confirmar</button>
                     <!-- <div onclick="mostrarConfirmarPedido()">Confirmar</div> -->
                 </a>

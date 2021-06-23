@@ -63,6 +63,8 @@ p{
 .rowBoton{
     width:100% !important;
     margin: auto;
+    display: flex;
+    justify-content: center;
 }
 .botonSubmit{
     height:50px;
