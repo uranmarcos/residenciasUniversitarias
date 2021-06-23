@@ -72,9 +72,9 @@ if(isset($_POST["confirmar"])){
             </div>
             <div class="row contenedorSecundario">   
                 <!-- ASIDE -->            
-                <aside class="col-12 aside col-md-3">
+                <aside class="col-12 asideHidden col-md-3" id="asideBox">
                     <nav class="row centrarTexto navAside">
-                        <div class="col-10">
+                        <div class="col-12">
                             MENU                       
                         </div>    
                         
@@ -82,7 +82,7 @@ if(isset($_POST["confirmar"])){
                     <?php require("aside/aside.php") ?>
                 </aside> 
                 <!-- MAIN -->
-                <main class="col-12 col-md-9">
+                <main class="col-12 col-md-9" id="mainBox">
                     <nav class="row navHome justify-content-around ">
                         <div class="col-12 alignRight">
                             <p>Hola <?php echo $_SESSION["name"]?>!</p>
@@ -103,8 +103,7 @@ if(isset($_POST["confirmar"])){
             </div>        
         </div>
         
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>     
         <script type="text/javascript"  src="js/funciones.js"></script>        
     </body>
 </html>

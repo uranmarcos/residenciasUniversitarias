@@ -13,7 +13,6 @@ img{
 .logoInicioHeader{
     background-image: url("../img/si.jpg");
     height:16vh;
-   
     background-size: 10vh;
     background-repeat: no-repeat;
     background-position: left;  
@@ -32,6 +31,24 @@ img{
     margin: auto;
 }
 
+a {
+    text-decoration: none;
+    width: 100px !important;
+}
+.botones{
+    width:100px;
+    height: 40px;
+    background-color: rgb(163, 73, 164);
+    color: white;
+    border: none;
+}
+.botones:hover{
+    width:96px;
+    background-color: white;
+    color: rgb(163, 73, 164);
+    border: solid 1px rgb(163, 73, 164);
+}
+/* GENERALES */
 /* contenedor de aside y main */
 .contenedorSecundario{
     /* min-height: 84vh; */
@@ -367,13 +384,15 @@ a .botonConfirmarPedido{
     border-color: red;
 }
 
+
 .bloqueConfirmar{
     z-index: 2;
     background-color: rgba(255, 255, 255, 0.7);
-    height:75vh;
-    width: 75%;
-    position: absolute;
-    top:15vh;
+    /* height:100vh; */
+    width: 100%;
+    
+    /* position: absolute;
+    top:15vh; */
 }
 .mensajeConfirmar{
     text-align: center;
@@ -387,7 +406,12 @@ a .botonConfirmarPedido{
 
 
 
-
+.asideHidden{
+    display : block;
+}
+.mainHidden{
+    display: block;
+}
 
 
 
@@ -406,15 +430,21 @@ a .botonConfirmarPedido{
 }
 
 @media (max-width: 767px) {
-   aside{
+   /* aside{
        display: none;
-   }
+   } */
    .logoHeader{
        display: none;
    }
    .headerResponsive{
        display: block;
    }
+    .asideHidden{
+        display : none;
+    }
+    .mainHidden{
+        display: none;
+    }
    
 
 

@@ -193,9 +193,9 @@
             </div>
         </div>
         <div>
-            <div class="row rowBoton d-flex justify-center"> 
-                <a href="#confirmacionPedido">
-                    <button type="button" onclick="mostrarConfirmarPedido()" class="btn btn-secondary">Confirmar</button>
+            <div class="row rowBoton d-flex justify-content-center"> 
+                <a href="#confirmacionPedido" >
+                    <button type="button" onclick="mostrarConfirmarPedido()" class="botones">Confirmar</button>
                     <!-- <div onclick="mostrarConfirmarPedido()">Confirmar</div> -->
                 </a>
             </div>
@@ -206,10 +206,10 @@
                     ¿Desea confirmar el pedido?
                 </div>
                 <div class="col-12 rowConfirmarPedido" id="cajaConfirmarPedido">
-                    <div class="botonConfirmarPedido col-10 col-md-4 col-lg-3" onclick="ocultarConfirmarPedido()">
+                    <div class="botones col-10 col-md-4 col-lg-3" onclick="ocultarConfirmarPedido()">
                         Cancelar
                     </div>
-                    <input class="botonConfirmarPedido col-10 col-md-4 col-lg-3" onclick="mostrarSpinner()" type="submit" name="confirmar" value="Confirmar">   
+                    <input class="botones col-10 col-md-4 col-lg-3" onclick="mostrarSpinner()" type="submit" name="confirmar" value="Confirmar">   
                 </div> 
             </div>  
             <div class="col-12 row confirmacionPedido hidden" id="spinner">

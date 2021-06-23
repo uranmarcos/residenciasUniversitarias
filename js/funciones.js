@@ -24,22 +24,30 @@ function mostrarConfirmarPedido(){
     confirmarPedido.classList.remove("hidden")
 }
 function ocultarConfirmarPedido(){
-    confirmarPedido.classList.add("hidden")
+    console.log("hey");
+    confirmarPedido.classList.add("hidden");
+}
+function activarBurguer(){
+    let aside = document.getElementById("asideBox");
+    let main = document.getElementById("mainBox");
+
+    if(aside.classList.contains("asideHidden") == false){
+        aside.classList.add("asideHidden");
+        main.classList.remove("mainHidden");
+    }else{
+        aside.classList.remove("asideHidden");
+        main.classList.add("mainHidden");
+    }
+
 }
 
 function mostrarSpinner(){
-    console.log("a");
     let cajaConfirmarPedido = document.getElementById("cajaConfirmarPedido");
     cajaConfirmarPedido.classList.add("hidden");
     let spinner = document.getElementById("spinner");
     spinner.classList.remove("hidden")
 }
-$(document).ready(function(){
-    $('.dropdown-toggle').dropdown()
-});
-function mostrarMensaje(){
-    
-}
+
 
 
 
