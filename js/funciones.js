@@ -34,13 +34,32 @@ function marcarProducto(){
 }
 //FUNCIONES PARA MOSTRAR/OCULTAR CONFIRMACION DE PEDIDO
 function mostrarConfirmarPedido(){
+    
     let confirmarPedido = document.getElementById("confirmacionPedido");
-    confirmarPedido.classList.remove("hidden");
+    let avisoPedidoVacio = document.getElementById("avisoPedidoVacio");
+    let camposCantidad = document.querySelectorAll(".cantidadProducto");
+    let campoOtros = document.getElementById("textareaOtros");
+    let campos = Array.from(camposCantidad);
+    if(campos.find(element => element.value !=0) || (campoOtros.value != "")){
+        confirmarPedido.classList.remove("hidden");
+        return;
+    }else{
+        avisoPedidoVacio.classList.remove("hidden");
+    }
 }
 function ocultarConfirmarPedido(){
     let confirmarPedido = document.getElementById("confirmacionPedido");
     confirmarPedido.classList.add("hidden");
 }
+function ocultarPedidoVacio(){
+    let avisoPedidoVacio = document.getElementById("avisoPedidoVacio");
+    avisoPedidoVacio.classList.add("hidden");
+
+}
+
+
+
+
 function activarBurguer(){
     let aside = document.getElementById("asideBox");
     let main = document.getElementById("mainBox");

@@ -52,7 +52,7 @@
                                                 <input class="anchoTotal inputProducto" readonly value="<?php echo $alimento['producto'] . " (" . $alimento["medida"]  . " )" ?>" name="articulo[<?php echo $alimento['id']?>][producto]?>]" autocomplete="off" for="producto"> 
                                             </div>                        
                                             <div class="col-4 col-md-3">
-                                                <input class="anchoTotal" type="number" min="0" value="0" onfocus="marcarProducto()"  class="col-2" for="cantidad" name="articulo[<?php echo $alimento['id']?>][cantidad]">
+                                                <input class="anchoTotal cantidadProducto" type="number" min="0" value="0" onfocus="marcarProducto()"  for="cantidad" name="articulo[<?php echo $alimento['id']?>][cantidad]">
                                             </div>
                                             <div class="col-12">
                                                 <input  style="display:none" value = "<?php echo $alimento["categoria"] ?>" name="articulo[<?php echo $alimento["id"] ?>][categoria]?>" class="col-1" for="medida">
@@ -83,7 +83,7 @@
                                                 <input class="anchoTotal inputProducto" readonly value="<?php echo $merienda['producto'] . " (" . $merienda["medida"] .")"?>" name="articulo[<?php echo $merienda['id']?>][producto]?>]" autocomplete="off" for="producto"> 
                                             </div>                        
                                             <div class="col-4 col-md-3">
-                                                <input class="anchoTotal" type="number" onfocus="marcarProducto()" min="0" value="0"  class="col-2" for="cantidad" name="articulo[<?php echo $merienda['id']?>][cantidad]">
+                                                <input class="anchoTotal cantidadProducto" type="number" onfocus="marcarProducto()" min="0" value="0"  for="cantidad" name="articulo[<?php echo $merienda['id']?>][cantidad]">
                                             </div>
                                             <div class="col-12">
                                                 <input  style="display:none" value = "<?php echo $merienda["categoria"] ?>" name="articulo[<?php echo $merienda["id"] ?>][categoria]?>" class="col-1" for="medida">
@@ -115,7 +115,7 @@
                                                 <input class="anchoTotal inputProducto" readonly value="<?php echo $usoPersonal['producto'] . " (" . $usoPersonal["medida"] . ")"?>" name="articulo[<?php echo $usoPersonal['id']?>][producto]?>]" autocomplete="off" for="producto"> 
                                             </div>                        
                                             <div class="col-4 col-md-3">
-                                                <input class="anchoTotal" type="number" onfocus="marcarProducto()" min="0" value="0"  class="col-2" for="cantidad" name="articulo[<?php echo $usoPersonal['id']?>][cantidad]">
+                                                <input class="anchoTotal cantidadProducto" type="number" onfocus="marcarProducto()" min="0" value="0" for="cantidad" name="articulo[<?php echo $usoPersonal['id']?>][cantidad]">
                                             </div>
                                             <div class="col-12">
                                                 <input  style="display:none" value = "<?php echo $usoPersonal["categoria"] ?>" name="articulo[<?php echo $usoPersonal["id"] ?>][categoria]?>" class="col-1" for="medida">
@@ -148,7 +148,7 @@
                                                 <input readonly class="anchoTotal inputProducto" value="<?php echo $producto['producto'] . " (" . $producto["medida"] . ")"?>" name="articulo[<?php echo $producto['id']?>][producto]?>]" autocomplete="off" for="producto"> 
                                             </div>
                                             <div class="col-4 col-md-3">
-                                                <input type="number"  min="0" value="0" class="anchoTotal" onfocus="marcarProducto()" for="cantidad" name="articulo[<?php echo $producto['id']?>][cantidad]">
+                                                <input type="number"  min="0" value="0" class="anchoTotal cantidadProducto" onfocus="marcarProducto()" for="cantidad" name="articulo[<?php echo $producto['id']?>][cantidad]">
                                             </div>
                                             <div class="col-12">
                                                 <input style="display:none" value = "<?php echo $producto["categoria"] ?>" name="articulo[<?php echo $producto["id"] ?>][categoria]?>" class="col-1" for="medida">
@@ -176,7 +176,7 @@
                                 <div class="row cajaInternaBloque" id="cajaOtros">
                                     <div class="centrarTexto">¿Falta algo en el listado?</div>
                                     <div class="row justify-content-around">
-                                        <input  type="textarea" class="textarea" autocomplete="off" name="otros" for="producto">    
+                                        <input  type="textarea" id="textareaOtros" class="textarea" autocomplete="off" name="otros" for="producto">    
                                     </div>    
                                 </div>    
                             </div>             
@@ -188,7 +188,6 @@
                 <div class="row rowBoton d-flex justify-content-center"> 
                     <a href="#confirmacionPedido" >
                         <button type="button" onclick="mostrarConfirmarPedido()" class="botones">Confirmar</button>
-                        <!-- <div onclick="mostrarConfirmarPedido()">Confirmar</div> -->
                     </a>
                 </div>
             </div> 
@@ -213,6 +212,20 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="col-12 paddingCero seccionConfirmarPedido hidden" id="avisoPedidoVacio">
+            <div  class="sectionBloque bloqueConfirmar d-flex align-items-center justify-content-center ">
+                <div class="row confirmacionPedido">
+                    <div class="col-12 rowConfirmarPedido pt-5">
+                        Disculpe, no puede generar un pedido vacio.
+                    </div>
+                    <div class="col-12 rowConfirmarPedido d-flex justify-content-around" id="cajaConfirmarPedido">
+                        <div class="botones " onclick="ocultarPedidoVacio()">
+                            Aceptar
+                        </div>  
+                    </div> 
+                </div>  
             </div>
         </div>
     </form>
