@@ -39,6 +39,7 @@ function enviarMail(){
     $pedidosAnteriores = file_get_contents("json/pedidos.json");
     $data = json_decode($pedidosAnteriores);
     $pedidoGenerado[] = [
+            "id" => count($data) + 1,
             "sede" => $_SESSION["sede"],
             "casa" => $_SESSION["casa"],
             "nombre" => $_SESSION["name"] ." " . $_SESSION["apellido"],

@@ -7,6 +7,7 @@ foreach($pedidos as $pedido){
         array_push($pedidosPorSede, $pedido);
     }
 };
+
 ?>
 <div class="col-12 paddingCero">
     <div class="titleSection">
@@ -35,10 +36,35 @@ foreach($pedidos as $pedido){
                                         $day = $pedido[0]["fecha"]["mday"];
                                         $month = $pedido[0]["fecha"]["month"];
                                         $year = $pedido[0]["fecha"]["year"];
-                                        $hora = $pedido[0]["fecha"]["hours"];
-                                        $minutos = $pedido[0]["fecha"]["minutes"];
-                                        $segundos = $pedido[0]["fecha"]["seconds"];
-                                        echo($day . "/" . $month . "/" . $year . " - ". $hora. ":" . $minutos . ":" . $segundos . "hs -". $_SESSION["name"] . " " . $_SESSION["apellido"]);
+                                        $mes = "";
+                                        if($month == "January"){
+                                            $mes = "Enero";
+                                        }elseif($month == "February"){
+                                            $mes = "Febrero";
+                                        }elseif($month == "March"){
+                                            $mes = "Marzo";
+                                        }elseif($month == "April"){
+                                            $mes = "Abril";
+                                        }elseif($month == "May"){
+                                            $mes = "Mayo";
+                                        }elseif($month == "June"){
+                                            $mes = "Junio";
+                                        }elseif($month == "July"){
+                                            $mes = "Julio";
+                                        }elseif($month == "August"){
+                                            $mes = "Agosto";
+                                        }elseif($month == "September"){
+                                            $mes = "Septiembre";
+                                        }elseif($month == "October"){
+                                            $mes = "Octubre";
+                                        }elseif($month == "November"){
+                                            $mes = "Noviembre";
+                                        }else{
+                                            $mes = "Diciembre";
+                                        }
+                                        
+                                         
+                                        echo($day . "/" . $mes . "/" . $year . " - " . $_SESSION["name"] . " " . $_SESSION["apellido"]);
                                     ?>
                                 </button>
                             </h2>
@@ -52,7 +78,7 @@ foreach($pedidos as $pedido){
                                                 }else{
                                                     if($producto["producto"]){
                                                         echo $producto["producto"] . ": " . $producto["cantidad"] 
-                                                         . " ; ";
+                                                       . " ; ";
                                                     };
                                                 }
                                             }
