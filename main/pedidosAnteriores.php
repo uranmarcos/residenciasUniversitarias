@@ -52,7 +52,7 @@ foreach($pedidos as $pedido){
                                                 }else{
                                                     if($producto["producto"]){
                                                         echo $producto["producto"] . ": " . $producto["cantidad"] 
-                                                        . " " . $producto["medida"] . " ; ";
+                                                         . " ; ";
                                                     };
                                                 }
                                             }
