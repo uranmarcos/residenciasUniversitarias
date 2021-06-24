@@ -22,6 +22,12 @@
     $consultaLimpieza->execute();
     $limpieza = $consultaLimpieza -> fetchAll(PDO::FETCH_ASSOC);
 ?>
+<script>
+    function pulsar(e) {
+        tecla = (document.querySelectorAll) ? e.keyCode : e.which;
+        return (tecla != 13);
+    }      
+</script>    
 <div class="containerIniciarPedido">
     <form method="POST" action="inicio.php" onkeypress="return pulsar(event)">
         <div class="col-12 paddingCero seccionIniciarPedido">
@@ -85,7 +91,6 @@
                                             <br>
                                         </div>                
                                     <?php } ?>
-                                <!-- </div>      -->
                                 </div> 
                             </div>             
                         </div>
@@ -169,6 +174,7 @@
                         <div id="collapseOtros" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionOtros">
                             <div class="accordion-body">
                                 <div class="row cajaInternaBloque" id="cajaOtros">
+                                    <div class="centrarTexto">¿Falta algo en el listado?</div>
                                     <div class="row justify-content-around">
                                         <input  type="textarea" class="textarea" autocomplete="off" name="otros" for="producto">    
                                     </div>    

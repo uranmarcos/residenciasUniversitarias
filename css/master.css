@@ -20,6 +20,9 @@ img{
     text-align: right;
     padding-right: 30px;;
 }
+.centrarTexto{
+    text-align: center;
+}
 .logoHeader{
     display: flex;
     justify-content: center;
@@ -429,6 +432,11 @@ main{
     font-size: 18px;
 }
 
+.iconoBurguer{
+    padding:5px;
+    border-radius: 4px;;
+    border: solid 1px grey;
+}
 
 
 @media (max-width: 767px) {
