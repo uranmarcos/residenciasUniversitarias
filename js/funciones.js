@@ -19,12 +19,12 @@ function activarBoton(param){
 }
 
 //FUNCIONES PARA MOSTRAR/OCULTAR CONFIRMACION DE PEDIDO
-let confirmarPedido = document.getElementById("confirmacionPedido")
 function mostrarConfirmarPedido(){
-    confirmarPedido.classList.remove("hidden")
+    let confirmarPedido = document.getElementById("confirmacionPedido");
+    confirmarPedido.classList.remove("hidden");
 }
 function ocultarConfirmarPedido(){
-    console.log("hey");
+    let confirmarPedido = document.getElementById("confirmacionPedido");
     confirmarPedido.classList.add("hidden");
 }
 function activarBurguer(){

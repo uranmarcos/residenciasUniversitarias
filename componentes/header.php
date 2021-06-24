@@ -21,8 +21,7 @@ if($_SESSION["rol"] == "admin"){
 
         </div>
         <div class="col-2 d-flex align-items-center justify-content-end">
-            <nav class="navBurguer">
-                <input type="checkbox" id="menu">
+            <nav>
                 <div onclick="activarBurguer()">
                     <label class="iconoBurguer" for="menu"> ☰ </label>
                 </div>

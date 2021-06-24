@@ -31,7 +31,7 @@ function enviarMail(){
         $day . "/" . $month . "/" . $year . " - " . "<br>";
     
     foreach($pedido as $p){
-       $pedidoMail = $pedidoMail . $p["producto"] . ": " . $p["cantidad"] . " " . $p["medida"] . ",<br>"; 
+       $pedidoMail = $pedidoMail . $p["producto"] . ": " . $p["cantidad"] . ",<br>"; 
     }
     $message = $pedidoMail;
    
@@ -46,19 +46,11 @@ function enviarMail(){
             "pedido" => $pedido
     ];
     array_push($data, $pedidoGenerado);
-  
     try{
-        // $json_string = json_encode($pedido);
-        // $file = 'json/pedidos.json';
-        // file_put_contents($file, $json_string, FILE_APPEND);
         $json_string = json_encode($data);
         file_put_contents("json/pedidos.json", $json_string);
         $pedidoGuardado = true;
-        // echo $message;
-        // include("mail.php");
-        // mail($to, $subject, $message);
-    }catch(Exception $e){
-        // header("Location: error.php");
+    }catch(\Exception $e){
         $mostrarInicio = "none";
         $mostrarBloque = "block";
         $bloque = "main/error.php";
