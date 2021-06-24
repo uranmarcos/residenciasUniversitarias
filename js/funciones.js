@@ -18,6 +18,14 @@ function activarBoton(param){
     botonSeleccionado.classList.add("botonRemarcado")
 }
 
+function desmarcarProducto(){
+    let inputs = document.getElementsByTagName("input");
+    for (let item of inputs) {
+        if(item.parentNode.classList.contains("productoSeleccionado") == true){
+            item.parentNode.classList.remove("productoSeleccionado");
+        }
+    } 
+}
 
 function marcarProducto(){
     let focusedElement = document.activeElement;

@@ -52,7 +52,7 @@
                                                 <input class="anchoTotal inputProducto" readonly value="<?php echo $alimento['producto'] . " (" . $alimento["medida"]  . " )" ?>" name="articulo[<?php echo $alimento['id']?>][producto]?>]" autocomplete="off" for="producto"> 
                                             </div>                        
                                             <div class="col-4 col-md-3">
-                                                <input class="anchoTotal cantidadProducto" type="number" min="0" value="0" onfocus="marcarProducto()"  for="cantidad" name="articulo[<?php echo $alimento['id']?>][cantidad]">
+                                                <input class="anchoTotal cantidadProducto" type="number" min="1" onblur="desmarcarProducto()" onfocus="marcarProducto()"  for="cantidad" name="articulo[<?php echo $alimento['id']?>][cantidad]">
                                             </div>
                                             <div class="col-12">
                                                 <input  style="display:none" value = "<?php echo $alimento["categoria"] ?>" name="articulo[<?php echo $alimento["id"] ?>][categoria]?>" class="col-1" for="medida">
@@ -83,7 +83,7 @@
                                                 <input class="anchoTotal inputProducto" readonly value="<?php echo $merienda['producto'] . " (" . $merienda["medida"] .")"?>" name="articulo[<?php echo $merienda['id']?>][producto]?>]" autocomplete="off" for="producto"> 
                                             </div>                        
                                             <div class="col-4 col-md-3">
-                                                <input class="anchoTotal cantidadProducto" type="number" onfocus="marcarProducto()" min="0" value="0"  for="cantidad" name="articulo[<?php echo $merienda['id']?>][cantidad]">
+                                                <input class="anchoTotal cantidadProducto" type="number" onfocus="marcarProducto()" min="1"  for="cantidad" name="articulo[<?php echo $merienda['id']?>][cantidad]">
                                             </div>
                                             <div class="col-12">
                                                 <input  style="display:none" value = "<?php echo $merienda["categoria"] ?>" name="articulo[<?php echo $merienda["id"] ?>][categoria]?>" class="col-1" for="medida">
@@ -115,7 +115,7 @@
                                                 <input class="anchoTotal inputProducto" readonly value="<?php echo $usoPersonal['producto'] . " (" . $usoPersonal["medida"] . ")"?>" name="articulo[<?php echo $usoPersonal['id']?>][producto]?>]" autocomplete="off" for="producto"> 
                                             </div>                        
                                             <div class="col-4 col-md-3">
-                                                <input class="anchoTotal cantidadProducto" type="number" onfocus="marcarProducto()" min="0" value="0" for="cantidad" name="articulo[<?php echo $usoPersonal['id']?>][cantidad]">
+                                                <input class="anchoTotal cantidadProducto" type="number" onfocus="marcarProducto()" min="1" for="cantidad" name="articulo[<?php echo $usoPersonal['id']?>][cantidad]">
                                             </div>
                                             <div class="col-12">
                                                 <input  style="display:none" value = "<?php echo $usoPersonal["categoria"] ?>" name="articulo[<?php echo $usoPersonal["id"] ?>][categoria]?>" class="col-1" for="medida">
@@ -148,7 +148,7 @@
                                                 <input readonly class="anchoTotal inputProducto" value="<?php echo $producto['producto'] . " (" . $producto["medida"] . ")"?>" name="articulo[<?php echo $producto['id']?>][producto]?>]" autocomplete="off" for="producto"> 
                                             </div>
                                             <div class="col-4 col-md-3">
-                                                <input type="number"  min="0" value="0" class="anchoTotal cantidadProducto" onfocus="marcarProducto()" for="cantidad" name="articulo[<?php echo $producto['id']?>][cantidad]">
+                                                <input type="number"  min="1" class="anchoTotal cantidadProducto" onfocus="marcarProducto()" for="cantidad" name="articulo[<?php echo $producto['id']?>][cantidad]">
                                             </div>
                                             <div class="col-12">
                                                 <input style="display:none" value = "<?php echo $producto["categoria"] ?>" name="articulo[<?php echo $producto["id"] ?>][categoria]?>" class="col-1" for="medida">

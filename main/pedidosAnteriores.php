@@ -62,8 +62,6 @@ foreach($pedidos as $pedido){
                                         }else{
                                             $mes = "Diciembre";
                                         }
-                                        
-                                         
                                         echo($day . "/" . $mes . "/" . $year . " - " . $_SESSION["name"] . " " . $_SESSION["apellido"]);
                                     ?>
                                 </button>
