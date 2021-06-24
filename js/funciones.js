@@ -18,6 +18,20 @@ function activarBoton(param){
     botonSeleccionado.classList.add("botonRemarcado")
 }
 
+
+function marcarProducto(){
+    let focusedElement = document.activeElement;
+    let inputs = document.getElementsByTagName("input");
+    
+    for (let item of inputs) {
+        if(item.parentNode.classList.contains("productoSeleccionado") == true){
+            item.parentNode.classList.remove("productoSeleccionado");
+        }
+    } 
+
+    focusedElement.parentNode.previousElementSibling.classList.add("productoSeleccionado");
+   
+}
 //FUNCIONES PARA MOSTRAR/OCULTAR CONFIRMACION DE PEDIDO
 function mostrarConfirmarPedido(){
     let confirmarPedido = document.getElementById("confirmacionPedido");

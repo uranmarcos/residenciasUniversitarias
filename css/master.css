@@ -421,7 +421,15 @@ main{
 .inputProducto{
     border: none;
     background-color: lightgray;
+    outline: none;
 }
+.productoSeleccionado{
+    padding-left:50px;
+    color: purple!important;
+    font-size: 18px;
+}
+
+
 
 @media (max-width: 767px) {
    /* aside{
