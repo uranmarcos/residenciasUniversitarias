@@ -1,3 +1,31 @@
+/* ADMIN */
+.botonNew{
+    color: rgb(163, 73, 164);
+    border: solid 1px rgb(163, 73, 164);
+    padding: 0 5px;
+    margin:5px;
+    text-transform: uppercase;
+    min-width: 100px;
+    max-width: 150px;
+    height:35px;
+    text-align: center;
+    line-height: 35px;
+}
+.botonNew:hover{
+    cursor: pointer;
+    background-color: rgb(163, 73, 164);
+    color: white;
+}
+.cajaEdicion{
+    border: solid 1px purple;
+    border-radius: 5px;
+    margin: 0 10px;
+    padding:10px;
+}
+
+
+
+
 .header{
     height: 16vh;
 }
@@ -114,6 +142,7 @@ p{
     text-transform: uppercase;
     outline: none;
 }
+
 
 
 /* ASIDE */
@@ -258,8 +287,8 @@ main{
 }
 .subtitle{
     color: rgb(163, 73, 164);
-    font-size:18px;
-    padding-left: 20px;;
+    font-size:20px;
+    padding-left: 5px;
 }
 .titleSection{
     color: rgb(163, 73, 164);

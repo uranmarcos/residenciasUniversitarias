@@ -1,5 +1,19 @@
 // let asideBotones = document.getElementsByClassName("asideButton")
 
+function ocultarCaja(id, id2){
+    let caja = document.getElementById(id);
+    let boton = document.getElementById(id2);
+    caja.classList.add("hidden");
+    boton.classList.remove("hidden");
+}
+function mostrarCaja(id, id2){
+    let caja = document.getElementById(id);
+    let boton = document.getElementById(id2);
+    caja.classList.remove("hidden");
+    boton.classList.add("hidden");
+}
+
+
 // quito clase botones aside
 function quitarClase(selector, clase){
     let asideBotones = document.getElementsByClassName(selector)
