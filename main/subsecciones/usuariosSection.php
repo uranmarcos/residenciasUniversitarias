@@ -10,7 +10,7 @@
             <div class="subtitle" id="subtitleUser">
                 Usuarios Existentes
             </div>
-            <button type="submit" class="botonNew" id="botonNewUser" name="crearUsuario">
+            <button type="submit" class="button" id="botonNewUser" name="crearUsuario">
                 Crear
             </button> 
         </div>
@@ -69,7 +69,7 @@
 </div>
 <!-- CAJA NUEVO USUARIO -->
 <div class="contenedorSeccion contenedorModal  <?php echo $mostrarABMUsuarios ?>">
-    <div class="d-flex anchoTotal justify-content-between">
+    <div class="d-flex anchoTotal borderBottom justify-content-between">
         <div class="subtitle" id="subtitleUser">
             <?php echo  $ABMUserTitle ?>
         </div>
@@ -109,15 +109,15 @@
                     </select>  
                     <input type="number" value="1" min="1" class="col-3" name="casa">
                 </div> 
-                <div class="row rowConfirmar justify-content-around">
-                    <button type="submit" name="cancelCrearUsuario" class="botonNew">Cancelar</button>
-                    <div onclick="validarFormulario('campoFormNewUser', 'errorNewUser', 'modalNewUser')" class="botonNew">Confirmar</div>
+                <div class="row rowConfirmar mt-3 justify-content-around">
+                    <button type="submit" name="cancelCrearUsuario" class="button">Cancelar</button>
+                    <div onclick="validarFormulario('campoFormNewUser', 'errorNewUser', 'modalNewUser')" class="button">Confirmar</div>
                 </div> 
         </div>
         <div class="row modalBox hidden" id="modalNewUser">
             <div class="centrarTexto">¿Confirma la creación del usuario?</div>
-            <div onclick="ocultarCaja('modalNewUser')" class="botonNew">Cerrar</div>
-            <button type="submit" name="newUser" class="botonNew">Crear</button>
+            <div onclick="ocultarCaja('modalNewUser')" class="button">Cerrar</div>
+            <button type="submit" name="newUser" class="button">Crear</button>
         </div>  
     </form>
 </div>
