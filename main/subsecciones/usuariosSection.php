@@ -1,5 +1,11 @@
+<script>
+    function pulsar(e) {
+        tecla = (document.querySelectorAll) ? e.keyCode : e.which;
+        return (tecla != 13);
+    }      
+</script>   
 <div class="contenedorSeccion <?php echo $mostrarListadoUsuarios ?>">
-    <form method="POST" action="inicio.php">
+    <form method="POST" action="inicio.php" onkeypress="return pulsar(event)">
         <div class="d-flex anchoTotal justify-content-between">
             <div class="subtitle" id="subtitleUser">
                 Usuarios Existentes
@@ -68,7 +74,7 @@
             <?php echo  $ABMUserTitle ?>
         </div>
     </div>
-    <form method="POST" action="inicio.php">
+    <form method="POST" action="inicio.php" onkeypress="return pulsar(event)">
         <div class="row anchoTotal">
                 <div class="errorValidacionForm hidden" id="errorNewUser">
                     Debe completar todos los campos
