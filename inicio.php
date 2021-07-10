@@ -64,12 +64,46 @@ if(isset($_POST["adminArticulos"])){
 }
 
 
+// if(isset($_POST["newUser"])){
+//     $mostrarInicio = "none";
+//     $mostrarBloque = "block";
+//     $bloque = "main/admin.php";
+//     $subSeccionAdmin = "main/subsecciones/articulosSection.php";
+
+// }
 if(isset($_POST["newUser"])){
-    echo "usuario creado";
+    $nombre = $_POST["nombre"];
+    $apellido = $_POST["apellido"];
+    $dni = $_POST["dni"];
+    $sede = $_POST["sede"];
+    $casa = $_POST["casa"];
+    $rol = $_POST["rol"];
+    $mail = $_POST["mail"];
+    try{
+        $consulta = $baseDeDatos ->prepare("INSERT into usuarios (mail, rol, pass, nombre, apellido, dni, sede, casa)
+            VALUES ('$mail', '$rol', '$dni', '$nombre', '$apellido', '$dni', '$sede', '$casa')");
+        $consulta->execute();
+    }catch(Exception $exception){
+        $exception = "UPS, hubo error y el usuario no pudo crearse! Por favor intentalo nuevamente";   
+        $mensajeUsuario = $exception;
+        return;
+    }
     $mostrarInicio = "none";
     $mostrarBloque = "block";
+    $bloqueAdmin ="";
     $bloque = "main/admin.php";
+    $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

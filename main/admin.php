@@ -21,27 +21,7 @@
     $mensajeProducto ="";
     $mensajeUsuario = "";
 
-    if(isset($_POST["crearUsuario"])){
-            $nombre = $_POST["nombre"];
-            $apellido = $_POST["apellido"];
-            $dni = $_POST["dni"];
-            $sede = $_POST["sede"];
-            $casa = $_POST["casa"];
-            $rol = $_POST["rol"];
-            $mail = $_POST["mail"];
-
-            try{
-                $consulta = $baseDeDatos ->prepare("INSERT into usuarios VALUES(default, '$mail', '$rol',
-                '$dni', '$nombre', '$apellido', '$dni', '$sede', '$casa')");
-                $consulta->execute();
-                $usuario =$consulta -> fetchAll(PDO::FETCH_ASSOC);
-                $mensajeUsuario = "El usuario se creó correctamene";
-            }catch(Exception $exception){
-                $exception = "UPS, hubo error y el usuario no pudo crearse! Por favor intentalo nuevamente";   
-                $mensajeUsuario = $exception;
-                return;
-            }
-    }
+  
     if(isset($_POST["crearArticulo"])){
         $producto = $_POST["producto"];
         $categoria = $_POST["categoria"];
@@ -59,7 +39,6 @@
             return;
         }
     }
-
 ?>
 <div class="col-12 paddingCero">
     <div class="titleSection">
