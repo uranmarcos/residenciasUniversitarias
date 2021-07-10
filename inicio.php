@@ -9,6 +9,7 @@ $bloque = "";
 $bloqueAdmin="hidden";
 $cajaMensajeConfirmacion="hidden";
 $subSeccionAdmin="";
+$ABMUserTitle = "";
 //BOTONES ASIDE
 if(isset($_POST["cerrarSesion"])){
     header("Location: destroy.php");
@@ -55,6 +56,8 @@ if(isset($_POST["adminUsuarios"])){
     $bloqueAdmin ="";
     $bloque = "main/admin.php";
     $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
+    $mostrarListadoUsuarios = "block";
+    $mostrarABMUsuarios = "hidden";
 }
 if(isset($_POST["adminArticulos"])){
     $mostrarInicio = "none";
@@ -63,7 +66,35 @@ if(isset($_POST["adminArticulos"])){
     $bloque = "main/admin.php";
     $subSeccionAdmin = "main/subsecciones/articulosSection.php";
 }
-
+if(isset($_POST["crearUsuario"])){
+    $mostrarInicio = "none";
+    $mostrarBloque = "block";
+    $bloqueAdmin ="";
+    $bloque = "main/admin.php";
+    $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
+    $mostrarListadoUsuarios = "hidden";
+    $mostrarABMUsuarios = "block";    
+    $ABMUserTitle = "Crear usuario";
+}
+if(isset($_POST["editarUsuario"])){
+    $mostrarInicio = "none";
+    $mostrarBloque = "block";
+    $bloqueAdmin ="";
+    $bloque = "main/admin.php";
+    $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
+    $mostrarListadoUsuarios = "hidden";
+    $mostrarABMUsuarios = "block";    
+    $ABMUserTitle = "Editar usuario";
+}
+if(isset($_POST["cancelCrearUsuario"])){
+    $mostrarInicio = "none";
+    $mostrarBloque = "block";
+    $bloqueAdmin ="";
+    $bloque = "main/admin.php";
+    $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
+    $mostrarListadoUsuarios = "block";
+    $mostrarABMUsuarios = "hidden";    
+}
 if(isset($_POST["newUser"])){
     $nombre = $_POST["nombre"];
     $apellido = $_POST["apellido"];
@@ -87,6 +118,8 @@ if(isset($_POST["newUser"])){
     $bloque = "main/admin.php";
     $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
     $cajaMensajeConfirmacion="";
+    $mostrarListadoUsuarios = "block";
+    $mostrarABMUsuarios = "hidden";
 }
 
 
@@ -106,9 +139,9 @@ if(isset($_POST["newUser"])){
 if(isset($_POST["modificarPedido"])){
     header("Location: pedido.php");
 }
-if(isset($_POST["crearUsuario"])){
-    header("Location: admin.php");
-}
+// if(isset($_POST["crearUsuario"])){
+//     header("Location: admin.php");
+// }
 if(isset($_POST["crearArticulo"])){
     header("Location: admin.php");
 }
