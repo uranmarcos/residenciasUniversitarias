@@ -1,4 +1,4 @@
-<div class="accordion" id="accordionExample">
+<!-- <div class="accordion" id="accordionExample">
     <div class="accordion-item">
         <h2 class="accordion-header" id="headingOne">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -6,7 +6,7 @@
             </button>
         </h2>
         <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-            <div class="accordion-body">
+            <div class="accordion-body"> -->
                 <div class="d-flex anchoTotal justify-content-between">
                     <div class="subtitle">
                         Usuarios Existentes
@@ -17,50 +17,52 @@
                 </div>
                 <!-- CAJA NUEVO USUARIO -->
                 <div class="row hidden contenedorModal cajaEdicion" id="cajaNewUser">     
-                    <div class="row anchoTotal">
-                        <div class="errorValidacionForm hidden" id="errorNewUser">
-                            Debe completar todos los campos
+                    <form method="POST" action="inicio.php">
+                        <div class="row anchoTotal">
+                            <div class="errorValidacionForm hidden" id="errorNewUser">
+                                Debe completar todos los campos
+                            </div>
+                            <div class="row justify-content-between">
+                                <label class="col-5" > Nombre: </label>
+                                <label class="col-6" > Apellido: </label>               
+                            </div>
+                            <div class="row justify-content-between">
+                                <input class="col-5 campoFormNewUser" name="nombre">
+                                <input class="col-6 campoFormNewUser" name="apellido">                              
+                            </div>
+                            <div class="row justify-content-between">
+                                <label class="col-5" > Mail: </label>
+                                <label class="col-6" > Sede: </label>
+                            </div>
+                            <div class="row justify-content-between">
+                                <input class="col-5 campoFormNewUser" name="mail">
+                                <input class="col-6 campoFormNewUser" name="sede">
+                            </div>
+                            <div class="row justify-content-between">
+                                <label class="col-3" > DNI: </label>
+                                <label class="col-3" > Rol: </label>
+                                <label class="col-3" > Casa: </label>
+                            </div> 
+                            <div class="row justify-content-between">
+                                <input class="col-3 campoFormNewUser" name="dni">
+                                <select class="col-3 campoFormNewUser" name="rol">
+                                    <option value="">Seleccionar</option>
+                                    <option value="voluntario">Voluntario</option>
+                                    <option value="admin">Admin</option>
+                                </select>  
+                                <input type="number" value="1" min="1" class="col-3" name="casa">
+                            </div> 
+                            <div class="row rowConfirmar justify-content-around">
+                                <div onclick="cancelarNewUser('cajaNewUser','errorNewUser', 'botonNewUser', 'campoFormNewUser')" class="botonNew">Cancelar</div>
+                                <div onclick="validarFormulario('campoFormNewUser', 'errorNewUser', 'modalNewUser')" class="botonNew">Confirmar</div>
+                            </div> 
                         </div>
-                        <div class="row justify-content-between">
-                            <label class="col-5" > Nombre: </label>
-                            <label class="col-6" > Apellido: </label>               
-                        </div>
-                        <div class="row justify-content-between">
-                            <input class="col-5 campoFormNewUser" name="nombre">
-                            <input class="col-6 campoFormNewUser" name="apellido">                              
-                        </div>
-                        <div class="row justify-content-between">
-                            <label class="col-5" > Mail: </label>
-                            <label class="col-6" > Sede: </label>
-                        </div>
-                        <div class="row justify-content-between">
-                            <input class="col-5 campoFormNewUser" name="mail">
-                            <input class="col-6 campoFormNewUser" name="sede">
-                        </div>
-                        <div class="row justify-content-between">
-                            <label class="col-3" > DNI: </label>
-                            <label class="col-3" > Rol: </label>
-                            <label class="col-3" > Casa: </label>
-                        </div> 
-                        <div class="row justify-content-between">
-                            <input class="col-3 campoFormNewUser" name="dni">
-                            <select class="col-3 campoFormNewUser" name="rol">
-                                <option value="">Seleccionar</option>
-                                <option value="voluntario">Voluntario</option>
-                                <option value="admin">Admin</option>
-                            </select>  
-                            <input type="number" value="1" min="1" class="col-3" name="casa">
-                        </div> 
-                        <div class="row rowConfirmar justify-content-around">
-                            <div onclick="cancelarNewUser('cajaNewUser','errorNewUser', 'botonNewUser', 'campoFormNewUser')" class="botonNew">Cancelar</div>
-                            <div onclick="validarFormulario('campoFormNewUser', 'errorNewUser', 'modalNewUser')" class="botonNew">Confirmar</div>
-                        </div> 
-                    </div>
-                    <div class="row modalBox hidden" id="modalNewUser">
-                        <div class="centrarTexto">¿Confirma la creación del usuario?</div>
-                        <div onclick="ocultarCaja('modalNewUser')" class="botonNew">Cerrar</div>
-                        <button type="submit" class="botonNew">Crear</button>
-                    </div>  
+                        <div class="row modalBox hidden" id="modalNewUser">
+                            <div class="centrarTexto">¿Confirma la creación del usuario?</div>
+                            <div onclick="ocultarCaja('modalNewUser')" class="botonNew">Cerrar</div>
+                            <button type="submit" name="newUser" class="botonNew">Crear</button>
+                        </div>  
+                    </form>
                 </div> 
                 <!-- TABLA LISTADO USUARIOS -->
                 <table class="table">
@@ -101,7 +103,7 @@
                             <?php } ?>                     
                     </tbody>
                 </table>             
-            </div>
+            <!-- </div>
         </div>
     </div>             
-</div>
+</div> -->

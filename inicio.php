@@ -6,6 +6,9 @@ require("funciones/funciones.php");
 $mostrarInicio = "block";
 $mostrarBloque = "none";
 $bloque = "";
+$bloqueAdmin="hidden";
+$subSeccionAdmin="";
+//BOTONES ASIDE
 if(isset($_POST["cerrarSesion"])){
     header("Location: destroy.php");
 }
@@ -29,6 +32,48 @@ if(isset($_POST["iniciarPedido"])){
     $mostrarBloque = "block";
     $bloque = "main/iniciarPedido.php";
 }
+
+//BOTONES ADMIN
+if(isset($_POST["adminSedes"])){
+    $mostrarInicio = "none";
+    $mostrarBloque = "block";
+    $bloque = "main/admin.php";
+    $bloqueAdmin ="";
+    $subSeccionAdmin = "main/admin.php";
+}
+if(isset($_POST["adminCategorias"])){
+    $mostrarInicio = "none";
+    $mostrarBloque = "block";
+    $bloque = "main/admin.php";
+    $bloqueAdmin ="";
+    $subSeccionAdmin = "main/admin.php";
+}
+if(isset($_POST["adminUsuarios"])){
+    $mostrarInicio = "none";
+    $mostrarBloque = "block";
+    $bloqueAdmin ="";
+    $bloque = "main/admin.php";
+    $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
+}
+if(isset($_POST["adminArticulos"])){
+    $mostrarInicio = "none";
+    $mostrarBloque = "block";
+    $bloqueAdmin ="";
+    $bloque = "main/admin.php";
+    $subSeccionAdmin = "main/subsecciones/articulosSection.php";
+}
+
+
+if(isset($_POST["newUser"])){
+    echo "usuario creado";
+    $mostrarInicio = "none";
+    $mostrarBloque = "block";
+    $bloque = "main/admin.php";
+}
+
+
+
+
 
 if(isset($_POST["modificarPedido"])){
     header("Location: pedido.php");

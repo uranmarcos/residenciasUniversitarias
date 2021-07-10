@@ -65,50 +65,17 @@
     <div class="titleSection">
         Admin
     </div>
-    <form method="POST" action="inicio.php" onkeypress="return pulsar(event)">
-    <!-- CAJA SEDES -->  
-    <div class="sectionBloque">  
-        <div class="accordion" id="accordionSedes">
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSedes" aria-expanded="true" aria-controls="collapseSedes">
-                        Sedes
-                    </button>
-                </h2>
-                <div id="collapseSedes" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionSedes">
-                    <div class="accordion-body">
-                        CREAR SEDE
-                    </div>
-                </div>
-            </div>             
+    <form method="POST" action="inicio.php">
+        <div class="row navAdmin">
+            <button type="submit" name="adminSedes" class="btn botonNavAdmin col-3">Sedes</button>
+            <button type="submit" name="adminCategorias" class="btn botonNavAdmin col-3">Categorias</button>
+            <button type="submit" name="adminUsuarios" class="btn botonNavAdmin col-3">Usuarios</button>
+            <button type="submit" name="adminArticulos" class="btn botonNavAdmin col-3">Articulos</button>
         </div>
-    </div>     
-    
-    <!-- CAJA CATEGORIAS -->  
-    <div class="sectionBloque">  
-        <div class="accordion" id="accordionCategorias">
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCategorias" aria-expanded="true" aria-controls="collapseCategorias">
-                        Categorias
-                    </button>
-                </h2>
-                <div id="collapseCategorias" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionCategorias">
-                    <div class="accordion-body">
-                        CREAR CATEGORIA
-                    </div>
-                </div>
-            </div>             
-        </div>
-    </div>     
-    <!-- CAJA USUARIOS -->  
-    <div class="sectionBloque">  
-        <?php require("subsecciones/usuariosSection.php") ?>                                      
-    </div>     
-    <!-- CAJA ARTICULOS -->
-    <div class="sectionBloque">  
-        <?php require("subsecciones/articulosSection.php")?>
+    </form>
+    <div class="sectionBloque <?php echo $bloqueAdmin ?>">  
+        <?php require($subSeccionAdmin)?>
     </div>  
-    </form>   
+
 </div> 
 

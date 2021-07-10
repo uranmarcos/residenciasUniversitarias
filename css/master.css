@@ -49,6 +49,20 @@
 }
 
 
+.navAdmin{
+    margin: 0 20px;
+}
+.botonNavAdmin{
+    background-color: rgb(163, 73, 164) !important;
+    border: solid 1px white;
+    color: white;
+    text-transform: uppercase;
+}
+.botonNavAdmin:hover{
+    background-color: white !important;
+    color: rgb(163, 73, 164) !important;
+    border: solid 1px rgb(163, 73, 164) !important;
+}
 
 
 .header{
