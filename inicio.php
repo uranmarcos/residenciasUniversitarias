@@ -39,14 +39,14 @@ if(isset($_POST["adminSedes"])){
     $mostrarBloque = "block";
     $bloque = "main/admin.php";
     $bloqueAdmin ="";
-    $subSeccionAdmin = "main/admin.php";
+    $subSeccionAdmin = "main/subsecciones/sedesSection.php";
 }
 if(isset($_POST["adminCategorias"])){
     $mostrarInicio = "none";
     $mostrarBloque = "block";
     $bloque = "main/admin.php";
     $bloqueAdmin ="";
-    $subSeccionAdmin = "main/admin.php";
+    $subSeccionAdmin = "main/subsecciones/categoriasSection.php";
 }
 if(isset($_POST["adminUsuarios"])){
     $mostrarInicio = "none";
