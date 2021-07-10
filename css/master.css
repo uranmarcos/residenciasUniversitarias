@@ -71,6 +71,15 @@
     border: solid 1px rgb(163, 73, 164) !important;
 }
 
+.editButton:hover{
+    cursor: pointer;
+    background-color: grey;
+    color:white
+}
+
+
+
+
 
 .header{
     height: 16vh;

@@ -1,17 +1,29 @@
 // let asideBotones = document.getElementsByClassName("asideButton")
 
 // FUNCIONES ESPECIFICAS
-function botonNewUser(param1, param2, param3){
+function botonNewUser(param1, param2, param3, param4, param5){
     mostrarCaja(param1);
     ocultarCaja(param2);
     ocultarCaja(param3);
+    cambiarTitulo(param4, param5);
 }
-function cancelarNewUser(param1, param2, param3, param4, param5){
+function editarUsuario(param1, param2, param3, param4){
+    mostrarCaja(param1);
+    ocultarCaja(param2);
+    cambiarTitulo(param3, param4);
+}
+function cancelarNewUser(param1, param2, param3, param4, param5, param6, param7){
     ocultarCaja(param1);
     ocultarCaja(param2)
     mostrarCaja(param3);
     resetForm(param4);
     mostrarCaja(param5);
+    cambiarTitulo(param6, param7)
+}
+function cambiarTitulo(param1, param2){
+    let titulo = document.getElementById(param1);
+    titulo.innerHTML = "";
+    titulo.innerHTML = param2;
 }
 
 
@@ -49,6 +61,8 @@ function mostrarAlert(idAlert){
     box.classList.remove("hidden");
 
 }
+
+
 
 
 // quito clase botones aside
