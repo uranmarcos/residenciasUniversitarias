@@ -83,6 +83,7 @@
             </div>             
         </div>
     </div>     
+    
     <!-- CAJA CATEGORIAS -->  
     <div class="sectionBloque">  
         <div class="accordion" id="accordionCategorias">

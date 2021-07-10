@@ -11,27 +11,31 @@
                     <div class="subtitle">
                         Usuarios Existentes
                     </div>
-                    <div class="botonNew" id="botonNewUser" onclick="mostrarCaja('cajaNewUser', 'botonNewUser')">
+                    <div class="botonNew" id="botonNewUser" onclick="botonNewUser('cajaNewUser', 'botonNewUser')">
                         Crear
                     </div> 
                 </div>
-                <div class="row hidden cajaEdicion" id="cajaNewUser">     
+                <!-- CAJA NUEVO USUARIO -->
+                <div class="row hidden contenedorModal cajaEdicion" id="cajaNewUser">     
                     <div class="row anchoTotal">
+                        <div class="errorValidacionForm hidden" id="errorNewUser">
+                            Debe completar todos los campos
+                        </div>
                         <div class="row justify-content-between">
                             <label class="col-5" > Nombre: </label>
                             <label class="col-6" > Apellido: </label>               
                         </div>
                         <div class="row justify-content-between">
-                            <input class="col-5" name="nombre">
-                            <input class="col-6" name="apellido">                              
+                            <input class="col-5 campoFormNewUser" name="nombre">
+                            <input class="col-6 campoFormNewUser" name="apellido">                              
                         </div>
                         <div class="row justify-content-between">
                             <label class="col-5" > Mail: </label>
                             <label class="col-6" > Sede: </label>
                         </div>
                         <div class="row justify-content-between">
-                            <input class="col-5" name="mail">
-                            <input class="col-6" name="sede">
+                            <input class="col-5 campoFormNewUser" name="mail">
+                            <input class="col-6 campoFormNewUser" name="sede">
                         </div>
                         <div class="row justify-content-between">
                             <label class="col-3" > DNI: </label>
@@ -39,8 +43,8 @@
                             <label class="col-3" > Casa: </label>
                         </div> 
                         <div class="row justify-content-between">
-                            <input class="col-3" name="dni">
-                            <select class="col-3" name="rol">
+                            <input class="col-3 campoFormNewUser" name="dni">
+                            <select class="col-3 campoFormNewUser" name="rol">
                                 <option value="">Seleccionar</option>
                                 <option value="voluntario">Voluntario</option>
                                 <option value="admin">Admin</option>
@@ -48,11 +52,17 @@
                             <input type="number" value="1" min="1" class="col-3" name="casa">
                         </div> 
                         <div class="row rowConfirmar justify-content-around">
-                            <div onclick="ocultarCaja('cajaNewUser', 'botonNewUser')" class="botonNew">Cancelar</div>
-                            <input type="submit" class="botonNew" name="crearUsuario" value="Confirmar">
+                            <div onclick="cancelarNewUser('cajaNewUser','errorNewUser', 'botonNewUser', 'campoFormNewUser')" class="botonNew">Cancelar</div>
+                            <div onclick="validarFormulario('campoFormNewUser', 'errorNewUser', 'modalNewUser')" class="botonNew">Confirmar</div>
                         </div> 
                     </div>
+                    <div class="row modalBox hidden" id="modalNewUser">
+                        <div class="centrarTexto">¿Confirma la creación del usuario?</div>
+                        <div onclick="ocultarCaja('modalNewUser')" class="botonNew">Cerrar</div>
+                        <button type="submit" class="botonNew">Crear</button>
+                    </div>  
                 </div> 
+                <!-- TABLA LISTADO USUARIOS -->
                 <table class="table">
                     <thead>
                         <tr>

@@ -1,16 +1,51 @@
 // let asideBotones = document.getElementsByClassName("asideButton")
 
+// FUNCIONES ESPECIFICAS
+function botonNewUser(param1, param2){
+    mostrarCaja(param1);
+    ocultarCaja(param2);
+}
+function cancelarNewUser(param1, param2, param3, param4){
+    ocultarCaja(param1);
+    ocultarCaja(param2)
+    mostrarCaja(param3);
+    resetForm(param4);
+}
+
+
+
+//FUNCIONES GENERICAS
 function ocultarCaja(id, id2){
     let caja = document.getElementById(id);
-    let boton = document.getElementById(id2);
     caja.classList.add("hidden");
-    boton.classList.remove("hidden");
 }
 function mostrarCaja(id, id2){
     let caja = document.getElementById(id);
-    let boton = document.getElementById(id2);
     caja.classList.remove("hidden");
-    boton.classList.add("hidden");
+}
+
+function resetForm(clase){
+    let campos = document.getElementsByClassName(clase);
+    for (let campo of campos) {
+        campo.value = "";
+    } 
+
+}
+function validarFormulario(param1, param2, param3 ){
+    let campos = document.getElementsByClassName(param1);
+    for (let campo of campos) {
+        if(campo.value == ""){
+            mostrarAlert(param2);
+            return;
+        }
+    } 
+    ocultarCaja(param2);
+    mostrarCaja(param3);
+}
+function mostrarAlert(idAlert){
+    let box = document.getElementById(idAlert);
+    box.classList.remove("hidden");
+
 }
 
 

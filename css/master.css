@@ -23,6 +23,31 @@
     padding:10px;
 }
 
+.contenedorModal{
+    position: relative;
+}
+.modalBox{
+    position:absolute;
+    top: 0;
+    left:12;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    border: solid 1px rgb(163, 73, 164);
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    z-index: 3;
+    
+}
+
+.errorValidacionForm{
+    color: red;
+    font-size: 14px;
+    text-align: center;
+}
+
 
 
 
