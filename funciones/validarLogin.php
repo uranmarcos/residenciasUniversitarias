@@ -14,7 +14,7 @@ $datosUsuarios =$consulta -> fetchAll(PDO::FETCH_ASSOC);
 if(empty($datosUsuarios)){
     $error = "El DNI ingresado no está registrado";
 }else{    
-    if($password == $datosUsuarios[0]["password"]){
+    if($password == $datosUsuarios[0]["pass"]){
         $_SESSION["autenticado"] = true;
         $_SESSION["name"] = $datosUsuarios[0]["nombre"];
         $_SESSION["apellido"] = $datosUsuarios[0]["apellido"];

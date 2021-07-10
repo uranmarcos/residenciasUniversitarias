@@ -7,6 +7,7 @@ $mostrarInicio = "block";
 $mostrarBloque = "none";
 $bloque = "";
 $bloqueAdmin="hidden";
+$cajaMensajeConfirmacion="hidden";
 $subSeccionAdmin="";
 //BOTONES ASIDE
 if(isset($_POST["cerrarSesion"])){
@@ -63,14 +64,6 @@ if(isset($_POST["adminArticulos"])){
     $subSeccionAdmin = "main/subsecciones/articulosSection.php";
 }
 
-
-// if(isset($_POST["newUser"])){
-//     $mostrarInicio = "none";
-//     $mostrarBloque = "block";
-//     $bloque = "main/admin.php";
-//     $subSeccionAdmin = "main/subsecciones/articulosSection.php";
-
-// }
 if(isset($_POST["newUser"])){
     $nombre = $_POST["nombre"];
     $apellido = $_POST["apellido"];
@@ -93,6 +86,7 @@ if(isset($_POST["newUser"])){
     $bloqueAdmin ="";
     $bloque = "main/admin.php";
     $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
+    $cajaMensajeConfirmacion="";
 }
 
 

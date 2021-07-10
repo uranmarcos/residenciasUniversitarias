@@ -1,15 +1,17 @@
 // let asideBotones = document.getElementsByClassName("asideButton")
 
 // FUNCIONES ESPECIFICAS
-function botonNewUser(param1, param2){
+function botonNewUser(param1, param2, param3){
     mostrarCaja(param1);
     ocultarCaja(param2);
+    ocultarCaja(param3);
 }
-function cancelarNewUser(param1, param2, param3, param4){
+function cancelarNewUser(param1, param2, param3, param4, param5){
     ocultarCaja(param1);
     ocultarCaja(param2)
     mostrarCaja(param3);
     resetForm(param4);
+    mostrarCaja(param5);
 }
 
 
