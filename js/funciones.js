@@ -73,9 +73,11 @@ function validarCantidad(param){
         input.value = 0;
     }
     localStorage.setItem(param, valor);
-    console.log(localStorage);
 }
-
+function borrarCantidad(param){
+    let input = document.getElementById('input'+param)
+    input.value = 0;
+}
 
 function marcarProducto(){
     let focusedElement = document.activeElement;

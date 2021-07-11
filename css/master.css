@@ -88,6 +88,10 @@
     color:white
 }
 .editButton{
+    text-align: center;
+    min-width: 20px;
+    background-color: lightgray;
+    border: solid 1px grey;
     height: 25px;
     border-radius: 5px;
 }
