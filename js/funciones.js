@@ -56,16 +56,10 @@ function activarBoton(param){
     let botonSeleccionado = document.getElementById(param)
     botonSeleccionado.classList.add("botonRemarcado")
 }
-
-function desmarcarProducto(){
-    let inputs = document.getElementsByTagName("input");
-    for (let item of inputs) {
-        if(item.parentNode.classList.contains("productoSeleccionado") == true){
-            item.parentNode.classList.remove("productoSeleccionado");
-        }
-    } 
+function inputFocusOut(param){
+    validarCantidad(param);
+    desmarcarProducto();
 }
-
 function validarCantidad(param){
     let input = document.getElementById(param);
     let valor = input.value;
@@ -79,17 +73,24 @@ function borrarCantidad(param){
     input.value = 0;
 }
 
+function desmarcarProducto(){
+    let filas = document.getElementsByTagName("tr");
+    for (let fila of filas) {
+        if(fila.classList.contains("productoSeleccionado") == true){
+            fila.classList.remove("productoSeleccionado");
+        }
+    } 
+}
 function marcarProducto(){
-    let focusedElement = document.activeElement;
-    let inputs = document.getElementsByTagName("input");
-    
-    for (let item of inputs) {
-        if(item.parentNode.classList.contains("productoSeleccionado") == true){
-            item.parentNode.classList.remove("productoSeleccionado");
+    let focusedElement = document.activeElement;  
+    let filas = document.getElementsByTagName("tr");
+    for (let fila of filas) {
+        if(fila.classList.contains("productoSeleccionado") == true){
+            fila.classList.remove("productoSeleccionado");
         }
     } 
 
-    focusedElement.parentNode.previousElementSibling.classList.add("productoSeleccionado");
+    focusedElement.parentNode.parentNode.classList.add("productoSeleccionado");
    
 }
 //FUNCIONES PARA MOSTRAR/OCULTAR CONFIRMACION DE PEDIDO

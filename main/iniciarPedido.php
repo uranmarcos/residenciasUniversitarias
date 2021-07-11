@@ -131,7 +131,7 @@
                                 <tr>
                                     <td><?php echo $producto["id"] ?></td>
                                     <td><?php echo $producto["producto"] ?></td>
-                                    <td><input type="number" id="input<?php echo $producto["id"]?>" value="0" onblur="validarCantidad('input<?php echo $producto['id']?>')" class="cantidadProducto" name="<?php echo $producto['id']?>"></td>
+                                    <td><input type="number" id="input<?php echo $producto["id"]?>" value="0" onfocus="marcarProducto()" onblur="inputFocusOut('input<?php echo $producto['id']?>')" class="cantidadProducto" name="<?php echo $producto['id']?>"></td>
                                     <td><?php echo $producto["medida"] ?></td>
                                     <td><?php echo $producto["categoria"] ?></td>
                                     <td> 

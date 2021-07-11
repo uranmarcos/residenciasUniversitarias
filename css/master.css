@@ -548,9 +548,7 @@ main{
     outline: none;
 }
 .productoSeleccionado{
-    padding-left:50px;
-    color: rgb(163, 73, 164)!important;
-    font-size: 18px;
+    background-color: lightgray;
 }
 
 .iconoBurguer{
