@@ -34,6 +34,26 @@ if(isset($_POST["iniciarPedido"])){
     $mostrarBloque = "block";
     $bloque = "main/iniciarPedido.php";
 }
+if(isset($_POST["productoAsc"])){
+    $mostrarInicio = "none";
+    $mostrarBloque = "block";
+    $bloque = "main/iniciarPedido.php";
+}
+if(isset($_POST["productoDesc"])){
+    $mostrarInicio = "none";
+    $mostrarBloque = "block";
+    $bloque = "main/iniciarPedido.php";
+}
+if(isset($_POST["categoriaAsc"])){
+    $mostrarInicio = "none";
+    $mostrarBloque = "block";
+    $bloque = "main/iniciarPedido.php";
+}
+if(isset($_POST["categoriaDesc"])){
+    $mostrarInicio = "none";
+    $mostrarBloque = "block";
+    $bloque = "main/iniciarPedido.php";
+}
 
 //BOTONES ADMIN
 if(isset($_POST["adminSedes"])){
@@ -150,11 +170,10 @@ $pedido = [];
 $mostrarPedido = "none";
 $mensajePedido = "";
 if(isset($_POST["confirmar"])){
-    enviarMail();
+    enviarMail2();
     $mostrarInicio = "none";
     $mostrarBloque = "block";
-    $bloque = "main/confirmacion.php";     
-   
+    $bloque = "main/confirmacion.php";        
 }
 
 

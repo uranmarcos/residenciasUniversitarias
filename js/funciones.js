@@ -66,6 +66,17 @@ function desmarcarProducto(){
     } 
 }
 
+function validarCantidad(param){
+    let input = document.getElementById(param);
+    let valor = input.value;
+    if(valor == ""){
+        input.value = 0;
+    }
+    localStorage.setItem(param, valor);
+    console.log(localStorage);
+}
+
+
 function marcarProducto(){
     let focusedElement = document.activeElement;
     let inputs = document.getElementsByTagName("input");

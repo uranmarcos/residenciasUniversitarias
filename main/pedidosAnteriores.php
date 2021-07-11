@@ -2,10 +2,32 @@
 $pedidosPorSede = [];
 $data = file_get_contents('json/pedidos.json');
 $pedidos = json_decode($data, true);
+
 foreach($pedidos as $pedido){
     if($pedido[0]["sede"] == $_SESSION["sede"]){
-        array_push($pedidosPorSede, $pedido);
+        $pedidoMail = [];
+            $pedidoMail["fecha"] = $pedido[0]["fecha"];
+            $pedidoMail["pedido"] = $pedido[0]["pedido"];
+            array_push($pedidosPorSede, $pedidoMail);
+        
     }
+    //     $pedido = [];
+    //     // var_dump($_POST);
+    //     foreach($_POST as $producto => $cantidad){
+    //         if($cantidad != 0){
+    //             $p = [];
+    //             $p["id"] = $producto;
+    //             $p["cantidad"]= $cantidad;
+    //             array_push($pedido, $p);
+    //         };
+    //     }
+    //     if(($_POST["otros"]) != ""){
+    //         $otros = [];
+    //         $otros["producto"] = "Otros";
+    //         $otros["cantidad"] = $_POST["otros"];        
+    //         array_push($pedido, $otros);
+    //     }
+    // }
 };
 
 ?>
@@ -14,7 +36,6 @@ foreach($pedidos as $pedido){
         Pedidos Realizados - <?php echo $_SESSION["sede"] . " - Casa " . $_SESSION["casa"] ?>
     </div>
     <div class="d-flex flex-column-reverse">
-   
         <?php 
             if(count($pedidosPorSede) == 0){
         ?> 
@@ -33,9 +54,9 @@ foreach($pedidos as $pedido){
                             <h2 class="accordion-header" id="headingOne">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAlimentos" aria-expanded="true" aria-controls="collapseAlimentos">
                                     <?php 
-                                        $day = $pedido[0]["fecha"]["mday"];
-                                        $month = $pedido[0]["fecha"]["month"];
-                                        $year = $pedido[0]["fecha"]["year"];
+                                        $day = $pedido["fecha"]["mday"];
+                                        $month = $pedido["fecha"]["month"];
+                                        $year = $pedido["fecha"]["year"];
                                         $mes = "";
                                         if($month == "January"){
                                             $mes = "Enero";
@@ -70,16 +91,17 @@ foreach($pedidos as $pedido){
                                 <div class="accordion-body">
                                     <div class="row cajaInternaBloque" id="cajaAlimentos">
                                         <?php 
-                                            foreach($pedido[0]["pedido"] as $producto){
-                                                if($producto == [] || $producto == ""){
-                                                    echo "Pedido vacio";
-                                                }else{
-                                                    if($producto["producto"]){
-                                                        echo $producto["producto"] . ": " . $producto["cantidad"] 
-                                                       . " ; ";
-                                                    };
-                                                }
-                                            }
+                                            echo $pedido["pedido"];
+                                            // foreach($pedido[0]["pedido"] as $producto){
+                                            //     if($producto == [] || $producto == ""){
+                                            //         echo "Pedido vacio";
+                                            //     }else{
+                                            //         if($producto["producto"]){
+                                            //             echo $producto["producto"] . ": " . $producto["cantidad"] 
+                                            //            . " ; ";
+                                            //         };
+                                            //     }
+                                            // }
                                         ?> 
                                     </div>    
                                 </div> 
