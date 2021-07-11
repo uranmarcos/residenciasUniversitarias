@@ -10,24 +10,43 @@
     $consultaProductos->execute();
     $productos = $consultaProductos -> fetchAll(PDO::FETCH_ASSOC);
     $_SESSION["productos"] = $productos;
-
     if(isset($_POST["productoAsc"])){
-        $consultaProductos = $baseDeDatos ->prepare("SELECT * FROM productos ORDER BY producto DESC");
+        $cat = $_POST["categoria"];
+        if($cat == "todos"){
+            $consultaProductos = $baseDeDatos ->prepare("SELECT * FROM productos ORDER BY producto DESC");    
+        }else{
+            $consultaProductos = $baseDeDatos ->prepare("SELECT * FROM productos WHERE categoria='$cat' ORDER BY producto DESC");
+        }
         $consultaProductos->execute();
         $productos = $consultaProductos -> fetchAll(PDO::FETCH_ASSOC);
     }
     if(isset($_POST["productoDesc"])){
-        $consultaProductos = $baseDeDatos ->prepare("SELECT * FROM productos ORDER BY producto ASC");
+        $cat = $_POST["categoria"];
+        if($cat == "todos"){
+            $consultaProductos = $baseDeDatos ->prepare("SELECT * FROM productos ORDER BY producto ASC");    
+        }else{
+            $consultaProductos = $baseDeDatos ->prepare("SELECT * FROM productos WHERE categoria='$cat' ORDER BY producto ASC");
+        }
         $consultaProductos->execute();
         $productos = $consultaProductos -> fetchAll(PDO::FETCH_ASSOC);
     }
     if(isset($_POST["categoriaAsc"])){
-        $consultaProductos = $baseDeDatos ->prepare("SELECT * FROM productos ORDER BY categoria DESC, producto ASC");
+        $cat = $_POST["categoria"];
+        if($cat == "todos"){
+            $consultaProductos = $baseDeDatos ->prepare("SELECT * FROM productos ORDER BY categoria DESC, producto ASC");    
+        }else{
+            $consultaProductos = $baseDeDatos ->prepare("SELECT * FROM productos WHERE categoria='$cat' ORDER BY categoria DESC, producto ASC");
+        }
         $consultaProductos->execute();
         $productos = $consultaProductos -> fetchAll(PDO::FETCH_ASSOC);
     }
     if(isset($_POST["categoriaDesc"])){
-        $consultaProductos = $baseDeDatos ->prepare("SELECT * FROM productos ORDER BY categoria ASC, producto ASC");
+        $cat = $_POST["categoria"];
+        if($cat == "todos"){
+            $consultaProductos = $baseDeDatos ->prepare("SELECT * FROM productos ORDER BY categoria ASC, producto ASC");    
+        }else{
+            $consultaProductos = $baseDeDatos ->prepare("SELECT * FROM productos WHERE categoria='$cat' ORDER BY categoria ASC, producto ASC");
+        }
         $consultaProductos->execute();
         $productos = $consultaProductos -> fetchAll(PDO::FETCH_ASSOC);
     }
@@ -126,12 +145,12 @@
                                 </th> -->
                                 <th scope="col">
                                     Producto
-                                    <button name="productoDesc" onclick="resetCategoriaSeleccionada()" class="editButton">
+                                    <button name="productoDesc" class="editButton">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
                                         </svg>
                                     </button>    
-                                    <button name="productoAsc" onclick="resetCategoriaSeleccionada()" class="editButton">
+                                    <button name="productoAsc" class="editButton">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
                                         </svg>
@@ -141,12 +160,12 @@
                                 <th scope="col">Medida</th>
                                 <th scope="col">
                                     Categoria
-                                    <button name="categoriaDesc" onclick="resetCategoriaSeleccionada()" class="editButton">
+                                    <button name="categoriaDesc" class="editButton">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
                                         </svg>
                                     </button>
-                                    <button name="categoriaAsc" onclick="resetCategoriaSeleccionada()" class="editButton">
+                                    <button name="categoriaAsc" class="editButton">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
                                         </svg>

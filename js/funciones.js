@@ -126,9 +126,6 @@ function changeCategoria(){
     let select = document.getElementById("selectCategoria");
     localStorage.setItem("categoriaSeleccionada", select.value);
 }
-function resetCategoriaSeleccionada(){
-    localStorage.setItem("categoriaSeleccionada", "todos");   
-}
 function buscarProducto(){
     let buscador = document.getElementById("buscador");
     let producto = buscador.value;
