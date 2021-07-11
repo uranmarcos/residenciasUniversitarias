@@ -29,7 +29,6 @@ foreach($pedidos as $pedido){
     //     }
     // }
 };
-
 ?>
 <div class="col-12 paddingCero">
     <div class="titleSection">
@@ -92,16 +91,6 @@ foreach($pedidos as $pedido){
                                     <div class="row cajaInternaBloque" id="cajaAlimentos">
                                         <?php 
                                             echo $pedido["pedido"];
-                                            // foreach($pedido[0]["pedido"] as $producto){
-                                            //     if($producto == [] || $producto == ""){
-                                            //         echo "Pedido vacio";
-                                            //     }else{
-                                            //         if($producto["producto"]){
-                                            //             echo $producto["producto"] . ": " . $producto["cantidad"] 
-                                            //            . " ; ";
-                                            //         };
-                                            //     }
-                                            // }
                                         ?> 
                                     </div>    
                                 </div> 

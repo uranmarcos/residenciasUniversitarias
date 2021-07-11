@@ -2,8 +2,6 @@ function ocultarMensajeNewUser(){
     let cajaMensaje = document.getElementById("mensajeNewUser");
     cajaMensaje.classList.add("hidden");
 }
-
-
 function cargarPedido(){
     let inputs = document.getElementsByTagName("input");
     for(let input of inputs){
@@ -24,6 +22,8 @@ function cargarPedido(){
             inputOtros.value = "";
         }
     }   
+    let buscador = document.getElementById("buscador");
+    buscador.value="";
 }
 
 
@@ -98,6 +98,34 @@ function guardarOtros(param){
     let input = document.getElementById(param);
     let valor = input.value;
     localStorage.setItem(param, valor);
+}
+function limpiarBuscador(){
+    let buscador = document.getElementById("buscador");
+    buscador.value="";
+    let listaProductos = document.querySelectorAll(".productos");
+    for (item of listaProductos){
+       item.parentNode.classList.remove("hidden");
+    }
+}
+function buscarProducto(){
+    let buscador = document.getElementById("buscador");
+    let producto = buscador.value;
+    let listaProductos = document.querySelectorAll(".productos");
+    for (item of listaProductos){
+        if(producto.toLowerCase() == item.innerHTML.substring(0, producto.length).toLowerCase()){
+            item.parentNode.classList.remove("hidden");
+        }
+        else{
+            item.parentNode.classList.add("hidden");
+        }
+    }
+    if(producto == ""){
+        for (item of listaProductos){
+            
+                item.parentNode.classList.remove("hidden");
+         
+        }   
+    }
 }
 
 function inputFocusOn(){
