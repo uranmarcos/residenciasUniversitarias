@@ -93,9 +93,9 @@
                     <table class="table" id="tableUsuarios">
                         <thead>
                             <tr>
-                                <th scope="col">
+                                <!-- <th scope="col">
                                     Cód
-                                </th>
+                                </th> -->
                                 <th scope="col">
                                     Producto
                                     <button name="productoDesc" class="editButton">
@@ -129,9 +129,9 @@
                         <tbody>
                             <?php foreach($productos as $producto){ ?>
                                 <tr>
-                                    <td><?php echo $producto["id"] ?></td>
+                               
                                     <td><?php echo $producto["producto"] ?></td>
-                                    <td><input type="number" id="input<?php echo $producto["id"]?>" value="0" onfocus="marcarProducto()" onkeydown="limpiarInputFocus" onblur="inputFocusOut('input<?php echo $producto['id']?>')" class="cantidadProducto" name="<?php echo $producto['id']?>"></td>
+                                    <td><input type="number" min=0 id="input<?php echo $producto["id"]?>" value="0" onfocus="inputFocusOn()" onkeydown="limpiarInputFocus" onblur="inputFocusOut('input<?php echo $producto['id']?>')" class="cantidadProducto" name="<?php echo $producto['id']?>"></td>
                                     <td><?php echo $producto["medida"] ?></td>
                                     <td><?php echo $producto["categoria"] ?></td>
                                     <td> 

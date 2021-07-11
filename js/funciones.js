@@ -5,45 +5,25 @@ function ocultarMensajeNewUser(){
 
 
 function cargarPedido(){
-    console.log(localStorage);
     let inputs = document.getElementsByTagName("input");
     for(let input of inputs){
-            let id = input.id;
-            let valorGuardado = localStorage.getItem(id);
-            // posicion = localStorage + "." + el;
-            // console.log(el)
-            // console.log(posicion.value)
-            if(valorGuardado != undefined && id == "textareaOtros"){
-                if(valorGuardado != ""){
-                    input.value = valorGuardado;
-                }
+        let id = input.id;
+        let valorGuardado = localStorage.getItem(id);
+        if(valorGuardado != undefined && id == "textareaOtros"){
+            if(valorGuardado != ""){
+                input.value = valorGuardado;
             }
-            else if(valorGuardado != undefined && id!= "textareaOtros"){
-                if(valorGuardado != 0 && valorGuardado != "NaN"){
-                    input.value = valorGuardado;
-                }
-            }else{
-                input.value = 0;
-                let inputOtros= document.getElementById("textareaOtros");
-                inputOtros.value = "";
+        }
+        else if(valorGuardado != undefined && id!= "textareaOtros"){
+            if(valorGuardado != 0 && valorGuardado != "NaN"){
+                input.value = valorGuardado;
             }
-    }
-    
-    // for(let i=0; i<10; i++) {
-      
-    //     let el = inputs[i];
-    //     console.log(inputs[0])
-       
-    //     if(localStorage.el != 0 || localStorage.el != "NaN"){
-    //         i.value = localStorage.el;
-    //     }
-        
-    // }// localStorage.find(element => {
-    //     console.log(element);
-        
-    // });
-
-   
+        }else{
+            input.value = 0;
+            let inputOtros= document.getElementById("textareaOtros");
+            inputOtros.value = "";
+        }
+    }   
 }
 
 
@@ -120,11 +100,16 @@ function guardarOtros(param){
     localStorage.setItem(param, valor);
 }
 
-
+function inputFocusOn(){
+    marcarProducto();
+    if(document.activeElement.value == 0){
+        document.activeElement.value = "";
+    }
+}
 function borrarCantidad(param){
     let input = document.getElementById('input'+param)
     input.value = 0;
-    localStorage.setItem('input' + param, parseInt( valor, 10 ));
+    localStorage.setItem('input' + param, parseInt(0));
 }
 function desmarcarProducto(){
     let filas = document.getElementsByTagName("tr");
