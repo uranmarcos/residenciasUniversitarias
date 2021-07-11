@@ -1,7 +1,10 @@
+//USUARIOS SECTION
 function ocultarMensajeNewUser(){
     let cajaMensaje = document.getElementById("mensajeNewUser");
     cajaMensaje.classList.add("hidden");
 }
+
+//INICIAR PEDIDO
 function cargarPedido(){
     let inputs = document.getElementsByTagName("input");
     for(let input of inputs){
@@ -40,6 +43,11 @@ function recordarCategoriaSeleccionada(){
         }
     }
 }
+function inputFocusOut(param){
+    validarCantidad(param);
+    desmarcarProducto();
+}
+
 
 
 //FUNCIONES GENERICAS
@@ -73,31 +81,6 @@ function mostrarAlert(idAlert){
     let box = document.getElementById(idAlert);
     box.classList.remove("hidden");
 
-}
-
-
-
-
-// quito clase botones aside
-function quitarClase(selector, clase){
-    let asideBotones = document.getElementsByClassName(selector)
-    
-    for (let item of asideBotones) {
-        if(item.classList.contains(clase)){
-            item.classList.remove(clase)
-        }
-    } 
-}
-//asigno clase" boton remarcado" al boton aside seleccionado
-function activarBoton(param){
-    quitarClase("asideButton", "botonRemarcado")
-
-    let botonSeleccionado = document.getElementById(param)
-    botonSeleccionado.classList.add("botonRemarcado")
-}
-function inputFocusOut(param){
-    validarCantidad(param);
-    desmarcarProducto();
 }
 function validarCantidad(param){
     let input = document.getElementById(param);
@@ -181,7 +164,6 @@ function marcarProducto(){
     } 
     focusedElement.parentNode.parentNode.classList.add("productoSeleccionado");
 }
-//FUNCIONES PARA MOSTRAR/OCULTAR CONFIRMACION DE PEDIDO
 function mostrarConfirmarPedido(){
     
     let confirmarPedido = document.getElementById("confirmacionPedido");
@@ -203,16 +185,20 @@ function ocultarConfirmarPedido(){
 function ocultarPedidoVacio(){
     let avisoPedidoVacio = document.getElementById("avisoPedidoVacio");
     avisoPedidoVacio.classList.add("hidden");
-
+}
+function mostrarSpinner(){
+    let cajaConfirmarPedido = document.getElementById("cajaConfirmarPedido");
+    cajaConfirmarPedido.classList.add("hidden");
+    let spinner = document.getElementById("spinner");
+    spinner.classList.remove("hidden")
 }
 
 
 
-
+//HEADER
 function activarBurguer(){
     let aside = document.getElementById("asideBox");
     let main = document.getElementById("mainBox");
-
     if(aside.classList.contains("asideHidden") == false){
         aside.classList.add("asideHidden");
         main.classList.remove("mainHidden");
@@ -223,28 +209,25 @@ function activarBurguer(){
 
 }
 
-function mostrarSpinner(){
-    let cajaConfirmarPedido = document.getElementById("cajaConfirmarPedido");
-    cajaConfirmarPedido.classList.add("hidden");
-    let spinner = document.getElementById("spinner");
-    spinner.classList.remove("hidden")
+
+
+
+//SIN USO
+function quitarClase(selector, clase){
+    let asideBotones = document.getElementsByClassName(selector)
+    
+    for (let item of asideBotones) {
+        if(item.classList.contains(clase)){
+            item.classList.remove(clase)
+        }
+    } 
+}
+function activarBoton(param){
+    quitarClase("asideButton", "botonRemarcado")
+
+    let botonSeleccionado = document.getElementById(param)
+    botonSeleccionado.classList.add("botonRemarcado")
 }
 
 
 
-
-
-
-
-// let cajasSecciones = document.getElementsByClassName("opcionSection")
-
-// function mostrarSection(param){
-//     for (let item of cajasSecciones) {
-//         if(item.classList.contains("hidden") == false){
-//             item.classList.add("hidden")
-//         }
-//     } 
-//     let opcionSeleccionada = document.getElementById(param)
-//     opcionSeleccionada.classList.remove("hidden")
-
-// }
