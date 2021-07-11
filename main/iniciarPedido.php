@@ -86,7 +86,7 @@
                 <div class="table-responsive">
                     <table class="table" id="tableUsuarios">
                         <div class="row">
-                            <div class="col-12 col-lg-4 colBuscador">
+                            <div class="col-12 col-lg-5 colBuscador">
                                 <div>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
@@ -99,7 +99,7 @@
                                     </svg>
                                 </div>
                             </div>    
-                            <div class="col-12 col-lg-4 colBuscador">
+                            <div class="col-12 col-lg-5 colBuscador">
                                 <select name="categoria" onchange="changeCategoria()" id="selectCategoria">
                                     <option value="todos">Todas</opcion>
                                     <option value="alimentos" >Alimentos</opcion>
@@ -113,6 +113,11 @@
                                     </svg>
                                 </button>
                             </div> 
+                            <div class="col-12 col-lg-2 colBuscador">
+                                <button type="submit" name="reiniciarPedido" onclick="resetPedido()" class="editButton">
+                                   Reiniciar
+                                </button>
+                            </div> 
                         </div>
                         <thead>
                             <tr>
@@ -121,12 +126,12 @@
                                 </th> -->
                                 <th scope="col">
                                     Producto
-                                    <button name="productoDesc" class="editButton">
+                                    <button name="productoDesc" onclick="resetCategoriaSeleccionada()" class="editButton">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
                                         </svg>
                                     </button>    
-                                    <button name="productoAsc" class="editButton">
+                                    <button name="productoAsc" onclick="resetCategoriaSeleccionada()" class="editButton">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
                                         </svg>
@@ -136,12 +141,12 @@
                                 <th scope="col">Medida</th>
                                 <th scope="col">
                                     Categoria
-                                    <button name="categoriaDesc" class="editButton">
+                                    <button name="categoriaDesc" onclick="resetCategoriaSeleccionada()" class="editButton">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
                                         </svg>
                                     </button>
-                                    <button name="categoriaAsc" class="editButton">
+                                    <button name="categoriaAsc" onclick="resetCategoriaSeleccionada()" class="editButton">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
                                         </svg>

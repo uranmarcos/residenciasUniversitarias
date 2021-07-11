@@ -26,10 +26,11 @@ function cargarPedido(){
     buscador.value="";
     recordarCategoriaSeleccionada();
 }
-
+function resetPedido(){
+    localStorage.clear();
+}
 function recordarCategoriaSeleccionada(){
     let cat = localStorage.getItem("categoriaSeleccionada");
-    console.log(cat);
     let opciones = document.getElementsByTagName("option");
     for (opcion of opciones){
         if(opcion.value != cat){
@@ -124,7 +125,9 @@ function limpiarBuscador(){
 function changeCategoria(){
     let select = document.getElementById("selectCategoria");
     localStorage.setItem("categoriaSeleccionada", select.value);
-    console.log(localStorage)
+}
+function resetCategoriaSeleccionada(){
+    localStorage.setItem("categoriaSeleccionada", "todos");   
 }
 function buscarProducto(){
     let buscador = document.getElementById("buscador");
