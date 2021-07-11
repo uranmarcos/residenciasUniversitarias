@@ -54,6 +54,11 @@ if(isset($_POST["categoriaDesc"])){
     $mostrarBloque = "block";
     $bloque = "main/iniciarPedido.php";
 }
+if(isset($_POST["filtrarCategorias"])){
+    $mostrarInicio = "none";
+    $mostrarBloque = "block";
+    $bloque = "main/iniciarPedido.php";
+}
 
 //BOTONES ADMIN
 if(isset($_POST["adminSedes"])){

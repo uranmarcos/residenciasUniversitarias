@@ -31,22 +31,16 @@
         $consultaProductos->execute();
         $productos = $consultaProductos -> fetchAll(PDO::FETCH_ASSOC);
     }
-
-    $consultaAlimentos = $baseDeDatos ->prepare("SELECT * FROM productos WHERE categoria='alimentos' ORDER BY producto ASC");
-    $consultaAlimentos->execute();
-    $alimentos = $consultaAlimentos -> fetchAll(PDO::FETCH_ASSOC);
-
-    $consultaMerienda = $baseDeDatos ->prepare("SELECT * FROM productos WHERE categoria='merienda' ORDER BY producto ASC");
-    $consultaMerienda->execute();
-    $meriendas = $consultaMerienda -> fetchAll(PDO::FETCH_ASSOC);
-
-    $consultaUsoPersonal = $baseDeDatos ->prepare("SELECT * FROM productos WHERE categoria='uso personal' ORDER BY producto ASC");
-    $consultaUsoPersonal->execute();
-    $usosPersonales = $consultaUsoPersonal -> fetchAll(PDO::FETCH_ASSOC);
-
-    $consultaLimpieza = $baseDeDatos ->prepare("SELECT * FROM productos WHERE categoria='limpieza'");
-    $consultaLimpieza->execute();
-    $limpieza = $consultaLimpieza -> fetchAll(PDO::FETCH_ASSOC);
+    if(isset($_POST["filtrarCategorias"])){
+        $cat = $_POST["categoria"];
+        if($cat == "todos"){
+            $consultaProductos = $baseDeDatos ->prepare("SELECT * FROM productos ORDER BY producto ASC");    
+        }else{
+           $consultaProductos = $baseDeDatos ->prepare("SELECT * FROM productos WHERE categoria='$cat' ORDER BY producto ASC");
+        }
+        $consultaProductos->execute();
+        $productos = $consultaProductos -> fetchAll(PDO::FETCH_ASSOC);
+    }
 ?>
 <script>
     function pulsar(e) {
@@ -91,18 +85,34 @@
                 </div>    
                 <div class="table-responsive">
                     <table class="table" id="tableUsuarios">
-                        <div class="rowBuscador">
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                                </svg>
-                            </div>
-                            <input type="textarea" onkeyup="buscarProducto()" id="buscador" value ="">
-                            <div class="editButton" onclick="limpiarBuscador()">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg m-1" viewBox="0 0 16 16">
-                                    <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
-                                </svg>
-                            </div>
+                        <div class="row">
+                            <div class="col-12 col-lg-4 colBuscador">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                                    </svg>
+                                </div>
+                                <input type="textarea" onkeyup="buscarProducto()" id="buscador" value ="">
+                                <div class="editButton" onclick="limpiarBuscador()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg m-1" viewBox="0 0 16 16">
+                                        <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
+                                    </svg>
+                                </div>
+                            </div>    
+                            <div class="col-12 col-lg-4 colBuscador">
+                                <select name="categoria" onchange="changeCategoria()" id="selectCategoria">
+                                    <option value="todos">Todas</opcion>
+                                    <option value="alimentos" >Alimentos</opcion>
+                                    <option value="merienda">Desayuno/merienda</opcion>
+                                    <option value="limpieza">Limpieza</opcion>
+                                    <option value="usoPersonal">Uso Personal</opcion>
+                                </select>   
+                                <button type="submit" name="filtrarCategorias" class="editButton">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+                                        <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+                                    </svg>
+                                </button>
+                            </div> 
                         </div>
                         <thead>
                             <tr>

@@ -24,6 +24,20 @@ function cargarPedido(){
     }   
     let buscador = document.getElementById("buscador");
     buscador.value="";
+    recordarCategoriaSeleccionada();
+}
+
+function recordarCategoriaSeleccionada(){
+    let cat = localStorage.getItem("categoriaSeleccionada");
+    console.log(cat);
+    let opciones = document.getElementsByTagName("option");
+    for (opcion of opciones){
+        if(opcion.value != cat){
+            opcion.removeAttribute("selected");
+        }else{
+            opcion.setAttribute("selected", true);
+        }
+    }
 }
 
 
@@ -107,6 +121,11 @@ function limpiarBuscador(){
        item.parentNode.classList.remove("hidden");
     }
 }
+function changeCategoria(){
+    let select = document.getElementById("selectCategoria");
+    localStorage.setItem("categoriaSeleccionada", select.value);
+    console.log(localStorage)
+}
 function buscarProducto(){
     let buscador = document.getElementById("buscador");
     let producto = buscador.value;
@@ -127,7 +146,6 @@ function buscarProducto(){
         }   
     }
 }
-
 function inputFocusOn(){
     marcarProducto();
     if(document.activeElement.value == 0){

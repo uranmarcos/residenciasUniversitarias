@@ -57,7 +57,10 @@
 #buscador{
     margin:0 10px;
 }
-.rowBuscador{
+#selectCategoria{
+    margin:0 10px;
+}
+.colBuscador{
     display:flex;
     flex-direction: row;
     align-items: center;
@@ -563,7 +566,16 @@ main{
     border: solid 1px grey;
 }
 
+@media (max-width: 992px) {
+    .colBuscador{
+        margin:5px 0;
+        padding: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
+    }
+}
 @media (max-width: 767px) {
    /* aside{
        display: none;
