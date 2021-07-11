@@ -131,7 +131,7 @@
                                 <tr>
                                     <td><?php echo $producto["id"] ?></td>
                                     <td><?php echo $producto["producto"] ?></td>
-                                    <td><input type="number" id="input<?php echo $producto["id"]?>" value="0" onfocus="marcarProducto()" onblur="inputFocusOut('input<?php echo $producto['id']?>')" class="cantidadProducto" name="<?php echo $producto['id']?>"></td>
+                                    <td><input type="number" id="input<?php echo $producto["id"]?>" value="0" onfocus="marcarProducto()" onkeydown="limpiarInputFocus" onblur="inputFocusOut('input<?php echo $producto['id']?>')" class="cantidadProducto" name="<?php echo $producto['id']?>"></td>
                                     <td><?php echo $producto["medida"] ?></td>
                                     <td><?php echo $producto["categoria"] ?></td>
                                     <td> 
@@ -148,7 +148,7 @@
                     <div class="row cajaInternaBloque" id="cajaOtros">
                         <div class="centrarTexto">¿Falta algo en el listado?</div>
                             <div class="row anchoTotal">
-                                <input  type="textarea" id="textareaOtros" class="textarea" autocomplete="off" name="otros" for="producto">    
+                                <input  type="textarea" id="textareaOtros" class="textarea" autocomplete="off" onblur="guardarOtros('textareaOtros')" name="otros" for="producto">    
                             </div>    
                         </div> 
                     </div>
@@ -164,3 +164,6 @@
         </div>
     </div>
 </div>
+<script>
+    cargarPedido();
+</script>

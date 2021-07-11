@@ -14,6 +14,9 @@ if($_POST){
 
 
 ?>
+<script>
+    localStorage.clear();
+</script>
 <!DOCTYPE html>
 <html>
 <head>

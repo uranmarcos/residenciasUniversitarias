@@ -3,6 +3,50 @@ function ocultarMensajeNewUser(){
     cajaMensaje.classList.add("hidden");
 }
 
+
+function cargarPedido(){
+    console.log(localStorage);
+    let inputs = document.getElementsByTagName("input");
+    for(let input of inputs){
+            let id = input.id;
+            let valorGuardado = localStorage.getItem(id);
+            // posicion = localStorage + "." + el;
+            // console.log(el)
+            // console.log(posicion.value)
+            if(valorGuardado != undefined && id == "textareaOtros"){
+                if(valorGuardado != ""){
+                    input.value = valorGuardado;
+                }
+            }
+            else if(valorGuardado != undefined && id!= "textareaOtros"){
+                if(valorGuardado != 0 && valorGuardado != "NaN"){
+                    input.value = valorGuardado;
+                }
+            }else{
+                input.value = 0;
+                let inputOtros= document.getElementById("textareaOtros");
+                inputOtros.value = "";
+            }
+    }
+    
+    // for(let i=0; i<10; i++) {
+      
+    //     let el = inputs[i];
+    //     console.log(inputs[0])
+       
+    //     if(localStorage.el != 0 || localStorage.el != "NaN"){
+    //         i.value = localStorage.el;
+    //     }
+        
+    // }// localStorage.find(element => {
+    //     console.log(element);
+        
+    // });
+
+   
+}
+
+
 //FUNCIONES GENERICAS
 function ocultarCaja(id, id2){
     let caja = document.getElementById(id);
@@ -63,18 +107,25 @@ function inputFocusOut(param){
 function validarCantidad(param){
     let input = document.getElementById(param);
     let valor = input.value;
-    if(valor == ""){
+    if(valor == "" ){
         input.value = 0;
     }else{
         input.value = parseInt( valor, 10 )
     }
+    localStorage.setItem(param, parseInt( valor, 10 ));
+}
+function guardarOtros(param){
+    let input = document.getElementById(param);
+    let valor = input.value;
     localStorage.setItem(param, valor);
 }
+
+
 function borrarCantidad(param){
     let input = document.getElementById('input'+param)
     input.value = 0;
+    localStorage.setItem('input' + param, parseInt( valor, 10 ));
 }
-
 function desmarcarProducto(){
     let filas = document.getElementsByTagName("tr");
     for (let fila of filas) {
@@ -82,6 +133,12 @@ function desmarcarProducto(){
             fila.classList.remove("productoSeleccionado");
         }
     } 
+}
+function limpiarInputFocus(){
+    let focusedElement = document.activeElement;  
+    if(focusedElement.value == 0){
+        focusedElement.value="";
+    }
 }
 function marcarProducto(){
     let focusedElement = document.activeElement;  
@@ -91,9 +148,7 @@ function marcarProducto(){
             fila.classList.remove("productoSeleccionado");
         }
     } 
-
     focusedElement.parentNode.parentNode.classList.add("productoSeleccionado");
-   
 }
 //FUNCIONES PARA MOSTRAR/OCULTAR CONFIRMACION DE PEDIDO
 function mostrarConfirmarPedido(){

@@ -145,28 +145,10 @@ if(isset($_POST["newUser"])){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-if(isset($_POST["modificarPedido"])){
-    header("Location: pedido.php");
-}
-// if(isset($_POST["crearUsuario"])){
-//     header("Location: admin.php");
-// }
 if(isset($_POST["crearArticulo"])){
     header("Location: admin.php");
 }
 $pedido = [];
-
 $mostrarPedido = "none";
 $mensajePedido = "";
 if(isset($_POST["confirmar"])){

@@ -72,9 +72,8 @@ function enviarMail(){
 function enviarMail2(){
      //----PEDIDO QUE SE GENERA
     $pedido = [];
-    // var_dump($_POST);
     foreach($_POST as $producto => $cantidad){
-        if($cantidad != 0){
+        if($cantidad != 0 && $producto["id"] != "otros"){
             $p = [];
             $p["id"] = $producto;
             $p["cantidad"]= $cantidad;
@@ -93,7 +92,6 @@ function enviarMail2(){
     $pedidoMail = $_SESSION["sede"] . " - Casa " . $_SESSION["casa"] . " - " . $_SESSION["name"] . " " . $_SESSION["apellido"] . "<br>";
         // $day . "/" . $month . "/" . $year . " - " . "<br>";
     $listado = "";
-    var_dump($pedido);
     foreach($pedido as $p){
         if($p["id"] != "Otros"){
             $key = array_search($p["id"], array_column($_SESSION["productos"], "id"));
@@ -101,7 +99,7 @@ function enviarMail2(){
             $listado = $listado . $prod["producto"] . ": " . $p["cantidad"] . " " . $prod["medida"] . ",<br>"; 
         }
         if($p["id"] == "Otros"){
-            $listado = $listado . $prod["producto"] . ": " . $p["cantidad"] . ",<br>"; 
+            $listado = $listado . "Otros: " . $p["cantidad"] . ",<br>"; 
         }
     }
     $message = $pedidoMail . $listado;
