@@ -65,6 +65,8 @@ function validarCantidad(param){
     let valor = input.value;
     if(valor == ""){
         input.value = 0;
+    }else{
+        input.value = parseInt( valor, 10 )
     }
     localStorage.setItem(param, valor);
 }
