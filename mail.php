@@ -49,16 +49,38 @@ $phpmailer->Body .= "<p>Fecha y Hora: ".date("d-m-Y h:i:s")."</p>";
 $phpmailer->IsHTML(true);
 
 // $phpmailer->Send();
+//desbloquear lo siguiente
+// $phpmailer->smtpConnect([
+//     'ssl' => [
+//          'verify_peer' => false,
+//          'verify_peer_name' => false,
+//          'allow_self_signed' => true
+//      ]
+//  ]);
 
-$phpmailer->smtpConnect([
-    'ssl' => [
-         'verify_peer' => false,
-         'verify_peer_name' => false,
-         'allow_self_signed' => true
-     ]
- ]);
+try {
+    $phpmailer->smtpConnect([
+            'ssl' => [
+                 'verify_peer' => false,
+                 'verify_peer_name' => false,
+                 'allow_self_signed' => true
+             ]
+         ]);
+} catch (\Throwable $th) {
+    header("Location: error.php");
+}
+
+
+
+
+
+
 if(!$phpmailer->send()) {   
     // header("Location: error.php");
     echo 'Mailer error: ' . $phpmailer->ErrorInfo; 
-} 
+}
+
+
+
+
 // else {   echo 'Message enviado con éxito.'; }

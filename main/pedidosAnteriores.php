@@ -6,7 +6,9 @@ $pedidos = json_decode($data, true);
 foreach($pedidos as $pedido){
     if($pedido[0]["sede"] == $_SESSION["sede"]){
         $pedidoMail = [];
+            $pedidoMail["id"] = $pedido[0]["id"];
             $pedidoMail["fecha"] = $pedido[0]["fecha"];
+            $pedidoMail["nombre"] = $pedido[0]["nombre"];
             $pedidoMail["pedido"] = $pedido[0]["pedido"];
             array_push($pedidosPorSede, $pedidoMail);
         
@@ -51,7 +53,7 @@ foreach($pedidos as $pedido){
                     <div class="accordion" id="accordionAlimentos">
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingOne">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAlimentos" aria-expanded="true" aria-controls="collapseAlimentos">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePedido<?php echo $pedido['id']?>" aria-expanded="true" aria-controls="collapsePedido<?php echo $pedido['id']?>">
                                     <?php 
                                         $day = $pedido["fecha"]["mday"];
                                         $month = $pedido["fecha"]["month"];
@@ -82,11 +84,11 @@ foreach($pedidos as $pedido){
                                         }else{
                                             $mes = "Diciembre";
                                         }
-                                        echo($day . "/" . $mes . "/" . $year . " - " . $_SESSION["name"] . " " . $_SESSION["apellido"]);
+                                        echo($day . "/" . $mes . "/" . $year . " - Realizado por: " . $pedido["nombre"]);
                                     ?>
                                 </button>
                             </h2>
-                            <div id="collapseAlimentos" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionAlimentos">
+                            <div id="collapsePedido<?php echo $pedido['id']?>" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionAlimentos">
                                 <div class="accordion-body">
                                     <div class="row cajaInternaBloque" id="cajaAlimentos">
                                         <?php 

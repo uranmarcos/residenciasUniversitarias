@@ -26,6 +26,7 @@
                         <th scope="col">Número</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Apellido</th>
+                        <th scope="col">Dni</th>
                         <th scope="col">Rol</th>
                         <th scope="col">Sede</th>
                         <th scope="col">Casa</th>
@@ -41,6 +42,7 @@
                                 <td><?php echo $usuario["id"] ?></td>
                                 <td><?php echo $usuario["nombre"] ?></td>
                                 <td><?php echo $usuario["apellido"] ?></td>
+                                <td><?php echo $usuario["dni"] ?></td>
                                 <td><?php echo $usuario["rol"] ?></td>
                                 <td><?php echo $usuario["sede"] ?></td>
                                 <td><?php echo $usuario["casa"] ?></td>
