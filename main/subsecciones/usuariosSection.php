@@ -82,34 +82,53 @@
                     Debe completar todos los campos
                 </div>
                 <div class="row justify-content-between">
-                    <label class="col-5" > Nombre: </label>
-                    <label class="col-6" > Apellido: </label>               
+                    <div class="col-12 col-md-6">
+                        <label class="labelForm"> Nombre: </label>
+                        <input class="campoFormNewUser" id="inputName" name="nombre">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="labelForm"> Apellido: </label>               
+                        <input class="campoFormNewUser" name="apellido">  
+                    </div>
                 </div>
-                <div class="row justify-content-between">
+                <!-- <div class="row justify-content-between">
                     <input class="col-5 campoFormNewUser" id="inputName" name="nombre">
                     <input class="col-6 campoFormNewUser" name="apellido">                              
-                </div>
+                </div> -->
                 <div class="row justify-content-between">
-                    <label class="col-5" > Mail: </label>
-                    <label class="col-6" > Sede: </label>
+                    <div class="col-12 col-md-6">
+                        <label class="labelForm"> Mail: </label>
+                        <input class="campoFormNewUser" name="mail">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="labelForm"> Sede: </label>
+                        <input class="campoFormNewUser" name="sede">
+                    </div>
                 </div>
+            
                 <div class="row justify-content-between">
-                    <input class="col-5 campoFormNewUser" name="mail">
-                    <input class="col-6 campoFormNewUser" name="sede">
-                </div>
-                <div class="row justify-content-between">
-                    <label class="col-3" > DNI: </label>
-                    <label class="col-3" > Rol: </label>
-                    <label class="col-3" > Casa: </label>
+                    <div class="col-12 col-md-4">
+                        <label class="labelForm"> DNI: </label>
+                        <input class="campoFormNewUser" name="dni">
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <label class="labelForm"> Rol: </label>
+                        <select class=" campoFormNewUser" name="rol">
+                            <option value="">Seleccionar</option>
+                            <option value="voluntario">Voluntario</option>
+                            <option value="admin">Admin</option>
+                        </select>  
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <label class="labelForm"> Casa: </label>
+                        <input type="number" value="1" min="1" class="campoFormNewUser" name="casa">
+                    </div>
+    
                 </div> 
                 <div class="row justify-content-between">
-                    <input class="col-3 campoFormNewUser" name="dni">
-                    <select class="col-3 campoFormNewUser" name="rol">
-                        <option value="">Seleccionar</option>
-                        <option value="voluntario">Voluntario</option>
-                        <option value="admin">Admin</option>
-                    </select>  
-                    <input type="number" value="1" min="1" class="col-3" name="casa">
+                    
+                   
+                    
                 </div> 
                 <div class="row rowConfirmar mt-3 justify-content-around">
                     <button type="submit" name="cancelCrearUsuario" class="button">Cancelar</button>

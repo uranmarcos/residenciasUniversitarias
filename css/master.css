@@ -39,6 +39,12 @@
     background-color: lightgray;
     padding: 5px;
 }
+.labelForm{
+    width: 100px;
+}
+.campoFormNewUser{
+    width: 100%;
+}
 .colBuscador{
     display:flex;
     flex-direction: row;
