@@ -156,6 +156,7 @@ function limpiarInputFocus(){
 }
 function marcarProducto(){
     let focusedElement = document.activeElement;  
+    
     let filas = document.getElementsByTagName("tr");
     for (let fila of filas) {
         if(fila.classList.contains("productoSeleccionado") == true){

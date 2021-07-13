@@ -35,11 +35,23 @@
 #selectCategoria{
     margin:0 10px;
 }
+.bg-grey{
+    background-color: lightgray;
+    padding: 5px;
+}
 .colBuscador{
     display:flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
+}
+.botonReiniciar{
+    height:20px;
+    color: rgb(53, 52, 52);
+    line-height: 20px;
+}
+.botonReiniciar:hover{
+    color: white;
 }
 .navAdmin{
     margin: 0 20px;
@@ -350,15 +362,20 @@ main{
     justify-content: center;
 }
 
-
+.productoSeleccionado{
+    background-color: lightgray;
+}
 
 .accordion-header{
-    background-color: rgb(163, 73, 164);
+    background-color: rgb(163, 73, 164); */
+    border-radius: 5px;
 }
 .accordion-button:not(.collapsed) {
     color: white;
+    border-radius: 5px;
     background-color: rgb(163, 73, 164);
 }
+
 .accordion-button:focus {
     z-index: 3;
     border-color: grey;
@@ -367,6 +384,7 @@ main{
 }
 .accordion-button{
     color: white;
+    border-radius: 5px;
     background-color: rgb(163, 73, 164);
 }
 .accordion-body{
