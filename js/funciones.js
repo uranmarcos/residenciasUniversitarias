@@ -3,6 +3,17 @@ function ocultarMensajeNewUser(){
     let cajaMensaje = document.getElementById("mensajeNewUser");
     cajaMensaje.classList.add("hidden");
 }
+function cargarSede(){
+    let selectSede = document.getElementById("selectSede");
+    selectSede.value = localStorage.getItem("sedeSeleccionada");
+}
+function changeSede(){
+    let select = document.getElementById("selectSede");
+    localStorage.setItem("sedeSeleccionada", select.value);
+}
+function resetSede(){
+    localStorage.setItem("sedeSeleccionada", "todos");
+}
 
 //INICIAR PEDIDO
 function cargarPedido(){
@@ -25,7 +36,7 @@ function cargarPedido(){
             inputOtros.value = "";
         }
     }   
-    let buscador = document.getElementById("buscador");
+    let buscador = document.getElementById("buscadorProducto");
     buscador.value="";
     recordarCategoriaSeleccionada();
 }
@@ -97,8 +108,8 @@ function guardarOtros(param){
     let valor = input.value;
     localStorage.setItem(param, valor);
 }
-function limpiarBuscador(){
-    let buscador = document.getElementById("buscador");
+function limpiarBuscador(id){
+    let buscador = document.getElementById(id);
     buscador.value="";
     let listaProductos = document.querySelectorAll(".productos");
     for (item of listaProductos){
@@ -110,7 +121,7 @@ function changeCategoria(){
     localStorage.setItem("categoriaSeleccionada", select.value);
 }
 function buscarProducto(){
-    let buscador = document.getElementById("buscador");
+    let buscador = document.getElementById("buscadorProducto");
     let producto = buscador.value;
     let listaProductos = document.querySelectorAll(".productos");
     for (item of listaProductos){
@@ -129,6 +140,23 @@ function buscarProducto(){
         }   
     }
 }
+function buscarUsuario(){
+    let buscador = document.getElementById("buscadorUsuario");
+    let usuario = buscador.value;
+ 
+    let listadoFilas = document.querySelectorAll(".filaUsuario");
+    for(item of listadoFilas){
+        if(usuario.toLowerCase() == item.firstElementChild.innerHTML.substring(0, usuario.length).toLowerCase() ||
+            usuario.toLowerCase() == item.firstElementChild.nextElementSibling.innerHTML.substring(0, usuario.length).toLowerCase() ||
+            usuario.toLowerCase() == item.firstElementChild.nextElementSibling.nextElementSibling.innerHTML.substring(0, usuario.length).toLowerCase()){
+            item.classList.remove("hidden");
+        }
+        else{
+            item.classList.add("hidden");
+        }
+    }
+}
+
 function inputFocusOn(){
     marcarProducto();
     if(document.activeElement.value == 0){

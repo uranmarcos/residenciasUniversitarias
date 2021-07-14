@@ -10,6 +10,8 @@ $bloqueAdmin="hidden";
 $cajaMensajeConfirmacion="hidden";
 $subSeccionAdmin="";
 $ABMUserTitle = "";
+$ABMUserButton = "";
+$ABMUserAccion = "";
 //BOTONES ASIDE
 if(isset($_POST["cerrarSesion"])){
     header("Location: destroy.php");
@@ -34,6 +36,8 @@ if(isset($_POST["iniciarPedido"])){
     $mostrarBloque = "block";
     $bloque = "main/iniciarPedido.php";
 }
+
+//BOTONES INICIAR PEDIDO
 if(isset($_POST["productoAsc"])){
     $mostrarInicio = "none";
     $mostrarBloque = "block";
@@ -97,35 +101,6 @@ if(isset($_POST["adminArticulos"])){
     $bloque = "main/admin.php";
     $subSeccionAdmin = "main/subsecciones/articulosSection.php";
 }
-if(isset($_POST["crearUsuario"])){
-    $mostrarInicio = "none";
-    $mostrarBloque = "block";
-    $bloqueAdmin ="";
-    $bloque = "main/admin.php";
-    $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
-    $mostrarListadoUsuarios = "hidden";
-    $mostrarABMUsuarios = "block";    
-    $ABMUserTitle = "Crear usuario";
-}
-if(isset($_POST["editarUsuario"])){
-    $mostrarInicio = "none";
-    $mostrarBloque = "block";
-    $bloqueAdmin ="";
-    $bloque = "main/admin.php";
-    $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
-    $mostrarListadoUsuarios = "hidden";
-    $mostrarABMUsuarios = "block";    
-    $ABMUserTitle = "Editar usuario";
-}
-if(isset($_POST["cancelCrearUsuario"])){
-    $mostrarInicio = "none";
-    $mostrarBloque = "block";
-    $bloqueAdmin ="";
-    $bloque = "main/admin.php";
-    $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
-    $mostrarListadoUsuarios = "block";
-    $mostrarABMUsuarios = "hidden";    
-}
 if(isset($_POST["newUser"])){
     $nombre = $_POST["nombre"];
     $apellido = $_POST["apellido"];
@@ -151,6 +126,58 @@ if(isset($_POST["newUser"])){
     $cajaMensajeConfirmacion="";
     $mostrarListadoUsuarios = "block";
     $mostrarABMUsuarios = "hidden";
+}
+if(isset($_POST["nameAsc"]) || 
+    (isset($_POST["nameDesc"])) ||
+    (isset($_POST["apellidoAsc"])) ||
+    (isset($_POST["apellidoDesc"])) ||
+    (isset($_POST["dniAsc"])) ||
+    (isset($_POST["dniDesc"])) ||
+    (isset($_POST["sedeAsc"])) ||
+    (isset($_POST["sedeDesc"])) ||
+    (isset($_POST["filtrarSede"]))
+    ){
+    $mostrarInicio = "none";
+    $mostrarBloque = "block";
+    $bloqueAdmin ="";
+    $bloque = "main/admin.php";
+    $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
+    $mostrarListadoUsuarios = "block";
+    $mostrarABMUsuarios = "hidden";
+}
+if(isset($_POST["crearUsuario"])){
+    $mostrarInicio = "none";
+    $mostrarBloque = "block";
+    $bloqueAdmin ="";
+    $bloque = "main/admin.php";
+    $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
+    $mostrarListadoUsuarios = "hidden";
+    $mostrarABMUsuarios = "block";    
+    $ABMUserTitle = "Crear usuario";
+    $ABMUserButton = "newUser";
+    $ABMUserAccion = "creación";
+}
+
+if(isset($_POST["editarUsuario"])){
+    $mostrarInicio = "none";
+    $mostrarBloque = "block";
+    $bloqueAdmin ="";
+    $bloque = "main/admin.php";
+    $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
+    $mostrarListadoUsuarios = "hidden";
+    $mostrarABMUsuarios = "block";    
+    $ABMUserTitle = "Editar usuario";
+    $ABMUserButton = "editUser";
+    $ABMUserAccion = "edición";
+}
+if(isset($_POST["cancelCrearUsuario"])){
+    $mostrarInicio = "none";
+    $mostrarBloque = "block";
+    $bloqueAdmin ="";
+    $bloque = "main/admin.php";
+    $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
+    $mostrarListadoUsuarios = "block";
+    $mostrarABMUsuarios = "hidden";    
 }
 
 
