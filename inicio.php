@@ -6,73 +6,92 @@ require("funciones/funciones.php");
 
 $bloque = "main/inicioLogo.php";
 $bloqueAdmin="hidden";
+$title= "";
+$mostrarTitle = "none";
 $cajaMensajeConfirmacion="hidden";
 $subSeccionAdmin="";
-$ABMUserTitle = "";
-$ABMUserButton = "";
-$ABMUserAccion = "";
+$mensajeConfirmacionAccion = "";
 //BOTONES ASIDE
 if(isset($_POST["cerrarSesion"])){
     header("Location: destroy.php");
 }
 if(isset($_POST["perfil"])){
+    $mostrarTitle = "block";
+    $title= "Mi perfil";
     $bloque = "main/perfil.php";
 }
 if(isset($_POST["admin"])){
+    $mostrarTitle = "block";
+    $title= "Admin";
     $bloque = "main/admin.php";
 }
 if(isset($_POST["pedidosAnteriores"])){
+    $mostrarTitle = "block";
+    $title= "Pedidos realizados - " . $_SESSION["sede"] . " - Casa" . $_SESSION["casa"];
     $bloque = "main/pedidosAnteriores.php";
 }
 if(isset($_POST["iniciarPedido"])){
+    $mostrarTitle = "block";
+    $title= "Generar pedido";
     $bloque = "main/iniciarPedido.php";
 }
 
 //BOTONES INICIAR PEDIDO
 if(isset($_POST["productoAsc"])){
+    $mostrarTitle = "block";
+    $title= "Generar pedido";
     $bloque = "main/iniciarPedido.php";
 }
 if(isset($_POST["productoDesc"])){
+    $mostrarTitle = "block";
+    $title= "Generar pedido";
     $bloque = "main/iniciarPedido.php";
 }
 if(isset($_POST["categoriaAsc"])){
+    $mostrarTitle = "block";
+    $title= "Generar pedido";
     $bloque = "main/iniciarPedido.php";
 }
 if(isset($_POST["categoriaDesc"])){
-    $mostrarInicio = "none";
-    $mostrarBloque = "block";
+    $mostrarTitle = "block";
+    $title= "Generar pedido";
     $bloque = "main/iniciarPedido.php";
 }
 if(isset($_POST["filtrarCategorias"])){
+    $mostrarTitle = "block";
+    $title= "Generar pedido";
     $bloque = "main/iniciarPedido.php";
 }
 if(isset($_POST["reiniciarPedido"])){
+    $mostrarTitle = "block";
+    $title= "Generar pedido";   
     $bloque = "main/iniciarPedido.php";
 }
 
 
 //BOTONES ADMIN
 if(isset($_POST["adminSedes"])){
-    $bloque = "main/admin.php";
-    $bloqueAdmin ="";
-    $subSeccionAdmin = "main/subsecciones/sedesSection.php";
+    $mostrarTitle = "block";
+    $title= "Admin - Sedes";
+    $bloque = "main/admin/adminSedes.php";
 }
 if(isset($_POST["adminCategorias"])){
-    $bloque = "main/admin.php";
-    $bloqueAdmin ="";
-    $subSeccionAdmin = "main/subsecciones/categoriasSection.php";
+    $mostrarTitle = "block";
+    $title= "Admin - Categorias";
+    $bloque = "main/admin/adminCategorias.php";
 }
 if(isset($_POST["adminUsuarios"])){
-    $bloqueAdmin ="";
-    $bloque = "main/admin.php";
-    $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
-    $mostrarListadoUsuarios = "block";
-    $mostrarABMUsuarios = "hidden";
+    $mostrarTitle = "block";
+    $title= "Admin - Usuarios";
+    $bloque = "main/admin/adminListadoUsuarios.php";
 }
 if(isset($_POST["adminArticulos"])){
-    $bloqueAdmin ="";
-    $bloque = "main/admin.php";
-    $subSeccionAdmin = "main/subsecciones/articulosSection.php";
+    $mostrarTitle = "block";
+    $title= "Admin - Articulos";
+    $bloque = "main/admin/adminListadoArticulos.php";
+    // $bloqueAdmin ="";
+    // $bloque = "main/admin.php";
+    // $subSeccionAdmin = "main/subsecciones/articulosSection.php";
 }
 if(isset($_POST["newUser"])){
     $nombre = $_POST["nombre"];
@@ -91,12 +110,11 @@ if(isset($_POST["newUser"])){
         $mensajeUsuario = $exception;
         return;
     }
-    $bloqueAdmin ="";
-    $bloque = "main/admin.php";
-    $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
+    $mostrarTitle = "block";
+    $title= "Admin - Usuarios";
+    $bloque = "main/admin/adminListadoUsuarios.php";
     $cajaMensajeConfirmacion="";
-    $mostrarListadoUsuarios = "block";
-    $mostrarABMUsuarios = "hidden";
+    $mensajeConfirmacionAccion = "El usuario se creó correctamente!";
 }
 if(isset($_POST["nameAsc"]) || 
     (isset($_POST["nameDesc"])) ||
@@ -108,38 +126,74 @@ if(isset($_POST["nameAsc"]) ||
     (isset($_POST["sedeDesc"])) ||
     (isset($_POST["filtrarSede"]))
     ){
-    $bloqueAdmin ="";
-    $bloque = "main/admin.php";
-    $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
-    $mostrarListadoUsuarios = "block";
-    $mostrarABMUsuarios = "hidden";
+    $mostrarTitle = "block";
+    $title= "Admin - Usuarios";
+    $bloque = "main/admin/adminListadoUsuarios.php";
 }
 if(isset($_POST["crearUsuario"])){
-    $bloqueAdmin ="";
-    $bloque = "main/admin.php";
-    $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
-    $mostrarListadoUsuarios = "hidden";
-    $mostrarABMUsuarios = "block";    
-    $ABMUserTitle = "Crear usuario";
-    $ABMUserButton = "newUser";
-    $ABMUserAccion = "creación";
+    $mostrarTitle = "block";
+    $title= "Admin - Usuarios";
+    $bloque = "main/admin/adminCrearUsuario.php";
 }
 if(isset($_POST["editarUsuario"])){
-    $bloqueAdmin ="";
-    $bloque = "main/admin.php";
-    $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
-    $mostrarListadoUsuarios = "hidden";
-    $mostrarABMUsuarios = "block";    
-    $ABMUserTitle = "Editar usuario";
-    $ABMUserButton = "editUser";
-    $ABMUserAccion = "edición";
+    $mostrarTitle = "block";
+    $title= "Admin - Usuarios";
+    $bloque = "main/admin/adminEditarUsuario.php";
+}
+if(isset($_POST["editUser"])){
+    $id = $_POST["inputId"];
+    $nombre = $_POST["nombre"];
+    $apellido = $_POST["apellido"];
+    $dni = $_POST["dni"];
+    $sede = $_POST["sede"];
+    $casa = $_POST["casa"];
+    $rol = $_POST["rol"];
+    $mail = $_POST["mail"];
+    try{
+        $consulta = $baseDeDatos ->prepare("UPDATE usuarios SET
+            mail = '$mail',
+            rol = '$rol',
+            nombre = '$nombre',
+            apellido ='$apellido',
+            dni = '$dni',
+            sede = '$sede',
+            casa = '$casa'
+            WHERE
+            id = '$id'
+            ");
+        $consulta->execute();
+    }catch(Exception $exception){
+        $exception = "UPS, hubo error y el usuario no pudo modificarse! Por favor intentalo nuevamente";   
+        $mensajeUsuario = $exception;
+        return;
+    }
+    $mostrarTitle = "block";
+    $title= "Admin - Usuarios";
+    $bloque = "main/admin/adminListadoUsuarios.php";
+    $cajaMensajeConfirmacion="";
+    $mensajeConfirmacionAccion = "El usuario se modificó correctamente!";
+}
+if(isset($_POST["deleteUser"])){
+    $id = $_COOKIE["deleteUser"];
+    try{
+        $consulta = $baseDeDatos ->prepare("DELETE FROM usuarios WHERE id = '$id' ");
+        $consulta->execute();
+    }catch(Exception $exception){
+        $exception = "UPS, hubo error y el usuario no pudo modificarse! Por favor intentalo nuevamente";   
+        $mensajeUsuario = $exception;
+        echo $mensajeUsuario;
+        return;
+    }
+    $mostrarTitle = "block";
+    $title= "Admin - Usuarios";
+    $bloque = "main/admin/adminListadoUsuarios.php";
+    $cajaMensajeConfirmacion="";
+    $mensajeConfirmacionAccion = "El usuario se eliminó correctamente!";
 }
 if(isset($_POST["cancelCrearUsuario"])){
-    $bloqueAdmin ="";
-    $bloque = "main/admin.php";
-    $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
-    $mostrarListadoUsuarios = "block";
-    $mostrarABMUsuarios = "hidden";    
+    $mostrarTitle = "block";
+    $title= "Admin - Usuarios";
+    $bloque = "main/admin/adminListadoUsuarios.php";
 }
 
 
@@ -192,17 +246,16 @@ if(isset($_POST["confirmar"])){
                             <p>Hola <?php echo $_SESSION["name"]?>!</p>
                         </div>    
                     </nav> 
-                    <!-- <div class="section" style="display: <?php echo $mostrarInicio ?>">
-                        <div class="logoInicio">
-                           
-                        </div>
-                    </div> -->
                     <div class="section" >
-                        <div>
-                            <?php require($bloque) ?>
+                        <div class="col-12 paddingCero">
+                            <div class="titleSection" style="display: <?php echo $mostrarTitle?>">
+                                <?php echo $title?>
+                            </div>
+                            <div>
+                                <?php require($bloque) ?>
+                            </div>
                         </div>
                     </div>
-                  
                 </main>
                 <main class="col-12 hidden" id="menuBurguer">
                     <nav class="row navHome justify-content-around ">

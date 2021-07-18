@@ -32,10 +32,10 @@ foreach($pedidos as $pedido){
     // }
 };
 ?>
-<div class="col-12 paddingCero">
+<!-- <div class="col-12 paddingCero">
     <div class="titleSection">
         Pedidos Realizados - <?php echo $_SESSION["sede"] . " - Casa " . $_SESSION["casa"] ?>
-    </div>
+    </div> -->
     <div class="d-flex flex-column-reverse">
         <?php 
             if(count($pedidosPorSede) == 0){
@@ -105,5 +105,5 @@ foreach($pedidos as $pedido){
                 }
             ?>
   
-</div> 
+<!-- </div>  -->
                       

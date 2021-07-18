@@ -88,6 +88,30 @@ function changeSede(){
 function resetSede(){
     localStorage.setItem("sedeSeleccionada", "todos");
 }
+function editUser(id){
+    document.cookie = "usuario = " + id;
+}
+function cancelEditUser(){
+    document.cookie = "usuario = " + 0;
+}
+function eliminarUsuario(id1, id2){
+    document.cookie = "deleteUser = " + id2;
+    mostrarCaja(id1);
+    let caja = document.getElementById(id1);
+    caja.scrollIntoView();
+    let boton = document.getElementById(id2);
+    let nombre = boton.parentNode.parentNode.firstElementChild.innerHTML;
+    let apellido = boton.parentNode.parentNode.firstElementChild.nextElementSibling.innerHTML;
+    let nameBox = document.getElementById("nameUserBox");
+    nameBox.innerHTML = nombre + " "  + apellido + " ?";
+}
+function cancelDeleteUser(id1){
+    ocultarCaja(id1);
+    document.cookie = "deleteUser = " + 0;
+    let main = document.getElementById("mainBox");
+    main.scrollIntoView();
+
+}
 
 //INICIAR PEDIDO
 function cargarPedido(){
@@ -136,11 +160,11 @@ function inputFocusOut(param){
 
 
 //FUNCIONES GENERICAS
-function ocultarCaja(id, id2){
+function ocultarCaja(id){
     let caja = document.getElementById(id);
     caja.classList.add("hidden");
 }
-function mostrarCaja(id, id2){
+function mostrarCaja(id){
     let caja = document.getElementById(id);
     caja.classList.remove("hidden");
 }
@@ -289,10 +313,10 @@ function ocultarPedidoVacio(){
     let avisoPedidoVacio = document.getElementById("avisoPedidoVacio");
     avisoPedidoVacio.classList.add("hidden");
 }
-function mostrarSpinner(){
-    let cajaConfirmarPedido = document.getElementById("cajaConfirmarPedido");
-    cajaConfirmarPedido.classList.add("hidden");
-    let spinner = document.getElementById("spinner");
+function mostrarSpinner(id, id2){
+    let caja = document.getElementById(id);
+    caja.classList.add("hidden");
+    let spinner = document.getElementById(id2);
     spinner.classList.remove("hidden")
 }
 

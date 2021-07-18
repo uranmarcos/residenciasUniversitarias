@@ -67,10 +67,10 @@
         return (tecla != 13);
     }      
 </script>    
-<div class="col-12 paddingCero">
+<!-- <div class="col-12 paddingCero">
     <div class="titleSection">
         Iniciar pedido
-    </div>
+    </div> -->
     <div class="sectionBloque">
         <div class="contenedorSeccion contenedorModal <?php echo $mostrarListadoUsuarios ?>">
             <form method="POST" action="inicio.php" onkeypress="return pulsar(event)">
@@ -90,10 +90,10 @@
                                 <div class="button " onclick="ocultarConfirmarPedido()">
                                     Cancelar
                                 </div>
-                                <button class="button" onclick="mostrarSpinner()" type="submit" name="confirmar">Confirmar</button>   
+                                <button class="button" onclick="mostrarSpinner('cajaConfirmarPedido', 'spinnerPedido' )" type="submit" name="confirmar">Confirmar</button>   
                             </div> 
                         </div>  
-                        <div class="row hidden confirmacionPedido " id="spinner">
+                        <div class="row hidden confirmacionPedido " id="spinnerPedido">
                             <div class="col-12 rowConfirmarPedido d-flex align-items-center">
                                 <div class="spinner-border text-secondary" role="status">
                                     <span class="sr-only"></span>
@@ -206,7 +206,7 @@
             </form>
         </div>
     </div>
-</div>
+<!-- </div> -->
 <script>
     cargarPedido();
 </script>

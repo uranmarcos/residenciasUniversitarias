@@ -5,7 +5,6 @@ require("funciones/pdo.php");
 $error = "";
 
 if($_POST){
-    var_dump($_POST);
     if(isset($_POST["ingresar"])){
         require("funciones/validarLogin.php");
         // header("Location:http://localhost/repositorioPedidos/componentes/home.php");
