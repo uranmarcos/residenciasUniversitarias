@@ -29,6 +29,7 @@
     border-radius: 5px;
     height: 30px;
 }
+
 #buscador{
     margin:0 10px;
 }
@@ -164,11 +165,7 @@ a{
     margin:0;
     padding: 0px !important;
 }
-aside{
-    background-color: lightgray;
-    padding:0 !important;
-    border-right: solid 1px grey;
-}
+
 
 
 /* SHARED */
@@ -198,39 +195,6 @@ p{
 }
 
 
-
-
-/* ASIDE */
-.navAside{
-    height: 30px;
-    background-color: rgb(163, 73, 164);
-    color: white;
-    font-size: 20px;
-    text-align: center;
-    width: 100%;
-    padding:0;
-    margin: auto;
-    border-bottom: solid 1px grey;
-}
-.asideButton{
-    height: 50px;
-    background-color: lightgrey;;
-    font-size:20px;
-    width: 100%;;
-    padding:0px;
-    text-transform: uppercase;
-    border: none;
-    color: rgb(163, 73, 164);
-    outline:none;
-}
-.asideButton:hover{
-    /* background-color: grey; */
-    color:white;
-    font-size:20px;
-    background-color: rgb(163, 73, 164);
-    
-    outline:none;
-}
 
 
 
@@ -292,7 +256,9 @@ main{
     height:100px;
     margin:auto;
 }
-
+.nameButtonMenu{
+    margin-right: 5px;;
+}
 
 /*SECCIONES */
 .logoInicio{
@@ -300,7 +266,7 @@ main{
     height:100%;
     display: flex;
     align-items: center;
-    background-size: 50%;
+    background-size: 40%;
     background-repeat: no-repeat;
     background-position: center;  
 }
@@ -404,9 +370,7 @@ main{
     text-align: centerf;
 }
 
-.asideHidden{
-    display : block;
-}
+
 .mainHidden{
     display: block;
 }
@@ -444,18 +408,12 @@ main{
     }
 }
 @media (max-width: 767px) {
-   /* aside{
-       display: none;
-   } */
    .logoHeader{
        display: none;
    }
    .headerResponsive{
        display: block;
    }
-    .asideHidden{
-        display : none;
-    }
     .mainHidden{
         display: none;
     }
@@ -464,10 +422,6 @@ main{
         height:100%;
         min-height:50vh;;
     }
-    .asideButton{
-       height:50px;
-       margin: 0px 0;
-    }    
     .ocultarResponsive{
        display: none;
     }

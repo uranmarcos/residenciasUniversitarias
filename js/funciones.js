@@ -1,3 +1,77 @@
+//FUNCIONES ASIDE
+function ajustarAside(){
+    if(localStorage.getItem("aside")){
+        if(localStorage.getItem("aside") == "true"){
+            expandirAside();
+        }else{
+            reducirAside();
+        }
+    }
+}
+function reducir(){
+    localStorage.setItem("aside", false);
+    reducirAside();
+}
+function reducirAside(){
+    let aside = document.getElementById("asideBox");
+    let main = document.getElementById("mainBox");
+    let nameButtonAside = document.querySelectorAll(".nameButtonAside");
+    let flechaLeft = document.getElementById("flechaLeftAside");
+    let flechaRight = document.getElementById("flechaRightAside");
+    let columnaBotones = document.getElementById("columnaBotonesAside");
+    let columnaFlecha = document.getElementById("columnaFlechaAside");
+    let botonAside = document.querySelectorAll(".asideButton");
+    aside.classList.remove("col-md-3");
+    main.classList.remove("col-md-9");
+    aside.classList.add("col-md-1");
+    flechaLeft.classList.add("hidden");
+    flechaRight.classList.remove("hidden");
+    columnaBotones.classList.remove("col-10");
+    columnaBotones.classList.add("col-8");
+    columnaFlecha.classList.remove("col-2");
+    columnaFlecha.classList.add("col-4");
+    main.classList.add("col-md-11");
+    for(item of nameButtonAside){
+        item.classList.add("hidden")
+    }
+    for(item of botonAside){
+        item.classList.add("centrarIcono")
+    }
+}
+function expandir(){
+    localStorage.setItem("aside", true);
+    expandirAside();
+}
+function expandirAside(){
+    let aside = document.getElementById("asideBox");
+    let main = document.getElementById("mainBox");
+    let nameButtonAside = document.querySelectorAll(".nameButtonAside");
+    let flechaLeft = document.getElementById("flechaLeftAside");
+    let flechaRight = document.getElementById("flechaRightAside");
+    let columnaBotones = document.getElementById("columnaBotonesAside");
+    let columnaFlecha = document.getElementById("columnaFlechaAside");
+    let botonAside = document.querySelectorAll(".asideButton");
+    columnaBotones.classList.remove("col-8");
+    columnaBotones.classList.add("col-10");
+    columnaFlecha.classList.remove("col-4");
+    columnaFlecha.classList.add("col-2");
+    aside.classList.remove("col-md-1");
+    main.classList.remove("col-md-11");
+    aside.classList.add("col-md-3");
+    main.classList.add("col-md-9");
+    flechaLeft.classList.remove("hidden");
+    flechaRight.classList.add("hidden");
+    for(item of nameButtonAside){
+        item.classList.remove("hidden")
+    }
+    for(item of botonAside){
+        item.classList.remove("centrarIcono")
+    }
+}
+
+
+
+
 //USUARIOS SECTION
 function ocultarMensajeNewUser(){
     let cajaMensaje = document.getElementById("mensajeNewUser");
@@ -226,13 +300,16 @@ function mostrarSpinner(){
 
 //HEADER
 function activarBurguer(){
-    let aside = document.getElementById("asideBox");
+    // let aside = document.getElementById("asideBox");
     let main = document.getElementById("mainBox");
-    if(aside.classList.contains("asideHidden") == false){
-        aside.classList.add("asideHidden");
+    let menuBurguer = document.getElementById("menuBurguer");
+    console.log(menuBurguer);
+    if(menuBurguer.classList.contains("hidden") == false){
+        // aside.classList.remove("asideHidden");
         main.classList.remove("mainHidden");
+        menuBurguer.classList.add("hidden");
     }else{
-        aside.classList.remove("asideHidden");
+        menuBurguer.classList.remove("hidden");
         main.classList.add("mainHidden");
     }
 

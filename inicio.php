@@ -3,9 +3,8 @@ session_start();
 require("funciones/pdo.php");
 require("funciones/funciones.php");
 
-$mostrarInicio = "block";
-$mostrarBloque = "none";
-$bloque = "";
+
+$bloque = "main/inicioLogo.php";
 $bloqueAdmin="hidden";
 $cajaMensajeConfirmacion="hidden";
 $subSeccionAdmin="";
@@ -17,40 +16,26 @@ if(isset($_POST["cerrarSesion"])){
     header("Location: destroy.php");
 }
 if(isset($_POST["perfil"])){
-    $mostrarInicio = "none";
-    $mostrarBloque = "block";
     $bloque = "main/perfil.php";
 }
 if(isset($_POST["admin"])){
-    $mostrarInicio = "none";
-    $mostrarBloque = "block";
     $bloque = "main/admin.php";
 }
 if(isset($_POST["pedidosAnteriores"])){
-    $mostrarInicio = "none";
-    $mostrarBloque = "block";
     $bloque = "main/pedidosAnteriores.php";
 }
 if(isset($_POST["iniciarPedido"])){
-    $mostrarInicio = "none";
-    $mostrarBloque = "block";
     $bloque = "main/iniciarPedido.php";
 }
 
 //BOTONES INICIAR PEDIDO
 if(isset($_POST["productoAsc"])){
-    $mostrarInicio = "none";
-    $mostrarBloque = "block";
     $bloque = "main/iniciarPedido.php";
 }
 if(isset($_POST["productoDesc"])){
-    $mostrarInicio = "none";
-    $mostrarBloque = "block";
     $bloque = "main/iniciarPedido.php";
 }
 if(isset($_POST["categoriaAsc"])){
-    $mostrarInicio = "none";
-    $mostrarBloque = "block";
     $bloque = "main/iniciarPedido.php";
 }
 if(isset($_POST["categoriaDesc"])){
@@ -59,35 +44,25 @@ if(isset($_POST["categoriaDesc"])){
     $bloque = "main/iniciarPedido.php";
 }
 if(isset($_POST["filtrarCategorias"])){
-    $mostrarInicio = "none";
-    $mostrarBloque = "block";
     $bloque = "main/iniciarPedido.php";
 }
 if(isset($_POST["reiniciarPedido"])){
-    $mostrarInicio = "none";
-    $mostrarBloque = "block";
     $bloque = "main/iniciarPedido.php";
 }
 
 
 //BOTONES ADMIN
 if(isset($_POST["adminSedes"])){
-    $mostrarInicio = "none";
-    $mostrarBloque = "block";
     $bloque = "main/admin.php";
     $bloqueAdmin ="";
     $subSeccionAdmin = "main/subsecciones/sedesSection.php";
 }
 if(isset($_POST["adminCategorias"])){
-    $mostrarInicio = "none";
-    $mostrarBloque = "block";
     $bloque = "main/admin.php";
     $bloqueAdmin ="";
     $subSeccionAdmin = "main/subsecciones/categoriasSection.php";
 }
 if(isset($_POST["adminUsuarios"])){
-    $mostrarInicio = "none";
-    $mostrarBloque = "block";
     $bloqueAdmin ="";
     $bloque = "main/admin.php";
     $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
@@ -95,8 +70,6 @@ if(isset($_POST["adminUsuarios"])){
     $mostrarABMUsuarios = "hidden";
 }
 if(isset($_POST["adminArticulos"])){
-    $mostrarInicio = "none";
-    $mostrarBloque = "block";
     $bloqueAdmin ="";
     $bloque = "main/admin.php";
     $subSeccionAdmin = "main/subsecciones/articulosSection.php";
@@ -118,8 +91,6 @@ if(isset($_POST["newUser"])){
         $mensajeUsuario = $exception;
         return;
     }
-    $mostrarInicio = "none";
-    $mostrarBloque = "block";
     $bloqueAdmin ="";
     $bloque = "main/admin.php";
     $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
@@ -137,8 +108,6 @@ if(isset($_POST["nameAsc"]) ||
     (isset($_POST["sedeDesc"])) ||
     (isset($_POST["filtrarSede"]))
     ){
-    $mostrarInicio = "none";
-    $mostrarBloque = "block";
     $bloqueAdmin ="";
     $bloque = "main/admin.php";
     $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
@@ -146,8 +115,6 @@ if(isset($_POST["nameAsc"]) ||
     $mostrarABMUsuarios = "hidden";
 }
 if(isset($_POST["crearUsuario"])){
-    $mostrarInicio = "none";
-    $mostrarBloque = "block";
     $bloqueAdmin ="";
     $bloque = "main/admin.php";
     $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
@@ -157,10 +124,7 @@ if(isset($_POST["crearUsuario"])){
     $ABMUserButton = "newUser";
     $ABMUserAccion = "creación";
 }
-
 if(isset($_POST["editarUsuario"])){
-    $mostrarInicio = "none";
-    $mostrarBloque = "block";
     $bloqueAdmin ="";
     $bloque = "main/admin.php";
     $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
@@ -171,8 +135,6 @@ if(isset($_POST["editarUsuario"])){
     $ABMUserAccion = "edición";
 }
 if(isset($_POST["cancelCrearUsuario"])){
-    $mostrarInicio = "none";
-    $mostrarBloque = "block";
     $bloqueAdmin ="";
     $bloque = "main/admin.php";
     $subSeccionAdmin = "main/subsecciones/usuariosSection.php";
@@ -220,7 +182,6 @@ if(isset($_POST["confirmar"])){
                         <div class="col-12">
                             MENU                       
                         </div>    
-                        
                     </nav> 
                     <?php require("aside/aside.php") ?>
                 </aside> 
@@ -231,17 +192,29 @@ if(isset($_POST["confirmar"])){
                             <p>Hola <?php echo $_SESSION["name"]?>!</p>
                         </div>    
                     </nav> 
-                    <div class="section" style="display: <?php echo $mostrarInicio ?>">
+                    <!-- <div class="section" style="display: <?php echo $mostrarInicio ?>">
                         <div class="logoInicio">
                            
                         </div>
-                    </div>
-                    <div class="section" style="display: <?php echo $mostrarBloque ?>">
+                    </div> -->
+                    <div class="section" >
                         <div>
                             <?php require($bloque) ?>
                         </div>
                     </div>
                   
+                </main>
+                <main class="col-12 hidden" id="menuBurguer">
+                    <nav class="row navHome justify-content-around ">
+                        <div class="col-12 alignRight">
+                            <p>Hola <?php echo $_SESSION["name"]?>!</p>
+                        </div>    
+                    </nav>
+                    <div class="section">
+                        <div>
+                            <?php require("componentes/menu.php") ?>
+                        </div>
+                    </div> 
                 </main>        
             </div>        
         </div>
@@ -249,3 +222,6 @@ if(isset($_POST["confirmar"])){
         <script type="text/javascript"  src="js/funciones.js"></script>        
     </body>
 </html>
+<script>
+    ajustarAside();
+</script>
