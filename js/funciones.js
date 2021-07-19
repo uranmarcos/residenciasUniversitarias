@@ -70,6 +70,12 @@ function expandirAside(){
 }
 
 
+//RESETEAR LOCALSTORAGE(MENOS ASIDE Y PEDIDO GENERANDOSE)
+function resetStorage(){
+    localStorage.setItem("sedeSeleccionada", "todos");
+    localStorage.setItem("categoriaSeleccionada", "todos");
+    localStorage.setItem("categoriaAdminSeleccionada", "todos");
+}
 
 
 //USUARIOS SECTION
@@ -218,6 +224,18 @@ function changeCategoria(){
     let select = document.getElementById("selectCategoria");
     localStorage.setItem("categoriaSeleccionada", select.value);
 }
+function cargarCategoria(){
+    let selectCategoria = document.getElementById("selectCategoria");
+    selectCategoria.value = localStorage.getItem("categoriaSeleccionada");
+}
+function changeAdminCategoria(){
+    let select = document.getElementById("selectAdminCategoria");
+    localStorage.setItem("categoriaAdminSeleccionada", select.value);
+}
+function cargarAdminCategoria(){
+    let selectCategoria = document.getElementById("selectAdminCategoria");
+    selectCategoria.value = localStorage.getItem("categoriaAdminSeleccionada");
+}
 function buscarProducto(){
     let buscador = document.getElementById("buscadorProducto");
     let producto = buscador.value;
@@ -232,9 +250,7 @@ function buscarProducto(){
     }
     if(producto == ""){
         for (item of listaProductos){
-            
                 item.parentNode.classList.remove("hidden");
-         
         }   
     }
 }
@@ -254,7 +270,6 @@ function buscarUsuario(){
         }
     }
 }
-
 function inputFocusOn(){
     marcarProducto();
     if(document.activeElement.value == 0){

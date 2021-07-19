@@ -268,7 +268,7 @@
                                 Rol
                                 <div><br></div>
                             </th>
-                            <th scope="col" style="min-width:80px; text-align:center">
+                            <th scope="col" style="min-width:90px; text-align:center">
                                 Sede
                                 <div>
                                     <button name="sedeAsc" class="editButton">
@@ -332,3 +332,6 @@
         </form>
     </div> 
 </div>
+<script>
+    cargarSede();
+</script>

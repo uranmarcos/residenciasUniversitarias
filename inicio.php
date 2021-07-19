@@ -40,7 +40,7 @@ if(isset($_POST["iniciarPedido"])){
 if(isset($_POST["productoAsc"])){
     $mostrarTitle = "block";
     $title= "Generar pedido";
-    $bloque = "main/iniciarPedido.php";
+    $bloque = "main/admin/iniciarPedido.php";
 }
 if(isset($_POST["productoDesc"])){
     $mostrarTitle = "block";
@@ -89,9 +89,6 @@ if(isset($_POST["adminArticulos"])){
     $mostrarTitle = "block";
     $title= "Admin - Articulos";
     $bloque = "main/admin/adminListadoArticulos.php";
-    // $bloqueAdmin ="";
-    // $bloque = "main/admin.php";
-    // $subSeccionAdmin = "main/subsecciones/articulosSection.php";
 }
 if(isset($_POST["newUser"])){
     $nombre = $_POST["nombre"];
@@ -194,6 +191,20 @@ if(isset($_POST["cancelCrearUsuario"])){
     $mostrarTitle = "block";
     $title= "Admin - Usuarios";
     $bloque = "main/admin/adminListadoUsuarios.php";
+}
+
+
+if(isset($_POST["articuloAsc"]) || 
+    (isset($_POST["articuloDesc"])) ||
+    (isset($_POST["medidaAsc"])) ||
+    (isset($_POST["medidaDesc"])) ||
+    (isset($_POST["catAsc"])) ||
+    (isset($_POST["catDesc"])) ||
+    (isset($_POST["filtrarCates"]))
+    ){
+    $mostrarTitle = "block";
+    $title= "Admin - Articulos";
+    $bloque = "main/admin/adminListadoArticulos.php";
 }
 
 
