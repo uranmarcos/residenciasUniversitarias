@@ -218,8 +218,9 @@ $mostrarPedido = "none";
 $mensajePedido = "";
 if(isset($_POST["confirmar"])){
     enviarMail2();
-    $mostrarInicio = "none";
-    $mostrarBloque = "block";
+
+    $mostrarTitle = "block";
+    $title= "Listo!";
     $bloque = "main/confirmacion.php";        
 }
 
