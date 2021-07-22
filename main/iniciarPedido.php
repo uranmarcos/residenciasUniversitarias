@@ -10,6 +10,11 @@
     $consultaProductos->execute();
     $productos = $consultaProductos -> fetchAll(PDO::FETCH_ASSOC);
     $_SESSION["productos"] = $productos;
+    // if(isset($_POST["cancelarPedido"])){
+    //     $mostrarTitle = "block";
+    //     $title= "Generar pedido";
+    //     $bloque = "main/iniciarPedido.php";
+    // }
     if(isset($_POST["productoAsc"])){
         $cat = $_POST["categoria"];
         if($cat == "todos"){
@@ -74,34 +79,6 @@
     <div class="sectionBloque">
         <div class="contenedorSeccion contenedorModal <?php echo $mostrarListadoUsuarios ?>">
             <form method="POST" action="inicio.php" onkeypress="return pulsar(event)">
-                <div class="row modalBox hidden" id="avisoPedidoVacio">
-                    <div class="row d-flex justify-content-center">
-                        <div class="centrarTexto mb-5">Disculpe, no puede generar un pedido vacio.</div>
-                        <div onclick="ocultarPedidoVacio('modalNewUser')" class="button">Aceptar</div>
-                    </div>    
-                </div>
-                <div class="row modalBox hidden" id="confirmacionPedido">
-                    <div  class="d-flex align-items-center justify-content-center ">
-                        <div class="row confirmacionPedido">
-                            <div class="col-12 rowConfirmarPedido">
-                                ¿Desea confirmar el pedido?
-                            </div>
-                            <div class="col-12 rowConfirmarPedido d-flex justify-content-around" id="cajaConfirmarPedido">
-                                <div class="button " onclick="ocultarConfirmarPedido()">
-                                    Cancelar
-                                </div>
-                                <button class="button" onclick="mostrarSpinner('cajaConfirmarPedido', 'spinnerPedido' )" type="submit" name="confirmar">Confirmar</button>   
-                            </div> 
-                        </div>  
-                        <div class="row hidden confirmacionPedido " id="spinnerPedido">
-                            <div class="col-12 rowConfirmarPedido d-flex align-items-center">
-                                <div class="spinner-border text-secondary" role="status">
-                                    <span class="sr-only"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>    
                 <div class="table-responsive">
                     <table class="table" id="tableUsuarios">
                         <div class="row bg-grey d-flex align-items-center justify-content-around">
@@ -197,9 +174,7 @@
                     </div>
                     <div>
                         <div class="row rowBoton d-flex justify-content-center"> 
-                            <a href="#confirmacionPedido" >
-                                <button type="button" onclick="mostrarConfirmarPedido()" class="button">Confirmar</button>
-                            </a>
+                            <button type="submit" name="generarPedido" class="button">Confirmar</button>
                         </div>
                     </div> 
                 </div>                          

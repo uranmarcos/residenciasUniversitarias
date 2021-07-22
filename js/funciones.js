@@ -306,6 +306,9 @@ function marcarProducto(){
     } 
     focusedElement.parentNode.parentNode.classList.add("productoSeleccionado");
 }
+function volverAtras(){
+    history.back(); 
+}
 function mostrarConfirmarPedido(){
     
     let confirmarPedido = document.getElementById("confirmacionPedido");

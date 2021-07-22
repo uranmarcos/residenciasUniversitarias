@@ -1,9 +1,6 @@
 <?php
 session_start();
 require("funciones/pdo.php");
-require("funciones/funciones.php");
-
-
 $bloque = "main/inicioLogo.php";
 $bloqueAdmin="hidden";
 $title= "";
@@ -11,6 +8,50 @@ $mostrarTitle = "none";
 $cajaMensajeConfirmacion="hidden";
 $subSeccionAdmin="";
 $mensajeConfirmacionAccion = "";
+if(isset($_POST["errorMail"])){
+    $mostrarTitle = "block";
+    $title= "Confirmacion";
+    $bloque = "main/confirmarPedido.php";
+}
+
+if(isset($_POST["errorCancelar"])){
+    $mostrarTitle = "block";
+    $title= "Confirmacion";
+    $bloque = "main/confirmarPedido.php";
+}
+if(isset($_POST["generarPedido"])){
+    $mostrarTitle = "block";
+    $title= "Confirmacion";
+    $bloque = "main/confirmarPedido.php";
+}
+if(isset($_POST["errorPedido"])){
+    $mostrarTitle = "block";
+    $title= "Generar Pedido";
+    $bloque = "main/iniciarPedido.php";
+}
+if(isset($_POST["errorConsulta"])){
+    $mostrarTitle = "block";
+    $title= "Pedidos realizados - " . $_SESSION["sede"] . " - Casa" . $_SESSION["casa"];
+    $bloque = "main/pedidosAnteriores.php";
+}
+if(isset($_POST["cancelarPedido"])){
+    $mostrarTitle = "block";
+    $title= "Generar pedido";
+    $bloque = "main/iniciarPedido.php";
+    try{
+        $id = $_SESSION['idPedido'];
+        $consulta = $baseDeDatos ->prepare("DELETE FROM pedidos where id ='$id'");
+        $consulta->execute();
+    }catch(Exception $exception){
+        echo "<script>location.href='errorCancelar.php';</script>";
+        die;
+    }
+}
+if(isset($_POST["enviarMail"])){
+    $mostrarTitle = "block";
+    $title= "Listo!";
+    $bloque = "main/confirmacion.php";
+}
 //BOTONES ASIDE
 if(isset($_POST["cerrarSesion"])){
     header("Location: destroy.php");
@@ -31,6 +72,11 @@ if(isset($_POST["pedidosAnteriores"])){
     $bloque = "main/pedidosAnteriores.php";
 }
 if(isset($_POST["iniciarPedido"])){
+    $mostrarTitle = "block";
+    $title= "Generar pedido";
+    $bloque = "main/iniciarPedido.php";
+}
+if(isset($_POST["volver"])){
     $mostrarTitle = "block";
     $title= "Generar pedido";
     $bloque = "main/iniciarPedido.php";
@@ -192,8 +238,6 @@ if(isset($_POST["cancelCrearUsuario"])){
     $title= "Admin - Usuarios";
     $bloque = "main/admin/adminListadoUsuarios.php";
 }
-
-
 if(isset($_POST["articuloAsc"]) || 
     (isset($_POST["articuloDesc"])) ||
     (isset($_POST["medidaAsc"])) ||
@@ -206,10 +250,6 @@ if(isset($_POST["articuloAsc"]) ||
     $title= "Admin - Articulos";
     $bloque = "main/admin/adminListadoArticulos.php";
 }
-
-
-
-
 if(isset($_POST["crearArticulo"])){
     header("Location: admin.php");
 }
@@ -223,8 +263,6 @@ if(isset($_POST["confirmar"])){
     $title= "Listo!";
     $bloque = "main/confirmacion.php";        
 }
-
-
 ?>
 <html>
     <head>
@@ -235,6 +273,7 @@ if(isset($_POST["confirmar"])){
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
         <link href="css/master.css" rel="stylesheet">
+        <link href="css/aside.css" rel="stylesheet">
     </head>
     <body>
         <div class="contenedorPrincipal">
