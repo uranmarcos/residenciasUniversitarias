@@ -1,0 +1,49 @@
+/*
+TO DO
+    1.- MOVER ESTILOS HEADER A OTRO ARCHIVO
+    2.- REVISAR COLORES
+*/
+/*  HEADER   */
+.header{
+    height: 21vh ;
+}
+.logoFull{
+    height: 15vh;
+    display: flex;
+    justify-self: center;
+    margin: auto!important;
+}
+
+
+/* NAV  */
+.navegador{
+    background-color: purple;
+    color: white;
+    height: 6vh;
+    text-transform: uppercase;
+}
+.nav-item{
+    height: 6vh;
+}
+.nav-link{
+    text-transform: uppercase;
+    text-decoration: none;
+    color: white !important;
+    height: 6vh;
+    text-align: center;
+}
+.nav-link:hover{
+   
+    font-weight: bolder;
+    border-bottom: solid 3px white;
+}
+
+
+@media (max-width: 767px) {
+    .headerFull{
+        display: none !important;
+    }
+    .headerResponsive{
+        display: block;
+    }
+}

@@ -1,8 +1,8 @@
 <?php
-
+//session_start();
+require("funciones/pdo.php");
 $dni = null;
 $password = null;
-
 
 $dni = $_POST["dni"];
 $password = $_POST["password"];

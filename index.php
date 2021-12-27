@@ -1,18 +1,12 @@
 <?php
 session_start();
-
-
 $error = "";
-
 if($_POST){
     if(isset($_POST["ingresar"])){
         require("funciones/validarLogin.php");
         // header("Location:http://localhost/repositorioPedidos/componentes/home.php");
     }
 }
-
-
-
 ?>
 <script>
     localStorage.clear();
