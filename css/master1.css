@@ -38,6 +38,19 @@ TO DO
     border-bottom: solid 3px white;
 }
 
+/* NAVEGADOR SECUNDARIO   */
+.submenu{
+    margin-top: 10px;
+}
+
+/* CLASES PARA DINAMISMO */
+.hide{
+    display: none;
+}
+.show{
+    display: block;
+}
+
 
 @media (max-width: 767px) {
     .headerFull{

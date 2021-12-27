@@ -1,6 +1,25 @@
 <?php
 session_start();
 require("funciones/pdo.php");
+$subSeccionAdmin = null;
+$mostrarBloque="hide";
+if(isset($_GET["adminSedes"])){
+    $subSeccionAdmin = "componentesAdmin/adminSedes.php";
+    $mostrarBloque="show";
+}
+if(isset($_GET["adminCategorias"])){
+    $mostrarBloque="show";
+    $subSeccionAdmin = "componentesAdmin/adminCategorias.php";
+    
+}
+if(isset($_GET["adminArticulos"])){
+    $mostrarBloque="show";
+    $subSeccionAdmin = "componentesAdmin/adminArticulos.php";
+}
+if(isset($_GET["adminUsuarios"])){
+    $mostrarBloque="show";
+    $subSeccionAdmin = "componentesAdmin/adminUsuarios.php";
+}
 ?>
 <html>
     <head>
@@ -19,9 +38,19 @@ require("funciones/pdo.php");
             <div class="header">
                 <?php require("componentes/header2.php")?>
             </div>
-            <div>
-                SITIO EN CONSTRUCCION  -- ADMIN 
+            <div class="submenu">
+                <form method="GET" action="admin2.php">
+                    <div class="row navAdmin">
+                        <button type="submit" name="adminSedes" class="btn botonNavAdmin col-6 col-md-3">Sedes</button>
+                        <button type="submit" name="adminCategorias" class="btn botonNavAdmin col-6 col-md-3">Categorias</button>
+                        <button type="submit" name="adminUsuarios" onclick="resetSede()" class="btn botonNavAdmin col-6 col-md-3">Usuarios</button>
+                        <button type="submit" name="adminArticulos" class="btn botonNavAdmin col-6 col-md-3">Articulos</button>           
+                    </div>
+                </form>
             </div>
+            <div class="<?php echo $mostrarBloque?>">
+                <?php require($subSeccionAdmin)?>
+            </div>    
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>           
     </body>
