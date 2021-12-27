@@ -130,7 +130,7 @@
     background-color: grey;
     color:white
 }
-.editButton{
+/* .editButton{
     text-align: center;
     min-width: 25px;
     background-color: lightgray;
@@ -142,7 +142,7 @@
     cursor: pointer;
     background-color: grey;
     color:white
-}
+} */
 
 .contenedorSeccion{
     border: solid 1px purple;

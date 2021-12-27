@@ -52,6 +52,60 @@ TO DO
 }
 
 
+/*  CLASES BOTONES  */
+.botonConfirmar {
+    background-color: rgb(163, 73, 164);
+    color: white;
+    padding: 0px;
+    line-height: 30px;
+    height: 30px;
+}
+.botonConfirmar:hover {
+    background-color: white;
+    color: rgb(163, 73, 164);
+    border: solid 1px rgb(163, 73, 164);
+}
+.botonCancelar {
+    background-color: rgb(236, 130, 130);
+    color: white;
+    padding: 0px;
+    height: 30px;
+    line-height: 30px;
+}
+.botonCancelar:hover {
+    background-color: white;
+    color: rgb(236, 130, 130);
+    border: solid 1px rgb(236, 130, 130);
+}
+.trashButton{
+    text-align: center;
+    min-width: 40px;
+    color:white;
+    background-color: rgb(236, 130, 130);
+    height: 25px;
+    border-radius: 5px;
+}
+.trashButton:hover{
+    cursor: pointer;
+    background-color: white;
+    color: rgb(236, 130, 130);
+    border: solid 1px rgb(236, 130, 130);
+}
+.editButton{
+    text-align: center;
+    min-width: 25px;
+    background-color: rgb(163, 73, 164);
+    color:white;
+    height: 25px;
+    border-radius: 5px;
+}
+.editButton:hover{
+    cursor: pointer;
+    background-color: white;
+    color:rgb(163, 73, 164);
+    border: solid 1px rgb(163, 73, 164);
+}
+
 @media (max-width: 767px) {
     .headerFull{
         display: none !important;
