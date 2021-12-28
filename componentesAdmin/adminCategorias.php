@@ -30,13 +30,17 @@
         <div class="row">
             <div class="col-12 col-md-6">
                 <label class="labelForm"> Descripción: </label>
-                <input class="campoFormNewUser" name="descripcion">
+                <input class="inputNuevaCategoria" onkeyup="habilitarBoton(value, 3,'botonGenerar' )" name="descripcion">
             </div>
-            <div class="col-12 col-md-6 d-flex align-items-end justify-content-around">
+            <div class="col-12 col-md-6 d-flex align-items-end justify-content-around mt-2 mt-md-0 mb-2 mb-md-0">
                 <button type="submit" name="botonCancelar" onclick="ocultarCaja('boxCrearCategoria', 'botonNuevaCategoria')" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
-                <button type="submit" name="botonGenerar" class="btn botonConfirmar col-6 col-md-3">Generar</button>        
+                <!-- <button type="submit" name="botonGenerar" class="btn botonConfirmar col-6 col-md-3">Generar</button>         -->
+                <button type="button" name="botonGenerar" disabled id="botonGenerar" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Generar
+                </button>
             </div>
         </div>
+        <div class="hide errorValidacion marginl100" id="mensajeValidacion">3 o mas caracteres</div>
     </div>
     <!-- BOX LISTADO CATEGORIAS -->
     <div class="contenedorSeccion contenedorModal">
@@ -94,6 +98,24 @@
             </table>
         </div>
     </div>
+    <!-- MODAL CONFIRMACION CREACION CATEGORIA -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <!-- <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body centrarTexto">
+                ¿Confirma la nueva categoria?
+            </div>
+            <div class="modal-footer d-flex justify-content-around">
+                <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn botonConfirmar">Confirmar</button>
+            </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
     function mostrarCaja(idCaja, idBoton=null) {
@@ -110,6 +132,18 @@
         if (idBoton != null) {
             let boton = document.getElementById(idBoton)
             boton.classList.remove("hide")
+        }
+    }
+    // FUNCION PARA HABILITAR UN BOTON EN BASE A VALIDACION DE INPUT - PARAMETROS: VALUE, LENGTH, IDBOTON A HABILITAR 
+    function habilitarBoton(value, length, id) {
+        let boton = document.getElementById(id)
+        let mensajeValidacion = document.getElementById("mensajeValidacion")
+        if(value.length >= length) {
+            boton.removeAttribute("disabled");
+            mensajeValidacion.classList.add('hide')
+        }else{
+            boton.setAttribute("disabled", true)
+            mensajeValidacion.classList.remove('hide')
         }
     }
 </script>

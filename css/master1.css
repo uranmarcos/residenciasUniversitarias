@@ -56,6 +56,13 @@ TO DO
 .centrarTexto{
     text-align: center;
 }
+.errorValidacion{
+    font-size: 10px;
+    color: red;
+}
+.marginl100{
+    margin-left: 105px;
+}
 
 /*  CLASES BOTONES  */
 .botonConfirmar {
@@ -64,6 +71,7 @@ TO DO
     padding: 0px;
     line-height: 30px;
     height: 30px;
+    width:90px !important;
 }
 .botonConfirmar:hover {
     background-color: white;
@@ -76,6 +84,7 @@ TO DO
     padding: 0px;
     height: 30px;
     line-height: 30px;
+    width: 90px !important;
 }
 .botonCancelar:hover {
     background-color: white;
