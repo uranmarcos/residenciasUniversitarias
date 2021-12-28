@@ -52,6 +52,11 @@ TO DO
 }
 
 
+/*  CLASES COMPARTIDAS   */
+.centrarTexto{
+    text-align: center;
+}
+
 /*  CLASES BOTONES  */
 .botonConfirmar {
     background-color: rgb(163, 73, 164);

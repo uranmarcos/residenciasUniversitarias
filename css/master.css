@@ -177,9 +177,7 @@ img{
     text-align: right;
     padding-right: 30px;;
 }
-.centrarTexto{
-    text-align: center;
-}
+
 .logoHeader{
     display: flex;
     width: 100%;
