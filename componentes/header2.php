@@ -25,6 +25,9 @@ if($_SESSION["rol"] == "admin"){
                     <a class="nav-link" href="admin2.php">Admin</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="ayuda.php">Ayuda</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="pedidos2.php">Pedidos</a>
                 </li>
             </ul>

@@ -63,6 +63,11 @@ TO DO
 .marginl100{
     margin-left: 105px;
 }
+.columna {
+    display: flex;
+    flex-flow: column wrap;
+    text-align: left;
+}
 
 /*  CLASES BOTONES  */
 .botonConfirmar {
