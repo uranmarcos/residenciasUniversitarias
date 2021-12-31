@@ -3,24 +3,25 @@
     $alertConfirmacion = "hide";
     $mensajeAlertConfirmacion="";
     // // ACCION CREAR SEDE
-    // if(isset($_POST["crearSede"])){
-    //     $descripcion = $_POST['inputNuevaSede'];
-    //     $casas = $_POST['selectCasas'];
-    //     $date = date("Y-m-d h:i:s");
-    //     $insertSede = $baseDeDatos ->prepare("INSERT into sedes VALUES(default, '$descripcion','$casas', 1, '$date', '$date', 17)");
-    //     try{
-    //         $insertSede->execute();
-    //         $alertConfirmacion = "show";
-    //         $mensajeAlertConfirmacion="La sede se creó correctamente";
-    //     } catch (\Throwable $th) {
-    //         $alertErrorConexion= "show";
-    //     }
-    // }
+    if(isset($_POST["crearArticulo"])){
+        $descripcion = $_POST['descripcionNuevoArticulo'];
+        $categoria = $_POST['categoriaNuevoArticulo'];
+        $medida = $_POST['medidaNuevoArticulo'];
+        $date = date("Y-m-d h:i:s");
+        $insertArticulo = $baseDeDatos ->prepare("INSERT into articulos VALUES(default, '$descripcion', '$medida', '$categoria', 1, '$date', '$date', 17)");
+        try{
+            $insertArticulo->execute();
+            $alertConfirmacion = "show";
+            $mensajeAlertConfirmacion="El articulo se creó correctamente";
+        } catch (\Throwable $th) {
+            $alertErrorConexion= "show";
+        }
+    }
 
     // // ACCION EDITAR SEDE
     // if (isset($_POST["editarSede"])){
     //     $id = $_POST["idSedePorEditar"];
-    //     $descripcion = $_POST["inputEditarSede"];
+    //     $descripcion = $_POST["descripcionNuevoArticulo"];
     //     $habilitado = $_POST["selectEditarHabilitado"];
     //     $casas = $_POST["selectEditarCasas"];
     //     $date = date("Y-m-d h:i:s");
@@ -34,28 +35,35 @@
     //     }
     // }
 
-    // ACCION ELIMINAR SEDE
-    // if(isset($_POST["eliminarSede"])){
-    //     $id = $_POST["idSedeEliminar"];
-    //     $date = date("Y-m-d h:i:s");
-    //     $consulta = $baseDeDatos ->prepare("UPDATE sedes SET habilitado = 0, modified = '$date' WHERE id = '$id'");
-    //     try {
-    //         $consulta->execute();
-    //         $alertConfirmacion = "show";
-    //         $mensajeAlertConfirmacion="La sede se eliminó correctamente";
-    //     } catch (\Throwable $th) {
-    //         $alertErrorConexion= "show";
-    //     }
-    // }
+    // ACCION ELIMINAR ARTICULO
+    if(isset($_POST["eliminarArticulo"])){
+        $id = $_POST["idArticuloEliminar"];
+        $date = date("Y-m-d h:i:s");
+        $consulta = $baseDeDatos ->prepare("UPDATE articulos SET habilitado = 0, modified = '$date' WHERE id = '$id'");
+        try {
+            $consulta->execute();
+            $alertConfirmacion = "show";
+            $mensajeAlertConfirmacion="El artículo se eliminó correctamente";
+        } catch (\Throwable $th) {
+            $alertErrorConexion= "show";
+        }
+    }
 
-    // CONSULTA LISTADO DE ARTICULOS
+    // CONSULTAS INICIALES LISTADO DE ARTICULOS, MEDIDAS Y CATEGORIAS
     $consultaArticulos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, C.descripcion 'categoria', M.descripcion 'medida', A.habilitado FROM articulos A INNER JOIN categorias C ON A.categoria = C.id INNER JOIN medidas M ON A.medida = M.id");
+    $consultaMedidas = $baseDeDatos ->prepare("SELECT * FROM medidas");
+    $consultaCategorias = $baseDeDatos ->prepare("SELECT * FROM categorias WHERE habilitado = 1");
+    
     try {
         $consultaArticulos->execute();
+        $consultaMedidas->execute();
+        $consultaCategorias->execute();
     } catch (\Throwable $th) {
         $alertErrorConexion= "show";
     }
     $articulos = $consultaArticulos -> fetchAll(PDO::FETCH_ASSOC);
+    $medidas = $consultaMedidas -> fetchAll(PDO::FETCH_ASSOC);
+    $categorias = $consultaCategorias -> fetchAll(PDO::FETCH_ASSOC);
     
     $noHayDatos = "show";
     $hayDatos = "hide";
@@ -76,7 +84,7 @@
         <!-- CREACION DE ARTICULO -->
         <div>
             <form name="form1" method="POST" action="admin2.php?adminArticulos=">
-                <!-- BOX NUEVA ARTICULO -->
+                <!-- BOX NUEVO ARTICULO -->
                 <div class="contenedorSeccion contenedorModal hide mb-4" id="boxCrearArticulo">
                     <div class="d-flex anchoTotal justify-content-between">
                         <div class="subtitle mb-2">
@@ -84,28 +92,34 @@
                         </div> 
                     </div>
                     <div class="row">
-                        <div class="col-12 col-md-5">
-                            <label class="labelForm"> Descripción: </label>
-                            <input maxlength="30" style="width:70%" autocomplete="off" name="inputNuevaSede" id="inputNuevaSede" onkeyup="habilitarBoton(value, 5,'botonGenerar', 'mensajeValidacionCrear')">
+                        <div class="col-12 col-md-6 col-lg-4 columna">
+                            <label> Descripción: </label>
+                            <input maxlength="30" name="descripcionNuevoArticulo" onkeyup="habilitarBoton(value, 3, 'botonGenerar', 'mensajeValidacionCrear')" id="descripcionNuevoArticulo">
                         </div>
-                        <div class="col-12 col-md-4 mt-2 mt-md-0 d-flex align-items-end">
-                            <label class="labelForm"> Casas: </label>
-                            <select id="selectCasas" name="selectCasas" onchange="actualizarDatosModalCrear(value)" style="width:100px">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option> 
+                        <div class="col-6 col-sm-4 col-md-3 columna">
+                            <label class="labelForm"> Medida: </label>
+                            <select id="medidaNuevoArticulo"  name="medidaNuevoArticulo" onchange="actualizarDatosModalCrear(value)" style="width:150px; height:30px">
+                            <?php foreach($medidas as $medida){ ?>
+                                    <option value="<?php echo $medida['id']?>"><?php echo $medida['descripcion']?></option>
+                                <?php } ?> 
                             </select>   
                         </div>
-                        <div class="col-12 col-md-3 d-flex align-items-end justify-content-around mt-2 mt-md-0 mb-2 mb-md-0">
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2 columna">
+                            <label class="labelForm"> Categoria: </label>
+                            <select id="categoriaNuevoArticulo" name="categoriaNuevoArticulo" onchange="actualizarDatosModalCrear()" style="width:150px; height:30px">
+                                <?php foreach($categorias as $categoria){ ?>
+                                    <option value="<?php echo $categoria['id']?>"><?php echo $categoria['descripcion']?></option>
+                                <?php } ?>  
+                            </select>   
+                        </div>
+                        <div class="col-12  col-sm-4 col-md-3 d-flex align-items-end justify-content-around mt-2 mt-md-0 mb-2 pb-md-1 mb-md-0">
                             <button type="submit" name="botonCancelar" onclick="ocultarCaja('boxCrearArticulo', 'botonNuevoArticulo')" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
                             <button type="button" name="botonGenerar" disabled id="botonGenerar" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 Generar
                             </button>
                         </div>
                     </div>
-                    <div class="hide errorValidacion marginl100" id="mensajeValidacionCrear">5 o mas caracteres</div>
+                    <div class="hide errorValidacion marginl100" id="mensajeValidacionCrear">3 o mas caracteres</div>
                 </div>
                 <!-- MODAL CONFIRMACION CREACION ARTICULO -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -115,11 +129,11 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body centrarTexto">
-                            ¿Confirma la nueva sede: <b><span id="spanSede"></span></b>?
+                            ¿Confirma el articulo: <b><span id="spanArticulo"></span></b>?
                         </div>
                         <div class="modal-footer d-flex justify-content-around">
                             <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" name="crearSede" class="btn botonConfirmar">Confirmar</button>
+                            <button type="submit" name="crearArticulo" class="btn botonConfirmar">Confirmar</button>
                         </div>
                         </div>
                     </div>
@@ -143,7 +157,7 @@
                         </div>
                         <div class="col-9 col-sm-10 col-md-6 col-lg-4 columna">
                             <label> Descripción: </label>
-                            <input maxlength="30" name="inputEditarSede" onkeyup="habilitarBoton(value, 3, 'botonEditar', 'mensajeValidacionEditar')" id="inputEditarSede">
+                            <input maxlength="30" name="descripcionNuevoArticulo" onkeyup="habilitarBoton(value, 3, 'botonEditar', 'mensajeValidacionEditar')" id="descripcionNuevoArticulo">
                         </div>
                         <div class="col-4 col-sm-2 col-md-2 col-lg-1 columna">
                             <label> Casas: </label>
@@ -164,7 +178,7 @@
                         </div>
                         <div class="col-4 col-sm-12 col-lg-4 d-flex align-items-end justify-content-around mt-2 mt-l-0 pb-2 mb-0">
                             <button type="submit" name="botonCancelar" onclick="ocultarCaja('boxEditarSede')" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
-                            <button type="button" name="botonEditarSede" onclick="enviarDatosEdicion('inputEditarSede', 'selectEditarHabilitado', 'selectEditarCasas')" disabled id="botonEditar" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#modalEdicionCategoria">
+                            <button type="button" name="botonEditarSede" onclick="enviarDatosEdicion('descripcionNuevoArticulo', 'selectEditarHabilitado', 'selectEditarCasas')" disabled id="botonEditar" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#modalEdicionCategoria">
                                 Editar
                             </button>
                         </div>
@@ -225,7 +239,7 @@
                                     <td style="text-align: center"><?php echo $articulo["categoria"] ?></td>
                                     <td style="text-align: center"><?php echo $articulo["habilitado"] == 1 ? 'Sí' : 'No' ?></td>
                                     <td class="d-flex justify-content-end"> 
-                                        <button type="button" onmouseover="deshabilitarBotonTrash(<?php echo $articulo['id']?>, <?php echo $articulo['habilitado']?>)" name="trashButton<?php echo $articulo['id']?>" id="trashButton<?php echo $articulo['id']?>" class="btn trashButton" onclick="eliminarSedes(<?php echo $articulo['id']?>, '<?php echo $articulo['descripcion'];?>')" data-bs-toggle="modal" data-bs-target="#modalEliminar">
+                                        <button type="button" onmouseover="deshabilitarBotonTrash(<?php echo $articulo['id']?>, <?php echo $articulo['habilitado']?>)" name="trashButton<?php echo $articulo['id']?>" id="trashButton<?php echo $articulo['id']?>" class="btn trashButton" onclick="eliminarArticulos(<?php echo $articulo['id']?>, '<?php echo $articulo['descripcion'];?>')" data-bs-toggle="modal" data-bs-target="#modalEliminar">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                                 <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                                             </svg>
@@ -258,15 +272,15 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <input type="text" hidden name="idSedeEliminar" id="idSedeEliminar"></input>
+                            <input type="text" hidden name="idArticuloEliminar" id="idArticuloEliminar"></input>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body centrarTexto">
-                            ¿Confirma que desea eliminar la sede <b><span id="sedeAEliminar"></span></b>?</br> Si desea habilitarla nuevamente, en la opción editar podrá hacerlo.
+                            ¿Confirma que desea eliminar el articulo <b><span id="articuloAEliminar"></span></b>?</br> Si desea habilitarlo nuevamente, en la opción editar podrá hacerlo.
                         </div>
                         <div class="modal-footer d-flex justify-content-around">
                             <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" name="eliminarSede" class="btn botonConfirmar">Confirmar</button>
+                            <button type="submit" name="eliminarArticulo" class="btn botonConfirmar">Confirmar</button>
                         </div>
                     </div>
                 </div>
@@ -296,31 +310,38 @@
     function habilitarBoton(value, length, id, idMensajeValidacion) {
         let boton = document.getElementById(id)
         let mensajeValidacion = document.getElementById(idMensajeValidacion)
-        let spanSede = document.getElementById("spanSede")
-        let casas = document.getElementById("selectCasas").value
+        let spanArticulo = document.getElementById("spanArticulo")
+        let categoria = document.getElementById("categoriaNuevoArticulo")
+        let categoriaSelected = categoria.options[categoria.selectedIndex].text;
+        let medida = document.getElementById("medidaNuevoArticulo")
+        let medidaSelected = medida.options[medida.selectedIndex].text;
         if(value.length >= length) {
             boton.removeAttribute("disabled");
             mensajeValidacion.classList.add('hide')
-            spanSede.innerHTML = value + " con " + (casas == 1 ? "1 casa" : casas + " casas")
+            spanArticulo.innerHTML = value + " en " + medidaSelected + " para " + categoriaSelected 
         }else{
-            let spanSede = document.getElementById("spanSede")
+            let spanArticulo = document.getElementById("spanArticulo")
             boton.setAttribute("disabled", true)
             mensajeValidacion.classList.remove('hide')
         }
     }
     //ACTUALIZACION DE DATOS EN MODAL CONFIRMACION DE CREACION DE SEDE, AL CAMBIAR CANTIDAD DE CASAS
-    function actualizarDatosModalCrear(cantidad){
-        let descripcion = document.getElementById("inputNuevaSede").value
-        let spanSede = document.getElementById("spanSede")
+    function actualizarDatosModalCrear(){
+        let descripcion = document.getElementById("descripcionNuevoArticulo").value
+        let categoria = document.getElementById("categoriaNuevoArticulo")
+        let categoriaSelected = categoria.options[categoria.selectedIndex].text;
+        let medida = document.getElementById("medidaNuevoArticulo")
+        let medidaSelected = medida.options[medida.selectedIndex].text;
+        let spanArticulo = document.getElementById("spanArticulo")
         if (descripcion != "") {
-            spanSede.innerHTML = descripcion + " con " + (cantidad == 1 ? "1 casa" : cantidad + " casas")
+            spanArticulo.innerHTML = descripcion + " en " + medidaSelected + " para " + categoriaSelected 
         } 
     }
-    function eliminarSedes(id, descripcion) {
-        let sedeAEliminar = document.getElementById("sedeAEliminar")
-        sedeAEliminar.innerHTML = " - " + descripcion + " - "
-        let idSedeEliminar = document.getElementById("idSedeEliminar")
-        idSedeEliminar.value = id
+    function eliminarArticulos(id, descripcion) {
+        let articuloAEliminar = document.getElementById("articuloAEliminar")
+        articuloAEliminar.innerHTML = " - " + descripcion + " - "
+        let idArticuloEliminar = document.getElementById("idArticuloEliminar")
+        idArticuloEliminar.value = id
     }
     function deshabilitarBotonTrash (id, habilitado) {
         let boton = document.getElementById("trashButton"+id)
@@ -338,10 +359,10 @@
     function cargarDatosEdicion(id, descripcion, casas, habilitado){
         let idSedePorEditar = document.getElementById("idSedePorEditar")
         let selectEditarHabilitado = document.getElementById("selectEditarHabilitado")
-        let inputEditarSede = document.getElementById("inputEditarSede")
+        let descripcionNuevoArticulo = document.getElementById("descripcionNuevoArticulo")
         let selectEditarCasas = document.getElementById("selectEditarCasas")
         idSedePorEditar.value = id
-        inputEditarSede.value = descripcion
+        descripcionNuevoArticulo.value = descripcion
         selectEditarHabilitado.value = habilitado
         selectEditarCasas.value = casas
     }
