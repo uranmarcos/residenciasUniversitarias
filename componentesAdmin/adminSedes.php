@@ -95,7 +95,7 @@
                             </select>   
                         </div>
                         <div class="col-12 col-md-3 d-flex align-items-end justify-content-around mt-2 mt-md-0 mb-2 mb-md-0">
-                            <button type="submit" name="botonCancelar" onclick="ocultarCaja('boxCrearSede', 'botonNuevaCategoria')" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
+                            <button type="submit" name="botonCancelar" onclick="ocultarCaja('boxCrearSede', 'botonNuevaSede')" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
                             <button type="button" name="botonGenerar" disabled id="botonGenerar" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 Generar
                             </button>
@@ -125,7 +125,7 @@
         <!-- EDICION DE SEDE -->
         <div>
             <form name="formEdicion" method="POST" action="admin2.php?adminSedes=">
-                <!-- BOX EDICION CATEGORIA -->
+                <!-- BOX EDICION SEDE -->
                 <div class="contenedorSeccion contenedorModal hide mb-4" id="boxEditarSede">
                     <div class="d-flex anchoTotal justify-content-between">
                         <div class="subtitle mb-2">
@@ -160,7 +160,7 @@
                         </div>
                         <div class="col-4 col-sm-12 col-lg-4 d-flex align-items-end justify-content-around mt-2 mt-l-0 pb-2 mb-0">
                             <button type="submit" name="botonCancelar" onclick="ocultarCaja('boxEditarSede')" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
-                            <button type="button" name="botonEditarSede" onclick="enviarDatosEdicion('inputEditarSede', 'selectEditarHabilitado', 'selectEditarCasas')" disabled id="botonEditar" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#modalEdicionCategoria">
+                            <button type="button" name="botonEditarSede" onclick="enviarDatosEdicion('inputEditarSede', 'selectEditarHabilitado', 'selectEditarCasas')" disabled id="botonEditar" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#modalEdicionSede">
                                 Editar
                             </button>
                         </div>
@@ -168,7 +168,7 @@
                     <div class="hide errorValidacion marginl100" id="mensajeValidacionEditar">3 o mas caracteres</div>
                 </div>
                 <!-- MODAL CONFIRMACION EDICION SEDE -->
-                <div class="modal fade" id="modalEdicionCategoria" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="modalEdicionSede" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                         <div class="modal-header">
@@ -187,17 +187,17 @@
             </form>
         </div>
         
-            <!-- BOX LISTADO CATEGORIAS -->
+            <!-- BOX LISTADO SEDES -->
             <div class="contenedorSeccion contenedorModal">
                 <div class="d-flex anchoTotal row">
                     <div class="subtitle col-6">
                         Sedes Disponibles
                     </div>
                     <div class="col-6 d-flex align-items-end justify-content-end">
-                        <button type="submit" name="botonNuevaCategoria" onclick="mostrarCaja('boxCrearSede', 'botonNuevaCategoria')" id="botonNuevaCategoria" class="btn botonConfirmar col-6 col-md-3">Nueva</button>        
+                        <button type="submit" name="botonNuevaSede" onclick="mostrarCaja('boxCrearSede', 'botonNuevaSede')" id="botonNuevaSede" class="btn botonConfirmar col-6 col-md-3">Nueva</button>        
                     </div>
                 </div>
-                <!-- TABLA CON LISTA DE CATEGORIAS -->
+                <!-- TABLA CON LISTA DE SEDES -->
                 <div class="table-responsive">
                     <table class="table <?php echo $hayDatos ?>">
                         <thead>
@@ -247,7 +247,7 @@
                     </table>
                 <!-- </div> -->
             </div>
-            <!-- MODAL CONFIRMACION ELIMINACION CATEGORIA -->
+            <!-- MODAL CONFIRMACION ELIMINACION SEDE -->
             <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -269,7 +269,6 @@
     </div>
 
 <script type="text/javascript">
-    let categoriaEliminable = null
     function mostrarCaja(idCaja, idBoton=null) {
         let box = document.getElementById(idCaja)
         box.classList.remove("hide")
