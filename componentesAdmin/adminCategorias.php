@@ -74,7 +74,7 @@
                 <div class="contenedorSeccion contenedorModal hide mb-4" id="boxCrearCategoria">
                     <div class="d-flex anchoTotal justify-content-between">
                         <div class="subtitle mb-2">
-                            Nueva categoria
+                            Nueva Categoria
                         </div> 
                     </div>
                     <div class="row">
@@ -100,7 +100,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body centrarTexto">
-                            ¿Confirma la nueva categoria: <br><span id="spanCategoria"></span></br>?
+                            ¿Confirma la nueva categoria: <b><span id="spanCategoria"></span></b>?
                         </div>
                         <div class="modal-footer d-flex justify-content-around">
                             <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
@@ -169,7 +169,7 @@
             <div class="contenedorSeccion contenedorModal">
                 <div class="d-flex anchoTotal row">
                     <div class="subtitle col-6">
-                        Categorias disponibles
+                        Categorias Disponibles
                     </div>
                     <div class="col-6 d-flex align-items-end justify-content-end">
                         <button type="submit" name="botonNuevaCategoria" onclick="mostrarCaja('boxCrearCategoria', 'botonNuevaCategoria')" id="botonNuevaCategoria" class="btn botonConfirmar col-6 col-md-3">Nueva</button>        
