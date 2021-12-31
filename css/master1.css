@@ -92,13 +92,15 @@ TO DO
     border: solid 1px rgb(236, 130, 130);
 }
 .trashButton{
-    text-align: center;
+    display:flex !important;
+    justify-content: center;
+    align-items: center;
     min-width: 40px;
     color:white;
     background-color: rgb(236, 130, 130);
     height: 25px;
     border-radius: 5px;
-    padding-bottom: 2px !important;
+    padding:0 !important;
 }
 .trashButton:hover{
     cursor: pointer;
@@ -107,12 +109,15 @@ TO DO
     border: solid 1px rgb(236, 130, 130);
 }
 .editButton{
-    text-align: center;
-    min-width: 25px;
+    display:flex !important;
+    justify-content: center;
+    align-items: center;
+    min-width: 40px;
     background-color: rgb(163, 73, 164);
     color:white;
     height: 25px;
     border-radius: 5px;
+    padding:0 !important;
 }
 .editButton:hover{
     cursor: pointer;

@@ -15,6 +15,21 @@
             $alertErrorConexion= "show";
         }
     }
+    // ACCION EDITAR CATEGORIA
+    if (isset($_POST["editarCategoria"])){
+        $id = $_POST["idCategoriaPorEditar"];
+        $descripcion = $_POST["inputEditarCategoria"];
+        $habilitado = $_POST["selectEditarCategoria"];
+        $date = date("Y-m-d h:i:s");
+        $consulta = $baseDeDatos ->prepare("UPDATE categorias SET habilitado = '$habilitado', modified = '$date', descripcion = '$descripcion' WHERE id = '$id'");
+        try {
+            $consulta->execute();
+            $alertConfirmacion = "show";
+            $mensajeAlertConfirmacion="La categoria se modificó correctamente";
+        } catch (\Throwable $th) {
+            $alertErrorConexion= "show";
+        }
+    }
     // ACCION ELIMINAR CATEGORIA
     if(isset($_POST["eliminarCategoria"])){
         $id = $_POST["inputCategoriaEliminar"];
@@ -52,49 +67,103 @@
         <div class="alert alert-success centrarTexto <?php echo $alertConfirmacion ?>" role="alert">
             <?php echo $mensajeAlertConfirmacion ?>
         </div>
-        <form name="form1" method="POST" action="admin2.php?adminCategorias=">
-            <!-- BOX NUEVA CATEGORIA -->
-            <div class="contenedorSeccion contenedorModal hide mb-4" id="boxCrearCategoria">
-                <div class="d-flex anchoTotal justify-content-between">
-                    <div class="subtitle mb-2">
-                        Nueva categoria
-                    </div> 
-                </div>
-                <div class="row">
-                    <div class="col-12 col-md-6">
-                        <label class="labelForm"> Descripción: </label>
-                        <input maxlength="30" name="inputNuevaCategoria" onkeyup="habilitarBoton(value, 3,'botonGenerar' )" name="descripcion">
-                    </div>
-                    <div class="col-12 col-md-6 d-flex align-items-end justify-content-around mt-2 mt-md-0 mb-2 mb-md-0">
-                        <button type="submit" name="botonCancelar" onclick="ocultarCaja('boxCrearCategoria', 'botonNuevaCategoria')" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
-                        <!-- <button type="submit" name="botonGenerar" class="btn botonConfirmar col-6 col-md-3">Generar</button>         -->
-                        <button type="button" name="botonGenerar" disabled id="botonGenerar" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            Generar
-                        </button>
-                    </div>
-                </div>
-                <div class="hide errorValidacion marginl100" id="mensajeValidacion">3 o mas caracteres</div>
-            </div>
-            <!-- MODAL CONFIRMACION CREACION CATEGORIA -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <!-- <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> -->
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body centrarTexto">
-                        ¿Confirma la nueva categoria: <span id="spanCategoria"></span>?
-                    </div>
-                    <div class="modal-footer d-flex justify-content-around">
-                        <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" name="confirmarCategoria" class="btn botonConfirmar">Confirmar</button>
-                    </div>
-                    </div>
-                </div>
-            </div>
-        </form>
+        <!-- CREACION DE CATEGORIA -->
         <div>
+            <form name="form1" method="POST" action="admin2.php?adminCategorias=">
+                <!-- BOX NUEVA CATEGORIA -->
+                <div class="contenedorSeccion contenedorModal hide mb-4" id="boxCrearCategoria">
+                    <div class="d-flex anchoTotal justify-content-between">
+                        <div class="subtitle mb-2">
+                            Nueva categoria
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <label class="labelForm"> Descripción: </label>
+                            <input maxlength="30" name="inputNuevaCategoria" onkeyup="habilitarBoton(value, 3,'botonGenerar', 'mensajeValidacionCrear')" name="descripcion">
+                        </div>
+                        <div class="col-12 col-md-6 d-flex align-items-end justify-content-around mt-2 mt-md-0 mb-2 mb-md-0">
+                            <button type="submit" name="botonCancelar" onclick="ocultarCaja('boxCrearCategoria', 'botonNuevaCategoria')" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
+                            <button type="button" name="botonGenerar" disabled id="botonGenerar" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Generar
+                            </button>
+                        </div>
+                    </div>
+                    <div class="hide errorValidacion marginl100" id="mensajeValidacionCrear">3 o mas caracteres</div>
+                </div>
+                <!-- MODAL CONFIRMACION CREACION CATEGORIA -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <!-- <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> -->
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body centrarTexto">
+                            ¿Confirma la nueva categoria: <br><span id="spanCategoria"></span></br>?
+                        </div>
+                        <div class="modal-footer d-flex justify-content-around">
+                            <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" name="confirmarCategoria" class="btn botonConfirmar">Confirmar</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- EDICION DE CATEGORIA -->
+        <div>
+            <form name="formEdicion" method="POST" action="admin2.php?adminCategorias=">
+                <!-- BOX EDICION CATEGORIA -->
+                <div class="contenedorSeccion contenedorModal hide mb-4" id="boxEditarCategoria">
+                    <div class="d-flex anchoTotal justify-content-between">
+                        <div class="subtitle mb-2">
+                            Editar categoria
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                            <input type="text" style="max-width:70px" readonly class="centrarTexto" name="idCategoriaPorEditar" id="idCategoriaPorEditar">
+                        </div>
+                        <div class="col-9 col-md-6 align-items-end">
+                            <label class="labelForm"> Descripción: </label>
+                            <input maxlength="30" name="inputEditarCategoria" onkeyup="habilitarBoton(value, 3, 'botonEditar', 'mensajeValidacionEditar')" id="inputEditarCategoria">
+                        </div>
+                        <div class="col-6 col-md-4 d-flex align-items-end mt-2 mt-md-0 mb-2 mb-md-0">
+                            <label class="labelForm"> Habilitar: </label>
+                            <select name="selectEditarCategoria" onchange="habilitarBotonDirecto('botonEditar')" id="selectEditarCategoria" >
+                                <option value="0">No</option>
+                                <option value="1">Si</option>
+                            </select>
+                        </div>
+                        <div class="col-6 col-md-12 d-flex align-items-end justify-content-around mt-2 mt-l-0 mb-0">
+                            <button type="submit" name="botonCancelar" onclick="ocultarCaja('boxEditarCategoria')" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
+                            <button type="button" name="botonEditarCategoria" onclick="enviarDatosEdicion('inputEditarCategoria', 'selectEditarCategoria')" disabled id="botonEditar" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#modalEdicionCategoria">
+                                Editar
+                            </button>
+                        </div>
+                    </div>
+                    <div class="hide errorValidacion marginl100" id="mensajeValidacionEditar">3 o mas caracteres</div>
+                </div>
+                <!-- MODAL CONFIRMACION EDICION CATEGORIA -->
+                <div class="modal fade" id="modalEdicionCategoria" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body centrarTexto">
+                            ¿Confirma los cambios: <b><span id="spanEdicionCategoria"></span></b>?
+                        </div>
+                        <div class="modal-footer d-flex justify-content-around">
+                            <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" name="editarCategoria" class="btn botonConfirmar">Confirmar</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
         
             <!-- BOX LISTADO CATEGORIAS -->
             <div class="contenedorSeccion contenedorModal">
@@ -125,20 +194,19 @@
                                     <td><?php echo $categoria["id"] ?></td>
                                     <td><?php echo $categoria["descripcion"] ?></td>
                                     <td style="text-align: center"><?php echo $categoria["habilitado"] == 1 ? 'Sí' : 'No' ?></td>
-                                    <td> 
-                                     
-                                        <button type="button" onmouseover="deshabilitarBotonTrash(<?php echo $categoria['id']?>, <?php echo $categoria['habilitado']?>)" name="trashButton<?php echo $categoria['id']?>" id="trashButton<?php echo $categoria['id']?>" class="btn pb-1 trashButton" onclick="eliminarCategorias(<?php echo $categoria['id']?>, '<?php echo $categoria['descripcion'];?>')" data-bs-toggle="modal" data-bs-target="#modalEliminar">
+                                    <td class="d-flex justify-content-end"> 
+                                        <button type="button" onmouseover="deshabilitarBotonTrash(<?php echo $categoria['id']?>, <?php echo $categoria['habilitado']?>)" name="trashButton<?php echo $categoria['id']?>" id="trashButton<?php echo $categoria['id']?>" class="btn trashButton" onclick="eliminarCategorias(<?php echo $categoria['id']?>, '<?php echo $categoria['descripcion'];?>')" data-bs-toggle="modal" data-bs-target="#modalEliminar">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                                 <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                                             </svg>
                                         </button>
                                     </td>
                                     <td>
-                                        <div class="editButton pt-1" onclick="editUser(<?php echo $articulo['id']?>)" id="<?php echo $usuario["id"]?>">
+                                        <button type="button" class="btn editButton" onclick="mostrarCaja('boxEditarCategoria'), cargarDatosEdicion('<?php echo $categoria['id']?>', '<?php echo $categoria['descripcion']?>', <?php echo $categoria['habilitado']?>)">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                                                 <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
                                             </svg> 
-                                        </div>
+                                        </button>
                                     </td>
                                 </tr>
                             <?php } ?>   
@@ -164,7 +232,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body centrarTexto">
-                            ¿Confirma que desea eliminar la categoria <span id="categoriaAEliminar"></span>? Si desea habilitarla nuevamente, en la opción editar podrá hacerlo.
+                            ¿Confirma que desea eliminar la categoria <b><span id="categoriaAEliminar"></span></b>?</br> Si desea habilitarla nuevamente, en la opción editar podrá hacerlo.
                         </div>
                         <div class="modal-footer d-flex justify-content-around">
                             <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
@@ -172,9 +240,8 @@
                         </div>
                     </div>
                 </div>
+                </form>
             </div>
-        </form>
-        </div>
     </div>
 
 <script type="text/javascript">
@@ -196,9 +263,9 @@
         }
     }
     // FUNCION PARA HABILITAR UN BOTON EN BASE A VALIDACION DE INPUT - PARAMETROS: VALUE, LENGTH, IDBOTON A HABILITAR 
-    function habilitarBoton(value, length, id) {
+    function habilitarBoton(value, length, id, idMensajeValidacion) {
         let boton = document.getElementById(id)
-        let mensajeValidacion = document.getElementById("mensajeValidacion")
+        let mensajeValidacion = document.getElementById(idMensajeValidacion)
         let spanCategoria = document.getElementById("spanCategoria")
         if(value.length >= length) {
             boton.removeAttribute("disabled");
@@ -221,4 +288,25 @@
             boton.setAttribute("disabled", true)    
         }
     }
+    function habilitarBotonDirecto (id) {
+        let boton = document.getElementById(id)
+        if (boton.hasAttribute("disabled")){
+            boton.removeAttribute("disabled")    
+        }
+    }
+    function cargarDatosEdicion(id, descripcion, habilitado){
+        let idCategoriaPorEditar = document.getElementById("idCategoriaPorEditar")
+        let selectEditarCategoria = document.getElementById("selectEditarCategoria")
+        let inputEditarCategoria = document.getElementById("inputEditarCategoria")
+        idCategoriaPorEditar.value = id
+        inputEditarCategoria.value = descripcion
+        selectEditarCategoria.value = habilitado
+    }
+    function enviarDatosEdicion(idInput, idSelect) {
+        let input = document.getElementById(idInput).value
+        let select = document.getElementById(idSelect).value
+        let spanEdicionCategoria = document.getElementById("spanEdicionCategoria")
+        spanEdicionCategoria.innerHTML = input + " - " + (select == 0 ? "Eliminado" : "Habilitado") 
+    
+}
 </script>
