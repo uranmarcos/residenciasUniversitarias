@@ -175,8 +175,8 @@
                         <button type="submit" name="botonNuevaCategoria" onclick="mostrarCaja('boxCrearCategoria', 'botonNuevaCategoria')" id="botonNuevaCategoria" class="btn botonConfirmar col-6 col-md-3">Nueva</button>        
                     </div>
                 </div>
-                <div class="d-flex anchoTotal justify-content-between">
-                    <!-- TABLA CON LISTA DE CATEGORIAS -->
+                <!-- TABLA CON LISTA DE CATEGORIAS -->
+                <div class="table-responsive">
                     <table class="table <?php echo $hayDatos ?>">
                         <thead>
                             <tr>
@@ -212,7 +212,8 @@
                             <?php } ?>   
                         </tbody>               
                     </table>
-                    <!-- TABLA SIN DATOS -->
+                </div>
+                <!-- TABLA SIN DATOS -->
                     <table class="table <?php echo $noHayDatos?>">
                         <thead class="d-flex justify-content-center">
                             <tr>
@@ -220,7 +221,7 @@
                             </tr>
                         </thead>
                     </table>
-                </div>
+                <!-- </div> -->
             </div>
             <!-- MODAL CONFIRMACION ELIMINACION CATEGORIA -->
             <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
