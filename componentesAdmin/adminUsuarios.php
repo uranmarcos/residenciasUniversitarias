@@ -47,18 +47,18 @@
     // }
 
     // ACCION ELIMINAR ARTICULO
-    // if(isset($_POST["eliminarArticulo"])){
-    //     $id = $_POST["idArticuloEliminar"];
-    //     $date = date("Y-m-d h:i:s");
-    //     $consulta = $baseDeDatos ->prepare("UPDATE articulos SET habilitado = 0, modified = '$date' WHERE id = '$id'");
-    //     try {
-    //         $consulta->execute();
-    //         $alertConfirmacion = "show";
-    //         $mensajeAlertConfirmacion="El artículo se eliminó correctamente";
-    //     } catch (\Throwable $th) {
-    //         $alertErrorConexion= "show";
-    //     }
-    // }
+    if(isset($_POST["eliminarUsuario"])){
+        $id = $_POST["idUsuarioEliminar"];
+        $date = date("Y-m-d h:i:s");
+        $consulta = $baseDeDatos ->prepare("UPDATE agentes SET habilitado = 0, modified = '$date' WHERE id = '$id'");
+        try {
+            $consulta->execute();
+            $alertConfirmacion = "show";
+            $mensajeAlertConfirmacion="El usuario se eliminó correctamente";
+        } catch (\Throwable $th) {
+            $alertErrorConexion= "show";
+        }
+    }
 
     // CONSULTAS INICIALES LISTADO DE ARTICULOS, MEDIDAS Y CATEGORIAS
     $consultaUsuarios = $baseDeDatos ->prepare("SELECT U.id, U.nombre, U.apellido, U.mail, U.dni, U.rol, S.descripcion 'sede', U.casa, U.habilitado FROM agentes U INNER JOIN sedes S ON U.sede = S.id");
@@ -326,7 +326,7 @@
                                     <td style="text-align: center"><?php echo $usuario["rol"] ?></td>
                                     <td style="text-align: center"><?php echo $usuario["habilitado"] == 1 ? 'Sí' : 'No' ?></td>
                                     <td class="d-flex justify-content-end"> 
-                                        <button type="button" onmouseover="deshabilitarBotonTrash(<?php echo $usuario['id']?>, <?php echo $usuario['habilitado']?>)" name="trashButton<?php echo $usuario['id']?>" id="trashButton<?php echo $usuario['id']?>" class="btn trashButton" onclick="eliminarArticulos(<?php echo $usuario['id']?>, '<?php echo $usuario['descripcion'];?>')" data-bs-toggle="modal" data-bs-target="#modalEliminar">
+                                        <button type="button" onmouseover="deshabilitarBotonTrash(<?php echo $usuario['id']?>, <?php echo $usuario['habilitado']?>)" name="trashButton<?php echo $usuario['id']?>" id="trashButton<?php echo $usuario['id']?>" class="btn trashButton" onclick="eliminarUsuarios(<?php echo $usuario['id']?>, '<?php echo $usuario['nombre'];?>', '<?php echo $usuario['apellido'];?>')" data-bs-toggle="modal" data-bs-target="#modalEliminar">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                                 <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                                             </svg>
@@ -353,20 +353,20 @@
                 </thead>
             </table>
         </div>
-        <!-- MODAL CONFIRMACION ELIMINACION CATEGORIA -->
+        <!-- MODAL CONFIRMACION ELIMINACION USUARIO -->
         <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <input type="text" hidden name="idArticuloEliminar" id="idArticuloEliminar"></input>
+                        <input type="text" hidden name="idUsuarioEliminar" id="idUsuarioEliminar"></input>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body centrarTexto">
-                        ¿Confirma que desea eliminar el articulo <b><span id="articuloAEliminar"></span></b>?</br> Si desea habilitarlo nuevamente, en la opción editar podrá hacerlo.
+                        ¿Confirma que desea eliminar el usuario <b><span id="usuarioAEliminar"></span></b>?</br> Si desea habilitarlo nuevamente, en la opción editar podrá hacerlo.
                     </div>
                     <div class="modal-footer d-flex justify-content-around">
                         <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" name="eliminarArticulo" class="btn botonConfirmar">Confirmar</button>
+                        <button type="submit" name="eliminarUsuario" class="btn botonConfirmar">Confirmar</button>
                     </div>
                 </div>
             </div>
@@ -426,11 +426,11 @@
         let spanNuevoUsuario = document.getElementById("spanNuevoUsuario")
         spanNuevoUsuario.innerHTML = "Usuario: <b>" + nombre + " " + apellido + "</b>  - DNI: <b>" + dni + "</b> - rol: <b>" + rolSelected + "</b> - mail: <b>" + mail + "</b> - sede: <b>" + sedeSelected + "</b> - casa: <b>" + casa +"</b>"
     }
-    function eliminarArticulos(id, descripcion) {
-        let articuloAEliminar = document.getElementById("articuloAEliminar")
-        articuloAEliminar.innerHTML = " - " + descripcion + " - "
-        let idArticuloEliminar = document.getElementById("idArticuloEliminar")
-        idArticuloEliminar.value = id
+    function eliminarUsuarios(id, nombre, apellido) {
+        let usuarioAEliminar = document.getElementById("usuarioAEliminar")
+        usuarioAEliminar.innerHTML = " - " + nombre + "  " + apellido + " - "
+        let idUsuarioEliminar = document.getElementById("idUsuarioEliminar")
+        idUsuarioEliminar.value = id
     }
     function deshabilitarBotonTrash (id, habilitado) {
         let boton = document.getElementById("trashButton"+id)
