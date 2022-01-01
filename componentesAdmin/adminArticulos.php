@@ -18,22 +18,23 @@
         }
     }
 
-    // // ACCION EDITAR SEDE
-    // if (isset($_POST["editarSede"])){
-    //     $id = $_POST["idSedePorEditar"];
-    //     $descripcion = $_POST["descripcionNuevoArticulo"];
-    //     $habilitado = $_POST["selectEditarHabilitado"];
-    //     $casas = $_POST["selectEditarCasas"];
-    //     $date = date("Y-m-d h:i:s");
-    //     $consulta = $baseDeDatos ->prepare("UPDATE sedes SET habilitado = '$habilitado', modified = '$date', descripcion = '$descripcion', casas = '$casas' WHERE id = '$id'");
-    //     try {
-    //         $consulta->execute();
-    //         $alertConfirmacion = "show";
-    //         $mensajeAlertConfirmacion="La sede se modificó correctamente";
-    //     } catch (\Throwable $th) {
-    //         $alertErrorConexion= "show";
-    //     }
-    // }
+    // ACCION EDITAR ARTICULO
+    if (isset($_POST["editarArticulo"])){
+        $id = $_POST["idArticuloPorEditar"];
+        $descripcion = $_POST["descripcionEditarArticulo"];
+        $medida = $_POST["medidaEditarArticulo"];
+        $categoria = $_POST["categoriaEditarArticulo"];
+        $habilitado = $_POST["habilitadoEditarArticulo"];
+        $date = date("Y-m-d h:i:s");
+        $consulta = $baseDeDatos ->prepare("UPDATE articulos SET habilitado = '$habilitado', modified = '$date', descripcion = '$descripcion', medida = '$medida', categoria = '$categoria' WHERE id = '$id'");
+        try {
+            $consulta->execute();
+            $alertConfirmacion = "show";
+            $mensajeAlertConfirmacion="El articulo se modificó correctamente";
+        } catch (\Throwable $th) {
+            $alertErrorConexion= "show";
+        }
+    }
 
     // ACCION ELIMINAR ARTICULO
     if(isset($_POST["eliminarArticulo"])){
@@ -50,7 +51,7 @@
     }
 
     // CONSULTAS INICIALES LISTADO DE ARTICULOS, MEDIDAS Y CATEGORIAS
-    $consultaArticulos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, C.descripcion 'categoria', M.descripcion 'medida', A.habilitado FROM articulos A INNER JOIN categorias C ON A.categoria = C.id INNER JOIN medidas M ON A.medida = M.id");
+    $consultaArticulos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, A.categoria 'idCategoria', C.descripcion 'categoria',  A.medida 'idMedida', M.descripcion 'medida', A.habilitado FROM articulos A INNER JOIN categorias C ON A.categoria = C.id INNER JOIN medidas M ON A.medida = M.id");
     $consultaMedidas = $baseDeDatos ->prepare("SELECT * FROM medidas");
     $consultaCategorias = $baseDeDatos ->prepare("SELECT * FROM categorias WHERE habilitado = 1");
     
@@ -144,60 +145,66 @@
         <div>
             <form name="formEdicion" method="POST" action="admin2.php?adminArticulos=">
                 <!-- BOX EDICION ARTICULO -->
-                <div class="contenedorSeccion contenedorModal hide mb-4" id="boxEditarSede">
+                <div class="contenedorSeccion contenedorModal hide mb-4" id="boxEditarArticulo">
                     <div class="d-flex anchoTotal justify-content-between">
                         <div class="subtitle mb-2">
-                            Editar Sede
+                            Editar Articulo
                         </div> 
                     </div>
                     <div class="row">
                         <div class="col-2 col-sm-2 col-md-2 col-lg-1 columna">
                             <label >#</label>
-                            <input type="text" style="max-width:50px" readonly class="centrarTexto" name="idSedePorEditar" id="idSedePorEditar">
+                            <input type="text" style="max-width:50px" readonly class="centrarTexto" name="idArticuloPorEditar" id="idArticuloPorEditar">
                         </div>
-                        <div class="col-9 col-sm-10 col-md-6 col-lg-4 columna">
+                        <div class="col-10 col-md-10 col-lg-3 columna">
                             <label> Descripción: </label>
-                            <input maxlength="30" name="descripcionNuevoArticulo" onkeyup="habilitarBoton(value, 3, 'botonEditar', 'mensajeValidacionEditar')" id="descripcionNuevoArticulo">
+                            <input maxlength="30" name="descripcionEditarArticulo" onkeyup="habilitarBoton(value, 3, 'botonEditar', 'mensajeValidacionEditar')" id="descripcionEditarArticulo">
                         </div>
-                        <div class="col-4 col-sm-2 col-md-2 col-lg-1 columna">
-                            <label> Casas: </label>
-                            <select id="selectEditarCasas" style="max-width:50px; height:30px" name="selectEditarCasas" onchange="habilitarBotonDirecto('botonEditar')" style="width:100px">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option> 
-                            </select>
+                        <div class="col-6 col-sm-4 col-md-4 col-lg-2 columna">
+                            <label class="labelForm"> Medida: </label>
+                            <select id="medidaEditarArticulo"  name="medidaEditarArticulo" onchange="habilitarBotonDirecto('botonEditar')" style="width:100%; height:30px">
+                            <?php foreach($medidas as $medida){ ?>
+                                    <option value="<?php echo $medida['id']?>"><?php echo $medida['descripcion']?></option>
+                                <?php } ?> 
+                            </select>   
                         </div>
-                        <div class="col-4 col-sm-8 col-md-2 col-lg-2 columna">
+                        <div class="col-6 col-sm-4 col-md-4 col-lg-2 columna">
+                            <label class="labelForm"> Categoria: </label>
+                            <select id="categoriaEditarArticulo" name="categoriaEditarArticulo" onchange="habilitarBotonDirecto('botonEditar')" style="width:100%; height:30px">
+                                <?php foreach($categorias as $categoria){ ?>
+                                    <option value="<?php echo $categoria['id']?>"><?php echo $categoria['descripcion']?></option>
+                                <?php } ?>  
+                            </select>   
+                        </div>
+                        <div class="col-4 col-sm-4 col-md-4 col-lg-1 columna">
                             <label> Habilitar: </label>
-                            <select name="selectEditarHabilitado"  style="height:30px" onchange="habilitarBotonDirecto('botonEditar')" id="selectEditarHabilitado" >
+                            <select name="habilitadoEditarArticulo"  style="height:30px" onchange="habilitarBotonDirecto('botonEditar')" id="habilitadoEditarArticulo" >
                                 <option value="0">No</option>
                                 <option value="1">Si</option>
                             </select>
                         </div>
-                        <div class="col-4 col-sm-12 col-lg-4 d-flex align-items-end justify-content-around mt-2 mt-l-0 pb-2 mb-0">
-                            <button type="submit" name="botonCancelar" onclick="ocultarCaja('boxEditarSede')" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
-                            <button type="button" name="botonEditarSede" onclick="enviarDatosEdicion('descripcionNuevoArticulo', 'selectEditarHabilitado', 'selectEditarCasas')" disabled id="botonEditar" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#modalEdicionCategoria">
+                        <div class="col-8 col-sm-12 col-lg-3 d-flex align-items-end justify-content-around mt-2 mt-l-0  mb-0">
+                            <button type="submit" name="botonCancelar" onclick="ocultarCaja('boxEditarArticulo')" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
+                            <button type="button" name="botonEditarArticulo" onclick="enviarDatosEdicion('descripcionEditarArticulo', 'medidaEditarArticulo', 'categoriaEditarArticulo', 'habilitadoEditarArticulo')" disabled id="botonEditar" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#modalEdicionArticulo">
                                 Editar
                             </button>
                         </div>
                     </div>
                     <div class="hide errorValidacion marginl100" id="mensajeValidacionEditar">3 o mas caracteres</div>
                 </div>
-                <!-- MODAL CONFIRMACION EDICION SEDE -->
-                <div class="modal fade" id="modalEdicionCategoria" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <!-- MODAL CONFIRMACION EDICION ARTICULO -->
+                <div class="modal fade" id="modalEdicionArticulo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body centrarTexto">
-                            ¿Confirma los cambios: <b><span id="spanEdicionSede"></span></b>?
+                            ¿Confirma los cambios: <b><span id="spanEdicionArticulo"></span></b>?
                         </div>
                         <div class="modal-footer d-flex justify-content-around">
                             <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" name="editarSede" class="btn botonConfirmar">Confirmar</button>
+                            <button type="submit" name="editarArticulo" class="btn botonConfirmar">Confirmar</button>
                         </div>
                         </div>
                     </div>
@@ -246,7 +253,7 @@
                                         </button>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn editButton" onclick="mostrarCaja('boxEditarSede'), cargarDatosEdicion('<?php echo $articulo['id']?>', '<?php echo $articulo['descripcion']?>', '<?php echo $articulo['casas']?>', <?php echo $articulo['habilitado']?>)">
+                                        <button type="button" class="btn editButton" onclick="mostrarCaja('boxEditarArticulo'), cargarDatosEdicion('<?php echo $articulo['id']?>', '<?php echo $articulo['descripcion']?>', '<?php echo $articulo['idMedida']?>', '<?php echo $articulo['idCategoria']?>', <?php echo $articulo['habilitado']?>)">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                                                 <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
                                             </svg> 
@@ -356,23 +363,31 @@
         }
     }
     // CARGA LOS DATOS DE BASE DE LA SEDE EN EL BOX EDITABLE 
-    function cargarDatosEdicion(id, descripcion, casas, habilitado){
-        let idSedePorEditar = document.getElementById("idSedePorEditar")
-        let selectEditarHabilitado = document.getElementById("selectEditarHabilitado")
-        let descripcionNuevoArticulo = document.getElementById("descripcionNuevoArticulo")
-        let selectEditarCasas = document.getElementById("selectEditarCasas")
-        idSedePorEditar.value = id
-        descripcionNuevoArticulo.value = descripcion
-        selectEditarHabilitado.value = habilitado
-        selectEditarCasas.value = casas
+    function cargarDatosEdicion(id, descripcion, medida, categoria, habilitado){
+        let boton = document.getElementById("botonEditar")
+        boton.setAttribute("disabled", true)
+        let idArticuloPorEditar = document.getElementById("idArticuloPorEditar")
+        let habilitadoEditarArticulo = document.getElementById("habilitadoEditarArticulo")
+        let descripcionEditarArticulo = document.getElementById("descripcionEditarArticulo")
+        let categoriaEditarArticulo = document.getElementById("categoriaEditarArticulo")
+        let medidaEditarArticulo = document.getElementById("medidaEditarArticulo")
+        idArticuloPorEditar.value = id
+        descripcionEditarArticulo.value = descripcion
+        habilitadoEditarArticulo.value = habilitado
+        medidaEditarArticulo.value = medida
+        categoriaEditarArticulo.value = categoria
     }
     // CARGA LOS DATOS NUEVOS DE LA SEDE EN EL MODAL PIDIENDO CONFIRMACION
-    function enviarDatosEdicion(descripcion, habilitado, casas) {
-        let descripcionSede = document.getElementById(descripcion).value
-        let habilitadoSede = document.getElementById(habilitado).value
-        let casasSede = document.getElementById(casas).value
-        let spanEdicionSede = document.getElementById("spanEdicionSede")
-        spanEdicionSede.innerHTML = descripcionSede + " - " + (habilitadoSede == 0 ? "Eliminado" : "Habilitado") + " - " +  (casasSede == 1 ? " 1 casa" : casasSede + " casas")
+    function enviarDatosEdicion(descripcion, medida, categoria, habilitado) {
+        let descripcionArticulo = document.getElementById(descripcion).value
+        let medidaArticulo = document.getElementById(medida)
+        let medidaSelected = medidaArticulo.options[medidaArticulo.selectedIndex].text;
+        let categoriaArticulo = document.getElementById(categoria)
+        let categoriaSelected = categoriaArticulo.options[categoriaArticulo.selectedIndex].text;
+        let habilitadoArticulo = document.getElementById(habilitado).value
+        // let habilitadoSelected = habilitadoArticulo.options[habilitadoArticulo.selectedIndex].text;
+        let spanEdicionArticulo = document.getElementById("spanEdicionArticulo")
+        spanEdicionArticulo.innerHTML = descripcionArticulo + " en " + medidaSelected + " para " +  categoriaSelected + " - " + (habilitadoArticulo == 0 ? "Eliminado" : "Habilitado")
     
 }
 </script>
