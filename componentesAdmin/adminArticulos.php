@@ -93,27 +93,27 @@
                         </div> 
                     </div>
                     <div class="row">
-                        <div class="col-12 col-md-6 col-lg-4 columna">
+                        <div class="col-12 col-md-6 col-lg-3 columna">
                             <label> Descripción: </label>
-                            <input maxlength="30" name="descripcionNuevoArticulo" onkeyup="habilitarBoton(value, 3, 'botonGenerar', 'mensajeValidacionCrear')" id="descripcionNuevoArticulo">
+                            <input maxlength="30" name="descripcionNuevoArticulo" autocomplete="off" onkeyup="habilitarBoton(value, 3, 'botonGenerar', 'mensajeValidacionCrear')" id="descripcionNuevoArticulo">
                         </div>
-                        <div class="col-6 col-sm-4 col-md-3 columna">
+                        <div class="col-6 col-sm-6 col-md-3 columna">
                             <label class="labelForm"> Medida: </label>
-                            <select id="medidaNuevoArticulo"  name="medidaNuevoArticulo" onchange="actualizarDatosModalCrear(value)" style="width:150px; height:30px">
+                            <select id="medidaNuevoArticulo"  name="medidaNuevoArticulo" onchange="actualizarDatosModalCrear(value)" style="width:100%; height:30px">
                             <?php foreach($medidas as $medida){ ?>
                                     <option value="<?php echo $medida['id']?>"><?php echo $medida['descripcion']?></option>
                                 <?php } ?> 
                             </select>   
                         </div>
-                        <div class="col-6 col-sm-4 col-md-3 col-lg-2 columna">
+                        <div class="col-6 col-sm-6 col-md-3  columna">
                             <label class="labelForm"> Categoria: </label>
-                            <select id="categoriaNuevoArticulo" name="categoriaNuevoArticulo" onchange="actualizarDatosModalCrear()" style="width:150px; height:30px">
+                            <select id="categoriaNuevoArticulo" name="categoriaNuevoArticulo" onchange="actualizarDatosModalCrear()" style="width:100%; height:30px">
                                 <?php foreach($categorias as $categoria){ ?>
                                     <option value="<?php echo $categoria['id']?>"><?php echo $categoria['descripcion']?></option>
                                 <?php } ?>  
                             </select>   
                         </div>
-                        <div class="col-12  col-sm-4 col-md-3 d-flex align-items-end justify-content-around mt-2 mt-md-0 mb-2 pb-md-1 mb-md-0">
+                        <div class="col-12 col-lg-3 d-flex align-items-end justify-content-around mt-2 mt-md-2 mb-2 pb-md-1 mb-md-0">
                             <button type="submit" name="botonCancelar" onclick="ocultarCaja('boxCrearArticulo', 'botonNuevoArticulo')" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
                             <button type="button" name="botonGenerar" disabled id="botonGenerar" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 Generar
@@ -158,7 +158,7 @@
                         </div>
                         <div class="col-10 col-md-10 col-lg-3 columna">
                             <label> Descripción: </label>
-                            <input maxlength="30" name="descripcionEditarArticulo" onkeyup="habilitarBoton(value, 3, 'botonEditar', 'mensajeValidacionEditar')" id="descripcionEditarArticulo">
+                            <input maxlength="30" name="descripcionEditarArticulo" autocomplete="off" onkeyup="habilitarBoton(value, 3, 'botonEditar', 'mensajeValidacionEditar')" id="descripcionEditarArticulo">
                         </div>
                         <div class="col-6 col-sm-4 col-md-4 col-lg-2 columna">
                             <label class="labelForm"> Medida: </label>
