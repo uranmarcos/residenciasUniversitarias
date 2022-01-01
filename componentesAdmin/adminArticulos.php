@@ -296,7 +296,6 @@
     </div>
 
 <script type="text/javascript">
-    let categoriaEliminable = null
     function mostrarCaja(idCaja, idCajaOcultar, idBoton=null) {
         ocultarCaja(idCajaOcultar)
         let box = document.getElementById(idCaja)
