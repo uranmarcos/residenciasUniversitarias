@@ -2,6 +2,13 @@
     $alertErrorConexion = "hide";
     $alertConfirmacion = "hide";
     $mensajeAlertConfirmacion="";
+    // VARIABLES CON LOS CAMPOS A REVISAR AL VALIDAR EL FORMULARIO DE EDICION/CREACION
+    $camposCreacion = ["primerNombreNuevoUsuario", "segundoNombreNuevoUsuario", "apellidoNuevoUsuario", "dniNuevoUsuario", "mailNuevoUsuario", "sedeNuevoUsuario"];
+    $camposErroresCreacion = ["errorPrimerNombreNuevoUsuario", "errorSegundoNombreNuevoUsuario", "errorApellidoNuevoUsuario",
+    "errorDniNuevoUsuario", "errorMailNuevoUsuario", "errorSedeNuevoUsuario" ];
+    $camposEdicion = ["primerNombreEditarUsuario", "segundoNombreEditarUsuario", "apellidoEditarUsuario", "dniEditarUsuario", "mailEditarUsuario", "sedeEditarUsuario"];
+    $camposErroresEdicion = ["errorPrimerNombreEditarUsuario", "errorSegundoNombreEditarUsuario", "errorApellidoEditarUsuario",
+    "errorDniEditarUsuario", "errorMailEditarUsuario", "errorSedeEditarUsuario" ];
     // ACCION CREAR USUARIO
     if(isset($_POST["crearUsuario"])){
         $nombres = $_POST['primerNombreNuevoUsuario'] . " " . $_POST['segundoNombreNuevoUsuario']; 
@@ -28,23 +35,34 @@
         }
     }
 
-    // ACCION EDITAR ARTICULO
-    // if (isset($_POST["editarArticulo"])){
-    //     $id = $_POST["idArticuloPorEditar"];
-    //     $descripcion = $_POST["descripcionEditarArticulo"];
-    //     $medida = $_POST["medidaEditarArticulo"];
-    //     $categoria = $_POST["categoriaEditarArticulo"];
-    //     $habilitado = $_POST["habilitadoEditarArticulo"];
-    //     $date = date("Y-m-d h:i:s");
-    //     $consulta = $baseDeDatos ->prepare("UPDATE articulos SET habilitado = '$habilitado', modified = '$date', descripcion = '$descripcion', medida = '$medida', categoria = '$categoria' WHERE id = '$id'");
-    //     try {
-    //         $consulta->execute();
-    //         $alertConfirmacion = "show";
-    //         $mensajeAlertConfirmacion="El articulo se modificó correctamente";
-    //     } catch (\Throwable $th) {
-    //         $alertErrorConexion= "show";
-    //     }
-    // }
+    // ACCION EDITAR USUARIO
+    if (isset($_POST["editarUsuario"])){
+        $id = $_POST["idUsuarioPorEditar"];
+        $primerNombre = $_POST["primerNombreEditarUsuario"];
+        $segundoNombre = $_POST["segundoNombreEditarUsuario"];
+        $apellido = $_POST["apellidoEditarUsuario"];
+        $rol = $_POST["rolEditarUsuario"];
+        $mail = $_POST["mailEditarUsuario"];
+        if ($rol == "general") {
+            $sede = 6;
+            $casa = 0;
+        } else {
+            $sede = $_POST["sedeEditarUsuario"];
+            $casa = $_POST["casaEditarUsuario"];
+        }
+        $habilitado = $_POST["habilitadoEditarUsuario"];
+        $date = date("Y-m-d h:i:s");
+        $consulta = $baseDeDatos ->prepare("UPDATE agentes SET nombre = '$primerNombre', segundoNombre = '$segundoNombre',
+        apellido = '$apellido', rol = '$rol', mail = '$mail', sede = '$sede', casa = '$casa', habilitado = '$habilitado',  modified = '$date' WHERE id = '$id'");
+        //$consulta->execute();
+        try {
+            $consulta->execute();
+            $alertConfirmacion = "show";
+            $mensajeAlertConfirmacion="El usuario se modificó correctamente";
+        } catch (\Throwable $th) {
+            $alertErrorConexion= "show";
+        }
+    }
 
     // ACCION ELIMINAR ARTICULO
     if(isset($_POST["eliminarUsuario"])){
@@ -61,7 +79,7 @@
     }
 
     // CONSULTAS INICIALES LISTADO DE ARTICULOS, MEDIDAS Y CATEGORIAS
-    $consultaUsuarios = $baseDeDatos ->prepare("SELECT U.id, U.nombre, U.apellido, U.mail, U.dni, U.rol, S.descripcion 'sede', U.casa, U.habilitado FROM agentes U INNER JOIN sedes S ON U.sede = S.id");
+    $consultaUsuarios = $baseDeDatos ->prepare("SELECT U.id, U.nombre, U.segundoNombre, U.apellido, U.mail, U.dni, U.sede idSede, U.rol, S.descripcion 'sede', U.casa, U.habilitado FROM agentes U INNER JOIN sedes S ON U.sede = S.id");
     $consultaSedes = $baseDeDatos ->prepare("SELECT * FROM sedes WHERE habilitado = '1'");
     
     try {
@@ -136,7 +154,7 @@
                         </div>
                         <div class="col-12 col-md-6 col-lg-3 columna">
                             <label>Rol: </label>
-                            <select id="rolNuevoUsuario"  name="rolNuevoUsuario" onchange="confirmarRol(value)" style="width:100%; height:30px">
+                            <select id="rolNuevoUsuario"  name="rolNuevoUsuario" onchange="confirmarRol(value, 'crear')" style="width:100%; height:30px">
                                 <?php foreach($roles as $rol){ ?>
                                     <option value="<?php echo $rol["value"] ?>"><?php echo $rol["descripcion"] ?></option>
                                 <?php } ?>
@@ -171,8 +189,8 @@
                             <div class="hide errorValidacion" id="errorCasaNuevoUsuario"></div>
                         </div>
                         <div class="col-12 d-flex align-items-end justify-content-around mt-2 mt-md-2 mb-2 pb-md-1 mb-md-0">
-                            <button type="button" name="botonCancelar" onclick="ocultarCaja('boxCrearUsuario','boxEditarUsuario','botonNuevoUsuario')" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
-                            <button type="button" name="botonGenerar" onmouseover="validarFormularioCompleto()" id="botonCrearUsuario" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <button type="button" name="botonCancelar" onclick="ocultarCaja('boxCrearUsuario','botonNuevoUsuario'), limpiarValidaciones('crear')" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
+                            <button type="button" name="botonGenerar" onmouseover="validarFormularioCompleto('crear')" id="botonCrearUsuario" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 Generar
                             </button>
                         </div>
@@ -207,69 +225,106 @@
                             El rol "General" permite crear, editar y eliminar: sedes, categorias, usuarios y articulos, además de tener acceso a todos los pedidos realizados por las distintas sedes. 
                             <br>
                             ¿Confirma que desea crear un usuario general? Si lo que desea es un usuario que solo realice pedidos, por favor seleccione el rol "Stock".
-                            <span id="spanNuevoUsuario"></span>?
+                            
                         </div>
                         <div class="modal-footer d-flex justify-content-around">
                             <button type="button" class="btn botonCancelar" onclick="cancelarRolGeneral()">Cancelar</button>
-                            <button type="button" name="crearArticulo" onclick="confirmarRolGeneral()" class="btn botonConfirmar">Confirmar</button>
+                            <button type="button" class="btn botonConfirmar" onclick="confirmarRolGeneral()">Confirmar</button>
                         </div>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
-        <!-- EDICION DE ARTICULO -->
+        <!-- EDICION DE USUARIO -->
         <div>
             <form name="formEdicion" method="POST" action="admin2.php?adminUsuarios=">
-                <!-- BOX EDICION ARTICULO -->
+                <!-- BOX EDICION USUARIO -->
                 <div class="contenedorSeccion contenedorModal hide mb-4" id="boxEditarUsuario">
                     <div class="d-flex anchoTotal justify-content-between">
                         <div class="subtitle mb-2">
-                            Editar Articulo
+                            Editar Usuario
                         </div> 
-                    </div>
+                    </div>             
                     <div class="row">
-                        <div class="col-2 col-sm-2 col-md-2 col-lg-1 columna">
-                            <label >#</label>
-                            <input type="text" style="max-width:50px" readonly class="centrarTexto" name="idArticuloPorEditar" id="idArticuloPorEditar">
+                        <div class="col-1 col-md-1 col-lg-3 columna">
+                            <label># </label>
+                            <input maxlength="12" name="idUsuarioPorEditar" readonly  id="idUsuarioPorEditar">
+                            <div class="hide errorValidacion" id="errorIdUsuarioPorEditar"></div>
                         </div>
-                        <div class="col-10 col-md-10 col-lg-3 columna">
-                            <label> Descripción: </label>
-                            <input maxlength="30" name="descripcionEditarArticulo" autocomplete="off" onkeyup="habilitarBoton(value, 3, 'botonEditar', 'mensajeValidacionEditar')" id="descripcionEditarArticulo">
+                        <div class="col-11 col-md-5 col-lg-3 columna">
+                            <label>Primer Nombre: </label>
+                            <input maxlength="12" name="primerNombreEditarUsuario" id="primerNombreEditarUsuario" autocomplete="off" onkeyup="validarCampoFormulario('primerNombreEditarUsuario', 'errorPrimerNombreEditarUsuario')" id="primerNombreNuevoUsuario">
+                            <div class="hide errorValidacion" id="errorPrimerNombreEditarUsuario"></div>
                         </div>
-                        <div class="col-6 col-sm-4 col-md-4 col-lg-2 columna">
-                            <label class="labelForm"> Medida: </label>
-                            <select id="medidaEditarArticulo"  name="medidaEditarArticulo" onchange="habilitarBotonDirecto('botonEditar')" style="width:100%; height:30px">
-                            <?php foreach($medidas as $medida){ ?>
-                                    <option value="<?php echo $medida['id']?>"><?php echo $medida['descripcion']?></option>
+                        <div class="col-12 col-md-6 col-lg-3 columna">
+                            <label>Segundo Nombre: </label>
+                            <input maxlength="12" name="segundoNombreEditarUsuario" id="segundoNombreEditarUsuario" autocomplete="off" onkeyup="validarCampoFormulario('segundoNombreEditarUsuario', 'errorSegundoNombreEditarUsuario' )" id="segundoNombreEditarUsuario">
+                            <div class="hide errorValidacion" id="errorSegundoNombreEditarUsuario"></div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3 columna">
+                            <label>Apellido: </label>
+                            <input maxlength="12" name="apellidoEditarUsuario" id="apellidoEditarUsuario" autocomplete="off" onkeyup="validarCampoFormulario('apellidoEditarUsuario', 'errorApellidoEditarUsuario')" id="apellidoEditarUsuario">
+                            <div class="hide errorValidacion" id="errorApellidoEditarUsuario"></div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3 columna">
+                            <label>DNI: </label>
+                            <input maxlength="8" disabled name="dniEditarUsuario" id="dniEditarUsuario" autocomplete="off" onkeyup="validarCampoFormulario('dniEditarUsuario', 'errorDniEditarUsuario')" id="dniEditarUsuario">
+                            <div class="hide errorValidacion" id="errorDniEditarUsuario"></div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3 columna">
+                            <label>Rol: </label>
+                            <select id="rolEditarUsuario"  name="rolEditarUsuario" id="rolEditarUsuario" onchange="confirmarRol(value, 'editar')" style="width:100%; height:30px">
+                                <?php foreach($roles as $rol){ ?>
+                                    <option value="<?php echo $rol["value"] ?>"><?php echo $rol["descripcion"] ?></option>
+                                <?php } ?>
+                            </select>   
+                            <div class="hide errorValidacion" id="errorRolEditarUsuario"></div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3 columna">
+                            <label>Mail: </label>
+                            <input name="mailEditarUsuario" type="email" autocomplete="off" onkeyup="validarCampoFormulario('mailEditarUsuario', 'errorMailEditarUsuario')" id="mailEditarUsuario"> 
+                            <div class="hide errorValidacion" id="errorMailEditarUsuario"></div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3 columna">
+                            <label>Sede: </label>
+                            <select style="height:30px" id="sedeEditarUsuario" name="sedeEditarUsuario" onchange="selectSede(value), validarCampoFormulario('sedeEditarUsuario', 'errorSedeEditarUsuario')">
+                                <option value="0">Requerido</option>
+                                <?php foreach($sedes as $sede){ ?>
+                                    <option value="<?php echo $sede['id']?>"><?php echo $sede['descripcion']?></option>
                                 <?php } ?> 
-                            </select>   
+                            </select>    
+                            <div class="hide errorValidacion" id="errorSedeEditarUsuario"></div>
                         </div>
-                        <div class="col-6 col-sm-4 col-md-4 col-lg-2 columna">
-                            <label class="labelForm"> Categoria: </label>
-                            <select id="categoriaEditarArticulo" name="categoriaEditarArticulo" onchange="habilitarBotonDirecto('botonEditar')" style="width:100%; height:30px">
-                                <?php foreach($categorias as $categoria){ ?>
-                                    <option value="<?php echo $categoria['id']?>"><?php echo $categoria['descripcion']?></option>
-                                <?php } ?>  
-                            </select>   
+                        <div class="col-6 col-md-3 col-lg-3 columna">
+                            <label>Casa: </label>
+                            <select  id="casaEditarUsuario" name="casaEditarUsuario" style="height:30px" onkeyup="validarCampoFormulario('casaEditarUsuario', 'errorCasaEditarUsuario')">
+                                <option value="0" disabled name="opcionSelectCasa">0</option>
+                                <option value="1" name="opcionSelectCasa">1</option>
+                                <option value="2" name="opcionSelectCasa">2</option>
+                                <option value="3" name="opcionSelectCasa">3</option>
+                                <option value="4" name="opcionSelectCasa">4</option>
+                                <option value="5" name="opcionSelectCasa">5</option>
+                            </select>    
+                            <div class="hide errorValidacion" id="errorCasaEditarUsuario"></div>
                         </div>
-                        <div class="col-4 col-sm-4 col-md-4 col-lg-1 columna">
-                            <label> Habilitar: </label>
-                            <select name="habilitadoEditarArticulo"  style="height:30px" onchange="habilitarBotonDirecto('botonEditar')" id="habilitadoEditarArticulo" >
-                                <option value="0">No</option>
-                                <option value="1">Si</option>
-                            </select>
+                        <div class="col-6 col-md-3 col-lg-3 columna">
+                            <label>Habilitado: </label>
+                            <select  id="habilitadoEditarUsuario" name="habilitadoEditarUsuario" style="height:30px" onkeyup="validarCampoFormulario('habilitadoEditarUsuario', 'errorhabilitadoEditarUsuario')">
+                                <option value="0" name="opcionSelectCasa">No</option>
+                                <option value="1" name="opcionSelectCasa">Si</option>
+                            </select>    
+                            <div class="hide errorValidacion" id="errorhabilitadoEditarUsuario"></div>
                         </div>
-                        <div class="col-8 col-sm-12 col-lg-3 d-flex align-items-end justify-content-around mt-2 mt-l-0  mb-0">
-                            <button type="submit" name="botonCancelar" onclick="ocultarCaja('boxEditarUsuario')" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
-                            <button type="button" name="botonEditarArticulo" onclick="enviarDatosEdicion('descripcionEditarArticulo', 'medidaEditarArticulo', 'categoriaEditarArticulo', 'habilitadoEditarArticulo')" disabled id="botonEditar" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#modalEdicionArticulo">
-                                Editar
+                        <div class="col-12 col-lg-6 d-flex align-items-end justify-content-around mt-2 mt-md-2 mb-2 pb-md-1 mb-md-0">
+                            <button type="button" name="botonCancelar" onclick="ocultarCaja('boxEditarUsuario', 'botonNuevoUsuario'), limpiarValidaciones('editar')" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
+                            <button type="button" name="botonEditar" onmouseover="validarFormularioCompleto('editar')" id="botonEditarUsuario" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#modalEdicionArticulo">
+                                Confirmar
                             </button>
                         </div>
                     </div>
-                    <div class="hide errorValidacion marginl100" id="mensajeValidacionEditar">3 o mas caracteres</div>
                 </div>
-                <!-- MODAL CONFIRMACION EDICION ARTICULO -->
+                <!-- MODAL CONFIRMACION EDICION USUARIO -->
                 <div class="modal fade" id="modalEdicionArticulo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -277,11 +332,11 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body centrarTexto">
-                            ¿Confirma los cambios: <b><span id="spanEdicionArticulo"></span></b>?
+                            ¿Confirma los cambios: <br><span id="spanEditarUsuario"></span>?
                         </div>
                         <div class="modal-footer d-flex justify-content-around">
                             <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" name="editarArticulo" class="btn botonConfirmar">Confirmar</button>
+                            <button type="submit" name="editarUsuario" class="btn botonConfirmar">Confirmar</button>
                         </div>
                         </div>
                     </div>
@@ -319,21 +374,21 @@
                             <?php foreach($usuarios as $usuario){ ?>
                                 <tr>
                                     <td><?php echo $usuario["id"] ?></td>
-                                    <td><?php echo $usuario["nombre"] ?></td>
+                                    <td><?php echo $usuario["nombre"] . " " . $usuario["segundoNombre"] ?></td>
                                     <td><?php echo $usuario["apellido"] ?></td>
                                     <td style="text-align: center"><?php echo $usuario["sede"] ?></td>
                                     <td style="text-align: center"><?php echo $usuario["casa"] ?></td>
                                     <td style="text-align: center"><?php echo $usuario["rol"] ?></td>
                                     <td style="text-align: center"><?php echo $usuario["habilitado"] == 1 ? 'Sí' : 'No' ?></td>
                                     <td class="d-flex justify-content-end"> 
-                                        <button type="button" onmouseover="deshabilitarBotonTrash(<?php echo $usuario['id']?>, <?php echo $usuario['habilitado']?>)" name="trashButton<?php echo $usuario['id']?>" id="trashButton<?php echo $usuario['id']?>" class="btn trashButton" onclick="eliminarUsuarios(<?php echo $usuario['id']?>, '<?php echo $usuario['nombre'];?>', '<?php echo $usuario['apellido'];?>')" data-bs-toggle="modal" data-bs-target="#modalEliminar">
+                                        <button type="button" onmouseover="deshabilitarBotonTrash(<?php echo $usuario['id']?>, '<?php echo $usuario['rol']?>', <?php echo $usuario['habilitado']?>)" name="trashButton<?php echo $usuario['id']?>" id="trashButton<?php echo $usuario['id']?>" class="btn trashButton" onclick="eliminarUsuarios(<?php echo $usuario['id']?>, '<?php echo $usuario['nombre'];?>', '<?php echo $usuario['apellido'];?>')" data-bs-toggle="modal" data-bs-target="#modalEliminar">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                                 <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                                             </svg>
                                         </button>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn editButton" onclick="mostrarCaja('boxEditarUsuario', 'boxCrearUsuario', 'botonNuevoUsuario'), cargarDatosEdicion('<?php echo $usuario['id']?>', '<?php echo $usuario['nombre']?>', '<?php echo $usuario['apellido']?>', '<?php echo $usuario['idCategoria']?>', <?php echo $usuario['habilitado']?>)">
+                                        <button type="button" class="btn editButton" id="editButton<?php echo $usuario['id']?>" onmouseover="deshabilitarBotonEdit(<?php echo $usuario['id']?>, '<?php echo $usuario['rol']?>')" onclick="mostrarCaja('boxEditarUsuario', 'boxCrearUsuario', 'botonNuevoUsuario'), cargarDatosEdicion('<?php echo $usuario['id']?>', '<?php echo $usuario['nombre']?>', '<?php echo $usuario['segundoNombre']?>', '<?php echo $usuario['apellido']?>', '<?php echo $usuario['dni']?>', '<?php echo $usuario['rol']?>', '<?php echo $usuario['mail']?>', '<?php echo $usuario['idSede']?>', <?php echo $usuario['casa']?>, <?php echo $usuario['habilitado']?>)">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                                                 <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
                                             </svg> 
@@ -394,25 +449,25 @@
         }
     }
     // FUNCION PARA HABILITAR UN BOTON EN BASE A VALIDACION DE INPUT - PARAMETROS: VALUE, LENGTH, IDBOTON A HABILITAR 
-    function habilitarBoton(value, length, id, idMensajeValidacion) {
-        let boton = document.getElementById(id)
-        let mensajeValidacion = document.getElementById(idMensajeValidacion)
-        let spanArticulo = document.getElementById("spanArticulo")
-        let categoria = document.getElementById("categoriaNuevoArticulo")
-        let categoriaSelected = categoria.options[categoria.selectedIndex].text;
-        let medida = document.getElementById("medidaNuevoArticulo")
-        let medidaSelected = medida.options[medida.selectedIndex].text;
-        if(value.length >= length) {
-            boton.removeAttribute("disabled");
-            mensajeValidacion.classList.add('hide')
-            spanArticulo.innerHTML = value + " en " + medidaSelected + " para " + categoriaSelected 
-        }else{
-            let spanArticulo = document.getElementById("spanArticulo")
-            boton.setAttribute("disabled", true)
-            mensajeValidacion.classList.remove('hide')
-        }
-    }
-    //ACTUALIZACION DE DATOS EN MODAL CONFIRMACION DE CREACION DE SEDE, AL CAMBIAR CANTIDAD DE CASAS
+    // function habilitarBoton(value, length, id, idMensajeValidacion) {
+    //     let boton = document.getElementById(id)
+    //     let mensajeValidacion = document.getElementById(idMensajeValidacion)
+    //     let spanArticulo = document.getElementById("spanArticulo")
+    //     let categoria = document.getElementById("categoriaNuevoArticulo")
+    //     let categoriaSelected = categoria.options[categoria.selectedIndex].text;
+    //     let medida = document.getElementById("medidaNuevoArticulo")
+    //     let medidaSelected = medida.options[medida.selectedIndex].text;
+    //     if(value.length >= length) {
+    //         boton.removeAttribute("disabled");
+    //         mensajeValidacion.classList.add('hide')
+    //         spanArticulo.innerHTML = value + " en " + medidaSelected + " para " + categoriaSelected 
+    //     }else{
+    //         let spanArticulo = document.getElementById("spanArticulo")
+    //         boton.setAttribute("disabled", true)
+    //         mensajeValidacion.classList.remove('hide')
+    //     }
+    // }
+    //ACTUALIZACION DE DATOS EN MODAL CONFIRMACION DE CREACION DE USUARIO
     function actualizarDatosModalCrear(){
         let nombre = document.getElementById("primerNombreNuevoUsuario").value + " " + document.getElementById("segundoNombreNuevoUsuario").value
         let apellido = document.getElementById("apellidoNuevoUsuario").value
@@ -426,15 +481,34 @@
         let spanNuevoUsuario = document.getElementById("spanNuevoUsuario")
         spanNuevoUsuario.innerHTML = "Usuario: <b>" + nombre + " " + apellido + "</b>  - DNI: <b>" + dni + "</b> - rol: <b>" + rolSelected + "</b> - mail: <b>" + mail + "</b> - sede: <b>" + sedeSelected + "</b> - casa: <b>" + casa +"</b>"
     }
+    function actualizarDatosModalEditar(){
+        let nombre = document.getElementById("primerNombreEditarUsuario").value + " " + document.getElementById("segundoNombreEditarUsuario").value
+        let apellido = document.getElementById("apellidoEditarUsuario").value
+        let dni = document.getElementById("dniEditarUsuario").value
+        let rol = document.getElementById("rolEditarUsuario")
+        let rolSelected = rol.options[rol.selectedIndex].text;
+        let mail = document.getElementById("mailEditarUsuario").value
+        let sede = document.getElementById("sedeEditarUsuario")
+        let sedeSelected = sede.options[sede.selectedIndex].text;
+        let casa = document.getElementById("casaEditarUsuario").value
+        let spanEditarUsuario = document.getElementById("spanEditarUsuario")
+        spanEditarUsuario.innerHTML = "Usuario: <b>" + nombre + " " + apellido + "</b>  - DNI: <b>" + dni + "</b> - rol: <b>" + rolSelected + "</b> - mail: <b>" + mail + "</b> - sede: <b>" + sedeSelected + "</b> - casa: <b>" + casa +"</b>"
+    }
     function eliminarUsuarios(id, nombre, apellido) {
         let usuarioAEliminar = document.getElementById("usuarioAEliminar")
         usuarioAEliminar.innerHTML = " - " + nombre + "  " + apellido + " - "
         let idUsuarioEliminar = document.getElementById("idUsuarioEliminar")
         idUsuarioEliminar.value = id
     }
-    function deshabilitarBotonTrash (id, habilitado) {
+    function deshabilitarBotonTrash (id, rol, habilitado) {
         let boton = document.getElementById("trashButton"+id)
-        if (habilitado == 0){
+        if (habilitado == 0 || rol == "admin"){
+            boton.setAttribute("disabled", true)    
+        }
+    }
+    function deshabilitarBotonEdit (id, rol) {
+        let boton = document.getElementById("editButton"+id)
+        if (rol == "admin"){
             boton.setAttribute("disabled", true)    
         }
     }
@@ -445,19 +519,19 @@
         }
     }
     // CARGA LOS DATOS DE BASE DE LA SEDE EN EL BOX EDITABLE 
-    function cargarDatosEdicion(id, descripcion, medida, categoria, habilitado){
-        let boton = document.getElementById("botonEditar")
+    function cargarDatosEdicion(id, nombre, segundoNombre, apellido, dni, rol, mail, sede, casa, habilitado){
+        let boton = document.getElementById("botonEditarUsuario")
         boton.setAttribute("disabled", true)
-        let idArticuloPorEditar = document.getElementById("idArticuloPorEditar")
-        let habilitadoEditarArticulo = document.getElementById("habilitadoEditarArticulo")
-        let descripcionEditarArticulo = document.getElementById("descripcionEditarArticulo")
-        let categoriaEditarArticulo = document.getElementById("categoriaEditarArticulo")
-        let medidaEditarArticulo = document.getElementById("medidaEditarArticulo")
-        idArticuloPorEditar.value = id
-        descripcionEditarArticulo.value = descripcion
-        habilitadoEditarArticulo.value = habilitado
-        medidaEditarArticulo.value = medida
-        categoriaEditarArticulo.value = categoria
+        document.getElementById("idUsuarioPorEditar").value = id
+        document.getElementById("primerNombreEditarUsuario").value = nombre
+        document.getElementById("segundoNombreEditarUsuario").value = segundoNombre
+        document.getElementById("apellidoEditarUsuario").value = apellido
+        document.getElementById("dniEditarUsuario").value = dni
+        document.getElementById("rolEditarUsuario").value = rol
+        document.getElementById("mailEditarUsuario").value = mail
+        document.getElementById("sedeEditarUsuario").value = sede
+        document.getElementById("casaEditarUsuario").value = casa
+        document.getElementById("habilitadoEditarUsuario").value = habilitado
     }
     // CARGA LOS DATOS NUEVOS DE LA SEDE EN EL MODAL PIDIENDO CONFIRMACION
     function enviarDatosEdicion(descripcion, medida, categoria, habilitado) {
@@ -470,15 +544,17 @@
         let spanEdicionArticulo = document.getElementById("spanEdicionArticulo")
         spanEdicionArticulo.innerHTML = descripcionArticulo + " en " + medidaSelected + " para " +  categoriaSelected + " - " + (habilitadoArticulo == 0 ? "Eliminado" : "Habilitado")
     }
-    function confirmarRol(rol){
+    function confirmarRol(rol, accion){
         if(rol == "general") {
+            let sedeParam = accion == "crear" ? "sedeNuevoUsuario" : "sedeEditarUsuario"
+            let casaParam = accion == "crear" ? "casaNuevoUsuario" : "casaEditarUsuario"
             let modal = document.getElementById("modalConfirmacionRol")
             modal.classList.remove("hide")
             modal.classList.add("show")
-            let sede = document.getElementById("sedeNuevoUsuario")
+            let sede = document.getElementById(sedeParam)
             sede.value = 6
             sede.setAttribute("disabled", true)
-            let selectCasas = document.getElementById("casaNuevoUsuario")
+            let selectCasas = document.getElementById(casaParam)
             selectCasas.value = 0
             selectCasas.setAttribute("disabled", true)
         }
@@ -495,6 +571,15 @@
         let selectCasas = document.getElementById("casaNuevoUsuario")
         selectCasas.value = 1
         selectCasas.removeAttribute("disabled")
+
+        let rolE = document.getElementById("rolEditarUsuario")
+        rolE.value="stock"
+        let sedeE = document.getElementById("sedeEditarUsuario")
+        sedeE.value = 0
+        sedeE.removeAttribute("disabled")
+        let selectCasasE = document.getElementById("casaEditarUsuario")
+        selectCasasE.value = 1
+        selectCasasE.removeAttribute("disabled")
     }
     function confirmarRolGeneral () {
         let modal = document.getElementById("modalConfirmacionRol")
@@ -522,14 +607,17 @@
     }
     // FUNCIONES DE VALIDACIONES DE FORMULARIO
     function validarCampoFormulario(idCampo, idError){
-        let boton = document.getElementById("botonCrearUsuario")
-        boton.removeAttribute("disabled")
+        let botonC = document.getElementById("botonCrearUsuario")
+        let botonE = document.getElementById("botonEditarUsuario")
+        botonC.removeAttribute("disabled")
+        botonE.removeAttribute("disabled")
         let value = document.getElementById(idCampo).value
         let campoError = document.getElementById(idError)
         campoError.classList.remove("hide")
         switch (idCampo) {
             case "primerNombreNuevoUsuario":
-                if (value.length < 3) {
+            case "primerNombreEditarUsuario":
+                if (value.trim().length < 3) {
                     campoError.innerHTML = "Mínimo 3 dígitos"
                 } else {
                     if (!soloLetras(value)){
@@ -540,6 +628,7 @@
                 }
             break;
             case "segundoNombreNuevoUsuario":
+            case "segundoNombreEditarUsuario":
                 if(value.trim() != ""){
                     if (value.length < 3) {
                         campoError.innerHTML = "Mínimo 3 dígitos"
@@ -555,6 +644,7 @@
                 }
             break;
             case "apellidoNuevoUsuario":
+            case "apellidoEditarUsuario":
                 if (value.length < 3) {
                     campoError.innerHTML = "Mínimo 3 dígitos"
                 } else {
@@ -566,6 +656,7 @@
                 }
             break;
             case "dniNuevoUsuario":
+            case "dniEditarUsuario":
                 if (value.length < 8) {
                     campoError.innerHTML = "8 dígitos"
                 } else {
@@ -577,6 +668,7 @@
                 }
             break;
             case "mailNuevoUsuario":
+            case "mailEditarUsuario":
                 if (!isEmailAddress(value)){
                     campoError.innerHTML = "Formato incorrecto"
                 } else {
@@ -584,6 +676,7 @@
                 }
             break;  
             case "sedeNuevoUsuario":
+            case "sedeEditarUsuario":
                 if (value == 0){
                     campoError.innerHTML = "Campo Requerido"
                 } else {
@@ -603,18 +696,27 @@
         return pattern.test(str);  // returns a boolean
     }
     function soloLetras(str) {
-        const pattern = new RegExp('^[A-Z]+$', 'i');
+        // const pattern = new RegExp('^[A-Z]+$', 'i');
+        const pattern = RegExp(/^[A-Za-z\s]+$/g);
         return pattern.test(str);  // returns a boolean
     }
-    function validarFormularioCompleto() {
-        let campos = ["primerNombreNuevoUsuario", "segundoNombreNuevoUsuario", "apellidoNuevoUsuario", "dniNuevoUsuario",
-         "mailNuevoUsuario", "sedeNuevoUsuario"]
+    function validarFormularioCompleto(accion) {
+        let campos = null
+        let camposErrores = null
+        if(accion == "crear"){
+            campos = <?php  echo json_encode($camposCreacion) ?>;
+            camposErrores = <?php  echo json_encode($camposErroresCreacion); ?>;
+        } else {
+            campos = <?php  echo json_encode($camposEdicion); ?>;
+            camposErrores = <?php  echo json_encode($camposErroresEdicion); ?>;
+        }
         let validacion = true;
         campos.forEach(e => {
             switch (e) {
-                case "primerNombreNuevoUsuario":
-                    let valuePrimerNombre = document.getElementById("primerNombreNuevoUsuario").value
-                    let campoErrorPrimerNombre = document.getElementById("errorPrimerNombreNuevoUsuario")
+                // case primer nombre
+                case campos[0]:
+                    let valuePrimerNombre = document.getElementById(campos[0]).value
+                    let campoErrorPrimerNombre = document.getElementById(camposErrores[0])
                     campoErrorPrimerNombre.classList.remove("hide")
                     if (valuePrimerNombre.trim() == "") {
                         campoErrorPrimerNombre.innerHTML = "Campo requerido"
@@ -623,7 +725,7 @@
                         campoErrorPrimerNombre.innerHTML = "Mínimo 3 dígitos"
                         validacion = false
                     } else {
-                        if (!soloLetras(valuePrimerNombre.trim())){
+                        if (!soloLetras(valuePrimerNombre)){
                             campoErrorPrimerNombre.innerHTML = "Solo letras y espacios"
                             validacion = false
                         } else {
@@ -631,9 +733,10 @@
                         }
                     }
                 break;
-                case "segundoNombreNuevoUsuario":
-                    let valueSegundoNombre = document.getElementById("segundoNombreNuevoUsuario").value
-                    let campoErrorSegundoNombre = document.getElementById("errorSegundoNombreNuevoUsuario")
+                // case segundo nombre
+                case campos[1]:
+                    let valueSegundoNombre = document.getElementById(campos[1]).value
+                    let campoErrorSegundoNombre = document.getElementById(camposErrores[1])
                     campoErrorSegundoNombre.classList.remove("hide")
                     if(valueSegundoNombre.trim() != ""){
                         if (valueSegundoNombre.length < 3) {
@@ -651,9 +754,10 @@
                         campoErrorSegundoNombre.classList.add("hide")
                     }
                 break;
-                case "apellidoNuevoUsuario":
-                    let valueApellido = document.getElementById("apellidoNuevoUsuario").value
-                    let campoErrorApellido = document.getElementById("errorApellidoNuevoUsuario")
+                // case apellido
+                case campos[2]:
+                    let valueApellido = document.getElementById(campos[2]).value
+                    let campoErrorApellido = document.getElementById(camposErrores[2])
                     campoErrorApellido.classList.remove("hide")
                     if (valueApellido.trim() == "") {
                         campoErrorApellido.innerHTML = "Campo requerido"
@@ -671,9 +775,10 @@
                         }
                     }
                 break;
-                case "dniNuevoUsuario":
-                    let valueDni = document.getElementById("dniNuevoUsuario").value
-                    let campoErrorDni = document.getElementById("errorDniNuevoUsuario")
+                //case dni
+                case campos[3]:
+                    let valueDni = document.getElementById(campos[3]).value
+                    let campoErrorDni = document.getElementById(camposErrores[3])
                     campoErrorDni.classList.remove("hide")
                     if (valueDni.trim() == "") {
                         campoErrorDni.innerHTML = "Campo requerido"
@@ -690,9 +795,10 @@
                         }
                     }
                 break;
-                case "mailNuevoUsuario":
-                    let valueMail = document.getElementById("mailNuevoUsuario").value
-                    let campoErrorMail = document.getElementById("errorMailNuevoUsuario")
+                //case mail
+                case campos[4]:
+                    let valueMail = document.getElementById(campos[4]).value
+                    let campoErrorMail = document.getElementById(camposErrores[4])
                     campoErrorMail.classList.remove("hide")
                     if (valueMail.trim() == "") {
                         campoErrorMail.innerHTML = "Campo requerido"
@@ -704,9 +810,10 @@
                         campoErrorMail.classList.add("hide")
                     }
                 break;  
-                case "sedeNuevoUsuario":
-                    let valueSede = document.getElementById("sedeNuevoUsuario").value
-                    let campoErrorSede = document.getElementById("errorSedeNuevoUsuario")
+                //case sede
+                case campos[5]:
+                    let valueSede = document.getElementById(campos[5]).value
+                    let campoErrorSede = document.getElementById(camposErrores[5])
                     campoErrorSede.classList.remove("hide")
                     if (valueSede == 0){
                         campoErrorSede.innerHTML = "Campo requerido"
@@ -719,12 +826,39 @@
                 break;
             }
         })
-        let boton = document.getElementById("botonCrearUsuario")
-        if(validacion){
-            boton.removeAttribute("disabled")
-            actualizarDatosModalCrear()
-        }else{
-            boton.setAttribute("disabled", true)
+        if(accion == "crear"){
+            let boton = document.getElementById("botonCrearUsuario")
+            if(validacion){
+                boton.removeAttribute("disabled")
+                actualizarDatosModalCrear()
+            }else{
+                boton.setAttribute("disabled", true)
+            }
+        } else {
+            let boton = document.getElementById("botonEditarUsuario")
+            if(validacion){
+                boton.removeAttribute("disabled")
+                actualizarDatosModalEditar()
+            }else{
+                boton.setAttribute("disabled", true)
+            }
+        }
+    }
+    function limpiarValidaciones(accion) {
+        if(accion == "crear") {
+            document.getElementById("errorPrimerNombreNuevoUsuario").classList.add("hide")
+            document.getElementById("errorSegundoNombreNuevoUsuario").classList.add("hide")
+            document.getElementById("errorApellidoNuevoUsuario").classList.add("hide")
+            document.getElementById("errorDniNuevoUsuario").classList.add("hide")
+            document.getElementById("errorMailNuevoUsuario").classList.add("hide")
+            document.getElementById("errorSedeNuevoUsuario").classList.add("hide")
+        } else {
+            document.getElementById("errorPrimerNombreEditarUsuario").classList.add("hide")
+            document.getElementById("errorSegundoNombreEditarUsuario").classList.add("hide")
+            document.getElementById("errorApellidoEditarUsuario").classList.add("hide")
+            document.getElementById("errorDniEditarUsuario").classList.add("hide")
+            document.getElementById("errorMailEditarUsuario").classList.add("hide")
+            document.getElementById("errorSedeEditarUsuario").classList.add("hide")
         }
     }
 </script>
