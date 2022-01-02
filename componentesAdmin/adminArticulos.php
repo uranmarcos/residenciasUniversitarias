@@ -298,19 +298,15 @@
 <script type="text/javascript">
     function mostrarCaja(idCaja, idCajaOcultar, idBoton=null) {
         ocultarCaja(idCajaOcultar)
-        let box = document.getElementById(idCaja)
-        box.classList.remove("hide")
+        document.getElementById(idCaja).classList.remove("hide")
         if (idBoton != null) {
-            let boton = document.getElementById(idBoton)
-            boton.classList.add("hide")
+            document.getElementById(idBoton).classList.add("hide")
         }
     }
     function ocultarCaja(idCaja, idBoton=null) {
-        let box = document.getElementById(idCaja)
-        box.classList.add("hide")
+        document.getElementById(idCaja).classList.add("hide")
         if (idBoton != null) {
-            let boton = document.getElementById(idBoton)
-            boton.classList.remove("hide")
+            document.getElementById(idBoton).classList.remove("hide")
         }
     }
     // FUNCION PARA HABILITAR UN BOTON EN BASE A VALIDACION DE INPUT - PARAMETROS: VALUE, LENGTH, IDBOTON A HABILITAR 
@@ -327,7 +323,6 @@
             mensajeValidacion.classList.add('hide')
             spanArticulo.innerHTML = value + " en " + medidaSelected + " para " + categoriaSelected 
         }else{
-            let spanArticulo = document.getElementById("spanArticulo")
             boton.setAttribute("disabled", true)
             mensajeValidacion.classList.remove('hide')
         }
@@ -345,15 +340,12 @@
         } 
     }
     function eliminarArticulos(id, descripcion) {
-        let articuloAEliminar = document.getElementById("articuloAEliminar")
-        articuloAEliminar.innerHTML = " - " + descripcion + " - "
-        let idArticuloEliminar = document.getElementById("idArticuloEliminar")
-        idArticuloEliminar.value = id
+        document.getElementById("articuloAEliminar").innerHTML = " - " + descripcion + " - "
+        document.getElementById("idArticuloEliminar").value = id
     }
     function deshabilitarBotonTrash (id, habilitado) {
-        let boton = document.getElementById("trashButton"+id)
         if (habilitado == 0){
-            boton.setAttribute("disabled", true)    
+            document.getElementById("trashButton"+id).setAttribute("disabled", true)    
         }
     }
     function habilitarBotonDirecto (id) {
@@ -364,18 +356,12 @@
     }
     // CARGA LOS DATOS DE BASE DE LA SEDE EN EL BOX EDITABLE 
     function cargarDatosEdicion(id, descripcion, medida, categoria, habilitado){
-        let boton = document.getElementById("botonEditar")
-        boton.setAttribute("disabled", true)
-        let idArticuloPorEditar = document.getElementById("idArticuloPorEditar")
-        let habilitadoEditarArticulo = document.getElementById("habilitadoEditarArticulo")
-        let descripcionEditarArticulo = document.getElementById("descripcionEditarArticulo")
-        let categoriaEditarArticulo = document.getElementById("categoriaEditarArticulo")
-        let medidaEditarArticulo = document.getElementById("medidaEditarArticulo")
-        idArticuloPorEditar.value = id
-        descripcionEditarArticulo.value = descripcion
-        habilitadoEditarArticulo.value = habilitado
-        medidaEditarArticulo.value = medida
-        categoriaEditarArticulo.value = categoria
+        document.getElementById("botonEditar").setAttribute("disabled", true)
+        document.getElementById("idArticuloPorEditar").value = id
+        document.getElementById("descripcionEditarArticulo").value = descripcion
+        document.getElementById("medidaEditarArticulo").value = medida
+        document.getElementById("categoriaEditarArticulo").value = categoria
+        document.getElementById("habilitadoEditarArticulo").value = habilitado
     }
     // CARGA LOS DATOS NUEVOS DE LA SEDE EN EL MODAL PIDIENDO CONFIRMACION
     function enviarDatosEdicion(descripcion, medida, categoria, habilitado) {
@@ -385,7 +371,6 @@
         let categoriaArticulo = document.getElementById(categoria)
         let categoriaSelected = categoriaArticulo.options[categoriaArticulo.selectedIndex].text;
         let habilitadoArticulo = document.getElementById(habilitado).value
-        // let habilitadoSelected = habilitadoArticulo.options[habilitadoArticulo.selectedIndex].text;
         let spanEdicionArticulo = document.getElementById("spanEdicionArticulo")
         spanEdicionArticulo.innerHTML = descripcionArticulo + " en " + medidaSelected + " para " +  categoriaSelected + " - " + (habilitadoArticulo == 0 ? "Eliminado" : "Habilitado")
     

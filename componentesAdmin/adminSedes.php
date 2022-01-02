@@ -271,19 +271,15 @@
 <script type="text/javascript">
     function mostrarCaja(idCaja, idCajaOcultar, idBoton=null) {
         ocultarCaja(idCajaOcultar)
-        let box = document.getElementById(idCaja)
-        box.classList.remove("hide")
+        document.getElementById(idCaja).classList.remove("hide")
         if (idBoton != null) {
-            let boton = document.getElementById(idBoton)
-            boton.classList.add("hide")
+            document.getElementById(idBoton).classList.add("hide")
         }
     }
     function ocultarCaja(idCaja, idBoton=null) {
-        let box = document.getElementById(idCaja)
-        box.classList.add("hide")
+        document.getElementById(idCaja).classList.add("hide")
         if (idBoton != null) {
-            let boton = document.getElementById(idBoton)
-            boton.classList.remove("hide")
+            document.getElementById(idBoton).classList.remove("hide")
         }
     }
     // FUNCION PARA HABILITAR UN BOTON EN BASE A VALIDACION DE INPUT - PARAMETROS: VALUE, LENGTH, IDBOTON A HABILITAR 
@@ -297,7 +293,6 @@
             mensajeValidacion.classList.add('hide')
             spanSede.innerHTML = value + " con " + (casas == 1 ? "1 casa" : casas + " casas")
         }else{
-            let spanSede = document.getElementById("spanSede")
             boton.setAttribute("disabled", true)
             mensajeValidacion.classList.remove('hide')
         }
@@ -311,15 +306,12 @@
         } 
     }
     function eliminarSedes(id, descripcion) {
-        let sedeAEliminar = document.getElementById("sedeAEliminar")
-        sedeAEliminar.innerHTML = " - " + descripcion + " - "
-        let idSedeEliminar = document.getElementById("idSedeEliminar")
-        idSedeEliminar.value = id
+        document.getElementById("sedeAEliminar").innerHTML = " - " + descripcion + " - "
+        document.getElementById("idSedeEliminar").value = id
     }
     function deshabilitarBotonTrash (id, habilitado) {
-        let boton = document.getElementById("trashButton"+id)
         if (habilitado == 0){
-            boton.setAttribute("disabled", true)    
+            document.getElementById("trashButton"+id).setAttribute("disabled", true)    
         }
     }
     function habilitarBotonDirecto (id) {
@@ -330,14 +322,10 @@
     }
     // CARGA LOS DATOS DE BASE DE LA SEDE EN EL BOX EDITABLE 
     function cargarDatosEdicion(id, descripcion, casas, habilitado){
-        let idSedePorEditar = document.getElementById("idSedePorEditar")
-        let selectEditarHabilitado = document.getElementById("selectEditarHabilitado")
-        let inputEditarSede = document.getElementById("inputEditarSede")
-        let selectEditarCasas = document.getElementById("selectEditarCasas")
-        idSedePorEditar.value = id
-        inputEditarSede.value = descripcion
-        selectEditarHabilitado.value = habilitado
-        selectEditarCasas.value = casas
+        document.getElementById("idSedePorEditar").value = id
+        document.getElementById("inputEditarSede").value = descripcion
+        document.getElementById("selectEditarHabilitado").value = habilitado
+        document.getElementById("selectEditarCasas").value = casas
     }
     // CARGA LOS DATOS NUEVOS DE LA SEDE EN EL MODAL PIDIENDO CONFIRMACION
     function enviarDatosEdicion(descripcion, habilitado, casas) {

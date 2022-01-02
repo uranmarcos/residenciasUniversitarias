@@ -250,19 +250,15 @@
     let categoriaEliminable = null
     function mostrarCaja(idCaja, idCajaOcultar, idBoton=null) {
         ocultarCaja(idCajaOcultar)
-        let box = document.getElementById(idCaja)
-        box.classList.remove("hide")
+        document.getElementById(idCaja).classList.remove("hide")
         if (idBoton != null) {
-            let boton = document.getElementById(idBoton)
-            boton.classList.add("hide")
+            document.getElementById(idBoton).classList.add("hide")
         }
     }
     function ocultarCaja(idCaja, idBoton=null) {
-        let box = document.getElementById(idCaja)
-        box.classList.add("hide")
+        document.getElementById(idCaja).classList.add("hide")
         if (idBoton != null) {
-            let boton = document.getElementById(idBoton)
-            boton.classList.remove("hide")
+            document.getElementById(idBoton).classList.remove("hide")
         }
     }
     // FUNCION PARA HABILITAR UN BOTON EN BASE A VALIDACION DE INPUT - PARAMETROS: VALUE, LENGTH, IDBOTON A HABILITAR 
@@ -280,15 +276,12 @@
         }
     }
     function eliminarCategorias(id, descripcion) {
-        let categoriaAEliminar = document.getElementById("categoriaAEliminar")
-        categoriaAEliminar.innerHTML = " - " + descripcion + " - "
-        let inputCategoriaEliminar = document.getElementById("inputCategoriaEliminar")
-        inputCategoriaEliminar.value = id
+        document.getElementById("categoriaAEliminar").innerHTML = " - " + descripcion + " - "
+        document.getElementById("inputCategoriaEliminar").value = id
     }
     function deshabilitarBotonTrash (id, habilitado) {
-        let boton = document.getElementById("trashButton"+id)
         if (habilitado == 0){
-            boton.setAttribute("disabled", true)    
+            document.getElementById("trashButton"+id).setAttribute("disabled", true)    
         }
     }
     function habilitarBotonDirecto (id) {
@@ -298,12 +291,9 @@
         }
     }
     function cargarDatosEdicion(id, descripcion, habilitado){
-        let idCategoriaPorEditar = document.getElementById("idCategoriaPorEditar")
-        let selectEditarCategoria = document.getElementById("selectEditarCategoria")
-        let inputEditarCategoria = document.getElementById("inputEditarCategoria")
-        idCategoriaPorEditar.value = id
-        inputEditarCategoria.value = descripcion
-        selectEditarCategoria.value = habilitado
+        document.getElementById("idCategoriaPorEditar").value = id
+        document.getElementById("inputEditarCategoria").value = descripcion
+        document.getElementById("selectEditarCategoria").value = habilitado
     }
     function enviarDatosEdicion(idInput, idSelect) {
         let input = document.getElementById(idInput).value
