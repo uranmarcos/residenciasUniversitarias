@@ -173,6 +173,10 @@ TO DO
     color:rgb(163, 73, 164);
     border: solid 1px rgb(163, 73, 164);
 }
+.buttonSort{
+    background-color: white !important;
+    border: none
+}
 .rowFiltro{
     padding:10px;
 }

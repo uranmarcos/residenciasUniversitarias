@@ -59,9 +59,11 @@ require("funciones/pdo.php");
     if(isset($_POST["categoriaAsc"])){
         $cat = $_POST["categoria"];
         if($cat == "todos"){
-            $consultaProductos = $baseDeDatos ->prepare("SELECT * FROM productos ORDER BY categoria ASC, producto ASC");    
+            $consultaProductos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, M.descripcion medida, C.descripcion categoria  FROM articulos A 
+                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id ORDER BY categoria ASC, descripcion ASC");   
         }else{
-            $consultaProductos = $baseDeDatos ->prepare("SELECT * FROM productos WHERE categoria='$cat' ORDER BY categoria ASC, producto ASC");
+            $consultaProductos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, M.descripcion medida, C.descripcion categoria  FROM articulos A 
+                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE categoria='$cat' ORDER BY categoria ASC, descripcion ASC");  
         }
         $categoriaAsc = "hide";
         $categoriaDesc= "show";
@@ -70,10 +72,17 @@ require("funciones/pdo.php");
     }
     if(isset($_POST["categoriaDesc"])){
         $cat = $_POST["categoria"];
+        // if($cat == "todos"){
+        //     $consultaProductos = $baseDeDatos ->prepare("SELECT * FROM productos ORDER BY categoria DESC, producto ASC");    
+        // }else{
+        //     $consultaProductos = $baseDeDatos ->prepare("SELECT * FROM productos WHERE categoria='$cat' ORDER BY categoria DESC, producto ASC");
+        // }
         if($cat == "todos"){
-            $consultaProductos = $baseDeDatos ->prepare("SELECT * FROM productos ORDER BY categoria DESC, producto ASC");    
+            $consultaProductos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, M.descripcion medida, C.descripcion categoria  FROM articulos A 
+                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id ORDER BY categoria DESC, descripcion ASC");   
         }else{
-            $consultaProductos = $baseDeDatos ->prepare("SELECT * FROM productos WHERE categoria='$cat' ORDER BY categoria DESC, producto ASC");
+            $consultaProductos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, M.descripcion medida, C.descripcion categoria  FROM articulos A 
+                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE categoria='$cat' ORDER BY categoria DESC, descripcion ASC");  
         }
         $categoriaAsc = "show";
         $categoriaDesc= "hide";
@@ -108,7 +117,7 @@ require("funciones/pdo.php");
         <link href="css/master.css" rel="stylesheet">
         <link href="css/master1.css" rel="stylesheet">
     </head>
-    <body>
+    <body onbeforeunload="return resetFiltros()">
         <div class="contenedorPrincipal">
             <div class="headerFull">
                 <?php require("componentes/header2.php")?>
@@ -132,12 +141,12 @@ require("funciones/pdo.php");
                                 <div class="row bg-grey d-flex align-items-center p-0 m-0 justify-content-around" style="width:100%">
                                     <div class="col-12 col-sm-6 col-md-5">
                                         <div class="row rowFiltro">
-                                            <input type="textarea" class="col-12 " placeholder="Buscar por producto" onkeyup="filtrar()" id="buscadorProducto" value ="">
+                                            <input type="textarea" class="col-12" placeholder="Buscar por producto" onkeyup="filtrar(), guardarFiltro('buscadorProducto')" name="buscadorProducto" id="buscadorProducto">
                                         </div>
                                     </div>    
                                     <div class="col-12 col-sm-6 col-md-5">
                                         <div class="row rowFiltro">
-                                            <select style="height:30px" class="col-12" name="categoria" onchange="filtrar()" id="selectCategoria">
+                                            <select style="height:30px" class="col-12" onchange="filtrar(), guardarFiltro('selectCategoria')" name="categoria" id="selectCategoria">
                                                 <option value="todos">Filtrar las categorias</opcion>
                                                 <?php foreach($categorias as $categoria){ ?>
                                                     <option value="<?php echo $categoria['descripcion'] ?>" ><?php echo $categoria["descripcion"]?></opcion>
@@ -147,7 +156,7 @@ require("funciones/pdo.php");
                                     </div> 
                                     <div class="col-12 col-md-2 mb-2 hide mb-md-0" id="boxBotonFiltro">
                                         <div class="d-flex align-items-center justify-content-center">
-                                            <button type="submit" class="botonQuitarFiltro" name="reiniciarPedido" onclick="resetPedido()" class="editButton botonReiniciar">
+                                            <button type="submit" class="botonQuitarFiltro" name="reiniciarPedido" onclick="quitarFiltros()" class="editButton botonReiniciar">
                                                 Quitar
                                             </button>
                                         </div>
@@ -161,14 +170,14 @@ require("funciones/pdo.php");
                                                 <div class="col-auto">
                                                     Producto
                                                 </div>
-                                                <div class="col"  style="padding-left:0">
-                                                    <button name="productoAsc" class="<?php echo $productosAsc?>">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-up" viewBox="0 0 16 16">
+                                                <div class="col d-flex align-items-center"  style="padding-left:0">
+                                                    <button name="productoAsc" class="<?php echo $productosAsc?> buttonSort">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-arrow-down-up" viewBox="0 0 16 16">
                                                             <path fill-rule="evenodd" d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5zm-7-14a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5z"/>
                                                         </svg>
                                                     </button>
-                                                    <button name="productoDesc" class="<?php echo $productosDesc ?>">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-up" viewBox="0 0 16 16">
+                                                    <button name="productoDesc" class="<?php echo $productosDesc?> buttonSort">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-arrow-down-up" viewBox="0 0 16 16">
                                                             <path fill-rule="evenodd" d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5zm-7-14a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5z"/>
                                                         </svg>
                                                     </button>
@@ -176,19 +185,18 @@ require("funciones/pdo.php");
                                             </div>
                                         </th>
                                         <th scope="col">Cantidad</th>
-                
                                         <th scope="col" name="thCategoria">
                                             <div class="row d-flex justify-content-center" style="width:90%; margin:0px">
                                                 <div class="col-auto">
                                                     Categoria
                                                 </div>
-                                                <div class="col-auto" style="padding-left:0">
-                                                    <button name="categoriaAsc" class="<?php echo $categoriaAsc?>">
+                                                <div class="col-auto d-flex align-items-center" style="padding-left:0">
+                                                    <button name="categoriaAsc" class="<?php echo $categoriaAsc?> buttonSort">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-up" viewBox="0 0 16 16">
                                                             <path fill-rule="evenodd" d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5zm-7-14a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5z"/>
                                                         </svg>
                                                     </button>
-                                                    <button name="categoriaDesc" class="<?php echo $categoriaDesc?>">
+                                                    <button name="categoriaDesc" class="<?php echo $categoriaDesc?> buttonSort">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-up" viewBox="0 0 16 16">
                                                             <path fill-rule="evenodd" d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5zm-7-14a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5z"/>
                                                         </svg>
@@ -209,7 +217,7 @@ require("funciones/pdo.php");
                                             </td>
                                             <td>
                                                 <div class="row">
-                                                    <input type="number" min=0 id="input<?php echo $producto["id"]?>" value="0" onfocus="inputFocusOn()" onkeydown="limpiarInputFocus" onblur="inputFocusOut('input<?php echo $producto['id']?>')" class="cantidadProducto col-8 col-sm-10" name="<?php echo $producto['id']?>">
+                                                    <input type="number" min=0 id="input<?php echo $producto["id"]?>" value="0" onfocus="inputFocusOn()" onkeydown="limpiarInputFocus" onblur="inputFocusOut('input<?php echo $producto['id']?>')" class="cantidadProducto inputProducto col-8 col-sm-10" name="<?php echo $producto['id']?>">
                                                     <div class="editButton pt-1 col-1" style="height:27px; margin-left:2px"  onclick="borrarCantidad('<?php echo $producto['id']?>')">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                                             <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
@@ -235,7 +243,7 @@ require("funciones/pdo.php");
                             </div>
                             <div>
                                 <div class="row rowBoton d-flex justify-content-center"> 
-                                    <button type="submit" name="generarPedido" class="button">Confirmar</button>
+                                    <button type="submit" id="generarPedido" name="generarPedido" onmouseover="validarPedido()" class="button">Confirmar</button>
                                 </div>
                             </div> 
                         </div>                          
@@ -243,14 +251,40 @@ require("funciones/pdo.php");
                 </div>
             </div>
         </div>
+        <div class="modal" id="modalPedido">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header d-flex justify-content-center centrarTexto">
+                        <b>CONFIRMACIÓN</b>
+                    </div>
+                    <div class="modal-body centrarTexto" id="mensajeModalPedido">
+                        
+                    </div>
+                    <div class="modal-footer d-flex justify-content-around">
+                        <button type="button" class="btn botonCancelar" onclick="cerrarModalPedido()">Cancelar</button>
+                        <button type="button" id="botonConfirmar" class="btn botonConfirmar" onclick="confirmarPedido()">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
 <script>
+    window.onload = function(){
+        document.getElementById("buscadorProducto").value = localStorage.getItem("buscadorProducto");
+        document.getElementById("selectCategoria").value = localStorage.getItem("selectCategoria");
+        filtrar()
+    };
     // INICIO COLUMNA CATEGORIA RESPONSIVE
     window.addEventListener("resize", function(){
         let ancho =  window.innerWidth
         ajustarColumnaCategoria (ancho)
     });
+    function guardarFiltro(param){
+        let input = document.getElementById(param);
+        let valor = input.value;
+        localStorage.setItem(param, valor);
+    }
     let ancho =  window.innerWidth
     let thCategoria = document.getElementsByName("thCategoria")
     let tdCategoria = document.getElementsByName("tdCategoria")
@@ -280,11 +314,25 @@ require("funciones/pdo.php");
         let categoria = document.getElementById("selectCategoria").value;
         if(producto.trim() != "" && categoria != "todos"){
             filtrarFilas(producto.toLowerCase(), categoria)
+            boxBotonFiltro.classList.remove("hide")
         } else if(producto.trim() != "" && categoria == "todos") {
             filtrarFilasPorParametro("producto", producto.toLowerCase())
+            boxBotonFiltro.classList.remove("hide")
         }  else if(producto.trim() == "" && categoria != "todos") {
             filtrarFilasPorParametro("categoria", categoria.toLowerCase())
+            boxBotonFiltro.classList.remove("hide")
+        } else {
+            quitarFiltros()
+            boxBotonFiltro.classList.add("hide")
         }
+    }
+    function quitarFiltros(){
+        resetFiltros()
+        let listaFilas = document.getElementsByName("rowTable");
+        listaFilas = Array.from(listaFilas)
+        listaFilas.forEach(function callback(value, index) {
+            value.classList.remove("hide")
+        })
     }
     function filtrarFilas(param1, param2){
         let listaFilas = document.getElementsByName("rowTable");
@@ -316,12 +364,60 @@ require("funciones/pdo.php");
                 if(!categoria.includes(param2) ){
                     value.classList.add("hide")
                 } else {
-                        value.classList.remove("hide")
+                    value.classList.remove("hide")
                 }
             }
         })
-        // for (item of listaProductos){
-        //     console.log(index)
-        // }
+    }
+    function resetFiltros(){
+        localStorage.setItem("buscadorProducto", "")
+        localStorage.setItem("selectCategoria", "todos")
+    }
+    // PEDIDO
+    function validarPedido() {
+        let listaInput = document.getElementsByClassName("inputProducto")
+        let claves = Object.keys(listaInput)
+        let formularioValidado = false
+        let otrosValidado = false
+        for(let i=0; i< claves.length; i++){
+            let clave = claves[i];
+            if(listaInput[clave].value != 0) {
+                formularioValidado = true
+            }
+        }
+        let textarea= document.getElementById("textareaOtros")
+        if(textarea.value.trim() != ""){
+            otrosValidado = true
+        }
+        showModal(otrosValidado, formularioValidado)
+    }
+    function showModal(otrosValidado, formularioValidado) {
+        let modalPedido = document.getElementById("modalPedido")
+        let mensajeModalPedido = document.getElementById("mensajeModalPedido")
+        let botonConfirmar = document.getElementById("botonConfirmar")
+        if(!otrosValidado && !formularioValidado) {
+            modalPedido.classList.remove("hide")
+            modalPedido.classList.add("show")
+            mensajeModalPedido.innerHTML="Disculpe, no puede generar un pedido vacio."
+            botonConfirmar.classList.add("hide")
+            botonConfirmar.classList.remove("show")
+        } else if (otrosValidado && !formularioValidado){
+            modalPedido.classList.remove("hide")
+            modalPedido.classList.add("show")
+            botonConfirmar.classList.add("show")
+            botonConfirmar.classList.remove("show")
+            mensajeModalPedido.innerHTML="El pedido no tiene productos del listado cargados. Solo se pedirá lo agregado en el campo adicional. <br> ¿Desea confirmar el pedido?"
+        } else {
+            modalPedido.classList.remove("hide")
+            modalPedido.classList.add("show")
+            botonConfirmar.classList.add("show")
+            botonConfirmar.classList.remove("hide")
+            mensajeModalPedido.innerHTML="¿Desea confirmar el pedido?"
+        }
+    }
+    function cerrarModalPedido() {
+        let modalPedido = document.getElementById("modalPedido")
+        modalPedido.classList.remove("show")
+        modalPedido.classList.add("hide")
     }
 </script>
