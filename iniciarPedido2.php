@@ -12,6 +12,12 @@ require("funciones/pdo.php");
     $productosDesc= "show";
     $categoriaAsc = "show";
     $categoriaDesc= "hide";
+    $modalConfirmacion ="hide";
+    $tituloModalConfirmacion= "";
+    $mensajeModalConfirmacion = "";
+    $botonPedidoGenerado ="hide";
+    $botonErrorPedido ="hide";
+
 
     $consultaProductos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, M.descripcion medida, C.descripcion categoria  FROM articulos A 
     INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id ORDER BY descripcion ASC");
@@ -72,11 +78,6 @@ require("funciones/pdo.php");
     }
     if(isset($_POST["categoriaDesc"])){
         $cat = $_POST["categoria"];
-        // if($cat == "todos"){
-        //     $consultaProductos = $baseDeDatos ->prepare("SELECT * FROM productos ORDER BY categoria DESC, producto ASC");    
-        // }else{
-        //     $consultaProductos = $baseDeDatos ->prepare("SELECT * FROM productos WHERE categoria='$cat' ORDER BY categoria DESC, producto ASC");
-        // }
         if($cat == "todos"){
             $consultaProductos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, M.descripcion medida, C.descripcion categoria  FROM articulos A 
                 INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id ORDER BY categoria DESC, descripcion ASC");   
@@ -88,6 +89,43 @@ require("funciones/pdo.php");
         $categoriaDesc= "hide";
         $consultaProductos->execute();
         $productos = $consultaProductos -> fetchAll(PDO::FETCH_ASSOC);
+    }
+    // foreach($_POST as $item){
+    //     echo $item;
+    //     echo "<br>";
+    // }
+    // for($i = 1; $i= 6; $i++ ){
+    //     echo($_POST[$i])
+    // }
+    if(isset($_POST["botonConfirmar"])){
+        //ARMO PEDIDO PARA LA BDD
+        $pedido = "";
+        for($i = 1; $i<= 6; $i++ ){
+            if($_POST[$i] != 0) {
+                $pedido = $pedido . $i . ":" . $_POST[$i] . ";";
+            }
+        }
+        if($_POST["otros"] != ""){
+            $pedido = $pedido . "otros:" . $_POST["otros"] . ";";  
+        }
+     
+        $prueba = "";
+        $date = date("Y-m-d h:i:s");
+        $consultaProductos = $baseDeDatos ->prepare("INSERT into pedidosnuevos VALUES(default, 1, 1, 1, '$pedido', '$date')"); 
+        try {
+            $consultaProductos->execute();
+            $modalConfirmacion ="show";
+            $tituloModalConfirmacion= "PEDIDO GENERADO";
+            $mensajeModalConfirmacion = "El pedido se generó correctamente";
+            $botonPedidoGenerado ="show";
+            $botonErrorPedido ="hide";
+        } catch (\Throwable $th) {
+            $modalConfirmacion ="show";
+            $tituloModalConfirmacion= "ERROR";
+            $mensajeModalConfirmacion = "Hubo un error y el pedido no pudo generarse.<br> Por favor intentalo nuevamente.";
+            $botonPedidoGenerado ="hide";
+            $botonErrorPedido ="show";
+        }
     }
     // if(isset($_POST["filtrarCategorias"])){
     //     $cat = $_POST["categoria"];
@@ -246,24 +284,65 @@ require("funciones/pdo.php");
                                     <button type="submit" id="generarPedido" name="generarPedido" onmouseover="validarPedido()" class="button">Confirmar</button>
                                 </div>
                             </div> 
+                            <div class="modal" id="modalPedido">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header d-flex justify-content-center centrarTexto">
+                                            <b>CONFIRMACIÓN</b>
+                                        </div>
+                                        <div class="modal-body centrarTexto" id="mensajeModalPedido">
+                                            
+                                        </div>
+                                        <div class="modal-footer d-flex justify-content-around">
+                                            <button type="button" class="btn botonCancelar" onclick="cerrarModalPedido()">Cancelar</button>
+                                            <button type="submit" id="botonConfirmar" name="botonConfirmar" class="btn botonConfirmar" onclick="confirmarPedido()">Confirmar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal" id="modalSpinner">
+                                <div class="modal-dialog">
+                                    <div class="modal-content" style="min-height:200px; height:200px">
+                                        <div class="modal-header d-flex justify-content-center centrarTexto violeta">
+                                            <b>GENERANDO EL PEDIDO</b>
+                                        </div>
+                                        <div style="height:100%" class="d-flex justify-content-center align-items-center">
+                                            <div class="spinner-border violeta" role="status">
+                                                <span class="sr-only"></span>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="modal-footer d-flex justify-content-around">
+                                            <button type="button" class="btn botonCancelar" onclick="cerrarModalPedido()">Cancelar</button>
+                                            <button type="button" id="botonConfirmar" name="botonConfirmar" class="btn botonConfirmar" onclick="confirmarPedido()">Confirmar</button>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal <?php echo $modalConfirmacion ?>" id="modalConfirmacion">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header d-flex justify-content-center centrarTexto">
+                                            <b><?php echo $tituloModalConfirmacion?></b>
+                                        </div>
+                                        <div class="modal-body centrarTexto" id="mensajeModalPedido">
+                                            <?php echo $mensajeModalConfirmacion ?>
+                                        </div>
+                                        <div class="<?php echo $botonErrorPedido ?>">
+                                            <div class="modal-footer d-flex justify-content-around">
+                                                <button type="button" class="btn botonCancelar" onclick="cerrarModalConfirmacion()">Cancelar</button>
+                                                <button type="submit" id="botonConfirmar" name="botonConfirmar" class="btn botonConfirmar" onclick="confirmarPedido()">Reintentar</button>
+                                            </div>
+                                        </div>
+                                        <div class="<?php echo $botonPedidoGenerado ?>">
+                                            <div class="modal-footer d-flex justify-content-around <?php echo $botonPedidoGenerado ?>">
+                                                <button type="button" class="btn botonCancelar" onclick="cerrarModalConfirmacion()">ACEPTAR</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>                          
                     </form>
-                </div>
-            </div>
-        </div>
-        <div class="modal" id="modalPedido">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header d-flex justify-content-center centrarTexto">
-                        <b>CONFIRMACIÓN</b>
-                    </div>
-                    <div class="modal-body centrarTexto" id="mensajeModalPedido">
-                        
-                    </div>
-                    <div class="modal-footer d-flex justify-content-around">
-                        <button type="button" class="btn botonCancelar" onclick="cerrarModalPedido()">Cancelar</button>
-                        <button type="button" id="botonConfirmar" class="btn botonConfirmar" onclick="confirmarPedido()">Confirmar</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -419,5 +498,15 @@ require("funciones/pdo.php");
         let modalPedido = document.getElementById("modalPedido")
         modalPedido.classList.remove("show")
         modalPedido.classList.add("hide")
+    }
+    function confirmarPedido(){
+        let modalSpinner = document.getElementById("modalSpinner")
+        modalSpinner.classList.remove("hide")
+        modalSpinner.classList.add("show")
+    }
+    function cerrarModalConfirmacion() {
+        let modalConfirmacion = document.getElementById("modalConfirmacion")
+        modalConfirmacion.classList.remove("show")
+        modalConfirmacion.classList.add("hide")
     }
 </script>

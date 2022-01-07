@@ -180,6 +180,9 @@ TO DO
 .rowFiltro{
     padding:10px;
 }
+.violeta {
+    color: rgb(163, 73, 164)
+}
 
 @media (max-width: 767px) {
     .headerFull{

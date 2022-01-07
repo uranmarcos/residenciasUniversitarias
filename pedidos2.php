@@ -6,38 +6,26 @@ require("funciones/pdo.php");
     $mensajeAlertConfirmacion="";
 
     // CONSULTAS INICIALES LISTADO DE ARTICULOS, MEDIDAS Y CATEGORIAS
-    $consultaUsuarios = $baseDeDatos ->prepare("SELECT U.id, U.nombre, U.segundoNombre, U.apellido, U.mail, U.dni, U.sede idSede, U.rol, S.descripcion 'sede', U.casa, U.habilitado FROM agentes U INNER JOIN sedes S ON U.sede = S.id");
-    $consultaSedes = $baseDeDatos ->prepare("SELECT * FROM sedes WHERE habilitado = '1'");
+    $consultaPedidos = $baseDeDatos ->prepare("SELECT PN.id, PN.fecha, A.nombre, A.segundoNombre, A.apellido FROM pedidosnuevos PN INNER JOIN
+     agentes A ON PN.usuario = A.id ORDER BY PN.fecha DESC");
+    //$consultaSedes = $baseDeDatos ->prepare("SELECT * FROM sedes WHERE habilitado = '1'");
     
     try {
-        $consultaUsuarios->execute();
-        $consultaSedes->execute();
+        $consultaPedidos->execute();
+        //$consultaSedes->execute();
     } catch (\Throwable $th) {
         $alertErrorConexion= "show";
     }
-    $usuarios = $consultaUsuarios -> fetchAll(PDO::FETCH_ASSOC);
-    $sedes = $consultaSedes -> fetchAll(PDO::FETCH_ASSOC);
+    $pedidos = $consultaPedidos -> fetchAll(PDO::FETCH_ASSOC);
+    //$sedes = $consultaSedes -> fetchAll(PDO::FETCH_ASSOC);
     $noHayDatos = "show";
     $hayDatos = "hide";
-    if(sizeof($usuarios) != 0) {
+    if(sizeof($pedidos) != 0) {
         $noHayDatos = "hide";
         $hayDatos = "show";
     }
  
-    // OPCIONES DE ROLES PARA LA CREACION DE USUARIOS
-    $rol = "general";
-    if($rol == "admin") {
-        $roles = [
-            [ "value"=> "admin", "descripcion"=> "Admin"],
-            ["value"=> "general", "descripcion"=> "General"],
-            [ "value"=> "stock", "descripcion"=> "Stock"]
-        ];
-    } else if($rol == "general") {
-        $roles = [
-            [ "value"=> "stock", "descripcion"=> "Stock"],
-            ["value"=> "general", "descripcion"=> "General"]
-        ];
-    }
+ 
 
 
 ?>
@@ -58,6 +46,11 @@ require("funciones/pdo.php");
             <div class="headerFull">
                 <?php require("componentes/header2.php")?>
             </div>
+            <div class="col-12 paddingCero">
+                <div class="titleSection">
+                    Pedidos Generados
+                </div>
+            </div>
             <div class="sectionBloque">
                 <div class="alert alert-danger centrarTexto <?php echo $alertErrorConexion ?>" role="alert" >
                     Hubo un error de conexión. Por favor actualizá la página
@@ -74,29 +67,29 @@ require("funciones/pdo.php");
                         <div class="col-6 d-flex align-items-end justify-content-end">
                             <button type="submit" name="nuevoPedido" onclick="redirect()"  id="nuevoPedido" class="btn botonConfirmar col-6 col-md-3">Nuevo</button>        
                         </div>
-                     
                     </div>
                     <!-- TABLA CON LISTA DE PEDIDOS -->
                     <div class="table-responsive">
                         <table class="table <?php echo $hayDatos ?>">
-                            <thead>
+                            <thead style="width:100%">
                                 <tr>
                                     <th scope="col" >#</th>
-                                    <th scope="col" style="width:40%">Fecha</th>
+                                    <th scope="col" style="width:50%">Fecha</th>
                                     <th scope="col" style="width:40%">Voluntario</th>
                                     <th scope="col" style="width:10%">Ver</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                    <?php foreach($usuarios as $usuario){ ?>
+                                    <?php foreach($pedidos as $pedido){ ?>
                                         <tr>
-                                            <td><?php echo $usuario["id"] ?></td>
-                                            <td><?php echo $usuario["nombre"] . " " . $usuario["segundoNombre"] ?></td>
-                                            <td><?php echo $usuario["nombre"] . " " . $usuario["segundoNombre"] ?></td>
-                                            <td class="d-flex justify-content-end"> 
-                                                <button type="button" class="btn editButton" data-bs-toggle="modal" data-bs-target="#modalEliminar">
+                                            <td><?php echo $pedido["id"] ?></td>
+                                            <td><?php echo $pedido["fecha"]?></td>
+                                            <td><?php echo $pedido["nombre"] . " " . $pedido["segundoNombre"] . " " . $pedido["apellido"] ?></td>
+                                            <td class="d-flex justify-content-start"> 
+                                                <button type="button" class="btn editButton" onclick="abrirPedido()" data-bs-toggle="modal" data-bs-target="#modalEliminar">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
                                                     </svg>
                                                 </button>
                                             </td>
@@ -122,5 +115,8 @@ require("funciones/pdo.php");
 <script type="text/javascript">
     function redirect() {
         window.location.href="iniciarPedido2.php"
+    }
+    function abrirPedido(){
+        window.open('_blank');
     }
 </script>
