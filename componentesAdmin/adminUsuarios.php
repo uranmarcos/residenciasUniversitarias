@@ -198,7 +198,7 @@
                 </div>
                 <!-- MODAL CONFIRMACION CREACION USUARIO -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -216,7 +216,7 @@
                 </div>
                 <!-- MODAL CONFIRMACION ROL GENERAL -->
                 <div class="modal hide" id="modalConfirmacionRol">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                         <div class="modal-header centrarTexto">
                             <b>NECESITAMOS CONFIRMACION</b>
@@ -326,7 +326,7 @@
                 </div>
                 <!-- MODAL CONFIRMACION EDICION USUARIO -->
                 <div class="modal fade" id="modalEdicionArticulo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -410,7 +410,7 @@
         </div>
         <!-- MODAL CONFIRMACION ELIMINACION USUARIO -->
         <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <input type="text" hidden name="idUsuarioEliminar" id="idUsuarioEliminar"></input>

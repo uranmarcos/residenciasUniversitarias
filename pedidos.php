@@ -6,7 +6,7 @@ require("funciones/pdo.php");
     $mensajeAlertConfirmacion="";
     
     // CONSULTAS DE TODOS LOS PEDIDOS
-    $consultaPedidos = $baseDeDatos ->prepare("SELECT PN.id, PN.sede, PN.fecha, A.nombre, A.segundoNombre, A.apellido FROM pedidosnuevos PN INNER JOIN
+    $consultaPedidos = $baseDeDatos ->prepare("SELECT PN.id, PN.sede, PN.fecha, PN.enviado, A.nombre, A.segundoNombre, A.apellido FROM pedidosnuevos PN INNER JOIN
      agentes A ON PN.usuario = A.id ORDER BY PN.fecha DESC");    
     try {
         $consultaPedidos->execute();
@@ -75,7 +75,8 @@ require("funciones/pdo.php");
                                 <tr>
                                     <th scope="col" >#</th>
                                     <th scope="col" style="width:50%">Fecha</th>
-                                    <th scope="col" style="width:40%">Voluntario</th>
+                                    <th scope="col" style="width:20%">Voluntario</th>
+                                    <th scope="col" style="width:20%">Enviado</th>
                                     <th scope="col" style="width:10%">Ver</th>
                                 </tr>
                             </thead>
@@ -86,6 +87,7 @@ require("funciones/pdo.php");
                                             <td><input type="text" style ="width:50px; border: none" name="id" readonly value="<?php echo $pedido["id"] ?>"></td>
                                             <td><?php echo $pedido["fecha"]?></td>
                                             <td><?php echo $pedido["nombre"] . " " . $pedido["segundoNombre"] . " " . $pedido["apellido"] ?></td>
+                                            <td><?php echo $pedido["enviado"] == 0 ?  "No enviado"  : "Enviado" ?></td>
                                             <td class="d-flex justify-content-start"> 
                                                 <button type="submit" class="btn editButton" name="verPedido"  data-bs-toggle="modal" data-bs-target="#modalEliminar">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">

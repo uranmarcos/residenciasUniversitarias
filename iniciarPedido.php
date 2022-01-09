@@ -30,7 +30,7 @@ require("funciones/pdo.php");
         $alertErrorConexion= "show";
     }
     $categorias = $consultaCategorias -> fetchAll(PDO::FETCH_ASSOC);
-
+    $modalActualizacion ="hide";
     $_SESSION["productos"] = $productos;
     if(isset($_POST["productoAsc"])){
         $cat = $_POST["categoria"];
@@ -104,7 +104,7 @@ require("funciones/pdo.php");
         $prueba = "";
         $pedidoGuardado = false;
         $date = date("Y-m-d h:i:s");
-        $consultaProductos = $baseDeDatos ->prepare("INSERT into pedidosnuevos VALUES(default, 1, 1, 1, '$pedido', '$date')"); 
+        $consultaProductos = $baseDeDatos ->prepare("INSERT into pedidosnuevos VALUES(default, 1, 1, 1, '$pedido',0, '$date')"); 
         try {
             $consultaProductos->execute();
             $pedidoGuardado = true;
@@ -117,6 +117,7 @@ require("funciones/pdo.php");
         }
         $_SESSION["sede"] = "Cordoba";
         $pedidoEnviado = false;
+        $idPedido = null;
         if($pedidoGuardado){
             try {
                 $consultaUltimoPedido = $baseDeDatos ->prepare("SELECT id FROM pedidosnuevos WHERE usuario = 1 ORDER BY fecha DESC LIMIT 1 "); 
@@ -137,12 +138,36 @@ require("funciones/pdo.php");
         }
         if($pedidoEnviado) {
             // pasar al ultimo de todo
-            $modalConfirmacion ="show";
-            $tituloModalConfirmacion= "PEDIDO GENERADO";
-            $mensajeModalConfirmacion = "El pedido se generó correctamente";
-            $botonPedidoGenerado ="show";
-            $botonErrorPedido ="hide";
+            try {
+                $consultaEnviado = $baseDeDatos ->prepare("UPDATE pedidosnuevos SET enviad = 1 WHERE id = '$id'"); 
+                $consultaEnviado->execute();
+                $modalConfirmacion ="show";
+                $tituloModalConfirmacion= "PEDIDO GENERADO";
+                $mensajeModalConfirmacion = "El pedido se generó y envió correctamente";
+                $botonPedidoGenerado ="show";
+                $botonErrorPedido ="hide";
+            } catch (\Throwable $th) {
+                $modalActualizacion ="show";
+            }
         }
+    }
+    $pedidoActualizado = false;
+    if(isset($_POST["actualizarEnviado"])){
+        try {
+            $consultaUltimoPedido = $baseDeDatos ->prepare("SELECT id FROM pedidosnuevos WHERE usuario = 1 ORDER BY fecha DESC LIMIT 1 "); 
+            $consultaUltimoPedido->execute();
+            $id = $consultaUltimoPedido -> fetchAll(PDO::FETCH_ASSOC);
+            $id = $id[0]["id"];
+            $modalActualizacion = "hide";
+            $consultaEnviado = $baseDeDatos ->prepare("UPDATE pedidosnuevos SET enviado = 1 WHERE id = '$id'"); 
+            $consultaEnviado->execute();
+            $pedidoActualizado = true;
+        } catch (\Throwable $th) {
+            $modalActualizacion ="show";
+        }
+    }
+    if($pedidoActualizado == true) {
+        echo "<script>location.href='pedidos.php';</script>";
     }
     if($_SESSION["errorMail"]){
         $modalConfirmacion ="show";
@@ -311,7 +336,7 @@ require("funciones/pdo.php");
                                 </div>
                             </div> 
                             <div class="modal" id="modalPedido">
-                                <div class="modal-dialog">
+                                <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header d-flex justify-content-center centrarTexto">
                                             <b>CONFIRMACIÓN</b>
@@ -327,7 +352,7 @@ require("funciones/pdo.php");
                                 </div>
                             </div>
                             <div class="modal" id="modalSpinner">
-                                <div class="modal-dialog">
+                                <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content" style="min-height:200px; height:200px">
                                         <div class="modal-header d-flex justify-content-center centrarTexto violeta">
                                             <b>GENERANDO EL PEDIDO</b>
@@ -345,7 +370,7 @@ require("funciones/pdo.php");
                                 </div>
                             </div>
                             <div class="modal <?php echo $modalConfirmacion ?>" id="modalConfirmacion">
-                                <div class="modal-dialog">
+                                <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header d-flex justify-content-center centrarTexto">
                                             <b><?php echo $tituloModalConfirmacion?></b>
@@ -361,7 +386,37 @@ require("funciones/pdo.php");
                                         </div>
                                         <div class="<?php echo $botonPedidoGenerado ?>">
                                             <div class="modal-footer d-flex justify-content-around <?php echo $botonPedidoGenerado ?>">
-                                                <button type="button" class="btn botonCancelar" onclick="cerrarModalConfirmacion()">ACEPTAR</button>
+                                                <button type="button" class="btn botonCancelar" onclick="cerrarModalPedidoGenerado()">ACEPTAR</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="modal <?php echo $modalActualizacion ?>" id="modalActualizacion">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header violeta d-flex justify-content-center centrarTexto">
+                                            <b>¡ATENCIÓN!</b>
+                                        </div>
+                                        <div id="mensajeActualizacion">
+                                            <div class="modal-body centrarTexto">
+                                                El pedido se generó y se envió correctamente, pero no se actualizó como enviado.
+                                                <br>Por favor presione aceptar para solucionarlo.
+                                                <br>
+                                                ¡Gracias!
+                                            </div>
+                                            <div>
+                                                <div class="modal-footer d-flex justify-content-around">
+                                                    <button type="submit" class="btn botonCancelar" name="actualizarEnviado" onclick="cerrarModalActualizacion()">ACEPTAR</button>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                        <div class="modal-body hide centrarTexto" id="spinnerActualizacion">
+                                            <div style="min-height:100px" class="d-flex justify-content-center align-items-center">
+                                                <div class="spinner-border violeta" role="status">
+                                                        <span class="sr-only"></span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

@@ -232,3 +232,24 @@ function cerrarModalConfirmacion() {
     modalConfirmacion.classList.remove("show")
     modalConfirmacion.classList.add("hide")
 }
+function cerrarModalPedidoGenerado() {
+    let modalConfirmacion = document.getElementById("modalConfirmacion")
+    modalConfirmacion.classList.remove("show")
+    modalConfirmacion.classList.add("hide")
+    location.href='pedidos.php'
+}
+function cerrarModalActualizacion() {
+    let mensajeActualizacion = document.getElementById("mensajeActualizacion")
+    mensajeActualizacion.classList.remove("show")
+    mensajeActualizacion.classList.add("hide")
+    let spinnerActualizacion = document.getElementById("spinnerActualizacion")
+    spinnerActualizacion.classList.remove("hide")
+    spinnerActualizacion.classList.add("show")
+    // let modalActualizacion = document.getElementById("modalActualizacion")
+    // modalActualizacion.classList.remove("show")
+    // modalActualizacion.classList.add("hide")
+    // let modalSpinner = document.getElementById("modalSpinner")
+    // modalSpinner.classList.remove("hide")
+    // modalSpinner.classList.add("show")
+}
+
