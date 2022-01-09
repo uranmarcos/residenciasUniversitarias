@@ -90,13 +90,6 @@ require("funciones/pdo.php");
         $consultaProductos->execute();
         $productos = $consultaProductos -> fetchAll(PDO::FETCH_ASSOC);
     }
-    // foreach($_POST as $item){
-    //     echo $item;
-    //     echo "<br>";
-    // }
-    // for($i = 1; $i= 6; $i++ ){
-    //     echo($_POST[$i])
-    // }
     if(isset($_POST["botonConfirmar"])){
         //ARMO PEDIDO PARA LA BDD
         $pedido = "";
@@ -110,21 +103,46 @@ require("funciones/pdo.php");
         }
      
         $prueba = "";
+        $pedidoGuardado = false;
         $date = date("Y-m-d h:i:s");
         $consultaProductos = $baseDeDatos ->prepare("INSERT into pedidosnuevos VALUES(default, 1, 1, 1, '$pedido', '$date')"); 
         try {
             $consultaProductos->execute();
-            $modalConfirmacion ="show";
-            $tituloModalConfirmacion= "PEDIDO GENERADO";
-            $mensajeModalConfirmacion = "El pedido se generó correctamente";
-            $botonPedidoGenerado ="show";
-            $botonErrorPedido ="hide";
+            $pedidoGuardado = true;
         } catch (\Throwable $th) {
             $modalConfirmacion ="show";
             $tituloModalConfirmacion= "ERROR";
             $mensajeModalConfirmacion = "Hubo un error y el pedido no pudo generarse.<br> Por favor intentalo nuevamente.";
             $botonPedidoGenerado ="hide";
             $botonErrorPedido ="show";
+        }
+        $_SESSION["sede"] = "Cordoba";
+        $pedidoEnviado = false;
+        if($pedidoGuardado){
+            try {
+                $consultaUltimoPedido = $baseDeDatos ->prepare("SELECT id FROM pedidosnuevos WHERE usuario = 1 ORDER BY fecha DESC LIMIT 1 "); 
+                $consultaUltimoPedido->execute();
+                $id = $consultaUltimoPedido -> fetchAll(PDO::FETCH_ASSOC);
+                $id = $id[0]["id"];
+                require("funciones/pdf.php");
+                require("funciones/pdfMail.php");
+                include("mail.php");
+                $pedidoEnviado = true;
+            } catch (\Throwable $th) {
+                $modalConfirmacion ="show";
+                $tituloModalConfirmacion= "ERROR";
+                $mensajeModalConfirmacion = "Hubo un error y el pedido se guardó, pero no se envió.<br> No es necesario lo genere nuevamente. Puede reenviarlo desde aquí o ingresando al listado de pedidos realizados.";
+                $botonPedidoGenerado ="hide";
+                $botonErrorPedido ="show";
+            }
+        }
+        if($pedidoEnviado) {
+            // pasar al ultimo de todo
+            $modalConfirmacion ="show";
+            $tituloModalConfirmacion= "PEDIDO GENERADO";
+            $mensajeModalConfirmacion = "El pedido se generó correctamente";
+            $botonPedidoGenerado ="show";
+            $botonErrorPedido ="hide";
         }
     }
     // if(isset($_POST["filtrarCategorias"])){

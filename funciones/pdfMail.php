@@ -66,7 +66,8 @@
             $pdf->Cell(0,10,'Otros: ' ,0,1);
             $pdf->SetFont('Arial','',12);
             $pdf->Cell(190,50,utf8_decode($otrosTabla),1);
-            $pdf->Output();
+            //$pdf->Output();
+            $archivoPdf = $pdf->Output('','S'); 
         } catch (\Throwable $th) {
             $alertErrorConexion= "show";
         }

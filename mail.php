@@ -9,6 +9,7 @@ $email_password = "PEdiDOS.9731";
 //$email_password = "PEdiDOS.973";
 $the_subject = "Nuevo pedido de ". $_SESSION["sede"];
 $address_to = "marcos_uran@hotmail.com";
+//$address_to = "manuel@fundacionsi.org.ar";
 $from_name = "Residencia: " . $_SESSION["sede"];
 $phpmailer = new PHPMailer();
 // ———- datos de la cuenta de Gmail ——————————-
@@ -28,10 +29,16 @@ $phpmailer->SMTPAuth = true;
 $phpmailer->setFrom($phpmailer->Username,$from_name);
 $phpmailer->AddAddress($address_to); // recipients email
 $phpmailer->Subject = $the_subject;	
-$phpmailer->Body .=$_SESSION["pedidoMail"];
+// $phpmailer->Body .=$_SESSION["pedidoMail"];
+$phpmailer->Body .="<p>Nuevo pedido de " . utf8_decode($sede[0]["descripcion"] ."</p>");
+$phpmailer->Body .="<p>Casa: " . $pedido[0]["casa"] . "</p>";
+$phpmailer->Body .="<p>Voluntario " . utf8_decode($pedido[0]["nombre"]) . " " . utf8_decode($pedido[0]["segundoNombre"]) . " " . utf8_decode($pedido[0]["apellido"]) . "</p>";
+//$mail->AddAttachment($archivo); // attachment
 // $phpmailer->Body .= "<p>Mensaje personalizado</p>";
-$phpmailer->Body .= "<p>Fecha y Hora: ".date("d-m-Y h:i:s")."</p>";
+$phpmailer->Body .= "<p>Fecha: " . $newDate ."</p>";
 $phpmailer->IsHTML(true);
+// $phpmailer->AddAttachment($pdf); // attachment
+$phpmailer->AddStringAttachment($archivoPdf, utf8_decode($sede[0]["descripcion"]) . '.pdf','base64');
 try {
     $phpmailer->smtpConnect([
             'ssl' => [

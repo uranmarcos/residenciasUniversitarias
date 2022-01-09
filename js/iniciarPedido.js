@@ -143,6 +143,72 @@ function showModal(otrosValidado, formularioValidado) {
         mensajeModalPedido.innerHTML="¿Desea confirmar el pedido?"
     }
 }
+function inputFocusOn(){
+    //marcarProducto();
+    if(document.activeElement.value == 0){
+        document.activeElement.value = "";
+    }
+}
+function inputFocusOut(param){
+    validarCantidad(param);
+   //desmarcarProducto();
+}
+function cargarPedido(){
+    let inputs = document.getElementsByTagName("input");
+    for(let input of inputs){
+        let id = input.id;
+        let valorGuardado = localStorage.getItem(id);
+        if(valorGuardado != undefined && id == "textareaOtros"){
+            if(valorGuardado != ""){
+                input.value = valorGuardado;
+            }
+        }
+        else if(valorGuardado != undefined && id!= "textareaOtros"){
+            if(valorGuardado != 0 && valorGuardado != "NaN"){
+                input.value = valorGuardado;
+            }
+        }else{
+            input.value = 0;
+            let inputOtros= document.getElementById("textareaOtros");
+            inputOtros.value = "";
+        }
+    }   
+    let buscador = document.getElementById("buscadorProducto");
+    buscador.value="";
+    recordarCategoriaSeleccionada();
+}
+function guardarOtros(param){
+    let input = document.getElementById(param);
+    let valor = input.value;
+    localStorage.setItem(param, valor);
+}
+function limpiarInputFocus(){
+    let focusedElement = document.activeElement;  
+    if(focusedElement.value == 0){
+        focusedElement.value="";
+    }
+}
+function recordarCategoriaSeleccionada(){
+    let cat = localStorage.getItem("categoriaSeleccionada");
+    let opciones = document.getElementsByTagName("option");
+    for (opcion of opciones){
+        if(opcion.value != cat){
+            opcion.removeAttribute("selected");
+        }else{
+            opcion.setAttribute("selected", true);
+        }
+    }
+}
+function validarCantidad(param){
+    let input = document.getElementById(param);
+    let valor = input.value;
+    if(valor == "" ){
+        input.value = 0;
+    }else{
+        input.value = parseInt( valor, 10 )
+    }
+    localStorage.setItem(param, parseInt( valor, 10 ));
+}
 function cerrarModalPedido() {
     let modalPedido = document.getElementById("modalPedido")
     modalPedido.classList.remove("show")
