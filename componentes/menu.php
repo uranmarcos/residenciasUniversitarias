@@ -4,10 +4,6 @@ if($_SESSION["rol"] == "admin"){
     $mostrarBotonAdmin = "flex-box";
 }
 ?>
-<head>
-    <link href="css/aside.css" rel="stylesheet">
-</head>
-
 <form method="POST" class="row rowAside" action="inicio.php">
     <div class="col-12 colBotonesAside" id="columnaBotonesAside">
         <button name="cerrarSesion" class="asideButton" id="cerrarSesion" onclick="resetStorage()" data-toggle="tooltip" data-placement="bottom" title="Cerrar sesion" onclick="activarBoton('cerrarSesion', 'cerrarSesion')">
