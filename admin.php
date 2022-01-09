@@ -36,10 +36,10 @@ if(isset($_GET["adminUsuarios"])){
     <body>
         <div class="contenedorPrincipal">
             <div class="header">
-                <?php require("componentes/header2.php")?>
+                <?php require("componentes/header.php")?>
             </div>
             <div class="submenu">
-                <form method="GET" action="admin2.php">
+                <form method="GET" action="admin.php">
                     <div class="row navAdmin">
                         <button type="submit" name="adminSedes" class="btn botonNavAdmin col-6 col-md-3">Sedes</button>
                         <button type="submit" name="adminCategorias" class="btn botonNavAdmin col-6 col-md-3">Categorias</button>

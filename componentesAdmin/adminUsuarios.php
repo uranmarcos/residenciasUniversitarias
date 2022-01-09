@@ -123,7 +123,7 @@
         </div>
         <!-- CREACION DE USUARIOS -->
         <div>
-            <form name="form1" method="POST" action="admin2.php?adminUsuarios=">
+            <form name="form1" method="POST" action="admin.php?adminUsuarios=">
                 <!-- BOX NUEVO USUARIO -->
                 <div class="contenedorSeccion contenedorModal hide mb-4" id="boxCrearUsuario">
                     <div class="d-flex anchoTotal justify-content-between">
@@ -238,7 +238,7 @@
         </div>
         <!-- EDICION DE USUARIO -->
         <div>
-            <form name="formEdicion" method="POST" action="admin2.php?adminUsuarios=">
+            <form name="formEdicion" method="POST" action="admin.php?adminUsuarios=">
                 <!-- BOX EDICION USUARIO -->
                 <div class="contenedorSeccion contenedorModal hide mb-4" id="boxEditarUsuario">
                     <div class="d-flex anchoTotal justify-content-between">
@@ -369,7 +369,7 @@
                             <th scope="col" style="width:10%"></th>
                         </tr>
                     </thead>
-                    <form name="form2" method="POST" action="admin2.php?adminUsuarios=">
+                    <form name="form2" method="POST" action="admin.php?adminUsuarios=">
                         <tbody>
                             <?php foreach($usuarios as $usuario){ ?>
                                 <tr>

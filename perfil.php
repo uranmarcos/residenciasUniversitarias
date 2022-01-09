@@ -17,7 +17,7 @@ require("funciones/pdo.php");
     <body>
         <div class="contenedorPrincipal">
             <div class="header">
-                <?php require("componentes/header2.php")?>
+                <?php require("componentes/header.php")?>
             </div>
             <div>
                 SITIO EN CONSTRUCCION  -- PERFIL      

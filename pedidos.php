@@ -74,7 +74,7 @@ require("funciones/pdo.php");
                 }
             }
             sort($pedidoTabla);
-            require("armarPdf.php");
+            require("funciones/armarPdf.php");
         try {
             $pdf = new PDF();
             $pdf->AliasNbPages();
@@ -116,7 +116,7 @@ require("funciones/pdo.php");
     <body>
         <div class="contenedorPrincipal">
             <div class="headerFull">
-                <?php require("componentes/header2.php")?>
+                <?php require("componentes/header.php")?>
             </div>
             <div class="col-12 paddingCero">
                 <div class="titleSection">
@@ -153,7 +153,7 @@ require("funciones/pdo.php");
                             </thead>
                             <tbody>
                                 <?php foreach($pedidos as $pedido){ ?>
-                                    <form method="POST" target="_blank" action="pedidos2.php">
+                                    <form method="POST" target="_blank" action="pedidos.php">
                                         <tr>
                                             <td><input type="text" style ="width:50px; border: none" name="id" readonly value="<?php echo $pedido["id"] ?>"></td>
                                             <td><?php echo $pedido["fecha"]?></td>
@@ -188,7 +188,7 @@ require("funciones/pdo.php");
 </html>
 <script type="text/javascript">
     function redirect() {
-        window.location.href="iniciarPedido2.php"
+        window.location.href="iniciarPedido.php"
     }
     function abrirPedido(){
         window.open('_blank');

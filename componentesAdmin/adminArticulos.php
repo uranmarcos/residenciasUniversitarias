@@ -84,7 +84,7 @@
         </div>
         <!-- CREACION DE ARTICULO -->
         <div>
-            <form name="form1" method="POST" action="admin2.php?adminArticulos=">
+            <form name="form1" method="POST" action="admin.php?adminArticulos=">
                 <!-- BOX NUEVO ARTICULO -->
                 <div class="contenedorSeccion contenedorModal hide mb-4" id="boxCrearArticulo">
                     <div class="d-flex anchoTotal justify-content-between">
@@ -143,7 +143,7 @@
         </div>
         <!-- EDICION DE ARTICULO -->
         <div>
-            <form name="formEdicion" method="POST" action="admin2.php?adminArticulos=">
+            <form name="formEdicion" method="POST" action="admin.php?adminArticulos=">
                 <!-- BOX EDICION ARTICULO -->
                 <div class="contenedorSeccion contenedorModal hide mb-4" id="boxEditarArticulo">
                     <div class="d-flex anchoTotal justify-content-between">
@@ -236,7 +236,7 @@
                                 <th scope="col" style="width:10%"></th>
                             </tr>
                         </thead>
-                        <form name="form2" method="POST" action="admin2.php?adminArticulos=">
+                        <form name="form2" method="POST" action="admin.php?adminArticulos=">
                         <tbody>
                             <?php foreach($articulos as $articulo){ ?>
                                 <tr>

@@ -71,7 +71,7 @@
         </div>
         <!-- CREACION DE SEDE -->
         <div>
-            <form name="form1" method="POST" action="admin2.php?adminSedes=">
+            <form name="form1" method="POST" action="admin.php?adminSedes=">
                 <!-- BOX NUEVA SEDE -->
                 <div class="contenedorSeccion contenedorModal hide mb-4" id="boxCrearSede">
                     <div class="d-flex anchoTotal justify-content-between">
@@ -124,7 +124,7 @@
         </div>
         <!-- EDICION DE SEDE -->
         <div>
-            <form name="formEdicion" method="POST" action="admin2.php?adminSedes=">
+            <form name="formEdicion" method="POST" action="admin.php?adminSedes=">
                 <!-- BOX EDICION SEDE -->
                 <div class="contenedorSeccion contenedorModal hide mb-4" id="boxEditarSede">
                     <div class="d-flex anchoTotal justify-content-between">
@@ -210,7 +210,7 @@
                                 <th scope="col" style="width:10%"></th>
                             </tr>
                         </thead>
-                        <form name="form2" method="POST" action="admin2.php?adminSedes=">
+                        <form name="form2" method="POST" action="admin.php?adminSedes=">
                         <tbody>
                             <?php foreach($sedes as $sede){ ?>
                                 <tr>

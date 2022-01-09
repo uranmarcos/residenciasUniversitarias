@@ -36,7 +36,7 @@ if(isset($_GET["adminUsuarios"])){
     <body>
         <div class="contenedorPrincipal">
             <div class="header">
-                <?php require("componentes/header2.php")?>
+                <?php require("componentes/header.php")?>
             </div>
             <div>
                 Cada articulo tiene asociada una categoria a la cual pertenece. Si al crear un articulo, la categoria no figura en el listado seleccionable, primero deberá crearse la categoria en la opción correspondiente.

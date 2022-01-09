@@ -158,7 +158,7 @@ require("funciones/pdo.php");
     <body onbeforeunload="return resetFiltros()">
         <div class="contenedorPrincipal">
             <div class="headerFull">
-                <?php require("componentes/header2.php")?>
+                <?php require("componentes/header.php")?>
             </div>
             <div class="sectionBloque mt-2">
                 <div class="alert alert-danger centrarTexto <?php echo $alertErrorConexion ?>" role="alert" >
@@ -172,7 +172,7 @@ require("funciones/pdo.php");
             </div>
             <div class="sectionBloque mt-1">
                 <div class="contenedorSeccion contenedorModal">
-                    <form method="POST" action="iniciarPedido2.php" onkeypress="return pulsar(event)">
+                    <form method="POST" action="iniciarPedido.php" onkeypress="return pulsar(event)">
                         <div class="table-responsive">
                             <table class="table table-hover" id="tablePedidos">
                                 <!-- FILTROS -->

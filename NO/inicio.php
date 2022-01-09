@@ -1,10 +1,6 @@
 <?php
 session_start();
 require("funciones/pdo.php");
-
-if(isset($_GET["inicio"])){
-    var_dump($_GET);
-}
 $bloque = "main/inicioLogo.php";
 $bloqueAdmin="hidden";
 $title= "";
@@ -277,34 +273,54 @@ if(isset($_POST["confirmar"])){
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
         <link href="css/master.css" rel="stylesheet">
-        <link href="css/master1.css" rel="stylesheet">
         <link href="css/aside.css" rel="stylesheet">
     </head>
     <body>
         <div class="contenedorPrincipal">
             <div class="header">
-                <?php require("componentes/header2.php")?>
+                <?php require("componentes/header.php")?>
             </div>
-            <!-- <div class="header">
-                <nav class="navegador">
-                    <form method="GET" action="inicio2.php">
-                        <ul class="nav justify-content-center">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="inicio2.php">Inicio</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="perfil2.php">Perfil</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="admin2.php">Admin</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="pedidos2.php">Pedidos</a>
-                            </li>
-                        </ul>
-                    </form>
-                </nav>
-            </div>        -->
+            <div class="row contenedorSecundario">   
+                <!-- ASIDE -->            
+                <aside class="col-12 asideHidden col-md-3" id="asideBox">
+                    <nav class="row centrarTexto navAside">
+                        <div class="col-12">
+                            MENU                       
+                        </div>    
+                    </nav> 
+                    <?php require("aside/aside.php") ?>
+                </aside> 
+                <!-- MAIN -->
+                <main class="col-12 col-md-9" id="mainBox">
+                    <nav class="row navHome justify-content-around ">
+                        <div class="col-12 alignRight">
+                            <p>Hola <?php echo $_SESSION["name"]?>!</p>
+                        </div>    
+                    </nav> 
+                    <div class="section" >
+                        <div class="col-12 paddingCero">
+                            <div class="titleSection" style="display: <?php echo $mostrarTitle?>">
+                                <?php echo $title?>
+                            </div>
+                            <div>
+                                <?php require($bloque) ?>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <main class="col-12 hidden" id="menuBurguer">
+                    <nav class="row navHome justify-content-around ">
+                        <div class="col-12 alignRight">
+                            <p>Hola <?php echo $_SESSION["name"]?>!</p>
+                        </div>    
+                    </nav>
+                    <div class="section">
+                        <div>
+                            <?php require("componentes/menu.php") ?>
+                        </div>
+                    </div> 
+                </main>        
+            </div>        
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>     
         <script type="text/javascript"  src="js/funciones.js"></script>        
