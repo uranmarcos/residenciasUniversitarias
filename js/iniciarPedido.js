@@ -219,6 +219,14 @@ function confirmarPedido(){
     modalSpinner.classList.remove("hide")
     modalSpinner.classList.add("show")
 }
+function reintentarPedido(){
+    let modalConfirmacion = document.getElementById("modalConfirmacion")
+    modalConfirmacion.classList.remove("show")
+    modalConfirmacion.classList.add("hide")
+    let modalSpinner = document.getElementById("modalSpinner")
+    modalSpinner.classList.remove("hide")
+    modalSpinner.classList.add("show")
+}
 function cerrarModalConfirmacion() {
     let modalConfirmacion = document.getElementById("modalConfirmacion")
     modalConfirmacion.classList.remove("show")

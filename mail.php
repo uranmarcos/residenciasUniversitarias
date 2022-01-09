@@ -48,10 +48,12 @@ try {
              ]
          ]);
 } catch (\Throwable $th) {
-    echo "<script>location.href='errorMail.php';</script>";
+    $_SESSION["errorMail"] = true;
+    echo "<script>location.href='iniciarPedido.php';</script>";
     die;
 }
 if(!$phpmailer->send()) { 
-    echo "<script>location.href='errorMail.php';</script>";
+    $_SESSION["errorMail"] = true;
+    echo "<script>location.href='iniciarPedido.php';</script>";
     die;
 }

@@ -18,7 +18,6 @@ require("funciones/pdo.php");
     $botonPedidoGenerado ="hide";
     $botonErrorPedido ="hide";
 
-
     $consultaProductos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, M.descripcion medida, C.descripcion categoria  FROM articulos A 
     INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id ORDER BY descripcion ASC");
     $consultaProductos->execute();
@@ -145,6 +144,15 @@ require("funciones/pdo.php");
             $botonErrorPedido ="hide";
         }
     }
+    if($_SESSION["errorMail"]){
+        $modalConfirmacion ="show";
+        $tituloModalConfirmacion= "ERROR";
+        $mensajeModalConfirmacion = "Hubo un error y el pedido se guardó, pero no se envió.<br> No es necesario lo genere nuevamente. Puede reenviarlo desde aquí o ingresando al listado de pedidos realizados.";
+        $botonPedidoGenerado ="hide";
+        $botonErrorPedido ="show";
+        $_SESSION["errorMail"] = false;
+    }
+    
     // if(isset($_POST["filtrarCategorias"])){
     //     $cat = $_POST["categoria"];
     //     if($cat == "todos"){
@@ -348,7 +356,7 @@ require("funciones/pdo.php");
                                         <div class="<?php echo $botonErrorPedido ?>">
                                             <div class="modal-footer d-flex justify-content-around">
                                                 <button type="button" class="btn botonCancelar" onclick="cerrarModalConfirmacion()">Cancelar</button>
-                                                <button type="submit" id="botonConfirmar" name="botonConfirmar" class="btn botonConfirmar" onclick="confirmarPedido()">Reintentar</button>
+                                                <button type="submit" id="botonConfirmar" name="botonConfirmar" class="btn botonConfirmar" onclick="reintentarPedido()">Reintentar</button>
                                             </div>
                                         </div>
                                         <div class="<?php echo $botonPedidoGenerado ?>">
