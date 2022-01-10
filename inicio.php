@@ -5,6 +5,10 @@ require("funciones/pdo.php");
 if(isset($_GET["inicio"])){
     var_dump($_GET);
 }
+if(isset($_GET["logOut"])){
+    session_destroy();
+    header("Location: index.php");
+}
 $bloque = "main/inicioLogo.php";
 $bloqueAdmin="hidden";
 $title= "";

@@ -17,7 +17,7 @@ TO DO
 
 /* NAV  */
 .navegador{
-    background-color: purple;
+    background-color: rgb(163, 73, 164);
     color: white;
     height: 6vh;
     text-transform: uppercase;
@@ -177,6 +177,18 @@ TO DO
     background-color: white !important;
     border: none
 }
+.buttonLogOut{
+    color: white;
+    background-color:rgb(163, 73, 164);
+    height: 100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width:110px;
+    border: none;
+    outline: none !important;
+}
+
 .rowFiltro{
     padding:10px;
 }
