@@ -35,13 +35,13 @@ if($_POST){
                                 <label class="col-12 col-md-9 textoLabel" for="user"> DNI: </label>
                             </div>
                             <div class="row rowForm">
-                                <input class="col-12 col-md-9 inputLabel" type="text" name="dni" value="">
+                                <input class="col-12 col-md-9 inputLabel" autocomplete="off" type="text" name="dni" value="">
                             </div>
                             <div class="row rowForm">
                                 <label for="password" class="textoLabel col-12 col-md-9"> Contraseña: </label>
                             </div>
                             <div class="row rowForm">                                
-                                <input class="col-12 col-md-9 inputLabel" type="text" name="password" value="">
+                                <input class="col-12 col-md-9 inputLabel" autocomplete="off" type="password" name="password" value="">
                             </div>
                             <div class="mensajeError"> <?php echo $error ?> </div>
                             <div class="row justify-content-center" >

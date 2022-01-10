@@ -1,28 +1,49 @@
 <?php
 session_start();
 require("funciones/pdo.php");
-    $producto="";
-    $categoria="";
-    $medida="";
-    $mensaje = "";
-    $pedido = null;
+//require("funciones/pedidos.php");
+// $producto="";
+    // $categoria="";
+    // $medida="";
+    //$mensaje = "";
+    //$pedido = null;
+    // variables de sesion
     $sede = $_SESSION["sede"];
+    $casa = $_SESSION["casa"];
+    $idUser = $_SESSION["id"];
+    // variables de pedido
+    $pedidoGuardado = false;
+    $pedidoEnviado = false;
+    $pedidoActualizado = false;
+    $date = date("Y-m-d h:i:s");
+
+    // variables de alertas
     $alertErrorConexion= "hide";
+    $modalConfirmacion ="hide";
+    $modalActualizacion ="hide";
+    $tituloModalConfirmacion= "";
+    $mensajeModalConfirmacion = "";
+    $botonActualizarPedido ="hide";
+    $botonConfirmarPedido ="hide";
+
+
+    // variables de filtros
     $productosAsc = "hide";
     $productosDesc= "show";
     $categoriaAsc = "show";
     $categoriaDesc= "hide";
-    $modalConfirmacion ="hide";
-    $tituloModalConfirmacion= "";
-    $mensajeModalConfirmacion = "";
-    $botonPedidoGenerado ="hide";
-    $botonErrorPedido ="hide";
 
+    // CONSULTA DE PRODUCTOS DISPONIBLES A BASE DE DATOS
     $consultaProductos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, M.descripcion medida, C.descripcion categoria  FROM articulos A 
-    INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id ORDER BY descripcion ASC");
-    $consultaProductos->execute();
+    INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE A.habilitado = 1 ORDER BY descripcion ASC");
+    try {
+        $consultaProductos->execute();
+    } catch (\Throwable $th) {
+        $alertErrorConexion= "show";
+    }
     $productos = $consultaProductos -> fetchAll(PDO::FETCH_ASSOC);
     
+    // CONSULTA DE CATEGORIAS DISPONIBLES A BASE DE DATOS PARA EL SELECT
     $consultaCategorias = $baseDeDatos ->prepare("SELECT * FROM categorias WHERE habilitado = 1");
     try {
         $consultaCategorias->execute();
@@ -30,23 +51,31 @@ require("funciones/pdo.php");
         $alertErrorConexion= "show";
     }
     $categorias = $consultaCategorias -> fetchAll(PDO::FETCH_ASSOC);
-    $modalActualizacion ="hide";
-    $_SESSION["productos"] = $productos;
+    
+    
+    
+    //$_SESSION["productos"] = $productos;
+    // FUNCIONALIDADES 
+    // REACOMODO PRODUCTOS POR DESCRIPCION EN ORDEN ASCENDENTE
     if(isset($_POST["productoAsc"])){
         $cat = $_POST["categoria"];
         $productosAsc = "hide";
         $productosDesc= "show";
         if($cat == "todos"){
             $consultaProductos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, M.descripcion medida, C.descripcion categoria  FROM articulos A 
-                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id ORDER BY descripcion ASC");    
+                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE A.habilitado = 1 ORDER BY descripcion ASC");    
         }else{
             $consultaProductos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, M.descripcion medida, C.descripcion categoria  FROM articulos A 
-                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE categoria='$cat' ORDER BY descripcion DESC");
+                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE categoria='$cat',  A.habilitado = 1 ORDER BY descripcion DESC");
         }
-        $consultaProductos->execute();
+        try {
+            $consultaProductos->execute();
+        } catch (\Throwable $th) {
+            $alertErrorConexion= "show";
+        }
         $productos = $consultaProductos -> fetchAll(PDO::FETCH_ASSOC);
     }
-    // SI FILTRO DE MANERA DESCENDENTE
+    // REACOMODO PRODUCTOS POR DESCRIPCION EN ORDEN DESCENDENTE
     if(isset($_POST["productoDesc"])){
         $cat = $_POST["categoria"];
         $productosAsc = "show";
@@ -58,69 +87,84 @@ require("funciones/pdo.php");
             $consultaProductos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, M.descripcion medida, C.descripcion categoria  FROM articulos A 
                 INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE categoria='$cat' ORDER BY descripcion DESC");
         }
-        $consultaProductos->execute();
+        try {
+            $consultaProductos->execute();
+        } catch (\Throwable $th) {
+            $alertErrorConexion= "show";
+        }
         $productos = $consultaProductos -> fetchAll(PDO::FETCH_ASSOC);
     }
+    // REACOMODO PRODUCTOS POR CATEGORIA EN ORDEN ASCENDENTE
     if(isset($_POST["categoriaAsc"])){
         $cat = $_POST["categoria"];
         if($cat == "todos"){
             $consultaProductos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, M.descripcion medida, C.descripcion categoria  FROM articulos A 
-                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id ORDER BY categoria ASC, descripcion ASC");   
+                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE A.habilitado = 1 ORDER BY categoria ASC, descripcion ASC");   
         }else{
             $consultaProductos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, M.descripcion medida, C.descripcion categoria  FROM articulos A 
-                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE categoria='$cat' ORDER BY categoria ASC, descripcion ASC");  
+                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE categoria='$cat', A.habilitado = 1 ORDER BY categoria ASC, descripcion ASC");  
         }
         $categoriaAsc = "hide";
         $categoriaDesc= "show";
-        $consultaProductos->execute();
+        try {
+            $consultaProductos->execute();
+        } catch (\Throwable $th) {
+            $alertErrorConexion= "show";
+        }
         $productos = $consultaProductos -> fetchAll(PDO::FETCH_ASSOC);
     }
+    // REACOMODO PRODUCTOS POR CATEGORIA EN ORDEN DESCENDENTE
     if(isset($_POST["categoriaDesc"])){
         $cat = $_POST["categoria"];
         if($cat == "todos"){
             $consultaProductos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, M.descripcion medida, C.descripcion categoria  FROM articulos A 
-                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id ORDER BY categoria DESC, descripcion ASC");   
+                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE A.habilitado = 1 ORDER BY categoria DESC, descripcion ASC");   
         }else{
             $consultaProductos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, M.descripcion medida, C.descripcion categoria  FROM articulos A 
-                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE categoria='$cat' ORDER BY categoria DESC, descripcion ASC");  
+                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE categoria='$cat', A.habilitado = 1 ORDER BY categoria DESC, descripcion ASC");  
         }
         $categoriaAsc = "show";
         $categoriaDesc= "hide";
-        $consultaProductos->execute();
+        try {
+            $consultaProductos->execute();
+        } catch (\Throwable $th) {
+            $alertErrorConexion= "show";
+        }
         $productos = $consultaProductos -> fetchAll(PDO::FETCH_ASSOC);
     }
+
+    // BOTON CONFIRMACION DE GENERAR PEDIDO
     if(isset($_POST["botonConfirmar"])){
-        //ARMO PEDIDO PARA LA BDD
+        //ARMO PEDIDO PARA LA BDD RECORRIENDO INPUT DEL FORMULARIO Y CAMPO OTROS
         $pedido = "";
         for($i = 1; $i<= 6; $i++ ){
-            if($_POST[$i] != 0) {
-                $pedido = $pedido . $i . ":" . $_POST[$i] . ";";
+            if(isset($_POST[$i])){
+                if($_POST[$i] != 0) {
+                    $pedido = $pedido . $i . ":" . $_POST[$i] . ";";
+                }
             }
         }
         if($_POST["otros"] != ""){
             $pedido = $pedido . "otros:" . $_POST["otros"] . ";";  
         }
-     
-        $prueba = "";
-        $pedidoGuardado = false;
-        $date = date("Y-m-d h:i:s");
-        $consultaProductos = $baseDeDatos ->prepare("INSERT into pedidosnuevos VALUES(default, 1, 1, 1, '$pedido',0, '$date')"); 
+        // EJECUTO INSERT DEL PEDIDO
+        $insertPedido = $baseDeDatos ->prepare("INSERT into pedidosnuevos VALUES(default, '$sede', '$casa', '$idUser', '$pedido', 0, '$date')"); 
         try {
-            $consultaProductos->execute();
+            $insertPedido->execute();
             $pedidoGuardado = true;
         } catch (\Throwable $th) {
             $modalConfirmacion ="show";
             $tituloModalConfirmacion= "ERROR";
             $mensajeModalConfirmacion = "Hubo un error y el pedido no pudo generarse.<br> Por favor intentalo nuevamente.";
-            $botonPedidoGenerado ="hide";
-            $botonErrorPedido ="show";
+            $botonActualizarPedido ="hide";
+            $botonReenviarPedido ="hide";
+            $botonConfirmarPedido ="show";
         }
-        $_SESSION["sede"] = "Cordoba";
-        $pedidoEnviado = false;
-        $idPedido = null;
+        // SI EL PEDIDO SE GUARDO EN BASE DE DATOS CONTINUO PARA GENERAR EL PDF
         if($pedidoGuardado){
             try {
-                $consultaUltimoPedido = $baseDeDatos ->prepare("SELECT id FROM pedidosnuevos WHERE usuario = 1 ORDER BY fecha DESC LIMIT 1 "); 
+                // CONSULTO EL ID DEL PEDIDO GUARDO PARA GENERAR EL PDF Y ENVIAR EL MAIL
+                $consultaUltimoPedido = $baseDeDatos ->prepare("SELECT id FROM pedidosnuevo WHERE usuario = '$idUser' ORDER BY fecha DESC LIMIT 1 "); 
                 $consultaUltimoPedido->execute();
                 $id = $consultaUltimoPedido -> fetchAll(PDO::FETCH_ASSOC);
                 $id = $id[0]["id"];
@@ -131,30 +175,62 @@ require("funciones/pdo.php");
             } catch (\Throwable $th) {
                 $modalConfirmacion ="show";
                 $tituloModalConfirmacion= "ERROR";
-                $mensajeModalConfirmacion = "Hubo un error y el pedido se guardó, pero no se envió.<br> No es necesario lo genere nuevamente. Puede reenviarlo desde aquí o ingresando al listado de pedidos realizados.";
-                $botonPedidoGenerado ="hide";
-                $botonErrorPedido ="show";
+                $mensajeModalConfirmacion = "Hubo un error y el pedido se guardó, pero no se envió.<br> No es necesario que lo genere nuevamente.<br> Presione reintentar para enviarlo nuevamente.";
+                $botonActualizarPedido ="hide";
+                $botonReenviarPedido ="show";
+                $botonConfirmarPedido ="hide";
             }
         }
         if($pedidoEnviado) {
-            // pasar al ultimo de todo
+            // SI EL PEDIDO SE ENVIO, ACTUALIZO EN BASE DE DATOS EL CAMPO "ENVIADO"
             try {
-                $consultaEnviado = $baseDeDatos ->prepare("UPDATE pedidosnuevos SET enviad = 1 WHERE id = '$id'"); 
+                $consultaUltimoPedido = $baseDeDatos ->prepare("SELECT id FROM pedidosnuevos WHERE usuario = '$idUser' ORDER BY fecha DESC LIMIT 1 "); 
+                $consultaUltimoPedido->execute();
+                $id = $consultaUltimoPedido -> fetchAll(PDO::FETCH_ASSOC);
+                $id = $id[0]["id"];
+                $consultaEnviado = $baseDeDatos ->prepare("UPDATE pedidosnuevos SET enviado = 1 WHERE id = '$id'"); 
                 $consultaEnviado->execute();
-                $modalConfirmacion ="show";
-                $tituloModalConfirmacion= "PEDIDO GENERADO";
-                $mensajeModalConfirmacion = "El pedido se generó y envió correctamente";
-                $botonPedidoGenerado ="show";
-                $botonErrorPedido ="hide";
             } catch (\Throwable $th) {
                 $modalActualizacion ="show";
             }
         }
     }
-    $pedidoActualizado = false;
+    if(isset($_POST["botonReenviar"])){
+        try {
+            // CONSULTO EL ID DEL PEDIDO GUARDO PARA GENERAR EL PDF Y ENVIAR EL MAIL
+            $consultaUltimoPedido = $baseDeDatos ->prepare("SELECT id FROM pedidosnuevos WHERE usuario = '$idUser' ORDER BY fecha DESC LIMIT 1 "); 
+            $consultaUltimoPedido->execute();
+            $id = $consultaUltimoPedido -> fetchAll(PDO::FETCH_ASSOC);
+            $id = $id[0]["id"];
+            require("funciones/pdf.php");
+            require("funciones/pdfMail.php");
+            include("mail.php");
+            $pedidoEnviado = true;
+        } catch (\Throwable $th) {
+            $modalConfirmacion ="show";
+            $tituloModalConfirmacion= "ERROR";
+            $mensajeModalConfirmacion = "Hubo un error y el pedido se guardó, pero no se envió.<br> No es necesario que lo genere nuevamente.<br> Presione reintentar para enviarlo nuevamente.";
+            $botonActualizarPedido ="hide";
+            $botonReenviarPedido ="show";
+            $botonConfirmarPedido ="hide";
+        }
+        if($pedidoEnviado) {
+            // SI EL PEDIDO SE ENVIO, ACTUALIZO EN BASE DE DATOS EL CAMPO "ENVIADO"
+            try {
+                $consultaUltimoPedido = $baseDeDatos ->prepare("SELECT id FROM pedidosnuevos WHERE usuario = '$idUser' ORDER BY fecha DESC LIMIT 1 "); 
+                $consultaUltimoPedido->execute();
+                $id = $consultaUltimoPedido -> fetchAll(PDO::FETCH_ASSOC);
+                $id = $id[0]["id"];
+                $consultaEnviado = $baseDeDatos ->prepare("UPDATE pedidosnuevo SET enviado = 1 WHERE id = '$id'"); 
+                $consultaEnviado->execute();
+            } catch (\Throwable $th) {
+                $modalActualizacion ="show";
+            }
+        }
+    }
     if(isset($_POST["actualizarEnviado"])){
         try {
-            $consultaUltimoPedido = $baseDeDatos ->prepare("SELECT id FROM pedidosnuevos WHERE usuario = 1 ORDER BY fecha DESC LIMIT 1 "); 
+            $consultaUltimoPedido = $baseDeDatos ->prepare("SELECT id FROM pedidosnuevos WHERE usuario = '$idUser' ORDER BY fecha DESC LIMIT 1 "); 
             $consultaUltimoPedido->execute();
             $id = $consultaUltimoPedido -> fetchAll(PDO::FETCH_ASSOC);
             $id = $id[0]["id"];
@@ -172,9 +248,9 @@ require("funciones/pdo.php");
     if($_SESSION["errorMail"]){
         $modalConfirmacion ="show";
         $tituloModalConfirmacion= "ERROR";
-        $mensajeModalConfirmacion = "Hubo un error y el pedido se guardó, pero no se envió.<br> No es necesario lo genere nuevamente. Puede reenviarlo desde aquí o ingresando al listado de pedidos realizados.";
-        $botonPedidoGenerado ="hide";
-        $botonErrorPedido ="show";
+        $mensajeModalConfirmacion = "Hubo un error y el pedido se guardó, pero no se envió.<br> No es necesario lo genere nuevamente.<br> Presione reintentar para enviarlo nuevamente.";
+        $botonActualizarPedido ="hide";
+        $botonConfirmarPedido ="show";
         $_SESSION["errorMail"] = false;
     }
     
@@ -378,14 +454,20 @@ require("funciones/pdo.php");
                                         <div class="modal-body centrarTexto" id="mensajeModalPedido">
                                             <?php echo $mensajeModalConfirmacion ?>
                                         </div>
-                                        <div class="<?php echo $botonErrorPedido ?>">
+                                        <div class="<?php echo $botonConfirmarPedido ?>">
                                             <div class="modal-footer d-flex justify-content-around">
                                                 <button type="button" class="btn botonCancelar" onclick="cerrarModalConfirmacion()">Cancelar</button>
                                                 <button type="submit" id="botonConfirmar" name="botonConfirmar" class="btn botonConfirmar" onclick="reintentarPedido()">Reintentar</button>
                                             </div>
                                         </div>
-                                        <div class="<?php echo $botonPedidoGenerado ?>">
-                                            <div class="modal-footer d-flex justify-content-around <?php echo $botonPedidoGenerado ?>">
+                                        <div class="<?php echo $botonReenviarPedido ?>">
+                                            <div class="modal-footer d-flex justify-content-around">
+                                                <button type="button" class="btn botonCancelar" onclick="cerrarModalConfirmacion()">Cancelar</button>
+                                                <button type="submit" id="botonReenviar" name="botonReenviar" class="btn botonConfirmar" onclick="reintentarPedido()">Reenviar</button>
+                                            </div>
+                                        </div>
+                                        <div class="<?php echo $botonActualizarPedido ?>">
+                                            <div class="modal-footer d-flex justify-content-around">
                                                 <button type="button" class="btn botonCancelar" onclick="cerrarModalPedidoGenerado()">ACEPTAR</button>
                                             </div>
                                         </div>

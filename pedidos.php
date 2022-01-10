@@ -6,8 +6,16 @@ require("funciones/pdo.php");
     $mensajeAlertConfirmacion="";
     
     // CONSULTAS DE TODOS LOS PEDIDOS
-    $consultaPedidos = $baseDeDatos ->prepare("SELECT PN.id, PN.sede, PN.fecha, PN.enviado, A.nombre, A.segundoNombre, A.apellido FROM pedidosnuevos PN INNER JOIN
-     agentes A ON PN.usuario = A.id ORDER BY PN.fecha DESC");    
+    $sede = $_SESSION["sede"];
+    
+    if($_SESSION["rol"] == "stock") {
+        $consultaPedidos = $baseDeDatos ->prepare("SELECT PN.id, PN.sede, PN.fecha, PN.enviado, A.nombre, A.segundoNombre, A.apellido FROM pedidosnuevos PN INNER JOIN
+        agentes A ON PN.usuario = A.id WHERE PN.sede = $sede ORDER BY PN.fecha DESC");    
+    } else {
+        $consultaPedidos = $baseDeDatos ->prepare("SELECT PN.id, PN.sede, PN.fecha, PN.enviado, A.nombre, A.segundoNombre, A.apellido FROM pedidosnuevos PN INNER JOIN
+        agentes A ON PN.usuario = A.id ORDER BY PN.fecha DESC");    
+    }
+    //$consultaPedidos->execute();
     try {
         $consultaPedidos->execute();
     } catch (\Throwable $th) {
@@ -21,7 +29,6 @@ require("funciones/pdo.php");
         $noHayDatos = "hide";
         $hayDatos = "show";
     }
- 
     if(isset($_POST["verPedido"])){
         $id = $_POST["id"];
         require("funciones/pdf.php");
