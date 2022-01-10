@@ -221,7 +221,7 @@ require("funciones/pdo.php");
                 $consultaUltimoPedido->execute();
                 $id = $consultaUltimoPedido -> fetchAll(PDO::FETCH_ASSOC);
                 $id = $id[0]["id"];
-                $consultaEnviado = $baseDeDatos ->prepare("UPDATE pedidosnuevo SET enviado = 1 WHERE id = '$id'"); 
+                $consultaEnviado = $baseDeDatos ->prepare("UPDATE pedidosnuevos SET enviado = 1 WHERE id = '$id'"); 
                 $consultaEnviado->execute();
             } catch (\Throwable $th) {
                 $modalActualizacion ="show";

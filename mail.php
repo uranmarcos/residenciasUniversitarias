@@ -7,10 +7,10 @@ require "src/SMTP.php";
 $email_user = "pedidosresidenciassi@gmail.com";
 $email_password = "PEdiDOS.9731";
 //$email_password = "PEdiDOS.973";
-$the_subject = "Nuevo pedido de ". $_SESSION["sede"];
+$the_subject = "Nuevo pedido de ". utf8_decode($sede[0]["descripcion"]);
 $address_to = "marcos_uran@hotmail.com";
 //$address_to = "manuel@fundacionsi.org.ar";
-$from_name = "Residencia: " . $_SESSION["sede"];
+$from_name = "Residencia: " . utf8_decode($sede[0]["descripcion"]);
 $phpmailer = new PHPMailer();
 // ———- datos de la cuenta de Gmail ——————————-
 $phpmailer->Username = $email_user;
@@ -32,7 +32,7 @@ $phpmailer->Subject = $the_subject;
 // $phpmailer->Body .=$_SESSION["pedidoMail"];
 $phpmailer->Body .="<p>Nuevo pedido de " . utf8_decode($sede[0]["descripcion"] ."</p>");
 $phpmailer->Body .="<p>Casa: " . $pedido[0]["casa"] . "</p>";
-$phpmailer->Body .="<p>Voluntario " . utf8_decode($pedido[0]["nombre"]) . " " . utf8_decode($pedido[0]["segundoNombre"]) . " " . utf8_decode($pedido[0]["apellido"]) . "</p>";
+$phpmailer->Body .="<p>Voluntario: " . utf8_decode($pedido[0]["nombre"]) . " " . utf8_decode($pedido[0]["segundoNombre"]) . " " . utf8_decode($pedido[0]["apellido"]) . "</p>";
 //$mail->AddAttachment($archivo); // attachment
 // $phpmailer->Body .= "<p>Mensaje personalizado</p>";
 $phpmailer->Body .= "<p>Fecha: " . $newDate ."</p>";
