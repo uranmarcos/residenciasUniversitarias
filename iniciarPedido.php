@@ -164,7 +164,7 @@ require("funciones/pdo.php");
         if($pedidoGuardado){
             try {
                 // CONSULTO EL ID DEL PEDIDO GUARDO PARA GENERAR EL PDF Y ENVIAR EL MAIL
-                $consultaUltimoPedido = $baseDeDatos ->prepare("SELECT id FROM pedidosnuevo WHERE usuario = '$idUser' ORDER BY fecha DESC LIMIT 1 "); 
+                $consultaUltimoPedido = $baseDeDatos ->prepare("SELECT id FROM pedidosnuevos WHERE usuario = '$idUser' ORDER BY fecha DESC LIMIT 1 "); 
                 $consultaUltimoPedido->execute();
                 $id = $consultaUltimoPedido -> fetchAll(PDO::FETCH_ASSOC);
                 $id = $id[0]["id"];
@@ -242,7 +242,7 @@ require("funciones/pdo.php");
             $modalActualizacion ="show";
         }
     }
-    if($pedidoActualizado == true) {
+    if($pedidoActualizado) {
         echo "<script>location.href='pedidos.php';</script>";
     }
     if($_SESSION["errorMail"]){

@@ -2,9 +2,9 @@
 if($_SESSION["autenticado"] != true){
     echo "<script>location.href='index.php';</script>";
 }
-$mostrarBotonAdmin = "none";
+$mostrarBotonAdmin = "hide";
 if($_SESSION["rol"] == "admin"){
-    $mostrarBotonAdmin = "block";
+    $mostrarBotonAdmin = "show";
 }
 ?>
 
@@ -19,10 +19,10 @@ if($_SESSION["rol"] == "admin"){
                 <li class="nav-item">
                     <a class="nav-link" href="perfil.php">Perfil</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item <?php echo $mostrarBotonAdmin?>">
                     <a class="nav-link" href="admin.php">Admin</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item <?php echo $mostrarBotonAdmin?>">
                     <a class="nav-link" href="ayuda.php">Ayuda</a>
                 </li>
                 <li class="nav-item">
