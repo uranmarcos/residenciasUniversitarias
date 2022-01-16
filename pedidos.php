@@ -4,16 +4,19 @@ require("funciones/pdo.php");
     $alertErrorConexion = "hide";
     $alertConfirmacion = "hide";
     $mensajeAlertConfirmacion="";
+    $showGeneral = "hide";
     
     // CONSULTAS DE TODOS LOS PEDIDOS
     $sede = $_SESSION["sede"];
     
     if($_SESSION["rol"] == "stock") {
+        $showGeneral = "hide";
         $consultaPedidos = $baseDeDatos ->prepare("SELECT PN.id, PN.sede, PN.fecha, PN.enviado, A.nombre, A.segundoNombre, A.apellido FROM pedidosnuevos PN INNER JOIN
         agentes A ON PN.usuario = A.id WHERE PN.sede = $sede ORDER BY PN.fecha DESC");    
     } else {
-        $consultaPedidos = $baseDeDatos ->prepare("SELECT PN.id, PN.sede, PN.fecha, PN.enviado, A.nombre, A.segundoNombre, A.apellido FROM pedidosnuevos PN INNER JOIN
-        agentes A ON PN.usuario = A.id ORDER BY PN.fecha DESC");    
+        $showGeneral = "show";
+        $consultaPedidos = $baseDeDatos ->prepare("SELECT PN.id, PN.sede, PN.fecha, PN.enviado, A.nombre, PN.casa, A.segundoNombre, A.apellido, S.descripcion nombreSede FROM pedidosnuevos PN INNER JOIN
+        agentes A ON PN.usuario = A.id INNER JOIN sedes S on PN.sede = S.id ORDER BY PN.fecha DESC");    
     }
     //$consultaPedidos->execute();
     try {
@@ -80,9 +83,11 @@ require("funciones/pdo.php");
                         <table class="table <?php echo $hayDatos ?>">
                             <thead style="width:100%">
                                 <tr>
-                                    <th scope="col" >#</th>
-                                    <th scope="col" style="width:50%">Fecha</th>
-                                    <th scope="col" style="width:20%">Voluntario</th>
+                                    <th scope="col" style="width:10%" >#</th>
+                                    <th scope="col" style="width:20%">Fecha</th>
+                                    <th scope="col" style="width:30%">Voluntario</th>
+                                    <th scope="col" style="width:20%" class="<?php echo $showGeneral?>">Sede</th>
+                                    <th scope="col" style="width:20%" class="<?php echo $showGeneral?>">Casa</th>
                                     <th scope="col" style="width:20%">Enviado</th>
                                     <th scope="col" style="width:10%">Ver</th>
                                 </tr>
@@ -94,6 +99,8 @@ require("funciones/pdo.php");
                                             <td><input type="text" style ="width:50px; border: none" name="id" readonly value="<?php echo $pedido["id"] ?>"></td>
                                             <td><?php echo $pedido["fecha"]?></td>
                                             <td><?php echo $pedido["nombre"] . " " . $pedido["segundoNombre"] . " " . $pedido["apellido"] ?></td>
+                                            <td class="<?php echo $showGeneral?>"><?php echo $pedido["nombreSede"]?></td>
+                                            <td class="<?php echo $showGeneral?>"><?php echo $pedido["casa"]?></td>
                                             <td><?php echo $pedido["enviado"] == 0 ?  "No enviado"  : "Enviado" ?></td>
                                             <td class="d-flex justify-content-start"> 
                                                 <button type="submit" class="btn editButton" name="verPedido"  data-bs-toggle="modal" data-bs-target="#modalEliminar">
