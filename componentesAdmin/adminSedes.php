@@ -63,10 +63,10 @@
 
 ?>
     <div class="sectionBloque">
-        <div class="alert alert-danger centrarTexto <?php echo $alertErrorConexion ?>" role="alert" >
+        <div class="alert alert-danger centrarTexto <?php echo $alertErrorConexion ?>" id="alertErrorConexion" role="alert" >
             Hubo un error de conexión. Por favor actualizá la página
         </div>
-        <div class="alert alert-success centrarTexto <?php echo $alertConfirmacion ?>" role="alert">
+        <div class="alert alert-success centrarTexto <?php echo $alertConfirmacion ?>" id="alertConfirmacion" role="alert">
             <?php echo $mensajeAlertConfirmacion ?>
         </div>
         <!-- CREACION DE SEDE -->
@@ -333,5 +333,25 @@
         let casasSede = document.getElementById(casas).value
         let spanEdicionSede = document.getElementById("spanEdicionSede")
         spanEdicionSede.innerHTML = descripcionSede + " - " + (habilitadoSede == 0 ? "Eliminado" : "Habilitado") + " - " +  (casasSede == 1 ? " 1 casa" : casasSede + " casas")
+    }
+    window.onload = function(){
+        let alertConfirmacion = document.getElementById("alertConfirmacion")
+        if (alertConfirmacion.classList.contains('show')) {
+            setTimeout(ocultarAlertConfirmacion, 5000)
+        }
+        let alertErrorConexion = document.getElementById("alertErrorConexion")
+        if (alertErrorConexion.classList.contains('show')) {
+            setTimeout(ocultarAlertError, 5000)
+        }
+    }
+    function ocultarAlertConfirmacion(){
+        let alertConfirmacion = document.getElementById("alertConfirmacion")
+        alertConfirmacion.classList.remove('show')
+        alertConfirmacion.classList.add('hide')
+    }
+    function ocultarAlertError(){
+        let alertErrorConexion = document.getElementById("alertErrorConexion")
+        alertErrorConexion.classList.remove('show')
+        alertErrorConexion.classList.add('hide')
     }
 </script>

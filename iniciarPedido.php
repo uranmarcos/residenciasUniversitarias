@@ -288,7 +288,7 @@ require("funciones/pdo.php");
                 <?php require("componentes/header.php")?>
             </div>
             <div class="sectionBloque mt-2">
-                <div class="alert alert-danger centrarTexto <?php echo $alertErrorConexion ?>" role="alert" >
+                <div class="alert alert-danger centrarTexto <?php echo $alertErrorConexion ?>" id="alertErrorConexion" role="alert" >
                     Hubo un error de conexión. Por favor actualizá la página
                 </div>
             </div>
@@ -512,3 +512,16 @@ require("funciones/pdo.php");
         <script type="text/javascript"  src="js/iniciarPedido.js"></script> 
     </body>
 </html>
+<script>
+    window.onload = function(){
+        let alertErrorConexion = document.getElementById("alertErrorConexion")
+        if (alertErrorConexion.classList.contains('show')) {
+            setTimeout(ocultarAlertError, 5000)
+        }
+    }
+    function ocultarAlertError(){
+        let alertErrorConexion = document.getElementById("alertErrorConexion")
+        alertErrorConexion.classList.remove('show')
+        alertErrorConexion.classList.add('hide')
+    }
+</script>

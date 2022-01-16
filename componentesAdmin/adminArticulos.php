@@ -74,7 +74,7 @@
     }
 ?>
     <div class="sectionBloque">
-        <div class="alert alert-danger centrarTexto <?php echo $alertErrorConexion ?>" role="alert" >
+        <div class="alert alert-danger centrarTexto <?php echo $alertErrorConexion ?>" id="alertErrorConexion" role="alert" >
             Hubo un error de conexión. Por favor actualizá la página
         </div>
         <div class="alert alert-success centrarTexto <?php echo $alertConfirmacion ?>" id="alertConfirmacion" role="alert">
@@ -198,7 +198,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body centrarTexto">
-                            ¿Confirma los cambioooos: <b><span id="spanEdicionArticulo"></span></b>?
+                            ¿Confirma los cambios: <b><span id="spanEdicionArticulo"></span></b>?
                         </div>
                         <div class="modal-footer d-flex justify-content-around">
                             <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
@@ -375,11 +375,22 @@ function enviarDatosEdicion(descripcion, medida, categoria, habilitado) {
 window.onload = function(){
     let alertConfirmacion = document.getElementById("alertConfirmacion")
     if (alertConfirmacion.classList.contains('show')) {
-        setTimeout(alertConfirmacion.classList.remove('show'), 5000)
+        setTimeout(ocultarAlertConfirmacion, 5000)
     }
-
-    // do some stuff
+    let alertErrorConexion = document.getElementById("alertErrorConexion")
+    if (alertErrorConexion.classList.contains('show')) {
+        setTimeout(ocultarAlertError, 5000)
+    }
 }
-
+function ocultarAlertConfirmacion(){
+    let alertConfirmacion = document.getElementById("alertConfirmacion")
+    alertConfirmacion.classList.remove('show')
+    alertConfirmacion.classList.add('hide')
+}
+function ocultarAlertError(){
+    let alertErrorConexion = document.getElementById("alertErrorConexion")
+    alertErrorConexion.classList.remove('show')
+    alertErrorConexion.classList.add('hide')
+}
 
 </script>
