@@ -1,6 +1,24 @@
 <?php
 session_start();
 require("funciones/pdo.php");
+$id = $_SESSION["id"];
+$alertErrorConexion = "hide";
+$alertConfirmacion = "hide";
+$consulta = $baseDeDatos ->prepare("SELECT A.id, A.dni, A.nombre, A.segundoNombre, A.apellido, A.mail, A.sede, A.casa, A.rol, S.descripcion nombreSede FROM agentes A INNER JOIN sedes S on A.sede = S.id WHERE A.id = $id");
+try {
+    $consulta->execute();
+} catch (\Throwable $th) {
+    $alertErrorConexion = "show";
+}
+
+$perfil = $consulta -> fetchAll(PDO::FETCH_ASSOC);
+$perfil[0]["rol"] = ucfirst($perfil[0]["rol"]);
+$noHayDatos = "show";
+$hayDatos = "hide";
+if(sizeof($perfil) != 0) {
+    $noHayDatos = "hide";
+    $hayDatos = "show";
+}
 ?>
 <html>
     <head>
@@ -15,13 +33,327 @@ require("funciones/pdo.php");
     </head>
     <body>
         <div class="contenedorPrincipal">
-            <div class="header">
+            <div class="headerFull">
                 <?php require("componentes/header.php")?>
             </div>
-            <div>
-                SITIO EN CONSTRUCCION  -- PERFIL      
+            <div class="col-12 paddingCero">
+                <div class="titleSection">
+                   Mi Perfil
+                </div>
+            </div>
+            <div class="sectionBloque">
+                <div class="alert alert-danger centrarTexto <?php echo $alertErrorConexion ?>" id="alertErrorConexion" role="alert" >
+                    Hubo un error de conexión. Por favor actualizá la página
+                </div>
+                <div class="alert alert-success centrarTexto <?php echo $alertConfirmacion ?>" id="alertConfirmacion" role="alert">
+                    <?php echo $mensajeAlertConfirmacion ?>
+                </div>
+                <!-- BOX MI PERFIL -->
+                <div class="contenedorSeccion mb-4 <?php echo $hayDatos?>" id="boxEditarUsuario">
+                    <div class="d-flex anchoTotal justify-content-between">
+                        <div class="subtitle mb-2">
+                            
+                        </div> 
+                        <div class="col-6 d-flex align-items-end justify-content-end">
+                            <button type="submit" name="botonEditar" onclick="editarPerfil()" id="botonEditar" class="btn botonConfirmar col-6 col-md-3">Editar</button>        
+                        </div>
+                    </div>             
+                    <div class="row">
+                        <div class="col-1 col-md-1 col-lg-3 columna">
+                            <label># </label>
+                            <input maxlength="12" name="idPerfil" disabled value="<?php echo $perfil[0]["id"]?>" id="idPerfil">
+                            <div class="hide errorValidacion" id="errorIdPerfil"></div>
+                        </div>
+                        <div class="col-11 col-md-5 col-lg-3 columna">
+                            <label>Primer Nombre: </label>
+                            <input maxlength="12" disabled name="nombrePerfil" autocomplete="off" onkeyup="validarCampoFormulario('nombrePerfil', 'errorNombrePerfil')" value="<?php echo $perfil[0]["nombre"]?>" id="nombrePerfil">
+                            <div class="hide errorValidacion" id="errorNombrePerfil"></div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3 columna">
+                            <label>Segundo Nombre: </label>
+                            <input maxlength="12" disabled name="segundoNombrePerfil" autocomplete="off" onkeyup="validarCampoFormulario('segundoNombrePerfil', 'errorSegundoNombrePerfil' )" value="<?php echo $perfil[0]["segundoNombre"]?>" id="segundoNombrePerfil">
+                            <div class="hide errorValidacion" id="errorSegundoNombrePerfil"></div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3 columna">
+                            <label>Apellido: </label>
+                            <input maxlength="12" disabled name="apellidoPerfil" autocomplete="off" onkeyup="validarCampoFormulario('apellidoPerfil', 'errorApellidoPerfil')" value="<?php echo $perfil[0]["apellido"]?>" id="apellidoPerfil">
+                            <div class="hide errorValidacion" id="errorApellidoPerfil"></div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3 columna">
+                            <label>DNI: </label>
+                            <input maxlength="8" disabled name="dniPerfil" autocomplete="off" value="<?php echo $perfil[0]["dni"]?>" id="dniPerfil">
+                            <div class="hide errorValidacion" id="errorDniPerfil"></div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3 columna">
+                            <label>Rol: </label>
+                            <input maxlength="8" disabled name="rolPerfil" autocomplete="off" value="<?php echo $perfil[0]["rol"]?>" id="rolPerfil">
+                            <div class="hide errorValidacion" id="errorRolPerfil"></div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3 columna">
+                            <label>Mail: </label>
+                            <input name="mailPerfil" disabled type="email" autocomplete="off" onkeyup="validarCampoFormulario('mailPerfil', 'errorMailPerfil')" value="<?php echo $perfil[0]["mail"]?>" id="mailPerfil"> 
+                            <div class="hide errorValidacion" id="errorMailPerfil"></div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3 columna">
+                            <label>Sede: </label>
+                            <input name="sedePerfil" disabled type="text" autocomplete="off" value="<?php echo $perfil[0]["nombreSede"]?>" id="sedePerfil"> 
+   
+                            <div class="hide errorValidacion" id="errorSedeEditarUsuario"></div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3 columna">
+                            <label>Casa: </label>
+                            <input name="casaPerfil" disabled type="text" autocomplete="off" value="<?php echo $perfil[0]["casa"]?>" id="casaPerfil"> 
+                            <div class="hide errorValidacion" id="errorCasaPerfil"></div>
+                        </div>
+                        <div class="col-12 col-lg-9  hide  mt-2 mt-md-2 mb-2 mb-md-0 " id="botonesEdicionPerfil">
+                        <div class="col-12 d-flex align-items-end justify-content-around" style="height:100%" >
+                            <button type="button" name="botonCancelar" onclick="cancelarEdicion()" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
+                            <button type="button" name="botonEditarPerfil" onmouseover="validarFormularioCompleto()" id="botonEditarPerfil" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#modalEdicionPerfil">
+                                Confirmar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="contenedorSeccion contenedorModal mb-4 <?php echo $noHayDatos?>" id="boxEditarUsuario">
+                    <table class="table <?php echo $noHayDatos?>">
+                        <thead class="d-flex justify-content-center">
+                            <tr>
+                                <th scope="col" style="width:100%">NO SE ENCONTRARON DATOS</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <!-- MODAL CONFIRMACION EDICION PERFIL -->
+                <div class="modal fade" id="modalEdicionPerfil" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body centrarTexto">
+                                ¿Confirma los cambios: <br><span id="spanEditarPerfil"></span>?
+                            </div>
+                            <div class="modal-footer d-flex justify-content-around">
+                                <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" name="editarUsuario" class="btn botonConfirmar">Confirmar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>           
+        <script type="text/javascript"  src="js/funcionesCompartidas.js"></script> 
     </body>
 </html>
+<script>
+    window.onload = function(){
+        let alertConfirmacion = document.getElementById("alertConfirmacion")
+        if (alertConfirmacion.classList.contains('show')) {
+            setTimeout(ocultarAlertConfirmacion, 5000)
+        }
+        let alertErrorConexion = document.getElementById("alertErrorConexion")
+        if (alertErrorConexion.classList.contains('show')) {
+            setTimeout(ocultarAlertError, 5000)
+        }
+    }
+    function ocultarAlertConfirmacion(){
+        let alertConfirmacion = document.getElementById("alertConfirmacion")
+        alertConfirmacion.classList.remove('show')
+        alertConfirmacion.classList.add('hide')
+    }
+    function ocultarAlertError(){
+        let alertErrorConexion = document.getElementById("alertErrorConexion")
+        alertErrorConexion.classList.remove('show')
+        alertErrorConexion.classList.add('hide')
+    }
+    function editarPerfil(){
+        let botonEditar = document.getElementById("botonEditar")
+        botonEditar.classList.add("hide")
+        let botonesEdicionPerfil = document.getElementById("botonesEdicionPerfil")
+        botonesEdicionPerfil.classList.remove("hide")
+        let nombrePerfil = document.getElementById("nombrePerfil")
+        nombrePerfil.removeAttribute("disabled")
+        let segundoNombrePerfil = document.getElementById("segundoNombrePerfil")
+        segundoNombrePerfil.removeAttribute("disabled")
+        let apellidoPerfil = document.getElementById("apellidoPerfil")
+        apellidoPerfil.removeAttribute("disabled")
+        let mailPerfil = document.getElementById("mailPerfil")
+        mailPerfil.removeAttribute("disabled")
+    }
+    function cancelarEdicion(){
+        let botonEditarPerfil = document.getElementById("botonEditarPerfil")
+        botonEditarPerfil.classList.remove("hide")
+        let botonesEdicionPerfil = document.getElementById("botonesEdicionPerfil")
+        botonesEdicionPerfil.classList.add("hide")
+        let nombrePerfil = document.getElementById("nombrePerfil")
+        nombrePerfil.setAttribute("disabled", true)
+        let segundoNombrePerfil = document.getElementById("segundoNombrePerfil")
+        segundoNombrePerfil.setAttribute("disabled", true)
+        let apellidoPerfil = document.getElementById("apellidoPerfil")
+        apellidoPerfil.setAttribute("disabled", true)
+        let mailPerfil = document.getElementById("mailPerfil")
+        mailPerfil.setAttribute("disabled", true)
+    }
+    function validarFormularioCompleto() {
+        // let campos = null
+        // let camposErrores = null
+        // $camposEdicion = ["nombrePerfil", "segundoNombrePerfil", "apellidoPerfil", "mailPerfil"];
+        // $camposErroresEdicion = ["errorNombrePerfil", "errorSegundoNombrePerfil", "errorApellidoPerfil", "errorMailPerfil"];
+        let campos = ["nombrePerfil", "segundoNombrePerfil", "apellidoPerfil", "mailPerfil"]
+        let camposErrores = ["errorNombrePerfil", "errorSegundoNombrePerfil", "errorApellidoPerfil", "errorMailPerfil"]
+       
+        let validacion = true;
+        campos.forEach(e => {
+            switch (e) {
+                // case primer nombre
+                case campos[0]:
+                    let valuePrimerNombre = document.getElementById(campos[0]).value
+                    let campoErrorPrimerNombre = document.getElementById(camposErrores[0])
+                    campoErrorPrimerNombre.classList.remove("hide")
+                    if (valuePrimerNombre.trim() == "") {
+                        campoErrorPrimerNombre.innerHTML = "Campo requerido"
+                        validacion = false
+                    } else if (valuePrimerNombre.trim().length < 3) {
+                        campoErrorPrimerNombre.innerHTML = "Mínimo 3 dígitos"
+                        validacion = false
+                    } else {
+                        if (!soloLetras(valuePrimerNombre)){
+                            campoErrorPrimerNombre.innerHTML = "Solo letras y espacios"
+                            validacion = false
+                        } else {
+                            campoErrorPrimerNombre.classList.add("hide")
+                        }
+                    }
+                break;
+                // case segundo nombre
+                case campos[1]:
+                    let valueSegundoNombre = document.getElementById(campos[1]).value
+                    let campoErrorSegundoNombre = document.getElementById(camposErrores[1])
+                    campoErrorSegundoNombre.classList.remove("hide")
+                    if(valueSegundoNombre.trim() != ""){
+                        if (valueSegundoNombre.length < 3) {
+                            campoErrorSegundoNombre.innerHTML = "Mínimo 3 dígitos"
+                            validacion = false
+                        } else {
+                            if (!soloLetras(valueSegundoNombre)){
+                                campoErrorSegundoNombre.innerHTML = "Solo letras y espacios"
+                                validacion = false
+                            } else {
+                                campoErrorSegundoNombre.classList.add("hide")
+                            }
+                        }
+                    }else{
+                        campoErrorSegundoNombre.classList.add("hide")
+                    }
+                break;
+                // case apellido
+                case campos[2]:
+                    let valueApellido = document.getElementById(campos[2]).value
+                    let campoErrorApellido = document.getElementById(camposErrores[2])
+                    campoErrorApellido.classList.remove("hide")
+                    if (valueApellido.trim() == "") {
+                        campoErrorApellido.innerHTML = "Campo requerido"
+                        validacion = false
+                    } else if (valueApellido.trim().length < 3) {
+                        campoErrorApellido.innerHTML = "Mínimo 3 dígitos"
+                        validacion = false
+                    } else {
+                        if (!soloLetras(valueApellido)){
+                            campoErrorApellido.innerHTML = "Solo letras y espacios"
+                            validacion = false
+                        } else {
+                            let validacion = true;
+                            campoErrorApellido.classList.add("hide")
+                        }
+                    }
+                break;
+                //case mail
+                case campos[3]:
+                    let valueMail = document.getElementById(campos[3]).value
+                    let campoErrorMail = document.getElementById(camposErrores[3])
+                    campoErrorMail.classList.remove("hide")
+                    if (valueMail.trim() == "") {
+                        campoErrorMail.innerHTML = "Campo requerido"
+                        validacion = false
+                    } else if (!isEmailAddress(valueMail)){
+                        campoErrorMail.innerHTML = "Formato incorrecto"
+                        validacion = false
+                    } else {
+                        campoErrorMail.classList.add("hide")
+                    }
+                break;  
+                default:
+                break;
+            }
+        })
+        let boton = document.getElementById("botonEditarPerfil")
+        if(validacion){
+            boton.removeAttribute("disabled")
+            actualizarDatosModalEditar()
+        }else{
+            boton.setAttribute("disabled", true)
+        }
+    }
+    function validarCampoFormulario(idCampo, idError){
+        let botonE = document.getElementById("botonEditarPerfil")
+        botonE.removeAttribute("disabled")
+        let value = document.getElementById(idCampo).value
+        let campoError = document.getElementById(idError)
+        campoError.classList.remove("hide")
+        switch (idCampo) {
+            case "nombrePerfil":
+                if (value.trim().length < 3) {
+                    campoError.innerHTML = "Mínimo 3 dígitos"
+                } else {
+                    if (!soloLetras(value)){
+                        campoError.innerHTML = "Solo letras y espacios"
+                    } else {
+                        campoError.classList.add("hide")
+                    }
+                }
+            break;
+            case "segundoNombreEditarPerfil":
+                if(value.trim() != ""){
+                    if (value.length < 3) {
+                        campoError.innerHTML = "Mínimo 3 dígitos"
+                    } else {
+                        if (!soloLetras(value)){
+                            campoError.innerHTML = "Solo letras y espacios"
+                        } else {
+                            campoError.classList.add("hide")
+                        }
+                    }
+                } else{
+                    campoError.classList.add("hide")
+                }
+            break;
+            case "apellidoPerfil":
+                if (value.length < 3) {
+                    campoError.innerHTML = "Mínimo 3 dígitos"
+                } else {
+                    if (!soloLetras(value)){
+                        campoError.innerHTML = "Solo letras y espacios"
+                    } else {
+                        campoError.classList.add("hide")
+                    }
+                }
+            break;
+            case "mailPerfil":
+                if (!isEmailAddress(value)){
+                    campoError.innerHTML = "Formato incorrecto"
+                } else {
+                    campoError.classList.add("hide")
+                }
+            break;  
+            default:
+            break;
+        }  
+    }
+    function actualizarDatosModalEditar(){
+        let nombre = document.getElementById("nombrePerfil").value + " " + document.getElementById("segundoNombrePerfil").value
+        let apellido = document.getElementById("apellidoPerfil").value
+        let mail = document.getElementById("mailPerfil").value
+        let spanEditarPerfil = document.getElementById("spanEditarPerfil")
+        spanEditarPerfil.innerHTML = "Usuario: <b>" + nombre + " " + apellido + "</b>  -  mail: <b>" + mail + "</b>"
+    }
+</script>
