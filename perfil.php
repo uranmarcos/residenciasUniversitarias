@@ -41,6 +41,7 @@ if(sizeof($perfil) != 0) {
                    Mi Perfil
                 </div>
             </div>
+            
             <div class="sectionBloque">
                 <div class="alert alert-danger centrarTexto <?php echo $alertErrorConexion ?>" id="alertErrorConexion" role="alert" >
                     Hubo un error de conexión. Por favor actualizá la página
@@ -48,17 +49,100 @@ if(sizeof($perfil) != 0) {
                 <div class="alert alert-success centrarTexto <?php echo $alertConfirmacion ?>" id="alertConfirmacion" role="alert">
                     <?php echo $mensajeAlertConfirmacion ?>
                 </div>
+                <!-- BOX CAMBIO DE CONTRASEÑA -->
+                <div class="hide" id="boxChangePassword">
+                    <form name="form" method="POST" action="perfil.php">
+                        <!-- BOX CONTRASEÑA -->
+                        <div class="contenedorSeccion contenedorModal mb-4">
+                            <div class="d-flex anchoTotal justify-content-between">
+                                <div class="subtitle mb-2">
+                                    Cambio de Contraseña
+                                </div> 
+                            </div>
+                            <div class="row d-flex justify-content-center mt-1 mb-2">
+                                <div class="col-12 col-md-6 col-lg-3 columna">
+                                    <label>Ingrese su actual contraseña </label>
+                                    <div class="row m-0">
+                                        <input class="col-10" maxlength="12" type="password" name="inputPassword" autocomplete="off" id="inputPassword">
+                                        <div class="col-2">
+                                            <button type="button" class="btn passwordButton" onclick="mostrarPassword('inputPassword')" name="verPassword">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="hide errorValidacion" id="errorPrimerNombreNuevoUsuario"></div>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-3 columna">
+                                    <label>Ingrese su nueva contraseña </label>
+                                    <div class="row m-0">
+                                        <input class="col-10" maxlength="12" type="password" onkeyup="validarPassword()" name="inputNewPassword" autocomplete="off" id="inputNewPassword"> 
+                                        <div class="col-2">
+                                            <button type="button" class="btn passwordButton" onclick="mostrarPassword('inputNewPassword')" name="verPassword">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="hide errorValidacion" id="errorNewPassword">Minimo 8 caracteres</div>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-3 columna">
+                                    <label>Repita su nueva contraseña: </label>
+                                    <div class="row m-0">
+                                        <input class="col-10" maxlength="12" name="confirmPassword" autocomplete="off" onkeyup="compararContrasenias()" id="inputConfirmPassword">
+                                            <div class="col-2">
+                                                <button type="button" class="btn passwordButton" onclick="mostrarPassword('inputConfirmPassword')" name="verPassword">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    <div class="hide errorValidacion" id="errorConfirmPassword">Las contraseñas no coinciden</div>
+                                </div>                      
+                                <div class="col-12 col-md-6 col-lg-3 d-flex align-items-end justify-content-around mt-4  mb-2 pb-md-1 mb-md-0">
+                                    <button type="button" name="botonCancelar" onclick="cancelarChangePassword()" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
+                                    <button type="button" name="botonGenerar" onmouseover="validarFormularioCompleto('crear')" id="botonCrearUsuario" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        Generar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- MODAL CONFIRMACION CAMBIO CONTRASEÑA -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body centrarTexto">
+                                    ¿Desea confirmar el cambio de contraseña?
+                                </div>
+                                <div class="modal-footer d-flex justify-content-around">
+                                    <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" name="crearUsuario" class="btn botonConfirmar">Confirmar</button>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 <!-- BOX MI PERFIL -->
                 <div class="contenedorSeccion mb-4 <?php echo $hayDatos?>" id="boxEditarUsuario">
-                    <div class="d-flex anchoTotal justify-content-between">
-                        <div class="subtitle mb-2">
-                            
+                    <div class="d-flex anchoTotal justify-content-between mb-2">
+                        <div class="col-6 d-flex align-items-center justify-content-start">
+                            <button type="button" name="botonEditarPassword" onclick="editarPassword()" id="botonEditarPassword" class="btn botonConfirmar col-6 col-md-3">Contraseña</button>        
                         </div> 
-                        <div class="col-6 d-flex align-items-end justify-content-end">
-                            <button type="submit" name="botonEditar" onclick="editarPerfil()" id="botonEditar" class="btn botonConfirmar col-6 col-md-3">Editar</button>        
+                        <div class="col-6 d-flex align-items-center justify-content-end">
+                            <button type="button" name="botonEditar" onclick="editarPerfil()" id="botonEditar" class="btn botonConfirmar col-6 col-md-3">Editar</button>        
                         </div>
                     </div>             
-                    <div class="row">
+                    <div class="row  d-flex justify-content-center">
                         <div class="col-1 col-md-1 col-lg-3 columna">
                             <label># </label>
                             <input maxlength="12" name="idPerfil" disabled value="<?php echo $perfil[0]["id"]?>" id="idPerfil">
@@ -114,7 +198,8 @@ if(sizeof($perfil) != 0) {
                         </div>
                     </div>
                 </div>
-                <div class="contenedorSeccion contenedorModal mb-4 <?php echo $noHayDatos?>" id="boxEditarUsuario">
+               
+                <div class="contenedorSeccion mb-4 <?php echo $noHayDatos?>" id="">
                     <table class="table <?php echo $noHayDatos?>">
                         <thead class="d-flex justify-content-center">
                             <tr>
@@ -181,8 +266,8 @@ if(sizeof($perfil) != 0) {
         mailPerfil.removeAttribute("disabled")
     }
     function cancelarEdicion(){
-        let botonEditarPerfil = document.getElementById("botonEditarPerfil")
-        botonEditarPerfil.classList.remove("hide")
+        let botonEditar = document.getElementById("botonEditar")
+        botonEditar.classList.remove("hide")
         let botonesEdicionPerfil = document.getElementById("botonesEdicionPerfil")
         botonesEdicionPerfil.classList.add("hide")
         let nombrePerfil = document.getElementById("nombrePerfil")
@@ -355,5 +440,51 @@ if(sizeof($perfil) != 0) {
         let mail = document.getElementById("mailPerfil").value
         let spanEditarPerfil = document.getElementById("spanEditarPerfil")
         spanEditarPerfil.innerHTML = "Usuario: <b>" + nombre + " " + apellido + "</b>  -  mail: <b>" + mail + "</b>"
+    }
+    function editarPassword() {
+        let boxChangePassword = document.getElementById("boxChangePassword")
+        boxChangePassword.classList.remove("hide")
+        let botonEditarPassword = document.getElementById("botonEditarPassword")
+        botonEditarPassword.setAttribute("disabled", true)
+    }
+    function cancelarChangePassword() {
+        let boxChangePassword = document.getElementById("boxChangePassword")
+        boxChangePassword.classList.add("hide")
+        let botonEditarPassword = document.getElementById("botonEditarPassword")
+        botonEditarPassword.removeAttribute("disabled")
+        resetForm()
+    }
+    function mostrarPassword(id){
+      var tipo = document.getElementById(id);
+      if(tipo.type == "password"){
+          tipo.type = "text";
+      }else{
+          tipo.type = "password";
+      }
+    }
+    function resetForm(){
+        let inputPassword = document.getElementById("inputPassword")
+        let inputNewPassword = document.getElementById("inputNewPassword")
+        let inputConfirmPassword = document.getElementById("inputConfirmPassword")
+        inputPassword.value = ""
+        inputNewPassword.value = ""
+        inputConfirmPassword.value = ""
+    }
+    function compararContrasenias () {
+        let newPassword = document.getElementById("inputNewPassword").value
+        let confirmPassword = document.getElementById("inputConfirmPassword").value
+        let errorConfirmPassword = document.getElementById("errorConfirmPassword")
+        if ( confirmPassword != "" && confirmPassword != newPassword ) {
+            return  errorConfirmPassword.classList.remove("hide")
+        }
+        errorConfirmPassword.classList.add("hide")
+    }
+    function validarPassword() {
+        let newPassword = document.getElementById("inputNewPassword").value
+        let errorNewPassword = document.getElementById("errorNewPassword")
+        if ( newPassword.trim().length < 8 && newPassword != "") {
+            return errorNewPassword.classList.remove("hide") 
+        }
+        errorNewPassword.classList.add("hide")
     }
 </script>
