@@ -9,8 +9,8 @@ require("funciones/pdo.php");
     $sede = $_SESSION["sede"];
     
     if($_SESSION["rol"] == "stock") {
-                $consultaPedidos = $baseDeDatos ->prepare("SELECT PN.id, PN.sede, PN.fecha, PN.enviado, A.nombre, A.segundoNombre, A.apellido FROM pedidosnuevos PN INNER JOIN
-        agentes A ON PN.usuario = A.id WHERE PN.sede = $sede ORDER BY PN.fecha DESC");    
+                $consultaPedidos = $baseDeDatos ->prepare("SELECT PN.id, PN.sede, PN.fecha, PN.enviado, PN.casa, A.nombre, A.segundoNombre, A.apellido, S.descripcion nombreSede FROM pedidosnuevos PN INNER JOIN
+        agentes A ON PN.usuario = A.id INNER JOIN sedes S on PN.sede = S.id WHERE PN.sede = $sede ORDER BY PN.fecha DESC");    
     } else {
         $consultaPedidos = $baseDeDatos ->prepare("SELECT PN.id, PN.sede, PN.fecha, PN.enviado, A.nombre, PN.casa, A.segundoNombre, A.apellido, S.descripcion nombreSede FROM pedidosnuevos PN INNER JOIN
         agentes A ON PN.usuario = A.id INNER JOIN sedes S on PN.sede = S.id ORDER BY PN.fecha DESC");    
@@ -81,10 +81,10 @@ require("funciones/pdo.php");
                             <thead style="width:100%">
                                 <tr>
                                     <th scope="col" style="width:10%" >#</th>
-                                    <th scope="col" style="width:10%">Fecha</th>
-                                    <th scope="col" style="width:20%">Voluntario</th>
+                                    <th scope="col" style="width:20%">Fecha</th>
+                                    <th scope="col" style="width:30%">Voluntario</th>
                                     <th scope="col" style="width:20%">Sede</th>
-                                    <th scope="col" style="width:20%">Casa</th>
+                                    <th scope="col" style="width:10%">Casa</th>
                                     <th scope="col" style="width:10%">Enviado</th>
                                     <th scope="col" style="width:10%">Ver</th>
                                 </tr>
