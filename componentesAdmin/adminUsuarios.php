@@ -1,6 +1,7 @@
 <?php
-    $alertErrorConexion = "hide";
+    $alertError = "hide";
     $alertConfirmacion = "hide";
+    $mensajeAlertError = "";
     $mensajeAlertConfirmacion="";
     // VARIABLES CON LOS CAMPOS A REVISAR AL VALIDAR EL FORMULARIO DE EDICION/CREACION
     $camposCreacion = ["primerNombreNuevoUsuario", "segundoNombreNuevoUsuario", "apellidoNuevoUsuario", "dniNuevoUsuario", "mailNuevoUsuario", "sedeNuevoUsuario"];
@@ -27,12 +28,26 @@
         }
         $date = date("Y-m-d h:i:s");
         $insertUsuario = $baseDeDatos ->prepare("INSERT into agentes VALUES(default, '$dni', '$nombre', '$segundoNombre', '$apellido', '$mail', '$rol', '$password', '$sede', '$casa',1, '$date', '$date', 1)");
+        $consultaDni = $baseDeDatos ->prepare("SELECT id from agentes WHERE dni = $dni");
         try{
-            $insertUsuario->execute();
-            $alertConfirmacion = "show";
-            $mensajeAlertConfirmacion="El usuario se creó correctamente";
+            $consultaDni->execute();
+            $dni = $consultaDni -> fetchAll(PDO::FETCH_ASSOC);
+            if( count($dni) == 0) {
+                try{
+                    $insertUsuario->execute();
+                    $alertConfirmacion = "show";
+                    $mensajeAlertConfirmacion="El usuario se creó correctamente";
+                } catch (\Throwable $th) {
+                    $mensajeAlertError = "Hubo un error de conexión. Por favor actualizá la página";
+                    $alertError= "show";
+                }
+            } else {
+                $alertError= "show";
+                $mensajeAlertError="El dni ingresado ya está registrado";
+            }
         } catch (\Throwable $th) {
-            $alertErrorConexion= "show";
+            $mensajeAlertError = "Hubo un error de conexión. Por favor actualizá la página";
+            $alertError= "show";
         }
     }
 
@@ -61,7 +76,8 @@
             $alertConfirmacion = "show";
             $mensajeAlertConfirmacion="El usuario se modificó correctamente";
         } catch (\Throwable $th) {
-            $alertErrorConexion= "show";
+            $mensajeAlertError = "Hubo un error de conexión. Por favor actualizá la página";
+            $alertError= "show";
         }
     }
 
@@ -75,7 +91,8 @@
             $alertConfirmacion = "show";
             $mensajeAlertConfirmacion="El usuario se eliminó correctamente";
         } catch (\Throwable $th) {
-            $alertErrorConexion= "show";
+            $mensajeAlertError = "Hubo un error de conexión. Por favor actualizá la página";
+            $alertError= "show";
         }
     }
 
@@ -87,7 +104,8 @@
         $consultaUsuarios->execute();
         $consultaSedes->execute();
     } catch (\Throwable $th) {
-        $alertErrorConexion= "show";
+        $mensajeAlertError = "Hubo un error de conexión. Por favor actualizá la página";
+        $alertError= "show";
     }
     $usuarios = $consultaUsuarios -> fetchAll(PDO::FETCH_ASSOC);
     $sedes = $consultaSedes -> fetchAll(PDO::FETCH_ASSOC);
@@ -116,8 +134,8 @@
 
 ?>
     <div class="sectionBloque">
-        <div class="alert alert-danger centrarTexto <?php echo $alertErrorConexion ?>" id="alertErrorConexion" role="alert" >
-            Hubo un error de conexión. Por favor actualizá la página
+        <div class="alert alert-danger centrarTexto <?php echo $alertError ?>" id="alertErrorConexion" role="alert" >
+            <?php echo $mensajeAlertError ?>
         </div>
         <div class="alert alert-success centrarTexto <?php echo $alertConfirmacion ?>" id="alertConfirmacion" role="alert">
             <?php echo $mensajeAlertConfirmacion ?>

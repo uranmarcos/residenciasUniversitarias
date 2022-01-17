@@ -41,7 +41,6 @@ if(sizeof($perfil) != 0) {
                    Mi Perfil
                 </div>
             </div>
-            
             <div class="sectionBloque">
                 <div class="alert alert-danger centrarTexto <?php echo $alertErrorConexion ?>" id="alertErrorConexion" role="alert" >
                     Hubo un error de conexión. Por favor actualizá la página
@@ -53,7 +52,7 @@ if(sizeof($perfil) != 0) {
                 <div class="hide" id="boxChangePassword">
                     <form name="form" method="POST" action="perfil.php">
                         <!-- BOX CONTRASEÑA -->
-                        <div class="contenedorSeccion contenedorModal mb-4">
+                        <div class="contenedorSeccion  mb-4">
                             <div class="d-flex anchoTotal justify-content-between">
                                 <div class="subtitle mb-2">
                                     Cambio de Contraseña
@@ -107,14 +106,15 @@ if(sizeof($perfil) != 0) {
                                 </div>                      
                                 <div class="col-12 col-md-6 col-lg-3 d-flex align-items-end justify-content-around mt-4  mb-2 pb-md-1 mb-md-0">
                                     <button type="button" name="botonCancelar" onclick="cancelarChangePassword()" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
-                                    <button type="button" name="botonGenerar" onmouseover="validarFormularioCompleto('crear')" id="botonCrearUsuario" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    <button type="button" name="botonGenerar" onmouseover="validarFormularioCompleto()" id="botonCrearUsuario" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#modalPassword">
                                         Generar
                                     </button>
                                 </div>
                             </div>
                         </div>
+
                         <!-- MODAL CONFIRMACION CAMBIO CONTRASEÑA -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="modalPassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                 <div class="modal-header">
