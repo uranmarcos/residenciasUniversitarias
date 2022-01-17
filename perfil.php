@@ -4,13 +4,27 @@ require("funciones/pdo.php");
 $id = $_SESSION["id"];
 $alertErrorConexion = "hide";
 $alertConfirmacion = "hide";
+if (isset($_POST["editarPerfil"])) {
+    $nombre = $_POST["nombrePerfil"];
+    $segundoNombre = $_POST["segundoNombrePerfil"];
+    $apellido = $_POST["apellidoPerfil"];
+    $mail = $_POST["mailPerfil"];
+    $edicion = $baseDeDatos ->prepare("UPDATE agentes SET nombre = '$nombre', segundoNombre = '$segundoNombre', apellido = '$apellido', mail = '$mail' WHERE id = '$id'");
+    try { 
+        $edicion->execute();
+        $alertConfirmacion ="show";
+        $mensajeAlertConfirmacion = "Los datos se modificaron correctamente";
+    } catch (\Throwable $th) {
+        $alertErrorConexion = "show";
+    }
+
+}
 $consulta = $baseDeDatos ->prepare("SELECT A.id, A.dni, A.nombre, A.segundoNombre, A.apellido, A.mail, A.sede, A.casa, A.rol, S.descripcion nombreSede FROM agentes A INNER JOIN sedes S on A.sede = S.id WHERE A.id = $id");
 try {
     $consulta->execute();
 } catch (\Throwable $th) {
     $alertErrorConexion = "show";
 }
-
 $perfil = $consulta -> fetchAll(PDO::FETCH_ASSOC);
 $perfil[0]["rol"] = ucfirst($perfil[0]["rol"]);
 $noHayDatos = "show";
@@ -19,6 +33,10 @@ if(sizeof($perfil) != 0) {
     $noHayDatos = "hide";
     $hayDatos = "show";
 }
+if (isset($_POST["cambiarPassword"])) {
+
+}
+
 ?>
 <html>
     <head>
@@ -106,7 +124,8 @@ if(sizeof($perfil) != 0) {
                                 </div>                      
                                 <div class="col-12 col-md-6 col-lg-3 d-flex align-items-end justify-content-around mt-4  mb-2 pb-md-1 mb-md-0">
                                     <button type="button" name="botonCancelar" onclick="cancelarChangePassword()" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
-                                    <button type="button" name="botonGenerar" onmouseover="validarFormularioCompleto()" id="botonCrearUsuario" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#modalPassword">
+                                    <button type="button" name="botonGenerar" onmouseover="validarFormularioCompleto()" id="botonCrearUsuario" class="btn botonConfirmar col-6 col-md-3"
+                                     data-bs-toggle="modal" data-bs-target="#modalPassword">
                                         Generar
                                     </button>
                                 </div>
@@ -125,7 +144,7 @@ if(sizeof($perfil) != 0) {
                                 </div>
                                 <div class="modal-footer d-flex justify-content-around">
                                     <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="submit" name="crearUsuario" class="btn botonConfirmar">Confirmar</button>
+                                    <button type="submit" name="cambiarPassword" class="btn botonConfirmar">Confirmar</button>
                                 </div>
                                 </div>
                             </div>
@@ -133,100 +152,105 @@ if(sizeof($perfil) != 0) {
                     </form>
                 </div>
                 <!-- BOX MI PERFIL -->
-                <div class="contenedorSeccion mb-4 <?php echo $hayDatos?>" id="boxEditarUsuario">
-                    <div class="d-flex anchoTotal justify-content-between mb-2">
-                        <div class="col-6 d-flex align-items-center justify-content-start">
-                            <button type="button" name="botonEditarPassword" onclick="editarPassword()" id="botonEditarPassword" class="btn botonConfirmar col-6 col-md-3">Contraseña</button>        
-                        </div> 
-                        <div class="col-6 d-flex align-items-center justify-content-end">
-                            <button type="button" name="botonEditar" onclick="editarPerfil()" id="botonEditar" class="btn botonConfirmar col-6 col-md-3">Editar</button>        
-                        </div>
-                    </div>             
-                    <div class="row  d-flex justify-content-center">
-                        <div class="col-1 col-md-1 col-lg-3 columna">
-                            <label># </label>
-                            <input maxlength="12" name="idPerfil" disabled value="<?php echo $perfil[0]["id"]?>" id="idPerfil">
-                            <div class="hide errorValidacion" id="errorIdPerfil"></div>
-                        </div>
-                        <div class="col-11 col-md-5 col-lg-3 columna">
-                            <label>Primer Nombre: </label>
-                            <input maxlength="12" disabled name="nombrePerfil" autocomplete="off" onkeyup="validarCampoFormulario('nombrePerfil', 'errorNombrePerfil')" value="<?php echo $perfil[0]["nombre"]?>" id="nombrePerfil">
-                            <div class="hide errorValidacion" id="errorNombrePerfil"></div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-3 columna">
-                            <label>Segundo Nombre: </label>
-                            <input maxlength="12" disabled name="segundoNombrePerfil" autocomplete="off" onkeyup="validarCampoFormulario('segundoNombrePerfil', 'errorSegundoNombrePerfil' )" value="<?php echo $perfil[0]["segundoNombre"]?>" id="segundoNombrePerfil">
-                            <div class="hide errorValidacion" id="errorSegundoNombrePerfil"></div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-3 columna">
-                            <label>Apellido: </label>
-                            <input maxlength="12" disabled name="apellidoPerfil" autocomplete="off" onkeyup="validarCampoFormulario('apellidoPerfil', 'errorApellidoPerfil')" value="<?php echo $perfil[0]["apellido"]?>" id="apellidoPerfil">
-                            <div class="hide errorValidacion" id="errorApellidoPerfil"></div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-3 columna">
-                            <label>DNI: </label>
-                            <input maxlength="8" disabled name="dniPerfil" autocomplete="off" value="<?php echo $perfil[0]["dni"]?>" id="dniPerfil">
-                            <div class="hide errorValidacion" id="errorDniPerfil"></div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-3 columna">
-                            <label>Rol: </label>
-                            <input maxlength="8" disabled name="rolPerfil" autocomplete="off" value="<?php echo $perfil[0]["rol"]?>" id="rolPerfil">
-                            <div class="hide errorValidacion" id="errorRolPerfil"></div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-3 columna">
-                            <label>Mail: </label>
-                            <input name="mailPerfil" disabled type="email" autocomplete="off" onkeyup="validarCampoFormulario('mailPerfil', 'errorMailPerfil')" value="<?php echo $perfil[0]["mail"]?>" id="mailPerfil"> 
-                            <div class="hide errorValidacion" id="errorMailPerfil"></div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-3 columna">
-                            <label>Sede: </label>
-                            <input name="sedePerfil" disabled type="text" autocomplete="off" value="<?php echo $perfil[0]["nombreSede"]?>" id="sedePerfil"> 
-   
-                            <div class="hide errorValidacion" id="errorSedeEditarUsuario"></div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-3 columna">
-                            <label>Casa: </label>
-                            <input name="casaPerfil" disabled type="text" autocomplete="off" value="<?php echo $perfil[0]["casa"]?>" id="casaPerfil"> 
-                            <div class="hide errorValidacion" id="errorCasaPerfil"></div>
-                        </div>
-                        <div class="col-12 col-lg-9  hide  mt-2 mt-md-2 mb-2 mb-md-0 " id="botonesEdicionPerfil">
-                        <div class="col-12 d-flex align-items-end justify-content-around" style="height:100%" >
-                            <button type="button" name="botonCancelar" onclick="cancelarEdicion()" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
-                            <button type="button" name="botonEditarPerfil" onmouseover="validarFormularioCompleto()" id="botonEditarPerfil" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#modalEdicionPerfil">
-                                Confirmar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-               
-                <div class="contenedorSeccion mb-4 <?php echo $noHayDatos?>" id="">
-                    <table class="table <?php echo $noHayDatos?>">
-                        <thead class="d-flex justify-content-center">
-                            <tr>
-                                <th scope="col" style="width:100%">NO SE ENCONTRARON DATOS</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-                <!-- MODAL CONFIRMACION EDICION PERFIL -->
-                <div class="modal fade" id="modalEdicionPerfil" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                
+                    <div class="contenedorSeccion mb-4 <?php echo $hayDatos?>" id="boxEditarUsuario">
+                        <div class="d-flex anchoTotal justify-content-between mb-2">
+                            <div class="col-6 d-flex align-items-center justify-content-start">
+                                <button type="button" name="botonEditarPassword" onclick="editarPassword()" id="botonEditarPassword" class="btn botonConfirmar col-6 col-md-3">Contraseña</button>        
+                            </div> 
+                            <div class="col-6 d-flex align-items-center justify-content-end">
+                                <button type="button" name="botonEditar" onclick="editarPerfil()" id="botonEditar" class="btn botonConfirmar col-6 col-md-3">Editar</button>        
                             </div>
-                            <div class="modal-body centrarTexto">
-                                ¿Confirma los cambios: <br><span id="spanEditarPerfil"></span>?
+                        </div>   
+                        <form name="form" method="POST" action="perfil.php">          
+                        <div class="row  d-flex justify-content-center">
+                            <div class="col-1 col-md-1 col-lg-3 columna">
+                                <label># </label>
+                                <input maxlength="12" name="idPerfil" disabled value="<?php echo $perfil[0]["id"]?>" id="idPerfil">
+                                <div class="hide errorValidacion" id="errorIdPerfil"></div>
                             </div>
-                            <div class="modal-footer d-flex justify-content-around">
-                                <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
-                                <button type="submit" name="editarUsuario" class="btn botonConfirmar">Confirmar</button>
+                            <div class="col-11 col-md-5 col-lg-3 columna">
+                                <label>Primer Nombre: </label>
+                                <input maxlength="12" disabled name="nombrePerfil" autocomplete="off" onkeyup="validarCampoFormulario('nombrePerfil', 'errorNombrePerfil')" value="<?php echo $perfil[0]["nombre"]?>" id="nombrePerfil">
+                                <div class="hide errorValidacion" id="errorNombrePerfil"></div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-3 columna">
+                                <label>Segundo Nombre: </label>
+                                <input maxlength="12" disabled name="segundoNombrePerfil" autocomplete="off" onkeyup="validarCampoFormulario('segundoNombrePerfil', 'errorSegundoNombrePerfil' )" value="<?php echo $perfil[0]["segundoNombre"]?>" id="segundoNombrePerfil">
+                                <div class="hide errorValidacion" id="errorSegundoNombrePerfil"></div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-3 columna">
+                                <label>Apellido: </label>
+                                <input maxlength="12" disabled name="apellidoPerfil" autocomplete="off" onkeyup="validarCampoFormulario('apellidoPerfil', 'errorApellidoPerfil')" value="<?php echo $perfil[0]["apellido"]?>" id="apellidoPerfil">
+                                <div class="hide errorValidacion" id="errorApellidoPerfil"></div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-3 columna">
+                                <label>DNI: </label>
+                                <input maxlength="8" disabled name="dniPerfil" autocomplete="off" value="<?php echo $perfil[0]["dni"]?>" id="dniPerfil">
+                                <div class="hide errorValidacion" id="errorDniPerfil"></div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-3 columna">
+                                <label>Rol: </label>
+                                <input maxlength="8" disabled name="rolPerfil" autocomplete="off" value="<?php echo $perfil[0]["rol"]?>" id="rolPerfil">
+                                <div class="hide errorValidacion" id="errorRolPerfil"></div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-3 columna">
+                                <label>Mail: </label>
+                                <input name="mailPerfil" disabled type="email" autocomplete="off" onkeyup="validarCampoFormulario('mailPerfil', 'errorMailPerfil')" value="<?php echo $perfil[0]["mail"]?>" id="mailPerfil"> 
+                                <div class="hide errorValidacion" id="errorMailPerfil"></div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-3 columna">
+                                <label>Sede: </label>
+                                <input name="sedePerfil" disabled type="text" autocomplete="off" value="<?php echo $perfil[0]["nombreSede"]?>" id="sedePerfil"> 
+    
+                                <div class="hide errorValidacion" id="errorSedeEditarUsuario"></div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-3 columna">
+                                <label>Casa: </label>
+                                <input name="casaPerfil" disabled type="text" autocomplete="off" value="<?php echo $perfil[0]["casa"]?>" id="casaPerfil"> 
+                                <div class="hide errorValidacion" id="errorCasaPerfil"></div>
+                            </div>
+                            <div class="col-12 col-lg-9  hide  mt-2 mt-md-2 mb-2 mb-md-0 " id="botonesEdicionPerfil">
+                            <div class="col-12 d-flex align-items-end justify-content-around" style="height:100%" >
+                                <button type="button" name="botonCancelar" onclick="cancelarEdicion()" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
+                                <button type="button" name="botonEditarPerfil" onmouseover="validarFormularioCompleto()" id="botonEditarPerfil" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#modalEdicionPerfil">
+                                    Confirmar
+                                </button>
                             </div>
                         </div>
                     </div>
-                </div>
+                
+                    <div class="contenedorSeccion mb-4 <?php echo $noHayDatos?>" id="">
+                        <table class="table <?php echo $noHayDatos?>">
+                            <thead class="d-flex justify-content-center">
+                                <tr>
+                                    <th scope="col" style="width:100%">NO SE ENCONTRARON DATOS</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <!-- MODAL CONFIRMACION EDICION PERFIL -->
+                    <div class="modal fade" id="modalEdicionPerfil" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body centrarTexto">
+                                        ¿Confirma los cambios: <br><span id="spanEditarPerfil"></span>?
+                                    </div>
+                                    <div class="modal-footer d-flex justify-content-around">
+                                        <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="submit" name="editarPerfil" class="btn botonConfirmar">Confirmar</button>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>           
         <script type="text/javascript"  src="js/funcionesCompartidas.js"></script> 
     </body>
 </html>
@@ -280,10 +304,6 @@ if(sizeof($perfil) != 0) {
         mailPerfil.setAttribute("disabled", true)
     }
     function validarFormularioCompleto() {
-        // let campos = null
-        // let camposErrores = null
-        // $camposEdicion = ["nombrePerfil", "segundoNombrePerfil", "apellidoPerfil", "mailPerfil"];
-        // $camposErroresEdicion = ["errorNombrePerfil", "errorSegundoNombrePerfil", "errorApellidoPerfil", "errorMailPerfil"];
         let campos = ["nombrePerfil", "segundoNombrePerfil", "apellidoPerfil", "mailPerfil"]
         let camposErrores = ["errorNombrePerfil", "errorSegundoNombrePerfil", "errorApellidoPerfil", "errorMailPerfil"]
        
