@@ -293,7 +293,7 @@
                         </div>
                         <div class="col-12 col-md-6 col-lg-3 columna">
                             <label>Rol: </label>
-                            <select id="rolEditarUsuario"  name="rolEditarUsuario" id="rolEditarUsuario" onchange="confirmarRol(value, 'editar')" style="width:100%; height:30px">
+                            <select id="rolEditarUsuario"  name="rolEditarUsuario" id="rolEditarUsuario" onchange="confirmarRol(value, 'editar'), habilitarBotonDirecto('botonEditarUsuario') " style="width:100%; height:30px">
                                 <?php foreach($roles as $rol){ ?>
                                     <option value="<?php echo $rol["value"] ?>"><?php echo $rol["descripcion"] ?></option>
                                 <?php } ?>
@@ -317,7 +317,7 @@
                         </div>
                         <div class="col-6 col-md-3 col-lg-3 columna">
                             <label>Casa: </label>
-                            <select  id="casaEditarUsuario" name="casaEditarUsuario" style="height:30px" onkeyup="validarCampoFormulario('casaEditarUsuario', 'errorCasaEditarUsuario')">
+                            <select  id="casaEditarUsuario" name="casaEditarUsuario" style="height:30px" onchange="habilitarBotonDirecto('botonEditarUsuario')" onkeyup="validarCampoFormulario('casaEditarUsuario', 'errorCasaEditarUsuario')">
                                 <option value="0" disabled name="opcionSelectCasa">0</option>
                                 <option value="1" name="opcionSelectCasa">1</option>
                                 <option value="2" name="opcionSelectCasa">2</option>
@@ -329,7 +329,7 @@
                         </div>
                         <div class="col-6 col-md-3 col-lg-3 columna">
                             <label>Habilitado: </label>
-                            <select  id="habilitadoEditarUsuario" name="habilitadoEditarUsuario" style="height:30px" onkeyup="validarCampoFormulario('habilitadoEditarUsuario', 'errorhabilitadoEditarUsuario')">
+                            <select  id="habilitadoEditarUsuario" name="habilitadoEditarUsuario" style="height:30px" onchange="habilitarBotonDirecto('botonEditarUsuario')" onkeyup="validarCampoFormulario('habilitadoEditarUsuario', 'errorhabilitadoEditarUsuario')">
                                 <option value="0" name="opcionSelectCasa">No</option>
                                 <option value="1" name="opcionSelectCasa">Si</option>
                             </select>    
@@ -686,6 +686,12 @@
             default:
             break;
         }  
+    }
+    function habilitarBotonDirecto (id) {
+        let boton = document.getElementById(id)
+        if (boton.hasAttribute("disabled")){
+            boton.removeAttribute("disabled")    
+        }
     }
     function isNumber(str) {
         var pattern = /^\d+$/;
