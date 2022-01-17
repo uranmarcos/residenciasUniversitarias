@@ -4,17 +4,14 @@ require("funciones/pdo.php");
     $alertErrorConexion = "hide";
     $alertConfirmacion = "hide";
     $mensajeAlertConfirmacion="";
-    $showGeneral = "hide";
-    
+        
     // CONSULTAS DE TODOS LOS PEDIDOS
     $sede = $_SESSION["sede"];
     
     if($_SESSION["rol"] == "stock") {
-        $showGeneral = "hide";
-        $consultaPedidos = $baseDeDatos ->prepare("SELECT PN.id, PN.sede, PN.fecha, PN.enviado, A.nombre, A.segundoNombre, A.apellido FROM pedidosnuevos PN INNER JOIN
+                $consultaPedidos = $baseDeDatos ->prepare("SELECT PN.id, PN.sede, PN.fecha, PN.enviado, A.nombre, A.segundoNombre, A.apellido FROM pedidosnuevos PN INNER JOIN
         agentes A ON PN.usuario = A.id WHERE PN.sede = $sede ORDER BY PN.fecha DESC");    
     } else {
-        $showGeneral = "show";
         $consultaPedidos = $baseDeDatos ->prepare("SELECT PN.id, PN.sede, PN.fecha, PN.enviado, A.nombre, PN.casa, A.segundoNombre, A.apellido, S.descripcion nombreSede FROM pedidosnuevos PN INNER JOIN
         agentes A ON PN.usuario = A.id INNER JOIN sedes S on PN.sede = S.id ORDER BY PN.fecha DESC");    
     }
@@ -84,11 +81,11 @@ require("funciones/pdo.php");
                             <thead style="width:100%">
                                 <tr>
                                     <th scope="col" style="width:10%" >#</th>
-                                    <th scope="col" style="width:20%">Fecha</th>
-                                    <th scope="col" style="width:30%">Voluntario</th>
-                                    <th scope="col" style="width:20%" class="<?php echo $showGeneral?>">Sede</th>
-                                    <th scope="col" style="width:20%" class="<?php echo $showGeneral?>">Casa</th>
-                                    <th scope="col" style="width:20%">Enviado</th>
+                                    <th scope="col" style="width:10%">Fecha</th>
+                                    <th scope="col" style="width:20%">Voluntario</th>
+                                    <th scope="col" style="width:20%">Sede</th>
+                                    <th scope="col" style="width:20%">Casa</th>
+                                    <th scope="col" style="width:10%">Enviado</th>
                                     <th scope="col" style="width:10%">Ver</th>
                                 </tr>
                             </thead>
@@ -97,12 +94,12 @@ require("funciones/pdo.php");
                                     <form method="POST" target="_blank" action="pedidos.php">
                                         <tr>
                                             <td><input type="text" style ="width:50px; border: none" name="id" readonly value="<?php echo $pedido["id"] ?>"></td>
-                                            <td><?php echo $pedido["fecha"]?></td>
+                                            <td><?php echo $newDate = date("d/m/Y H:i:s", strtotime($pedido["fecha"]));?></td>
                                             <td><?php echo $pedido["nombre"] . " " . $pedido["segundoNombre"] . " " . $pedido["apellido"] ?></td>
-                                            <td class="<?php echo $showGeneral?>"><?php echo $pedido["nombreSede"]?></td>
-                                            <td class="<?php echo $showGeneral?>"><?php echo $pedido["casa"]?></td>
+                                            <td><?php echo $pedido["nombreSede"]?></td>
+                                            <td><?php echo $pedido["casa"]?></td>
                                             <td><?php echo $pedido["enviado"] == 0 ?  "No enviado"  : "Enviado" ?></td>
-                                            <td class="d-flex justify-content-start"> 
+                                            <td> 
                                                 <button type="submit" class="btn editButton" name="verPedido"  data-bs-toggle="modal" data-bs-target="#modalEliminar">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                                         <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
