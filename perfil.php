@@ -4,17 +4,20 @@ require("funciones/pdo.php");
 $id = $_SESSION["id"];
 $alertErrorConexion = "hide";
 $alertConfirmacion = "hide";
+$mensajeAlertError = "";
+$mensajeAlertConfirmacion = "";
 if (isset($_POST["editarPerfil"])) {
     $nombre = $_POST["nombrePerfil"];
     $segundoNombre = $_POST["segundoNombrePerfil"];
     $apellido = $_POST["apellidoPerfil"];
     $mail = $_POST["mailPerfil"];
-    $edicion = $baseDeDatos ->prepare("UPDATE agentes SET nombre = '$nombre', segundoNombre = '$segundoNombre', apellido = '$apellido', mail = '$mail' WHERE id = '$id'");
+    $edicion = $baseDeDatos ->prepare("UPDATE agentes SET nombr = '$nombre', segundoNombre = '$segundoNombre', apellido = '$apellido', mail = '$mail' WHERE id = '$id'");
     try { 
         $edicion->execute();
         $alertConfirmacion ="show";
         $mensajeAlertConfirmacion = "Los datos se modificaron correctamente";
     } catch (\Throwable $th) {
+        $mensajeAlertError = "Hubo un error de conexión. Por favor realizá los cambios nuevamente.";
         $alertErrorConexion = "show";
     }
 
@@ -23,6 +26,7 @@ $consulta = $baseDeDatos ->prepare("SELECT A.id, A.dni, A.nombre, A.segundoNombr
 try {
     $consulta->execute();
 } catch (\Throwable $th) {
+    $mensajeAlertError = "Hubo un error de conexión. Por favor actualizá la página.";
     $alertErrorConexion = "show";
 }
 $perfil = $consulta -> fetchAll(PDO::FETCH_ASSOC);
@@ -34,7 +38,31 @@ if(sizeof($perfil) != 0) {
     $hayDatos = "show";
 }
 if (isset($_POST["cambiarPassword"])) {
-
+    //$pass = password_hash($_POST["inputPassword"], PASSWORD_DEFAULT);
+    $pass = $_POST["inputPassword"];
+    $newPass = password_hash($_POST["inputNewPassword"], PASSWORD_DEFAULT);
+    $consulta = $baseDeDatos ->prepare("SELECT password FROM agentes A WHERE A.id = '$id'");
+    try {
+        $consulta->execute();
+        $password = $consulta -> fetchAll(PDO::FETCH_ASSOC);
+        if(password_verify($pass, $password[0]["password"])) {
+            $update = $baseDeDatos ->prepare("UPDATE agentes SET password = '$newPass' WHERE id = '$id'");
+            try {
+                $update->execute();
+                $mensajeAlertConfirmacion = "¡La contraseña se modificó correctamente!";
+                $alertConfirmacion = "show";
+            } catch (\Throwable $th) {
+                $mensajeAlertError = "Hubo un error de conexión. Por favor realizá el cambio nuevamente";
+                $alertErrorConexion = "show";
+            }
+        } else{
+            $mensajeAlertError = "La contraseña actual que ingresó no es correcta";
+            $alertErrorConexion = "show";
+        }
+    } catch (\Throwable $th) {  
+        $mensajeAlertError = "Hubo un error de conexión. Por favor intente nuevamente";
+        $alertErrorConexion = "show";
+    }
 }
 
 ?>
@@ -61,7 +89,7 @@ if (isset($_POST["cambiarPassword"])) {
             </div>
             <div class="sectionBloque">
                 <div class="alert alert-danger centrarTexto <?php echo $alertErrorConexion ?>" id="alertErrorConexion" role="alert" >
-                    Hubo un error de conexión. Por favor actualizá la página
+                    <?php echo $mensajeAlertError ?>
                 </div>
                 <div class="alert alert-success centrarTexto <?php echo $alertConfirmacion ?>" id="alertConfirmacion" role="alert">
                     <?php echo $mensajeAlertConfirmacion ?>
@@ -80,7 +108,7 @@ if (isset($_POST["cambiarPassword"])) {
                                 <div class="col-12 col-md-6 col-lg-3 columna">
                                     <label>Ingrese su actual contraseña </label>
                                     <div class="row m-0">
-                                        <input class="col-10" maxlength="12" type="password" name="inputPassword" autocomplete="off" id="inputPassword">
+                                        <input class="col-10" maxlength="12" type="password" onkeyup="validarFormPass()" name="inputPassword" autocomplete="off" id="inputPassword">
                                         <div class="col-2">
                                             <button type="button" class="btn passwordButton" onclick="mostrarPassword('inputPassword')" name="verPassword">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -90,12 +118,12 @@ if (isset($_POST["cambiarPassword"])) {
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="hide errorValidacion" id="errorPrimerNombreNuevoUsuario"></div>
+                                    <div class="hide errorValidacion" id="errorInputPassword"></div>
                                 </div>
                                 <div class="col-12 col-md-6 col-lg-3 columna">
                                     <label>Ingrese su nueva contraseña </label>
                                     <div class="row m-0">
-                                        <input class="col-10" maxlength="12" type="password" onkeyup="validarPassword()" name="inputNewPassword" autocomplete="off" id="inputNewPassword"> 
+                                        <input class="col-10" maxlength="12" type="password" onkeyup="validarPassword(), validarFormPass()" name="inputNewPassword" autocomplete="off" id="inputNewPassword"> 
                                         <div class="col-2">
                                             <button type="button" class="btn passwordButton" onclick="mostrarPassword('inputNewPassword')" name="verPassword">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -110,7 +138,7 @@ if (isset($_POST["cambiarPassword"])) {
                                 <div class="col-12 col-md-6 col-lg-3 columna">
                                     <label>Repita su nueva contraseña: </label>
                                     <div class="row m-0">
-                                        <input class="col-10" maxlength="12" name="confirmPassword" autocomplete="off" onkeyup="compararContrasenias()" id="inputConfirmPassword">
+                                        <input class="col-10" maxlength="12" type="password" name="confirmPassword" autocomplete="off" onkeyup="compararContrasenias(), validarFormPass()" id="inputConfirmPassword">
                                             <div class="col-2">
                                                 <button type="button" class="btn passwordButton" onclick="mostrarPassword('inputConfirmPassword')" name="verPassword">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -124,9 +152,8 @@ if (isset($_POST["cambiarPassword"])) {
                                 </div>                      
                                 <div class="col-12 col-md-6 col-lg-3 d-flex align-items-end justify-content-around mt-4  mb-2 pb-md-1 mb-md-0">
                                     <button type="button" name="botonCancelar" onclick="cancelarChangePassword()" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
-                                    <button type="button" name="botonGenerar" onmouseover="validarFormularioCompleto()" id="botonCrearUsuario" class="btn botonConfirmar col-6 col-md-3"
-                                     data-bs-toggle="modal" data-bs-target="#modalPassword">
-                                        Generar
+                                    <button type="button" name="botonGenerar" disabled id="botonPassword" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#modalPassword">
+                                        Cambiar
                                     </button>
                                 </div>
                             </div>
@@ -506,5 +533,16 @@ if (isset($_POST["cambiarPassword"])) {
             return errorNewPassword.classList.remove("hide") 
         }
         errorNewPassword.classList.add("hide")
+    }
+    function validarFormPass() {
+        let pass = document.getElementById("inputPassword").value
+        let newPass = document.getElementById("inputNewPassword").value
+        let confirmPass = document.getElementById("inputConfirmPassword").value
+        let boton = document.getElementById("botonPassword")
+        if ((pass.length >= 8) && (newPass.length >= 8) && (newPass == confirmPass)) {
+            boton.removeAttribute("disabled")
+        } else {
+            boton.setAttribute("disabled", true)
+        }
     }
 </script>
