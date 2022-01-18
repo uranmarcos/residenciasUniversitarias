@@ -16,7 +16,7 @@
         $segundoNombre = $_POST['segundoNombreNuevoUsuario']; 
         $apellido = $_POST['apellidoNuevoUsuario'];
         $dni = $_POST['dniNuevoUsuario'];
-        $password = $_POST['dniNuevoUsuario'];
+        $password = password_hash($dni, PASSWORD_DEFAULT);
         $rol = $_POST["rolNuevoUsuario"];
         $mail = $_POST["mailNuevoUsuario"];
         if ($rol == "general") {
@@ -81,7 +81,7 @@
         }
     }
 
-    // ACCION ELIMINAR ARTICULO
+    // ACCION ELIMINAR USUARIO
     if(isset($_POST["eliminarUsuario"])){
         $id = $_POST["idUsuarioEliminar"];
         $date = date("Y-m-d h:i:s");
@@ -92,6 +92,21 @@
             $mensajeAlertConfirmacion="El usuario se eliminó correctamente";
         } catch (\Throwable $th) {
             $mensajeAlertError = "Hubo un error de conexión. Por favor actualizá la página";
+            $alertError= "show";
+        }
+    }
+
+    if (isset($_POST["resetPassword"])){
+        $id = $_POST["idUsuarioResetPassword"];
+        $pass = password_hash($_POST["dniUsuarioResetPassword"], PASSWORD_DEFAULT);
+        // $dni = $_POST["dniUsuarioResetPassword"];
+        $reset = $baseDeDatos ->prepare("UPDATE agentes SET password = '$pass' WHERE id = '$id'"); 
+        try {
+            $reset->execute();
+            $mensajeAlertConfirmacion = "El reseteo de contraseña se realizó correctamente.";
+            $alertConfirmacion= "show";
+        } catch (\Throwable $th) {
+            $mensajeAlertError = "Hubo un error de conexión. Por favor intentá nuevamente";
             $alertError= "show";
         }
     }
@@ -207,7 +222,7 @@
                             </select>    
                             <div class="hide errorValidacion" id="errorCasaNuevoUsuario"></div>
                         </div>
-                        <div class="col-12 d-flex align-items-end justify-content-around mt-2 mt-md-2 mb-2 pb-md-1 mb-md-0">
+                        <div class="col-12 d-flex align-items-end justify-content-around mt-4  mb-2 pb-md-1 mb-md-0">
                             <button type="button" name="botonCancelar" onclick="ocultarCaja('boxCrearUsuario','botonNuevoUsuario'), limpiarValidaciones('crear')" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
                             <button type="button" name="botonGenerar" onmouseover="validarFormularioCompleto('crear')" id="botonCrearUsuario" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 Generar
@@ -335,7 +350,7 @@
                             </select>    
                             <div class="hide errorValidacion" id="errorhabilitadoEditarUsuario"></div>
                         </div>
-                        <div class="col-12 col-lg-6 d-flex align-items-end justify-content-around mt-2 mt-md-2 mb-2 pb-md-1 mb-md-0">
+                        <div class="col-12 col-lg-6 d-flex align-items-end justify-content-around mt-4 mb-2 pb-md-1 mb-md-0">
                             <button type="button" name="botonCancelar" onclick="ocultarCaja('boxEditarUsuario', 'botonNuevoUsuario'), limpiarValidaciones('editar')" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
                             <button type="button" name="botonEditar" onmouseover="validarFormularioCompleto('editar')" id="botonEditarUsuario" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#modalEdicionArticulo">
                                 Confirmar
@@ -377,13 +392,14 @@
                 <table class="table <?php echo $hayDatos ?>">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
+                            <th scope="col" >#</th>
                             <th scope="col" style="width:20%">Nombre</th>
                             <th scope="col" style="width:20%">Apellido</th>
-                            <th scope="col" style="width:10%; text-align:center">Sede</th>
+                            <th scope="col" style="width:20%; text-align:center">Sede</th>
                             <th scope="col" style="width:10%; text-align:center">Casa</th>
                             <th scope="col" style="width:10%; text-align:center">Rol</th>
                             <th scope="col" style="width:10%">Habilitado</th>
+                            <th scope="col" style="width:10%"></th>
                             <th scope="col" style="width:10%"></th>
                             <th scope="col" style="width:10%"></th>
                         </tr>
@@ -392,14 +408,14 @@
                         <tbody>
                             <?php foreach($usuarios as $usuario){ ?>
                                 <tr>
-                                    <td><?php echo $usuario["id"] ?></td>
+                                    <td ><?php echo $usuario["id"] ?></td>
                                     <td><?php echo $usuario["nombre"] . " " . $usuario["segundoNombre"] ?></td>
                                     <td><?php echo $usuario["apellido"] ?></td>
                                     <td style="text-align: center"><?php echo $usuario["sede"] ?></td>
                                     <td style="text-align: center"><?php echo $usuario["casa"] ?></td>
                                     <td style="text-align: center"><?php echo $usuario["rol"] ?></td>
                                     <td style="text-align: center"><?php echo $usuario["habilitado"] == 1 ? 'Sí' : 'No' ?></td>
-                                    <td class="d-flex justify-content-end"> 
+                                    <td> 
                                         <button type="button" onmouseover="deshabilitarBotonTrash(<?php echo $usuario['id']?>, '<?php echo $usuario['rol']?>', <?php echo $usuario['habilitado']?>)" name="trashButton<?php echo $usuario['id']?>" id="trashButton<?php echo $usuario['id']?>" class="btn trashButton" onclick="eliminarUsuarios(<?php echo $usuario['id']?>, '<?php echo $usuario['nombre'];?>', '<?php echo $usuario['apellido'];?>')" data-bs-toggle="modal" data-bs-target="#modalEliminar">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                                 <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
@@ -411,6 +427,14 @@
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                                                 <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
                                             </svg> 
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn editButton" id="passwordButton<?php echo $usuario['id']?>" onmouseover="deshabilitarBotonPass(<?php echo $usuario['id']?>, '<?php echo $usuario['rol']?>')" onclick="cargarResetPassword('<?php echo $usuario['id']?>', '<?php echo $usuario['dni']?>', '<?php echo $usuario['nombre']?>', '<?php echo $usuario['segundoNombre']?>', '<?php echo $usuario['apellido']?>')" data-bs-toggle="modal" data-bs-target="#modalResetPassword" >
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key" viewBox="0 0 16 16">
+                                                <path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z"/>
+                                                <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                            </svg>
                                         </button>
                                     </td>
                                 </tr>
@@ -427,6 +451,26 @@
                 </thead>
             </table>
         </div>
+        <!-- MODAL CONFIRMACION RESET PASSWORD -->
+        <div class="modal fade" id="modalResetPassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <input type="text" hidden name="idUsuarioResetPassword" id="idUsuarioResetPassword"></input>
+                        <input type="text" hidden name="dniUsuarioResetPassword" id="dniUsuarioResetPassword"></input>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body centrarTexto">
+                        ¿Confirma que desea resetear la contraseña <br>de <b><span id="spanResetPassword"></span></b>?</br> Se le asignará como contraseña su DNI.
+                    </div>
+                    <div class="modal-footer d-flex justify-content-around">
+                        <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" name="resetPassword" class="btn botonConfirmar">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
         <!-- MODAL CONFIRMACION ELIMINACION USUARIO -->
         <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -436,7 +480,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body centrarTexto">
-                        ¿Confirma que desea eliminar el usuario <b><span id="usuarioAEliminar"></span></b>?</br> Si desea habilitarlo nuevamente, en la opción editar podrá hacerlo.
+                        ¿Confirma que desea eliminar el usuario <b><span id="usuarioAEliminar"></span></b>?</br> Si desea habilitarlo nuevamente podrá <br> hacerlo desde la opción editar.
                     </div>
                     <div class="modal-footer d-flex justify-content-around">
                         <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
@@ -508,6 +552,12 @@
     }
     function deshabilitarBotonEdit (id, rol) {
         let boton = document.getElementById("editButton"+id)
+        if (rol == "admin"){
+            boton.setAttribute("disabled", true)    
+        }
+    }
+    function deshabilitarBotonPass (id, rol) {
+        let boton = document.getElementById("passwordButton"+id)
         if (rol == "admin"){
             boton.setAttribute("disabled", true)    
         }
@@ -876,6 +926,14 @@
         if (alertErrorConexion.classList.contains('show')) {
             setTimeout(ocultarAlertError, 5000)
         }
+    }
+    function cargarResetPassword(id, dni, nombre, segundoNombre, apellido) {
+        let spanResetPassword = document.getElementById("spanResetPassword")
+        spanResetPassword.innerHTML = nombre + " " + segundoNombre + " " + apellido
+        let idUsuarioResetPassword = document.getElementById("idUsuarioResetPassword")
+        idUsuarioResetPassword.value = id
+        let dniUsuarioResetPassword = document.getElementById("dniUsuarioResetPassword")
+        dniUsuarioResetPassword.value = dni
     }
     function ocultarAlertConfirmacion(){
         let alertConfirmacion = document.getElementById("alertConfirmacion")
