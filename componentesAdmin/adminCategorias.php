@@ -2,11 +2,12 @@
     $alertErrorConexion = "hide";
     $alertConfirmacion = "hide";
     $mensajeAlertConfirmacion="";
+    $idUsuarioLogueado = $_SESSION["id"];
     // ACCION CREAR CATEGORIA
     if(isset($_POST["confirmarCategoria"])){
         $categoria = $_POST['inputNuevaCategoria'];
         $date = date("Y-m-d h:i:s");
-        $insertCategoria = $baseDeDatos ->prepare("INSERT into categorias VALUES(default, '$categoria', 1, '$date', '$date', 17)");
+        $insertCategoria = $baseDeDatos ->prepare("INSERT into categorias VALUES(default, '$categoria', 1, '$date', '$date', '$idUsuarioLogueado')");
         try{
             $insertCategoria->execute();
             $alertConfirmacion = "show";
@@ -21,7 +22,7 @@
         $descripcion = $_POST["inputEditarCategoria"];
         $habilitado = $_POST["selectEditarCategoria"];
         $date = date("Y-m-d h:i:s");
-        $consulta = $baseDeDatos ->prepare("UPDATE categorias SET habilitado = '$habilitado', modified = '$date', descripcion = '$descripcion' WHERE id = '$id'");
+        $consulta = $baseDeDatos ->prepare("UPDATE categorias SET habilitado = '$habilitado', modified = '$date', descripcion = '$descripcion', idUser = '$idUsuarioLogueado' WHERE id = '$id'");
         try {
             $consulta->execute();
             $alertConfirmacion = "show";
@@ -34,7 +35,7 @@
     if(isset($_POST["eliminarCategoria"])){
         $id = $_POST["inputCategoriaEliminar"];
         $date = date("Y-m-d h:i:s");
-        $consulta = $baseDeDatos ->prepare("UPDATE categorias SET habilitado = 0, modified = '$date' WHERE id = '$id'");
+        $consulta = $baseDeDatos ->prepare("UPDATE categorias SET habilitado = 0, modified = '$date', userId = '$idUsuarioLogueado' WHERE id = '$id'");
         try {
             $consulta->execute();
             $alertConfirmacion = "show";

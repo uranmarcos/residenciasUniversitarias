@@ -3,6 +3,7 @@
     $alertConfirmacion = "hide";
     $mensajeAlertError = "";
     $mensajeAlertConfirmacion="";
+    $idUsuarioLogueado = $_SESSION["id"];
     // VARIABLES CON LOS CAMPOS A REVISAR AL VALIDAR EL FORMULARIO DE EDICION/CREACION
     $camposCreacion = ["primerNombreNuevoUsuario", "segundoNombreNuevoUsuario", "apellidoNuevoUsuario", "dniNuevoUsuario", "mailNuevoUsuario", "sedeNuevoUsuario"];
     $camposErroresCreacion = ["errorPrimerNombreNuevoUsuario", "errorSegundoNombreNuevoUsuario", "errorApellidoNuevoUsuario",
@@ -27,7 +28,7 @@
             $casa = $_POST["casaNuevoUsuario"];
         }
         $date = date("Y-m-d h:i:s");
-        $insertUsuario = $baseDeDatos ->prepare("INSERT into agentes VALUES(default, '$dni', '$nombre', '$segundoNombre', '$apellido', '$mail', '$rol', '$password', '$sede', '$casa',1, '$date', '$date', 1)");
+        $insertUsuario = $baseDeDatos ->prepare("INSERT into agentes VALUES(default, '$dni', '$nombre', '$segundoNombre', '$apellido', '$mail', '$rol', '$password', '$sede', '$casa',1, '$date', '$date', '$idUsuarioLogueado')");
         $consultaDni = $baseDeDatos ->prepare("SELECT id from agentes WHERE dni = $dni");
         try{
             $consultaDni->execute();
@@ -69,7 +70,7 @@
         $habilitado = $_POST["habilitadoEditarUsuario"];
         $date = date("Y-m-d h:i:s");
         $consulta = $baseDeDatos ->prepare("UPDATE agentes SET nombre = '$primerNombre', segundoNombre = '$segundoNombre',
-        apellido = '$apellido', rol = '$rol', mail = '$mail', sede = '$sede', casa = '$casa', habilitado = '$habilitado',  modified = '$date' WHERE id = '$id'");
+        apellido = '$apellido', rol = '$rol', mail = '$mail', sede = '$sede', casa = '$casa', habilitado = '$habilitado',  modified = '$date', userId = '$idUsuarioLogueado' WHERE id = '$id'");
         //$consulta->execute();
         try {
             $consulta->execute();
@@ -85,7 +86,7 @@
     if(isset($_POST["eliminarUsuario"])){
         $id = $_POST["idUsuarioEliminar"];
         $date = date("Y-m-d h:i:s");
-        $consulta = $baseDeDatos ->prepare("UPDATE agentes SET habilitado = 0, modified = '$date' WHERE id = '$id'");
+        $consulta = $baseDeDatos ->prepare("UPDATE agentes SET habilitado = 0, modified = '$date', userId = '$idUsuarioLogueado' WHERE id = '$id'");
         try {
             $consulta->execute();
             $alertConfirmacion = "show";
@@ -100,7 +101,7 @@
         $id = $_POST["idUsuarioResetPassword"];
         $pass = password_hash($_POST["dniUsuarioResetPassword"], PASSWORD_DEFAULT);
         // $dni = $_POST["dniUsuarioResetPassword"];
-        $reset = $baseDeDatos ->prepare("UPDATE agentes SET password = '$pass' WHERE id = '$id'"); 
+        $reset = $baseDeDatos ->prepare("UPDATE agentes SET password = '$pass', userId = '$idUsuarioLogueado' WHERE id = '$id'"); 
         try {
             $reset->execute();
             $mensajeAlertConfirmacion = "El reseteo de contraseña se realizó correctamente.";

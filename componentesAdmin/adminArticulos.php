@@ -2,13 +2,14 @@
     $alertErrorConexion = "hide";
     $alertConfirmacion = "hide";
     $mensajeAlertConfirmacion="";
+    $idUsuarioLogueado = $_SESSION["id"];
     // // ACCION CREAR SEDE
     if(isset($_POST["crearArticulo"])){
         $descripcion = $_POST['descripcionNuevoArticulo'];
         $categoria = $_POST['categoriaNuevoArticulo'];
         $medida = $_POST['medidaNuevoArticulo'];
         $date = date("Y-m-d h:i:s");
-        $insertArticulo = $baseDeDatos ->prepare("INSERT into articulos VALUES(default, '$descripcion', '$medida', '$categoria', 1, '$date', '$date', 17)");
+        $insertArticulo = $baseDeDatos ->prepare("INSERT into articulos VALUES(default, '$descripcion', '$medida', '$categoria', 1, '$date', '$date', '$idUsuarioLogueado')");
         try{
             $insertArticulo->execute();
             $alertConfirmacion = "show";
@@ -26,7 +27,7 @@
         $categoria = $_POST["categoriaEditarArticulo"];
         $habilitado = $_POST["habilitadoEditarArticulo"];
         $date = date("Y-m-d h:i:s");
-        $consulta = $baseDeDatos ->prepare("UPDATE articulos SET habilitado = '$habilitado', modified = '$date', descripcion = '$descripcion', medida = '$medida', categoria = '$categoria' WHERE id = '$id'");
+        $consulta = $baseDeDatos ->prepare("UPDATE articulos SET habilitado = '$habilitado', modified = '$date', descripcion = '$descripcion', medida = '$medida', categoria = '$categoria', userId = '$idUsuarioLogueado' WHERE id = '$id'");
         try {
             $consulta->execute();
             $alertConfirmacion = "show";
@@ -40,7 +41,7 @@
     if(isset($_POST["eliminarArticulo"])){
         $id = $_POST["idArticuloEliminar"];
         $date = date("Y-m-d h:i:s");
-        $consulta = $baseDeDatos ->prepare("UPDATE articulos SET habilitado = 0, modified = '$date' WHERE id = '$id'");
+        $consulta = $baseDeDatos ->prepare("UPDATE articulos SET habilitado = 0, modified = '$date', userId = '$idUsuarioLogueado' WHERE id = '$id'");
         try {
             $consulta->execute();
             $alertConfirmacion = "show";

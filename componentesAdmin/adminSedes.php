@@ -1,4 +1,6 @@
 <?php
+   
+    $idUsuarioLogueado = $_SESSION["id"];
     $alertErrorConexion = "hide";
     $alertConfirmacion = "hide";
     $mensajeAlertConfirmacion="";
@@ -7,7 +9,7 @@
         $descripcion = $_POST['inputNuevaSede'];
         $casas = $_POST['selectCasas'];
         $date = date("Y-m-d h:i:s");
-        $insertSede = $baseDeDatos ->prepare("INSERT into sedes VALUES(default, '$descripcion','$casas', 1, '$date', '$date', 17)");
+        $insertSede = $baseDeDatos ->prepare("INSERT into sedes VALUES(default, '$descripcion','$casas', 1, '$date', '$date', '$idUsuarioLogueado)");
         try{
             $insertSede->execute();
             $alertConfirmacion = "show";
@@ -23,7 +25,7 @@
         $habilitado = $_POST["selectEditarHabilitado"];
         $casas = $_POST["selectEditarCasas"];
         $date = date("Y-m-d h:i:s");
-        $consulta = $baseDeDatos ->prepare("UPDATE sedes SET habilitado = '$habilitado', modified = '$date', descripcion = '$descripcion', casas = '$casas' WHERE id = '$id'");
+        $consulta = $baseDeDatos ->prepare("UPDATE sedes SET habilitado = '$habilitado', modified = '$date', descripcion = '$descripcion', casas = '$casas', userId = '$idUsuarioLogueado' WHERE id = '$id'");
         try {
             $consulta->execute();
             $alertConfirmacion = "show";
@@ -36,7 +38,7 @@
     if(isset($_POST["eliminarSede"])){
         $id = $_POST["idSedeEliminar"];
         $date = date("Y-m-d h:i:s");
-        $consulta = $baseDeDatos ->prepare("UPDATE sedes SET habilitado = 0, modified = '$date' WHERE id = '$id'");
+        $consulta = $baseDeDatos ->prepare("UPDATE sedes SET habilitado = 0, modified = '$date', userId = '$idUsuarioLogueado' WHERE id = '$id'");
         try {
             $consulta->execute();
             $alertConfirmacion = "show";
