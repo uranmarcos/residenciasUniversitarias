@@ -10,12 +10,11 @@ $password = $_POST["password"];
 $consulta = $baseDeDatos ->prepare("SELECT * FROM agentes WHERE dni = $dni");
 $consulta->execute();
 $datosUsuarios = $consulta -> fetchAll(PDO::FETCH_ASSOC);
-//var_dump($datosUsuarios);
 
 if(empty($datosUsuarios)){
     $error = "El DNI ingresado no está registrado";
 }else{    
-    if($password == $datosUsuarios[0]["password"]){
+    if(password_verify($password, $datosUsuarios[0]["password"])) {
         $_SESSION["autenticado"] = true;
         $_SESSION["name"] = $datosUsuarios[0]["nombre"] . " " . $datosUsuarios[0]["segundoNombre"];
         $_SESSION["apellido"] = $datosUsuarios[0]["apellido"];
@@ -25,8 +24,6 @@ if(empty($datosUsuarios)){
         $_SESSION["casa"] = $datosUsuarios[0]["casa"];
         $_SESSION["id"] = $datosUsuarios[0]["id"];
         $_SESSION["errorMail"] = false;
-       
-        //var_dump($_SESSION);
         echo "<script>location.href='inicio.php';</script>";
     } else {
         $error="Los datos ingresados son erróneos";
