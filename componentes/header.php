@@ -44,7 +44,7 @@ if($_SESSION["rol"] == "admin"){
 </div>
 
 <div class="headerResponsive">
-    <div class="row d-flex justify-content-around">
+    <div class="row rowHeader d-flex justify-content-around">
         <div class="col-4 logoInicioHeader">
         </div>
         <div class="col-2 d-flex align-items-center justify-content-end">
@@ -58,7 +58,7 @@ if($_SESSION["rol"] == "admin"){
     <nav class="navegadorResponsive">
        <?php echo $_COOKIE['seccion'] ?>
     </nav>
-    <form method="GET" class="row hide menuBurguer" id="menuBurguer" action="inicio.php">
+    <form method="GET" class="row hide menuBurguer" onclick="mostrarMenu()" id="menuBurguer" action="inicio.php">
         <div class="col-12 contenedorMenuBurguer">
             <button name="inicio" class="row asideButton" id="btnInicio" data-toggle="tooltip" data-placement="bottom" >
                 <div class="nameButtonAside">Inicio</div>
