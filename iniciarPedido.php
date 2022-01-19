@@ -58,7 +58,7 @@ require("funciones/pdo.php");
     // FUNCIONALIDADES 
     // REACOMODO PRODUCTOS POR DESCRIPCION EN ORDEN ASCENDENTE
     if(isset($_POST["productoAsc"])){
-        $cat = $_POST["categoria"];
+        $cat = strtolower($_POST["categoria"]);
         $productosAsc = "hide";
         $productosDesc= "show";
         if($cat == "todos"){
@@ -66,7 +66,7 @@ require("funciones/pdo.php");
                 INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE A.habilitado = 1 ORDER BY descripcion ASC");    
         }else{
             $consultaProductos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, M.descripcion medida, C.descripcion categoria  FROM articulos A 
-                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE categoria='$cat',  A.habilitado = 1 ORDER BY descripcion DESC");
+                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE C.descripcion='$cat' AND A.habilitado = 1 ORDER BY descripcion DESC");
         }
         try {
             $consultaProductos->execute();
@@ -77,15 +77,15 @@ require("funciones/pdo.php");
     }
     // REACOMODO PRODUCTOS POR DESCRIPCION EN ORDEN DESCENDENTE
     if(isset($_POST["productoDesc"])){
-        $cat = $_POST["categoria"];
+        $cat = strtolower($_POST["categoria"]);
         $productosAsc = "show";
         $productosDesc= "hide";
         if($cat == "todos"){
             $consultaProductos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, M.descripcion medida, C.descripcion categoria  FROM articulos A 
-                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id ORDER BY descripcion DESC");    
+                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE A.habilitado = 1 ORDER BY descripcion DESC");    
         }else{
             $consultaProductos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, M.descripcion medida, C.descripcion categoria  FROM articulos A 
-                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE categoria='$cat' ORDER BY descripcion DESC");
+                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE C.descripcion='$cat' AND WHERE A.habilitado = 1 ORDER BY descripcion DESC");
         }
         try {
             $consultaProductos->execute();
@@ -96,13 +96,13 @@ require("funciones/pdo.php");
     }
     // REACOMODO PRODUCTOS POR CATEGORIA EN ORDEN ASCENDENTE
     if(isset($_POST["categoriaAsc"])){
-        $cat = $_POST["categoria"];
+        $cat = strtolower($_POST["categoria"]);
         if($cat == "todos"){
             $consultaProductos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, M.descripcion medida, C.descripcion categoria  FROM articulos A 
                 INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE A.habilitado = 1 ORDER BY categoria ASC, descripcion ASC");   
         }else{
             $consultaProductos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, M.descripcion medida, C.descripcion categoria  FROM articulos A 
-                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE categoria='$cat', A.habilitado = 1 ORDER BY categoria ASC, descripcion ASC");  
+                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE C.descripcion='$cat' AND A.habilitado = 1 ORDER BY categoria ASC, descripcion ASC");  
         }
         $categoriaAsc = "hide";
         $categoriaDesc= "show";
@@ -115,13 +115,13 @@ require("funciones/pdo.php");
     }
     // REACOMODO PRODUCTOS POR CATEGORIA EN ORDEN DESCENDENTE
     if(isset($_POST["categoriaDesc"])){
-        $cat = $_POST["categoria"];
+        $cat = strtolower($_POST["categoria"]);
         if($cat == "todos"){
             $consultaProductos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, M.descripcion medida, C.descripcion categoria  FROM articulos A 
                 INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE A.habilitado = 1 ORDER BY categoria DESC, descripcion ASC");   
         }else{
             $consultaProductos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, M.descripcion medida, C.descripcion categoria  FROM articulos A 
-                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE categoria='$cat', A.habilitado = 1 ORDER BY categoria DESC, descripcion ASC");  
+                INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE C.descripcion='$cat' AND A.habilitado = 1 ORDER BY categoria DESC, descripcion ASC");  
         }
         $categoriaAsc = "show";
         $categoriaDesc= "hide";
@@ -282,7 +282,8 @@ require("funciones/pdo.php");
         <link href="css/master.css" rel="stylesheet">
         <link href="css/master1.css" rel="stylesheet">
     </head>
-    <body onbeforeunload="return resetFiltros()">
+    <!-- onbeforeunload="return resetFiltros()" -->
+    <body >
         <div class="contenedorPrincipal">
             <div class="headerFull">
                 <?php require("componentes/header.php")?>
@@ -306,13 +307,13 @@ require("funciones/pdo.php");
                                 <div class="row bg-grey d-flex align-items-center p-0 m-0 justify-content-around" style="width:100%">
                                     <div class="col-12 col-sm-6 col-md-5">
                                         <div class="row rowFiltro">
-                                            <input type="textarea" class="col-12" placeholder="Buscar por producto" onkeyup="filtrar(), guardarFiltro('buscadorProducto')" name="buscadorProducto" id="buscadorProducto">
+                                            <input type="textarea" autocomplete="off" class="col-12" placeholder="Buscar por producto" onkeyup="filtrar(), guardarFiltro('buscadorProducto')" name="buscadorProducto" id="buscadorProducto">
                                         </div>
                                     </div>    
                                     <div class="col-12 col-sm-6 col-md-5">
                                         <div class="row rowFiltro">
-                                            <select style="height:30px" class="col-12" onchange="filtrar(), guardarFiltro('selectCategoria')" name="categoria" id="selectCategoria">
-                                                <option value="todos">Filtrar las categorias</opcion>
+                                            <select style="height:30px" class="col-12" onchange="filtrar(), changeCategoria(), guardarFiltro('selectCategoria')" name="categoria" id="selectCategoria">
+                                                <option value="todos">Todas las categorias</opcion>
                                                 <?php foreach($categorias as $categoria){ ?>
                                                     <option value="<?php echo $categoria['descripcion'] ?>" ><?php echo $categoria["descripcion"]?></opcion>
                                                 <?php } ?>
@@ -355,13 +356,13 @@ require("funciones/pdo.php");
                                                 <div class="col-auto">
                                                     Categoria
                                                 </div>
-                                                <div class="col-auto d-flex align-items-center" style="padding-left:0">
-                                                    <button name="categoriaAsc" class="<?php echo $categoriaAsc?> buttonSort">
+                                                <div class="col-auto d-flex align-items-center" style="padding-left:0" id="ordenCategorias">
+                                                    <button name="categoriaAsc" class="<?php echo $categoriaAsc?> buttonSort" id="categoriaAsc">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-up" viewBox="0 0 16 16">
                                                             <path fill-rule="evenodd" d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5zm-7-14a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5z"/>
                                                         </svg>
                                                     </button>
-                                                    <button name="categoriaDesc" class="<?php echo $categoriaDesc?> buttonSort">
+                                                    <button name="categoriaDesc" class="<?php echo $categoriaDesc?> buttonSort" id="categoriaDesc">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-up" viewBox="0 0 16 16">
                                                             <path fill-rule="evenodd" d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5zm-7-14a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5z"/>
                                                         </svg>
@@ -518,10 +519,26 @@ require("funciones/pdo.php");
         if (alertErrorConexion.classList.contains('show')) {
             setTimeout(ocultarAlertError, 5000)
         }
-    }
+        document.getElementById("buscadorProducto").value = localStorage.getItem("buscadorProducto");
+        document.getElementById("selectCategoria").value = localStorage.getItem("selectCategoria");
+        filtrar()
+    };
     function ocultarAlertError(){
         let alertErrorConexion = document.getElementById("alertErrorConexion")
         alertErrorConexion.classList.remove('show')
         alertErrorConexion.classList.add('hide')
+    }
+
+    function changeCategoria() {
+        let categoriaDesc = document.getElementById("categoriaDesc");
+        let categoriaAsc = document.getElementById("categoriaAsc");
+        let categoria = document.getElementById("selectCategoria").value;
+        if(categoria != "todos"){
+            categoriaAsc.setAttribute("disabled", true)
+            return categoriaDesc.setAttribute("disabled", true)
+        }
+        categoriaAsc.removeAttribute("disabled")
+        return categoriaDesc.removeAttribute("disabled")
+
     }
 </script>

@@ -224,6 +224,30 @@
                 <!-- TABLA CON LISTA DE ARTICULOS -->
                 <div class="table-responsive">
                     <table class="table <?php echo $hayDatos ?>">
+                        <div class="row bg-grey d-flex align-items-center p-0 mt-2 mb-2 justify-content-around" style="width:100%">
+                            <div class="col-11 col-sm-5 col-md-4">
+                                <div class="row rowFiltro">
+                                    <input type="textarea" autocomplete="off" class="col-12" placeholder="Buscar por producto" onkeyup="filtrar()" name="buscadorProducto" id="buscadorProducto">
+                                </div>
+                            </div>    
+                            <div class="col-11 col-sm-5 col-md-4">
+                                <div class="row rowFiltro">
+                                    <select style="height:30px" class="col-12" onchange="filtrar()" name="categoria" id="selectCategoria">
+                                        <option value="todos">Todas las categorias</opcion>
+                                        <?php foreach($categorias as $categoria){ ?>
+                                            <option value="<?php echo $categoria['descripcion'] ?>" ><?php echo $categoria["descripcion"]?></opcion>
+                                        <?php } ?>
+                                    </select>  
+                                </div>
+                            </div> 
+                            <div class="col-12 col-md-2 mb-2 hide mb-md-0" id="boxBotonFiltro">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <button type="submit" class="botonQuitarFiltro" name="reiniciarPedido" onclick="quitarFiltros()" class="editButton botonReiniciar">
+                                        Quitar
+                                    </button>
+                                </div>
+                            </div> 
+                        </div>
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -238,11 +262,19 @@
                         <form name="form2" method="POST" action="admin.php?adminArticulos=">
                         <tbody>
                             <?php foreach($articulos as $articulo){ ?>
-                                <tr>
+                                <tr name="rowTable">
                                     <td><?php echo $articulo["id"] ?></td>
-                                    <td><?php echo $articulo["descripcion"] ?></td>
+                                    <td class="productos">
+                                        <div id="producto<?php echo $posicion = array_search($articulo, $articulos)?>">
+                                            <?php echo $articulo["descripcion"] ?>
+                                        </div>    
+                                    </td>
                                     <td style="text-align: center"><?php echo $articulo["medida"] ?></td>
-                                    <td style="text-align: center"><?php echo $articulo["categoria"] ?></td>
+                                    <td class="categorias centrarTexto">
+                                        <div id="categoria<?php echo $posicion = array_search($articulo, $articulos)?>">
+                                            <?php echo $articulo["categoria"] ?>
+                                        </div>
+                                    </td>
                                     <td style="text-align: center"><?php echo $articulo["habilitado"] == 1 ? 'Sí' : 'No' ?></td>
                                     <td class="d-flex justify-content-end"> 
                                         <button type="button" onmouseover="deshabilitarBotonTrash(<?php echo $articulo['id']?>, <?php echo $articulo['habilitado']?>)" name="trashButton<?php echo $articulo['id']?>" id="trashButton<?php echo $articulo['id']?>" class="btn trashButton" onclick="eliminarArticulos(<?php echo $articulo['id']?>, '<?php echo $articulo['descripcion'];?>')" data-bs-toggle="modal" data-bs-target="#modalEliminar">
@@ -392,6 +424,76 @@ function ocultarAlertError(){
     let alertErrorConexion = document.getElementById("alertErrorConexion")
     alertErrorConexion.classList.remove('show')
     alertErrorConexion.classList.add('hide')
+}
+function filtrar() {
+    let producto = document.getElementById("buscadorProducto").value;
+    let boxBotonFiltro = document.getElementById("boxBotonFiltro");
+    let categoria = document.getElementById("selectCategoria").value;
+    if(producto.trim() != "" && categoria != "todos"){
+        filtrarFilas(producto.toLowerCase(), categoria)
+        boxBotonFiltro.classList.remove("hide")
+    } else if(producto.trim() != "" && categoria == "todos") {
+        filtrarFilasPorParametro("producto", producto.toLowerCase())
+        boxBotonFiltro.classList.remove("hide")
+    }  else if(producto.trim() == "" && categoria != "todos") {
+        filtrarFilasPorParametro("categoria", categoria.toLowerCase())
+        boxBotonFiltro.classList.remove("hide")
+    } else {
+        quitarFiltros()
+        boxBotonFiltro.classList.add("hide")
+    }
+}
+function quitarFiltros(){
+    resetFiltros()
+    let listaFilas = document.getElementsByName("rowTable");
+    listaFilas = Array.from(listaFilas)
+    listaFilas.forEach(function callback(value, index) {
+        value.classList.remove("hide")
+    })
+}
+function filtrarFilas(param1, param2){
+    let listaFilas = document.getElementsByName("rowTable");
+    listaFilas = Array.from(listaFilas)
+    listaFilas.forEach(function callback(value, index) {
+       let producto = document.getElementById("producto"+index).innerHTML.trim().toLowerCase()
+       let categoria = document.getElementById("categoria"+index).innerHTML.trim()
+       if(!producto.includes(param1) || !categoria.includes(param2)){
+           value.classList.add("hide")
+       } else {
+            value.classList.remove("hide")
+       }
+    })
+}
+function filtrarFilasPorParametro(param1, param2){
+    let listaFilas = document.getElementsByName("rowTable");
+    listaFilas = Array.from(listaFilas)
+    listaFilas.forEach(function callback(value, index) {
+        if(param1 == "producto") {
+            let producto = document.getElementById("producto"+index).innerHTML.trim().toLowerCase()
+            if(!producto.includes(param2) ){
+                value.classList.add("hide")
+            } else {
+                value.classList.remove("hide")
+            }
+        }
+        if(param1 == "categoria") {
+            let categoria = document.getElementById("categoria"+index).innerHTML.trim().toLowerCase()
+            if(!categoria.includes(param2) ){
+                value.classList.add("hide")
+            } else {
+                value.classList.remove("hide")
+            }
+        }
+    })
+}
+function resetFiltros(){
+    localStorage.setItem("buscadorProducto", "")
+    localStorage.setItem("selectCategoria", "todos")
+}
+function guardarFiltro(param){
+    let input = document.getElementById(param);
+    let valor = input.value;
+    localStorage.setItem(param, valor);
 }
 
 </script>

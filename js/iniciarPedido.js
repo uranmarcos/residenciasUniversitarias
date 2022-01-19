@@ -1,8 +1,3 @@
-window.onload = function(){
-    document.getElementById("buscadorProducto").value = localStorage.getItem("buscadorProducto");
-    document.getElementById("selectCategoria").value = localStorage.getItem("selectCategoria");
-    filtrar()
-};
 // INICIO COLUMNA CATEGORIA RESPONSIVE
 window.addEventListener("resize", function(){
     let ancho =  window.innerWidth

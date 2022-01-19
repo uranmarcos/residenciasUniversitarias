@@ -30,7 +30,7 @@ if(isset($_GET["pedidos"])){
     $cookie_value = "Pedidos";
     setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
 }
-if(isset($_GET["desloguear"])){
+if(isset($_GET["desloguear"]) || isset($_GET["logOut"])){
     session_destroy();
     header("Location: index.php");
 }
