@@ -50,7 +50,7 @@ require("funciones/pdo.php");
     </head>
     <body>
         <div class="contenedorPrincipal">
-            <div class="headerFull">
+            <div class="header">
                 <?php require("componentes/header.php")?>
             </div>
             <div class="col-12 paddingCero">

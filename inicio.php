@@ -1,11 +1,36 @@
 <?php
 session_start();
 require("funciones/pdo.php");
+$cookie_name = "seccion";
+$cookie_value = "Inicio";
+setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
 
 if(isset($_GET["inicio"])){
-    var_dump($_GET);
+    header("Location: inicio.php");
+    $cookie_value = "Inicio";
+    setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
 }
-if(isset($_GET["logOut"])){
+if(isset($_GET["perfil"])){
+    header("Location: perfil.php");
+    $cookie_value = "Perfil";
+    setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
+}
+if(isset($_GET["admin"])){
+    header("Location: admin.php");
+    $cookie_value = "Admin";
+    setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
+}
+if(isset($_GET["ayuda"])){
+    header("Location: ayuda.php");
+    $cookie_value = "Ayuda";
+    setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
+}
+if(isset($_GET["pedidos"])){
+    header("Location: pedidos.php");
+    $cookie_value = "Pedidos";
+    setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
+}
+if(isset($_GET["desloguear"])){
     session_destroy();
     header("Location: index.php");
 }
