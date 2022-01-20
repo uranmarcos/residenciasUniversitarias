@@ -269,10 +269,11 @@
                 </form>
             </div>
     </div>
-    <script>
-            function mostrarCaja(idCaja, idCajaOcultar, idBoton=null) {
+<script>
+    function mostrarCaja(idCaja, idCajaOcultar, idBoton=null) {
         ocultarCaja(idCajaOcultar)
         document.getElementById(idCaja).classList.remove("hide")
+        document.getElementById(idCaja).scrollIntoView();
         if (idBoton != null) {
             document.getElementById(idBoton).classList.add("hide")
         }

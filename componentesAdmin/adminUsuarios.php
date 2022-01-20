@@ -499,6 +499,7 @@
         ocultarCaja(idCajaOcultar)
         let box = document.getElementById(idCaja)
         box.classList.remove("hide")
+        box.scrollIntoView();
         if (idBoton != null) {
             let boton = document.getElementById(idBoton)
             boton.classList.add("hide")

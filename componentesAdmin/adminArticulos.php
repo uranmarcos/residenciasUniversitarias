@@ -210,17 +210,17 @@
                 </div>
             </form>
         </div>
-        
-            <!-- BOX LISTADO ARTICULOS -->
-            <div class="contenedorSeccion contenedorModal">
-                <div class="d-flex anchoTotal row">
-                    <div class="subtitle col-6">
-                        Articulos Disponibles
-                    </div>
-                    <div class="col-6 d-flex align-items-end justify-content-end">
-                        <button type="submit" name="botonNuevoArticulo" onclick="mostrarCaja('boxCrearArticulo', 'boxEditarArticulo', 'botonNuevoArticulo')" id="botonNuevoArticulo" class="btn botonConfirmar col-6 col-md-3">Nuevo</button>        
-                    </div>
+        <!-- BOX LISTADO ARTICULOS -->
+        <div class="contenedorSeccion contenedorModal">
+            <div class="d-flex anchoTotal row">
+                <div class="subtitle col-6">
+                    Articulos Disponibles
                 </div>
+                <div class="col-6 d-flex align-items-end justify-content-end">
+                    <button type="submit" name="botonNuevoArticulo" onclick="mostrarCaja('boxCrearArticulo', 'boxEditarArticulo', 'botonNuevoArticulo')" id="botonNuevoArticulo" class="btn botonConfirmar col-6 col-md-3">Nuevo</button>        
+                </div>
+            </div>
+            <form name="form2" method="POST" action="admin.php?adminArticulos=">
                 <!-- TABLA CON LISTA DE ARTICULOS -->
                 <div class="table-responsive">
                     <table class="table <?php echo $hayDatos ?>">
@@ -234,68 +234,67 @@
                                 <div class="row rowFiltro">
                                     <select style="height:30px" class="col-12" onchange="filtrar()" name="categoria" id="selectCategoria">
                                         <option value="todos">Todas las categorias</opcion>
-                                        <?php foreach($categorias as $categoria){ ?>
-                                            <option value="<?php echo $categoria['descripcion'] ?>" ><?php echo $categoria["descripcion"]?></opcion>
-                                        <?php } ?>
-                                    </select>  
-                                </div>
-                            </div> 
-                            <div class="col-12 col-md-2 mb-2 hide mb-md-0" id="boxBotonFiltro">
-                                <div class="d-flex align-items-center justify-content-center">
-                                    <button type="submit" class="botonQuitarFiltro" name="reiniciarPedido" onclick="quitarFiltros()" class="editButton botonReiniciar">
-                                        Quitar
-                                    </button>
-                                </div>
-                            </div> 
-                        </div>
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col" style="width:50%">Descripcion</th>
-                                <th scope="col" style="width:10%; text-align:center">Medida</th>
-                                <th scope="col" style="width:10%; text-align:center">Categoria</th>
-                                <th scope="col" style="width:10%">Habilitado</th>
-                                <th scope="col" style="width:10%"></th>
-                                <th scope="col" style="width:10%"></th>
-                            </tr>
-                        </thead>
-                        <form name="form2" method="POST" action="admin.php?adminArticulos=">
-                        <tbody>
-                            <?php foreach($articulos as $articulo){ ?>
-                                <tr name="rowTable">
-                                    <td><?php echo $articulo["id"] ?></td>
-                                    <td class="productos">
-                                        <div id="producto<?php echo $posicion = array_search($articulo, $articulos)?>">
-                                            <?php echo $articulo["descripcion"] ?>
-                                        </div>    
-                                    </td>
-                                    <td style="text-align: center"><?php echo $articulo["medida"] ?></td>
-                                    <td class="categorias centrarTexto">
-                                        <div id="categoria<?php echo $posicion = array_search($articulo, $articulos)?>">
-                                            <?php echo $articulo["categoria"] ?>
-                                        </div>
-                                    </td>
-                                    <td style="text-align: center"><?php echo $articulo["habilitado"] == 1 ? 'Sí' : 'No' ?></td>
-                                    <td class="d-flex justify-content-end"> 
-                                        <button type="button" onmouseover="deshabilitarBotonTrash(<?php echo $articulo['id']?>, <?php echo $articulo['habilitado']?>)" name="trashButton<?php echo $articulo['id']?>" id="trashButton<?php echo $articulo['id']?>" class="btn trashButton" onclick="eliminarArticulos(<?php echo $articulo['id']?>, '<?php echo $articulo['descripcion'];?>')" data-bs-toggle="modal" data-bs-target="#modalEliminar">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
-                                            </svg>
+                                            <?php foreach($categorias as $categoria){ ?>
+                                                <option value="<?php echo $categoria['descripcion'] ?>" ><?php echo $categoria["descripcion"]?></opcion>
+                                            <?php } ?>
+                                        </select>  
+                                    </div>
+                                </div> 
+                                <div class="col-12 col-md-2 mb-2 hide mb-md-0" id="boxBotonFiltro">
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <button type="submit" class="botonQuitarFiltro" name="reiniciarPedido" onclick="quitarFiltros()" class="editButton botonReiniciar">
+                                            Quitar
                                         </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn editButton" onclick="mostrarCaja('boxEditarArticulo', 'boxCrearArticulo', 'botonNuevoArticulo'), cargarDatosEdicion('<?php echo $articulo['id']?>', '<?php echo $articulo['descripcion']?>', '<?php echo $articulo['idMedida']?>', '<?php echo $articulo['idCategoria']?>', <?php echo $articulo['habilitado']?>)">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                                                <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
-                                            </svg> 
-                                        </button>
-                                    </td>
+                                    </div>
+                                </div> 
+                            </div>
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col" style="width:50%">Descripcion</th>
+                                    <th scope="col" style="width:10%; text-align:center">Medida</th>
+                                    <th scope="col" style="width:10%; text-align:center">Categoria</th>
+                                    <th scope="col" style="width:10%">Habilitado</th>
+                                    <th scope="col" style="width:10%"></th>
+                                    <th scope="col" style="width:10%"></th>
                                 </tr>
-                            <?php } ?>   
-                        </tbody>               
+                            </thead>
+                            <tbody>
+                                <?php foreach($articulos as $articulo){ ?>
+                                    <tr name="rowTable">
+                                        <td><?php echo $articulo["id"] ?></td>
+                                        <td class="productos">
+                                            <div id="producto<?php echo $posicion = array_search($articulo, $articulos)?>">
+                                                <?php echo $articulo["descripcion"] ?>
+                                            </div>    
+                                        </td>
+                                        <td style="text-align: center"><?php echo $articulo["medida"] ?></td>
+                                        <td class="categorias centrarTexto">
+                                            <div id="categoria<?php echo $posicion = array_search($articulo, $articulos)?>">
+                                                <?php echo $articulo["categoria"] ?>
+                                            </div>
+                                        </td>
+                                        <td style="text-align: center"><?php echo $articulo["habilitado"] == 1 ? 'Sí' : 'No' ?></td>
+                                        <td class="d-flex justify-content-end"> 
+                                            <button type="button" onmouseover="deshabilitarBotonTrash(<?php echo $articulo['id']?>, <?php echo $articulo['habilitado']?>)" name="trashButton<?php echo $articulo['id']?>" id="trashButton<?php echo $articulo['id']?>" class="btn trashButton" onclick="eliminarArticulos(<?php echo $articulo['id']?>, '<?php echo $articulo['descripcion'];?>')" data-bs-toggle="modal" data-bs-target="#modalEliminar">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                                                </svg>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn editButton" onclick="mostrarCaja('boxEditarArticulo', 'boxCrearArticulo', 'botonNuevoArticulo'), cargarDatosEdicion('<?php echo $articulo['id']?>', '<?php echo $articulo['descripcion']?>', '<?php echo $articulo['idMedida']?>', '<?php echo $articulo['idCategoria']?>', <?php echo $articulo['habilitado']?>)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                                    <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                                                </svg> 
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <?php } ?>   
+                            </tbody>               
                     </table>
-                </div>
-                <!-- TABLA SIN DATOS -->
+                    
+                    <!-- TABLA SIN DATOS -->
                     <table class="table <?php echo $noHayDatos?>">
                         <thead class="d-flex justify-content-center">
                             <tr>
@@ -303,32 +302,34 @@
                             </tr>
                         </thead>
                     </table>
-                <!-- </div> -->
-            </div>
-            <!-- MODAL CONFIRMACION ELIMINACION CATEGORIA -->
-            <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <input type="text" hidden name="idArticuloEliminar" id="idArticuloEliminar"></input>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body centrarTexto">
-                            ¿Confirma que desea eliminar el articulo <b><span id="articuloAEliminar"></span></b>?</br> Si desea habilitarlo nuevamente, en la opción editar podrá hacerlo.
-                        </div>
-                        <div class="modal-footer d-flex justify-content-around">
-                            <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" name="eliminarArticulo" class="btn botonConfirmar">Confirmar</button>
+                    <!-- </div> -->
+                </div>
+                <!-- MODAL CONFIRMACION ELIMINACION CATEGORIA -->
+                <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <input type="text" hidden name="idArticuloEliminar" id="idArticuloEliminar"></input>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body centrarTexto">
+                                ¿Confirma que desea eliminar el articulo <b><span id="articuloAEliminar"></span></b>?</br> Si desea habilitarlo nuevamente, en la opción editar podrá hacerlo.
+                            </div>
+                            <div class="modal-footer d-flex justify-content-around">
+                                <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" name="eliminarArticulo" class="btn botonConfirmar">Confirmar</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                </form>
-            </div>
+            </form>
+        </div>
     </div>
 <script>
     function mostrarCaja(idCaja, idCajaOcultar, idBoton=null) {
         ocultarCaja(idCajaOcultar)
         document.getElementById(idCaja).classList.remove("hide")
+        document.getElementById(idCaja).scrollIntoView();
         if (idBoton != null) {
             document.getElementById(idBoton).classList.add("hide")
         }
