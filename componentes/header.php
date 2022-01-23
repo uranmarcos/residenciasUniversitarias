@@ -3,7 +3,7 @@ if($_SESSION["autenticado"] != true){
     echo "<script>location.href='index.php';</script>";
 }
 $mostrarBotonAdmin = "hide";
-if($_SESSION["rol"] == "admin"){
+if($_SESSION["rol"] == "admin" || $_SESSION["rol"] == "general"){
     $mostrarBotonAdmin = "show";
 }
 

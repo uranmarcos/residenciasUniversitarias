@@ -2,7 +2,7 @@
 session_start();
 require("funciones/pdo.php");
 
-if($_SESSION["rol"] != "admin"){
+if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
     echo "<script> window.location.href='inicio.php' </script>";
 }
 $subSeccionAdmin = null;

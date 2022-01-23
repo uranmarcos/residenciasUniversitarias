@@ -123,6 +123,7 @@
         $mensajeAlertError = "Hubo un error de conexión. Por favor actualizá la página";
         $alertError= "show";
     }
+
     $usuarios = $consultaUsuarios -> fetchAll(PDO::FETCH_ASSOC);
     $sedes = $consultaSedes -> fetchAll(PDO::FETCH_ASSOC);
     $noHayDatos = "show";
@@ -143,7 +144,7 @@
     } else if($rol == "general") {
         $roles = [
             [ "value"=> "stock", "descripcion"=> "Stock"],
-            ["value"=> "general", "descripcion"=> "General"]
+            // ["value"=> "general", "descripcion"=> "General"]
         ];
     }
 
@@ -646,12 +647,14 @@
             let opciones = document.getElementsByName("opcionSelectCasa")
             let selectCasas = document.getElementById("casaNuevoUsuario")
             selectCasas.value = 1
+            let selectCasasEditar = document.getElementById("casaEditarUsuario")
+            selectCasasEditar.value = 1
             opciones = Array.from(opciones);
             opciones.forEach(e => {
                     e.removeAttribute("disabled")
             })
             opciones.forEach(e => {
-                if (e.value > casas){
+                if (e.value > casas || e.value == 0){
                     e.setAttribute("disabled", true)
                 }
             })
