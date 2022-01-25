@@ -46,6 +46,17 @@
                 }
                 if($item[0] == "otros"){
                     $otrosTabla = $item[1];
+                    $cantidadRenglones = ceil(strlen($otrosTabla) / 95);
+                    $otrosFormateado = "";
+                    for ($i = 0; $i < $cantidadRenglones; $i++) {
+                        $inicial = 95 * $i;
+                        $final = 95;
+                        if($final > strlen($otrosTabla)){
+                            $final = strlen($otrosTabla);
+                        }
+                        $string = substr($otrosTabla, $inicial, $final) . "\n";  
+                        $otrosFormateado = $otrosFormateado . $string;
+                    }
                 }
             }
             sort($pedidoTabla);
@@ -65,7 +76,7 @@
             $pdf->SetFont('Arial','B',12);
             $pdf->Cell(0,10,'Otros: ' ,0,1);
             $pdf->SetFont('Arial','',12);
-            $pdf->Cell(190,50,utf8_decode($otrosTabla),1);
+            $pdf->Multicell(190,10,utf8_decode($otrosFormateado),1);
             $pdf->Output();
         } catch (\Throwable $th) {
             $alertErrorConexion= "show";
