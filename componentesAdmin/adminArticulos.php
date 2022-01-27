@@ -94,7 +94,9 @@
                     <div class="row">
                         <div class="col-12 col-md-6 col-lg-3 columna">
                             <label> Descripción: </label>
-                            <input maxlength="30" name="descripcionNuevoArticulo" autocomplete="off" onkeyup="habilitarBoton(value, 3, 'botonGenerar', 'mensajeValidacionCrear')" id="descripcionNuevoArticulo">
+                            <input maxlength="30" name="descripcionNuevoArticulo" autocomplete="off" onkeyup="habilitarBoton(value, 3, 'botonGenerar', 'mensajeValidacionCrear'), validarArticuloExistente(value)" id="descripcionNuevoArticulo">
+                            <div class="hide errorValidacion" id="mensajeValidacionCrear">3 o mas caracteres</div>
+                            <div class="hide errorValidacion" id="mensajeArticuloExistente"></div>
                         </div>
                         <div class="col-6 col-sm-6 col-md-3 columna">
                             <label class="labelForm"> Medida: </label>
@@ -119,7 +121,6 @@
                             </button>
                         </div>
                     </div>
-                    <div class="hide errorValidacion marginl100" id="mensajeValidacionCrear">3 o mas caracteres</div>
                 </div>
                 <!-- MODAL CONFIRMACION CREACION ARTICULO -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -326,14 +327,35 @@
         </div>
     </div>
 <script>
-    function mostrarCaja(idCaja, idCajaOcultar, idBoton=null) {
-        ocultarCaja(idCajaOcultar)
-        document.getElementById(idCaja).classList.remove("hide")
-        document.getElementById(idCaja).scrollIntoView();
-        if (idBoton != null) {
-            document.getElementById(idBoton).classList.add("hide")
+
+function validarArticuloExistente(value){
+    let boxMensajeArticuloExistente = document.getElementById("mensajeArticuloExistente")
+    let articulos = <?php  echo json_encode($articulos) ?>;
+    if(value.length >=3) {
+        let articulosExistentes = articulos.filter(element => element.descripcion.toLowerCase().includes(value))
+        let descripcionesArticulosExistentes = ""
+        articulosExistentes.forEach(function callback(value, index) {
+            descripcionesArticulosExistentes = descripcionesArticulosExistentes + value.descripcion + " "
+        })
+        if(articulosExistentes.length > 0) {
+            boxMensajeArticuloExistente.classList.remove("hide")
+            boxMensajeArticuloExistente.innerHTML = "Ya existen los siguientes articulos: " + descripcionesArticulosExistentes
+        }else{
+            boxMensajeArticuloExistente.classList.add("hide")
         }
+    } else {
+        boxMensajeArticuloExistente.classList.add("hide")
     }
+}
+
+function mostrarCaja(idCaja, idCajaOcultar, idBoton=null) {
+    ocultarCaja(idCajaOcultar)
+    document.getElementById(idCaja).classList.remove("hide")
+    document.getElementById(idCaja).scrollIntoView();
+    if (idBoton != null) {
+        document.getElementById(idBoton).classList.add("hide")
+    }
+}
 function ocultarCaja(idCaja, idBoton=null) {
     document.getElementById(idCaja).classList.add("hide")
     if (idBoton != null) {
