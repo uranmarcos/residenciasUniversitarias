@@ -84,7 +84,9 @@
                     <div class="row">
                         <div class="col-12 col-sm-9 col-md-6 col-lg-6 columna">
                             <label >Descripcion</label>
-                            <input maxlength="30" style="width:100%" autocomplete="off" name="inputNuevaSede" id="inputNuevaSede" onkeyup="habilitarBoton(value, 5,'botonGenerar', 'mensajeValidacionCrear')">
+                            <input maxlength="30" style="width:100%" autocomplete="off" name="inputNuevaSede" id="inputNuevaSede" onkeyup="habilitarBoton(value, 5,'botonGenerar', 'mensajeValidacionCrear'), validarSedeExistente(value)">
+                            <div class="hide errorValidacion" id="mensajeValidacionCrear">5 o mas caracteres</div>
+                            <div class="hide errorValidacion" id="mensajeSedeExistente"></div>
                         </div>
                         <div class="col-12 col-sm-3 col-md-2 col-lg-1 columna">
                             <label> Casas: </label>
@@ -103,7 +105,6 @@
                             </button>
                         </div>
                     </div>
-                    <div class="hide errorValidacion marginl100" id="mensajeValidacionCrear">5 o mas caracteres</div>
                 </div>
                 <!-- MODAL CONFIRMACION CREACION SEDE -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -188,88 +189,107 @@
                 </div>
             </form>
         </div>
-        
-            <!-- BOX LISTADO SEDES -->
-            <div class="contenedorSeccion contenedorModal">
-                <div class="d-flex anchoTotal row">
-                    <div class="subtitle col-6">
-                        Sedes Disponibles
-                    </div>
-                    <div class="col-6 d-flex align-items-end justify-content-end">
-                        <button type="submit" name="botonNuevaSede" onclick="mostrarCaja('boxCrearSede', 'boxEditarSede', 'botonNuevaSede')" id="botonNuevaSede" class="btn botonConfirmar col-6 col-md-3">Nueva</button>        
-                    </div>
+        <!-- END EDICION DE SEDE -->
+        <!-- BOX LISTADO SEDES -->
+        <div class="contenedorSeccion contenedorModal">
+            <div class="d-flex anchoTotal row">
+                <div class="subtitle col-6">
+                    Sedes Disponibles
                 </div>
-                <!-- TABLA CON LISTA DE SEDES -->
-                <div class="table-responsive">
-                    <table class="table <?php echo $hayDatos ?>">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col" style="width:60%">Localidad</th>
-                                <th scope="col" style="width:10%; text-align:center">Casas</th>
-                                <th scope="col" style="width:10%">Habilitado</th>
-                                <th scope="col" style="width:10%"></th>
-                                <th scope="col" style="width:10%"></th>
-                            </tr>
-                        </thead>
-                        <form name="form2" method="POST" action="admin.php?adminSedes=">
-                        <tbody>
-                            <?php foreach($sedes as $sede){ ?>
-                                <tr>
-                                    <td><?php echo $sede["id"] ?></td>
-                                    <td><?php echo $sede["descripcion"] ?></td>
-                                    <td style="text-align: center"><?php echo $sede["casas"] ?></td>
-                                    <td style="text-align: center"><?php echo $sede["habilitado"] == 1 ? 'Sí' : 'No' ?></td>
-                                    <td class="d-flex justify-content-end"> 
-                                        <button type="button" onmouseover="deshabilitarBotonTrash(<?php echo $sede['id']?>, <?php echo $sede['habilitado']?>)" name="trashButton<?php echo $sede['id']?>" id="trashButton<?php echo $sede['id']?>" class="btn trashButton" onclick="eliminarSedes(<?php echo $sede['id']?>, '<?php echo $sede['descripcion'];?>')" data-bs-toggle="modal" data-bs-target="#modalEliminar">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
-                                            </svg>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn editButton" onclick="mostrarCaja('boxEditarSede', 'boxCrearSede', 'botonNuevaSede'), cargarDatosEdicion('<?php echo $sede['id']?>', '<?php echo $sede['descripcion']?>', '<?php echo $sede['casas']?>', <?php echo $sede['habilitado']?>)">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                                                <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
-                                            </svg> 
-                                        </button>
-                                    </td>
-                                </tr>
-                            <?php } ?>   
-                        </tbody>               
-                    </table>
+                <div class="col-6 d-flex align-items-end justify-content-end">
+                    <button type="submit" name="botonNuevaSede" onclick="mostrarCaja('boxCrearSede', 'boxEditarSede', 'botonNuevaSede')" id="botonNuevaSede" class="btn botonConfirmar col-6 col-md-3">Nueva</button>        
                 </div>
-                <!-- TABLA SIN DATOS -->
-                    <table class="table <?php echo $noHayDatos?>">
-                        <thead class="d-flex justify-content-center">
-                            <tr>
-                                <th scope="col" style="width:100%">NO SE ENCONTRARON DATOS</th>
-                            </tr>
-                        </thead>
-                    </table>
-                <!-- </div> -->
             </div>
-            <!-- MODAL CONFIRMACION ELIMINACION SEDE -->
-            <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <input type="text" hidden name="idSedeEliminar" id="idSedeEliminar"></input>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body centrarTexto">
-                            ¿Confirma que desea eliminar la sede <b><span id="sedeAEliminar"></span></b>?</br> Si desea habilitarla nuevamente, en la opción editar podrá hacerlo.
-                        </div>
-                        <div class="modal-footer d-flex justify-content-around">
-                            <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" name="eliminarSede" class="btn botonConfirmar">Confirmar</button>
-                        </div>
+            <!-- TABLA CON LISTA DE SEDES -->
+            <div class="table-responsive">
+                <table class="table <?php echo $hayDatos ?>">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col" style="width:60%">Localidad</th>
+                            <th scope="col" style="width:10%; text-align:center">Casas</th>
+                            <th scope="col" style="width:10%">Habilitado</th>
+                            <th scope="col" style="width:10%"></th>
+                            <th scope="col" style="width:10%"></th>
+                        </tr>
+                    </thead>
+                    <form name="form2" method="POST" action="admin.php?adminSedes=">
+                    <tbody>
+                        <?php foreach($sedes as $sede){ ?>
+                            <tr>
+                                <td><?php echo $sede["id"] ?></td>
+                                <td><?php echo $sede["descripcion"] ?></td>
+                                <td style="text-align: center"><?php echo $sede["casas"] ?></td>
+                                <td style="text-align: center"><?php echo $sede["habilitado"] == 1 ? 'Sí' : 'No' ?></td>
+                                <td class="d-flex justify-content-end"> 
+                                    <button type="button" onmouseover="deshabilitarBotonTrash(<?php echo $sede['id']?>, <?php echo $sede['habilitado']?>)" name="trashButton<?php echo $sede['id']?>" id="trashButton<?php echo $sede['id']?>" class="btn trashButton" onclick="eliminarSedes(<?php echo $sede['id']?>, '<?php echo $sede['descripcion'];?>')" data-bs-toggle="modal" data-bs-target="#modalEliminar">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                                        </svg>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn editButton" onclick="mostrarCaja('boxEditarSede', 'boxCrearSede', 'botonNuevaSede'), cargarDatosEdicion('<?php echo $sede['id']?>', '<?php echo $sede['descripcion']?>', '<?php echo $sede['casas']?>', <?php echo $sede['habilitado']?>)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                                        </svg> 
+                                    </button>
+                                </td>
+                            </tr>
+                        <?php } ?>   
+                    </tbody>               
+                </table>
+            </div>
+            <!-- TABLA SIN DATOS -->
+            <table class="table <?php echo $noHayDatos?>">
+                <thead class="d-flex justify-content-center">
+                    <tr>
+                        <th scope="col" style="width:100%">NO SE ENCONTRARON DATOS</th>
+                    </tr>
+                </thead>
+            </table>
+            <!-- </div> -->
+            </div>
+        <!-- MODAL CONFIRMACION ELIMINACION SEDE -->
+        <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <input type="text" hidden name="idSedeEliminar" id="idSedeEliminar"></input>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body centrarTexto">
+                        ¿Confirma que desea eliminar la sede <b><span id="sedeAEliminar"></span></b>?</br> Si desea habilitarla nuevamente, en la opción editar podrá hacerlo.
+                    </div>
+                    <div class="modal-footer d-flex justify-content-around">
+                        <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" name="eliminarSede" class="btn botonConfirmar">Confirmar</button>
                     </div>
                 </div>
-                </form>
             </div>
+            </form>
+        </div>
     </div>
 <script>
+    function validarSedeExistente(value){
+        let boxMensajeSedeExistente = document.getElementById("mensajeSedeExistente")
+        let sedes = <?php  echo json_encode($sedes) ?>;
+        if(value.length >=5) {
+            let sedesExistentes = sedes.filter(element => element.descripcion.toLowerCase().includes(value))
+            let descripcionesSedesExistentes = ""
+            sedesExistentes.forEach(function callback(value, index) {
+                descripcionesSedesExistentes = descripcionesSedesExistentes + value.descripcion + " "
+            })
+            if(sedesExistentes.length > 0) {
+                boxMensajeSedeExistente.classList.remove("hide")
+                boxMensajeSedeExistente.innerHTML = "Ya existen las siguientes sedes: " + descripcionesSedesExistentes
+            }else{
+                boxMensajeSedeExistente.classList.add("hide")
+            }
+        } else {
+            boxMensajeSedeExistente.classList.add("hide")
+        }
+    }
     function mostrarCaja(idCaja, idCajaOcultar, idBoton=null) {
         ocultarCaja(idCajaOcultar)
         document.getElementById(idCaja).classList.remove("hide")
