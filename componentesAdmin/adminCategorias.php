@@ -1,8 +1,9 @@
 <?php
-    $alertErrorConexion = "hide";
+    $alertError = "hide";
     $alertConfirmacion = "hide";
     $mensajeAlertConfirmacion="";
     $idUsuarioLogueado = $_SESSION["id"];
+    $mensajeAlertError="";
     // ACCION CREAR CATEGORIA
     if(isset($_POST["confirmarCategoria"])){
         $categoria = $_POST['inputNuevaCategoria'];
@@ -13,7 +14,8 @@
             $alertConfirmacion = "show";
             $mensajeAlertConfirmacion="La categoria se creó correctamente";
         } catch (\Throwable $th) {
-            $alertErrorConexion= "show";
+            $alertError= "show";
+            $mensajeAlertError = "Hubo un error de conexión. Por favor actualizá la página";
         }
     }
     // ACCION EDITAR CATEGORIA
@@ -28,20 +30,37 @@
             $alertConfirmacion = "show";
             $mensajeAlertConfirmacion="La categoria se modificó correctamente";
         } catch (\Throwable $th) {
-            $alertErrorConexion= "show";
+            $alertError= "show";
+            $mensajeAlertError = "Hubo un error de conexión. Por favor actualizá la página";
         }
     }
     // ACCION ELIMINAR CATEGORIA
     if(isset($_POST["eliminarCategoria"])){
         $id = $_POST["inputCategoriaEliminar"];
         $date = date("Y-m-d h:i:s");
+        $consultaValidacion = $baseDeDatos -> prepare("SELECT count(*) from articulos WHERE categoria = '$id'");
         $consulta = $baseDeDatos ->prepare("UPDATE categorias SET habilitado = 0, modified = '$date', userId = '$idUsuarioLogueado' WHERE id = '$id'");
+        
         try {
-            $consulta->execute();
-            $alertConfirmacion = "show";
-            $mensajeAlertConfirmacion="La categoria se eliminó correctamente";
+            $consultaValidacion->execute();
+            $validacion = $consultaValidacion -> fetchAll(PDO::FETCH_ASSOC);
+            $cantidad = count($validacion);
+            if($cantidad > 0 ){
+                $alertError= "show";
+                $mensajeAlertError = "La categoria no puede eliminarse ya que existen articulos pertenecientes a la misma. <br> Modifique primero los articulos y luego elimine la categoria.";
+            } else {
+                try {
+                    $consulta->execute();
+                    $alertConfirmacion = "show";
+                    $mensajeAlertConfirmacion="La categoria se eliminó correctamente";
+                } catch (\Throwable $th) {
+                    $alertError= "show";
+                    $mensajeAlertError = "Hubo un error de conexión. Por favor actualizá la página";
+                }
+            }
         } catch (\Throwable $th) {
-            $alertErrorConexion= "show";
+            $alertError= "show";
+            $mensajeAlertError = "Hubo un error de conexión. Por favor actualizá la página";
         }
     }
     // CONSULTA LISTADO DE CATEGORIAS
@@ -49,7 +68,8 @@
     try {
         $consultaCategorias->execute();
     } catch (\Throwable $th) {
-        $alertErrorConexion= "show";
+        $alertError= "show";
+        $mensajeAlertError = "Hubo un error de conexión. Por favor actualizá la página";
     }
     $categorias = $consultaCategorias -> fetchAll(PDO::FETCH_ASSOC);
     $noHayDatos = "show";
@@ -58,12 +78,10 @@
         $noHayDatos = "hide";
         $hayDatos = "show";
     }
-
-
 ?>
     <div class="sectionBloque">
-        <div class="alert alert-danger centrarTexto <?php echo $alertErrorConexion ?>" id="alertErrorConexion" role="alert" >
-            Hubo un error de conexión. Por favor actualizá la página
+        <div class="alert alert-danger centrarTexto <?php echo $alertError ?>" id="alertError" role="alert" >
+            <?php echo $mensajeAlertError ?>
         </div>
         <div class="alert alert-success centrarTexto <?php echo $alertConfirmacion ?>" id="alertConfirmacion" role="alert">
             <?php echo $mensajeAlertConfirmacion ?>
@@ -259,7 +277,6 @@
             })
             if(categoriasExistentes.length > 0) {
                 boxMensajeCategoriaExistente.classList.remove("hide")
-                console.log("si")
                 boxMensajeCategoriaExistente.innerHTML = "Ya existen la/s siguiente/s categoria/s : " + descripcionesCategoriasExistentes
             }else{
                 boxMensajeCategoriaExistente.classList.add("hide")
@@ -327,8 +344,8 @@
         if (alertConfirmacion.classList.contains('show')) {
             setTimeout(ocultarAlertConfirmacion, 5000)
         }
-        let alertErrorConexion = document.getElementById("alertErrorConexion")
-        if (alertErrorConexion.classList.contains('show')) {
+        let alertError = document.getElementById("alertError")
+        if (alertError.classList.contains('show')) {
             setTimeout(ocultarAlertError, 5000)
         }
     }
@@ -338,8 +355,8 @@
         alertConfirmacion.classList.add('hide')
     }
     function ocultarAlertError(){
-        let alertErrorConexion = document.getElementById("alertErrorConexion")
-        alertErrorConexion.classList.remove('show')
-        alertErrorConexion.classList.add('hide')
+        let alertError = document.getElementById("alertError")
+        alertError.classList.remove('show')
+        alertError.classList.add('hide')
     }
 </script>
