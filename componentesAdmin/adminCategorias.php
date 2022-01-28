@@ -81,7 +81,9 @@
                     <div class="row">
                         <div class="col-12 col-sm-6 col-lg-4 col-lg-1 columna">
                             <label> Descripción: </label>
-                            <input maxlength="30" name="inputNuevaCategoria" onkeyup="habilitarBoton(value, 3,'botonGenerar', 'mensajeValidacionCrear')" name="descripcion">
+                            <input maxlength="30" autocomplete="off" name="inputNuevaCategoria" onkeyup="habilitarBoton(value, 3,'botonGenerar', 'mensajeValidacionCrear'), validarCategoriaExistente(value)" name="descripcion">
+                            <div class="hide errorValidacion" id="mensajeValidacionCrear">3 o mas caracteres</div>
+                            <div class="hide errorValidacion" id="mensajeCategoriaExistente"></div>
                         </div>
                         <div class="col-12 col-sm-6 col-lg-8 d-flex align-items-end justify-content-around mt-2 mt-md-0 mb-2 mb-sm-0">
                             <button type="submit" name="botonCancelar" onclick="ocultarCaja('boxCrearCategoria', 'botonNuevaCategoria')" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
@@ -90,7 +92,6 @@
                             </button>
                         </div>
                     </div>
-                    <div class="hide errorValidacion marginl100" id="mensajeValidacionCrear">3 o mas caracteres</div>
                 </div>
                 <!-- MODAL CONFIRMACION CREACION CATEGORIA -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -247,7 +248,26 @@
             </div>
     </div>
 <script>
-        let categoriaEliminable = null
+    function validarCategoriaExistente(value){
+        let boxMensajeCategoriaExistente = document.getElementById("mensajeCategoriaExistente")
+        let categorias = <?php  echo json_encode($categorias) ?>;
+        if(value.length >=3) {
+            let categoriasExistentes = categorias.filter(element => element.descripcion.toLowerCase().includes(value))
+            let descripcionesCategoriasExistentes = ""
+            categoriasExistentes.forEach(function callback(value, index) {
+                descripcionesCategoriasExistentes = descripcionesCategoriasExistentes + value.descripcion + " "
+            })
+            if(categoriasExistentes.length > 0) {
+                boxMensajeCategoriaExistente.classList.remove("hide")
+                console.log("si")
+                boxMensajeCategoriaExistente.innerHTML = "Ya existen la/s siguiente/s categoria/s : " + descripcionesCategoriasExistentes
+            }else{
+                boxMensajeCategoriaExistente.classList.add("hide")
+            }
+        } else {
+            boxMensajeCategoriaExistente.classList.add("hide")
+        }
+    }
     function mostrarCaja(idCaja, idCajaOcultar, idBoton=null) {
         ocultarCaja(idCajaOcultar)
         document.getElementById(idCaja).classList.remove("hide")
