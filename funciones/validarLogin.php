@@ -10,7 +10,6 @@ $password = $_POST["password"];
 $consulta = $baseDeDatos ->prepare("SELECT * FROM agentes WHERE dni = $dni");
 $consulta->execute();
 $datosUsuarios = $consulta -> fetchAll(PDO::FETCH_ASSOC);
-
 if(empty($datosUsuarios)){
     $error = "El DNI ingresado no está registrado";
 } else {    
@@ -27,6 +26,14 @@ if(empty($datosUsuarios)){
             $_SESSION["casa"] = $datosUsuarios[0]["casa"];
             $_SESSION["id"] = $datosUsuarios[0]["id"];
             $_SESSION["errorMail"] = false;
+            if(isset($_POST["cbxUsuario"])){
+                setcookie("usuario", $dni, time()+(60*60*24*365));
+                setcookie("recordarUsuario", true, time()+(60*60*24*365));
+            } else {
+                setcookie("usuario", "", time()+(60*60*24*365));
+                setcookie("recordarUsuario", false, time()+(60*60*24*365));
+            }
+            //setcookie("id_usuario_dw", $usuario_encontrado->id_usuario , time()+(60*60*24*365));
             echo "<script>location.href='inicio.php';</script>";
         }
     } else {
