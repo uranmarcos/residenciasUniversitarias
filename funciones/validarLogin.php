@@ -29,8 +29,14 @@ if(empty($datosUsuarios)){
             if(isset($_POST["cbxUsuario"])){
                 setcookie("usuario", $dni, time()+(60*60*24*365));
                 setcookie("recordarUsuario", true, time()+(60*60*24*365));
+            } else if (isset($_POST["cbxDatos"])){
+                setcookie("usuario", $dni, time()+(60*60*24*365));
+                setcookie("password", $password, time()+(60*60*24*365));
+                setcookie("recordarDatos", true, time()+(60*60*24*365));
             } else {
                 setcookie("usuario", "", time()+(60*60*24*365));
+                setcookie("password", "", time()+(60*60*24*365));
+                setcookie("recordarDatos", false, time()+(60*60*24*365));
                 setcookie("recordarUsuario", false, time()+(60*60*24*365));
             }
             //setcookie("id_usuario_dw", $usuario_encontrado->id_usuario , time()+(60*60*24*365));
