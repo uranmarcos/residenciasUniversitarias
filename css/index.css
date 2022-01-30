@@ -16,26 +16,28 @@ img{
     justify-content: center;
 }
 .textoLabel{
-    color: purple;
+    color: rgb(163, 73, 164);
     font-size:18px;
 }
 .inputLabel{
     height:30px;
-    border: solid 1px purple;
+    border: solid 1px rgb(163, 73, 164);
     border-radius: 7px;
     outline: none;
     margin-bottom:10px;
 }
 .botonSubmit{
-    background-color: purple;
+    background-color: rgb(163, 73, 164);
     color:white;
-    border: solid 1px purple;
+    border: solid 1px rgb(163, 73, 164);
     border-radius: 7px;
     outline: none;
     height:40px;
 }
 .botonSubmit:hover{
-    font-size:18px;
+    background-color: white;
+    color:rgb(163, 73, 164);
+    border: solid 1px rgb(163, 73, 164);
 }
 .mensajeError{
     color: red;
@@ -62,6 +64,41 @@ img{
 .hide{
     display: none;
 }
+.show {
+    display: block;
+}
+.centrarTexto{
+    text-align: center !important;
+}
 .labelCheckbox{
     padding-left:40px;
+}
+.recuperar{
+    text-align:center;
+}
+.recuperar a:hover{
+    font-weight: bolder;
+}
+.recuperar a{
+    color:rgb(163, 73, 164); 
+    text-decoration: none;;
+}
+.contenedorRecuperar{
+    border: solid 1px rgb(163, 73, 164); 
+    padding: 0 0 50px 0;
+    border-radius: 10px;
+}
+.alertBorder{
+    border-radius: 10px 10px 0px 0px;
+}
+.tituloRecuperar{
+    color:rgb(163, 73, 164); 
+    text-align: center;
+    margin-bottom:20px;
+    margin-top: 50px;
+    font-weight: bolder;
+}
+.errorValidacion{
+    font-size: 10px;
+    color: red;
 }

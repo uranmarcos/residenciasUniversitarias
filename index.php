@@ -74,6 +74,7 @@ if($_POST){
                             <div class="row rowForm ml-4 mb-3">
                                 <label class="labelCheckbox"><input type="checkbox" name="cbxUsuario" onchange="alternarCheckbox('cbxDatos')" id="cbxUsuario"> Recordar usuario</label>
                                 <label class="labelCheckbox"><input type="checkbox" name="cbxDatos" id="cbxDatos" onchange="alternarCheckbox('cbxUsuario')"> Recordar usuario y contraseña</label>
+                                <label class="recuperar"><a href="recuperar.php">Recuperar contraseña</a></label>
                             </div>    
                             <div class="row justify-content-center" >
                                 <input type="submit" class="col-6 botonSubmit" name="ingresar" value="Ingresar">
