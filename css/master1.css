@@ -58,6 +58,9 @@ TO DO
 .show{
     display: block;
 }
+.botonAdmin{
+    max-width: 90px;;
+}
 
 .menuBurguer{
    position:absolute;
