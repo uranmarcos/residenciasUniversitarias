@@ -26,6 +26,12 @@ img{
     outline: none;
     margin-bottom:10px;
 }
+.inputRecupero{
+    height:30px;
+    border: solid 1px rgb(163, 73, 164);
+    border-radius: 7px;
+    outline: none;
+}
 .botonSubmit{
     background-color: rgb(163, 73, 164);
     color:white;
@@ -101,4 +107,14 @@ img{
 .errorValidacion{
     font-size: 10px;
     color: red;
+}
+.eyeButton {
+    height: 30px !important;
+    color: rgb(163, 73, 164);
+    /* padding:5px 0 0 5px; */
+    line-height: 30px;;
+    
+}
+.eyeButton:hover{
+    cursor: pointer;
 }

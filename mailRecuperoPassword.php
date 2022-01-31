@@ -7,7 +7,8 @@ require "src/SMTP.php";
 $email_user = "pedidosresidenciassi@gmail.com";
 $email_password = "PEdiDOS.9731";
 $the_subject = "Recupero de contraseña";
-$address_to = "marcos_uran@hotmail.com";
+//$address_to = "marcos_uran@hotmail.com";
+$address_to = $mail;
 //$address_to = "manuel@fundacionsi.org.ar";
 $from_name = "Fundación Sí - Pedidos";
 $phpmailer = new PHPMailer();
@@ -24,8 +25,8 @@ $phpmailer->SMTPAuth = true;
 $phpmailer->setFrom($phpmailer->Username,$from_name);
 $phpmailer->AddAddress($address_to); // recipients email
 $phpmailer->Subject = $the_subject;	
-$phpmailer->Body .="<p>Recibimos una solicitud de recuperación de contraseña. Si no lo hiciste, desestimá este mail.</p>";
-$phpmailer->Body .="<p>Si necesitás hacerlo ingresá al siguiente link: http://localhost/proyectos/SiPedidos/residenciasuniversitarias/recuperar.php</p>";
+$phpmailer->Body .="<p>Recibimos una solicitud de recuperación de contraseña. Si no fuiste vos, desestimá este mail.</p>";
+$phpmailer->Body .="<p>Si necesitás hacerlo ingresá al siguiente link: https://pedidos.fundacionsi.org.ar/recuperar.php</p>";
 $phpmailer->Body .="<p>Tu código de validación es: " . $token . " y expira a las: " . $horaExpired;
 $phpmailer->IsHTML(true);
 try {

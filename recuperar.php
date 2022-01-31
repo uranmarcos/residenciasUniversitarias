@@ -29,12 +29,25 @@ if (isset($_POST["recuperar"])) {
             $fechaExpired->modify("+30 minute")->format("Y-m-d h:i:s");
             $expired =  $fechaExpired->format('Y-m-d H:i:s');
             $horaExpired = $fechaExpired->format('H:i:s');
-            $consultaToken = $baseDeDatos ->prepare("INSERT into recuperos VALUES(default, '$mail', '$token', '$created', '$expired')");    
+            // verifico si existe en recupero el mail para consulta tipo insert o update
+            $consultaMailRecupero = $baseDeDatos ->prepare("SELECT * FROM recuperos WHERE mail = '$mail'");
             try {
-                $consultaToken->execute();
-                include("mailRecuperoPassword.php");
-                $alertConfirmacion = "show";
-                $mensajeAlertConfirmacion = "Te enviamos un mail con los pasos para realizar el cambio de contraseña. Podrás realizarlo durante 30 minutos. <br> No olvides revisar el spam si no recibes el mail.";
+                $consultaMailRecupero -> execute();
+                $recupero = $consultaMailRecupero -> fetchAll(PDO::FETCH_ASSOC);
+                if (count($recupero) >= 1) {
+                    $consultaToken = $baseDeDatos ->prepare("UPDATE recuperos SET token = '$token', created = '$created', expired = '$expired', vigente = 1 WHERE mail = '$mail'"); 
+                } else {
+                    $consultaToken = $baseDeDatos ->prepare("INSERT into recuperos VALUES(default, '$mail', '$token', '$created', '$expired', 1)"); 
+                }
+                try {
+                    $consultaToken->execute();
+                    include("mailRecuperoPassword.php");
+                    $alertConfirmacion = "show";
+                    $mensajeAlertConfirmacion = "Te enviamos un mail con los pasos para realizar el cambio de contraseña. Podrás realizarlo durante 30 minutos. <br> No olvides revisar el spam si no recibes el mail.";
+                } catch (\Throwable $th) {
+                    $alertError = "show";
+                    $mensajeError = "Hubo un error de conexión. <br> Por favor intentá nuevamente.";
+                }
             } catch (\Throwable $th) {
                 $alertError = "show";
                 $mensajeError = "Hubo un error de conexión. <br> Por favor intentá nuevamente.";
@@ -77,7 +90,7 @@ if (isset($_POST["recuperar"])) {
                                 <label class="col-12 col-md-9 centrarTexto textoLabel" for="user" > Ingresá tu correo electrónico </label>
                             </div>
                             <div class="row rowForm mb-3">
-                                <input class="col-12 col-md-9 inputLabel" onkeyup="validarForm()"  type="mail" name="mail" id="mail">
+                                <input class="col-12 col-md-9 inputLabel" autocomplete="off" onkeyup="validarForm()"  type="mail" name="mail" id="mail">
                                 <div class="hide col-12 col-md-9 centrarTexto errorValidacion" id="errorMail"></div>
                             </div> 
                             <div class="row justify-content-center" >
@@ -100,6 +113,26 @@ if (isset($_POST["recuperar"])) {
     </body>
 </html>
 <script>
+    window.onload = function(){
+        let alertConfirmacion = document.getElementById("alertConfirmacion")
+        if (alertConfirmacion.classList.contains('show')) {
+            setTimeout(ocultarAlertConfirmacion, 10000)
+        }
+        let alertErrorConexion = document.getElementById("alertErrorConexion")
+        if (alertErrorConexion.classList.contains('show')) {
+            setTimeout(ocultarAlertError, 10000)
+        }
+    }
+    function ocultarAlertConfirmacion(){
+        let alertConfirmacion = document.getElementById("alertConfirmacion")
+        alertConfirmacion.classList.remove('show')
+        alertConfirmacion.classList.add('hide')
+    }
+    function ocultarAlertError(){
+        let alertErrorConexion = document.getElementById("alertErrorConexion")
+        alertErrorConexion.classList.remove('show')
+        alertErrorConexion.classList.add('hide')
+    }
     function recuperarPass() {
         console.log("recuperar")
         let botonRecuperar = document.getElementById("botonRecuperar")
