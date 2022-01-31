@@ -4,6 +4,7 @@
     $alertErrorConexion = "hide";
     $alertConfirmacion = "hide";
     $mensajeAlertConfirmacion="";
+    $mensajeAlertError="";
     // // ACCION CREAR SEDE
     if(isset($_POST["crearSede"])){
         $descripcion = $_POST['inputNuevaSede'];
@@ -16,6 +17,7 @@
             $mensajeAlertConfirmacion="La sede se creó correctamente";
         } catch (\Throwable $th) {
             $alertErrorConexion= "show";
+            $mensajeAlertConfirmacion="La sede se eliminó correctamente";
         }
     }
     // // ACCION EDITAR SEDE
@@ -32,19 +34,35 @@
             $mensajeAlertConfirmacion="La sede se modificó correctamente";
         } catch (\Throwable $th) {
             $alertErrorConexion= "show";
+            $mensajeAlertConfirmacion="La sede se eliminó correctamente";
         }
     }
     // ACCION ELIMINAR SEDE
     if(isset($_POST["eliminarSede"])){
         $id = $_POST["idSedeEliminar"];
         $date = date("Y-m-d h:i:s");
+        $consultaValidacion = $baseDeDatos -> prepare("SELECT count(*) from usuarios WHERE sede = '$id'");
         $consulta = $baseDeDatos ->prepare("UPDATE sedes SET habilitado = 0, modified = '$date', userId = '$idUsuarioLogueado' WHERE id = '$id'");
         try {
-            $consulta->execute();
-            $alertConfirmacion = "show";
-            $mensajeAlertConfirmacion="La sede se eliminó correctamente";
+            $consultaValidacion->execute();
+            $validacion = $consultaValidacion -> fetchAll(PDO::FETCH_ASSOC);
+            $cantidad = count($validacion);
+            if($cantidad > 0 ){
+                $alertErrorConexion= "show";
+                $mensajeAlertError = "La sede no puede eliminarse ya que existen usuarios pertenecientes a la misma. <br> Modifique primero los usuarios y luego elimine la sede.";
+            } else {
+                try {
+                    $consulta->execute();
+                    $alertConfirmacion = "show";
+                    $mensajeAlertConfirmacion="La sede se eliminó correctamente";
+                } catch (\Throwable $th) {
+                    $alertErrorConexion= "show";
+                    $mensajeAlertError = "Hubo un error de conexión. <br> Por favor intente nuevamente";
+                }
+            }
         } catch (\Throwable $th) {
             $alertErrorConexion= "show";
+            $mensajeAlertError = "Hubo un error de conexión. <br> Por favor intente nuevamente";
         }
     }
     // CONSULTA LISTADO DE SEDES
@@ -53,6 +71,7 @@
         $consultaSedes->execute();
     } catch (\Throwable $th) {
         $alertErrorConexion= "show";
+        $mensajeAlertError = "Hubo un error de conexión. <br> Por favor intente nuevamente";
     }
     $sedes = $consultaSedes -> fetchAll(PDO::FETCH_ASSOC);
     $noHayDatos = "show";
@@ -66,7 +85,7 @@
 ?>
     <div class="sectionBloque">
         <div class="alert alert-danger centrarTexto <?php echo $alertErrorConexion ?>" id="alertErrorConexion" role="alert" >
-            Hubo un error de conexión. Por favor actualizá la página
+            <?php echo $mensajeAlertError ?>
         </div>
         <div class="alert alert-success centrarTexto <?php echo $alertConfirmacion ?>" id="alertConfirmacion" role="alert">
             <?php echo $mensajeAlertConfirmacion ?>
