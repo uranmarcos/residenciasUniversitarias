@@ -1,6 +1,6 @@
 <?php 
 //consulto a base de datos el pedido clickeado para ver
-        $pedidoConsultado = $baseDeDatos ->prepare("SELECT PN.pedido, PN.sede, PN.fecha, PN.casa, A.nombre, A.segundoNombre, A.apellido FROM pedidosnuevos PN INNER JOIN
+        $pedidoConsultado = $baseDeDatos ->prepare("SELECT PN.id, PN.pedido, PN.sede, PN.fecha, PN.casa, A.nombre, A.segundoNombre, A.apellido FROM pedidosnuevos PN INNER JOIN
         agentes A ON PN.usuario = A.id WHERE PN.id = $id");
         try {
             $pedidoConsultado->execute();
@@ -33,6 +33,7 @@
         } catch (\Throwable $th) {
             $alertErrorConexion = "show";
         }
+        $otrosFormateado = "";
         if ($consultaArticulosValidada) {
             $articulos = $consultaArticulos -> fetchAll(PDO::FETCH_ASSOC);
             $pedidoAMostrar = explode(";", $pedido[0]["pedido"]);
@@ -47,7 +48,6 @@
                 if($item[0] == "otros"){
                     $otrosTabla = $item[1];
                     $cantidadRenglones = ceil(strlen($otrosTabla) / 95);
-                    $otrosFormateado = "";
                     for ($i = 0; $i < $cantidadRenglones; $i++) {
                         $inicial = 95 * $i;
                         $final = 95;

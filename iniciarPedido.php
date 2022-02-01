@@ -147,7 +147,7 @@ require("funciones/pdo.php");
         if($_POST["otros"] != ""){
             $pedido = $pedido . "otros:" . $_POST["otros"] . ";";  
         }
-        // EJECUTO INSERT DEL PEDIDO
+        // EJECUTO INSERT DEL PEDIDO EN TABLA PEDIDOS
         $insertPedido = $baseDeDatos ->prepare("INSERT into pedidosnuevos VALUES(default, '$sede', '$casa', '$idUser', '$pedido', 0, '$date')"); 
         try {
             $insertPedido->execute();
@@ -175,7 +175,7 @@ require("funciones/pdo.php");
             } catch (\Throwable $th) {
                 $modalConfirmacion ="show";
                 $tituloModalConfirmacion= "ERROR";
-                $mensajeModalConfirmacion = "Hubo un error y el pedido se guardó, pero no se envió.<br> No es necesario que lo genere nuevamente.<br> Presione reintentar para enviarlo nuevamente.";
+                $mensajeModalConfirmacion = "Hubo un error y el pedido se guardó, pero no se envió.<br> No es necesario que lo generes nuevamente.<br> Presioná reintentar para enviarlo.";
                 $botonActualizarPedido ="hide";
                 $botonReenviarPedido ="show";
                 $botonConfirmarPedido ="hide";
@@ -190,6 +190,7 @@ require("funciones/pdo.php");
                 $id = $id[0]["id"];
                 $consultaEnviado = $baseDeDatos ->prepare("UPDATE pedidosnuevos SET enviado = 1 WHERE id = '$id'"); 
                 $consultaEnviado->execute();
+                $pedidoActualizado = true;
             } catch (\Throwable $th) {
                 $modalActualizacion ="show";
             }
@@ -209,7 +210,7 @@ require("funciones/pdo.php");
         } catch (\Throwable $th) {
             $modalConfirmacion ="show";
             $tituloModalConfirmacion= "ERROR";
-            $mensajeModalConfirmacion = "Hubo un error y el pedido se guardó, pero no se envió.<br> No es necesario que lo genere nuevamente.<br> Presione reintentar para enviarlo nuevamente.";
+            $mensajeModalConfirmacion = "Hubo un error y el pedido se guardó, pero no se envió.<br> No es necesario que lo generes nuevamente.<br> Presioná reintentar para enviarlo nuevamente.";
             $botonActualizarPedido ="hide";
             $botonReenviarPedido ="show";
             $botonConfirmarPedido ="hide";
@@ -223,6 +224,7 @@ require("funciones/pdo.php");
                 $id = $id[0]["id"];
                 $consultaEnviado = $baseDeDatos ->prepare("UPDATE pedidosnuevos SET enviado = 1 WHERE id = '$id'"); 
                 $consultaEnviado->execute();
+                //$pedidoActualizado = true;
             } catch (\Throwable $th) {
                 $modalActualizacion ="show";
             }
@@ -243,12 +245,13 @@ require("funciones/pdo.php");
         }
     }
     if($pedidoActualizado) {
+        setcookie("pedidoEnviado", true, time() + (86400 * 30), "/");
         echo "<script>location.href='pedidos.php';</script>";
     }
     if($_SESSION["errorMail"]){
         $modalConfirmacion ="show";
         $tituloModalConfirmacion= "ERROR";
-        $mensajeModalConfirmacion = "Hubo un error y el pedido se guardó, pero no se envió.<br> No es necesario lo genere nuevamente.<br> Presione reintentar para enviarlo nuevamente.";
+        $mensajeModalConfirmacion = "Hubo un error y el pedido se guardó, pero no se envió.<br> No es necesario lo generes nuevamente.<br> Presioná reintentar para enviarlo nuevamente.";
         $botonActualizarPedido ="hide";
         $botonConfirmarPedido ="show";
         $_SESSION["errorMail"] = false;
@@ -409,7 +412,7 @@ require("funciones/pdo.php");
                             </div>
                             <div>
                                 <div class="row rowBoton d-flex justify-content-center"> 
-                                    <button type="submit" id="generarPedido" name="generarPedido" onmouseover="validarPedido()" class="button">Confirmar</button>
+                                    <button type="button" id="generarPedido" name="generarPedido" onclick="validarPedido()" class="button">Confirmar</button>
                                 </div>
                             </div> 
                             <div class="modal" id="modalPedido">
@@ -485,7 +488,7 @@ require("funciones/pdo.php");
                                         <div id="mensajeActualizacion">
                                             <div class="modal-body centrarTexto">
                                                 El pedido se generó y se envió correctamente, pero no se actualizó como enviado.
-                                                <br>Por favor presione aceptar para solucionarlo.
+                                                <br>Por favor presioná aceptar para solucionarlo.
                                                 <br>
                                                 ¡Gracias!
                                             </div>

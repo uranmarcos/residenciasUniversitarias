@@ -34,7 +34,13 @@ require("funciones/pdo.php");
         require("funciones/pdf.php");
         require("funciones/armarPdf.php");
     }
-
+    if(isset($_COOKIE["pedidoEnviado"])){
+        if ($_COOKIE["pedidoEnviado"]) {
+            $alertConfirmacion = "show";
+          $mensajeAlertConfirmacion="El pedido se envió correctamente.";
+            setcookie("pedidoEnviado", false, time() + (86400 * 30), "/");
+        }
+    }
 
 ?>
 <html>
