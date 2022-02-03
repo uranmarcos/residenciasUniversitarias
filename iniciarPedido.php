@@ -164,7 +164,7 @@ require("funciones/pdo.php");
         if($pedidoGuardado){
             try {
                 // CONSULTO EL ID DEL PEDIDO GUARDO PARA GENERAR EL PDF Y ENVIAR EL MAIL
-                $consultaUltimoPedido = $baseDeDatos ->prepare("SELECT id FROM pedidosnuevos WHERE usuario = '$idUser' ORDER BY fecha DESC LIMIT 1 "); 
+                $consultaUltimoPedido = $baseDeDatos ->prepare("SELECT id FROM pedidosnuevo WHERE usuario = '$idUser' ORDER BY fecha DESC LIMIT 1 "); 
                 $consultaUltimoPedido->execute();
                 $id = $consultaUltimoPedido -> fetchAll(PDO::FETCH_ASSOC);
                 $id = $id[0]["id"];
@@ -331,6 +331,7 @@ require("funciones/pdo.php");
                                         </div>
                                     </div> 
                                 </div>
+                                <!-- END FILTROS -->
                                 <!-- TABLA -->
                                 <thead>
                                     <tr>
@@ -531,7 +532,9 @@ require("funciones/pdo.php");
         alertErrorConexion.classList.remove('show')
         alertErrorConexion.classList.add('hide')
     }
-
+    function borrarCantidad(id) {
+        console.log(id)
+    }
     function changeCategoria() {
         let categoriaDesc = document.getElementById("categoriaDesc");
         let categoriaAsc = document.getElementById("categoriaAsc");

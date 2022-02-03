@@ -128,8 +128,8 @@ function showModal(otrosValidado, formularioValidado) {
         modalPedido.classList.remove("hide")
         modalPedido.classList.add("show")
         botonConfirmar.classList.add("show")
-        botonConfirmar.classList.remove("show")
-        mensajeModalPedido.innerHTML="El pedido no tiene productos del listado cargados. Solo se pedirá lo agregado en el campo adicional. <br> ¿Desea confirmar el pedido?"
+        botonConfirmar.classList.remove("hide")
+        mensajeModalPedido.innerHTML="El pedido no tiene productos del listado cargados.<br> Solo se pedirá lo agregado en el campo adicional. <br> ¿Desea confirmar el pedido?"
     } else {
         modalPedido.classList.remove("hide")
         modalPedido.classList.add("show")
