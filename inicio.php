@@ -13,8 +13,8 @@ if($_SESSION["rol"] == "admin" || $_SESSION["rol"] == "general"){
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-        <link href="css/master.css" rel="stylesheet">
-        <link href="css/master1.css" rel="stylesheet">
+        <!-- <link href="css/master.css" rel="stylesheet">
+        <link href="css/master1.css" rel="stylesheet"> -->
         <link href="css/master2.css" rel="stylesheet">
     </head>
     <body>

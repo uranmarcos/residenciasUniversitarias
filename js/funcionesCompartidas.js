@@ -39,6 +39,27 @@ function outBoton(idTexto, idIcono){
 }
 
 
+//  FUNCIONES PARA MOSTRAR/OCULTAR CONTRASEÑA
+function mostrarContrasenia(idMostrar, idOcultar, idInputPassword){
+    let boxMostrarContrasenia = document.getElementById(idMostrar)
+    let password = document.getElementById(idInputPassword)
+    password.setAttribute("type", "text")
+    boxMostrarContrasenia.classList.add("hide")
+    let boxOcultarContrasenia = document.getElementById(idOcultar)
+    boxOcultarContrasenia.classList.remove("hide")
+}
+function ocultarContrasenia(idMostrar, idOcultar, idInputPassword){
+    let boxMostrarContrasenia = document.getElementById(idMostrar)
+    let password = document.getElementById(idInputPassword)
+    password.setAttribute("type", "password")
+    boxMostrarContrasenia.classList.remove("hide")
+    let boxOcultarContrasenia = document.getElementById(idOcultar)
+    boxOcultarContrasenia.classList.add("hide")
+}
+
+
+
+
 
 // FUNCIONES DE VALIDACION
 function soloLetras(str) {

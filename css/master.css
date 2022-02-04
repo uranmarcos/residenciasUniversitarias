@@ -159,13 +159,7 @@ img{
 .logoHeaderResponsive{
     height:20vh;
 }
-.logoInicioHeader{
-    background-image: url("../img/si.jpg");
-    height:16vh;
-    background-size: 10vh;
-    background-repeat: no-repeat;
-    background-position: left;  
-}
+
 .alignRight{
     text-align: right;
     padding-right: 30px;;
@@ -261,11 +255,6 @@ main{
     width: 100%;
     margin: auto;
 }
-.sectionBloque{
-    width:100%;
-    padding:0px 20px;
-    margin-bottom: 10px;
-}
 
 
 .mensajeConfirmacion{
@@ -310,11 +299,7 @@ main{
 .borderBottom{
     margin-bottom: 10px;
 }
-.subtitle{
-    color: rgb(163, 73, 164);
-    font-size:20px;
-    padding-left: 5px;
-}
+
 
 /* CONFIRMACION */
 .rowTitulo{

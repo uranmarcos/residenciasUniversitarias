@@ -59,6 +59,13 @@ img{
     cursor: pointer;
 
 }
+.logoInicioHeader{
+    background-image: url("../img/si.jpg");
+    height:16vh;
+    background-size: 10vh;
+    background-repeat: no-repeat;
+    background-position: left;  
+}
 .mitadHeader{
     height: auto;;
 }

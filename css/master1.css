@@ -120,18 +120,8 @@ TO DO
 .centrarTexto{
     text-align: center;
 }
-.errorValidacion{
-    font-size: 10px;
-    color: red;
-}
-.marginl100{
-    margin-left: 105px;
-}
-.columna {
-    display: flex;
-    flex-flow: column wrap;
-    text-align: left;
-}
+
+
 .colBuscador{
     display:flex;
     flex-direction: row;
@@ -140,33 +130,7 @@ TO DO
     justify-content: space-around;
 }
 
-/*  CLASES BOTONES  */
-.botonConfirmar {
-    background-color: rgb(163, 73, 164);
-    color: white;
-    padding: 0px;
-    line-height: 30px;
-    height: 30px;
-    width:90px !important;
-}
-.botonConfirmar:hover {
-    background-color: white;
-    color: rgb(163, 73, 164);
-    border: solid 1px rgb(163, 73, 164);
-}
-.botonCancelar {
-    background-color: rgb(236, 130, 130);
-    color: white;
-    padding: 0px;
-    height: 30px;
-    line-height: 30px;
-    width: 90px !important;
-}
-.botonCancelar:hover {
-    background-color: white;
-    color: rgb(236, 130, 130);
-    border: solid 1px rgb(236, 130, 130);
-}
+
 .trashButton{
     display:flex !important;
     justify-content: center;
@@ -270,21 +234,7 @@ TO DO
     border: none;
     outline: none !important;
 }
-.passwordButton{
-    height:30px !important;
-    width:30px;
-    background-color:rgb(163, 73, 164) !important;
-    color:white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding:0;
-}
-.passwordButton:hover{
-    background-color: white !important;
-    color: rgb(163, 73, 164);
-    border: solid 1px rgb(163, 73, 164);
-}
+
 
 
 .rowFiltro{
