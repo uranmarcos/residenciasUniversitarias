@@ -87,7 +87,9 @@ label{
     color: white !important;
     line-height: 30px;
     height: 40px;
+    min-width: 100px;
     width:auto !important;
+    border-radius: 5px;
 }
 .boton:hover {
     background-color: white !important;
@@ -122,4 +124,16 @@ label{
 .errorValidacion{
     font-size: 10px;
     color: red;
+}
+.hide{
+    display: none;
+}
+.show{
+    display: block;
+}
+.centrarTexto{
+    text-align: center;
+}
+.black{
+    color: black;
 }

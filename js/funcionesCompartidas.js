@@ -24,6 +24,15 @@ function redirect(caso){
     }
 }
 
+//FUNCION LOADING BOOTN
+function mostrarLoading(idOcultar, idMostrar) {
+    let btnOcultar = document.getElementById(idOcultar)
+    btnOcultar.classList.add("hide")
+    let btnMostrar = document.getElementById(idMostrar)
+    btnMostrar.classList.remove("hide")
+}
+
+
 //FUNCIONES OVER BOTON DE MENU DE SECCION
 function overBoton(idTexto, idIcono){
     let texto = document.getElementById(idTexto)
