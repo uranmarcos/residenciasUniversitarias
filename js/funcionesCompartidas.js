@@ -30,6 +30,7 @@ function mostrarLoading(idOcultar, idMostrar) {
     btnOcultar.classList.add("hide")
     let btnMostrar = document.getElementById(idMostrar)
     btnMostrar.classList.remove("hide")
+    
 }
 
 
