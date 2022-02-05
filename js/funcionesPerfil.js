@@ -253,10 +253,39 @@ function validarPassword() {
     let newPassword = document.getElementById("inputNewPassword").value
     let errorNewPassword = document.getElementById("errorNewPassword")
     if ( newPassword.trim().length < 8 && newPassword != "") {
+        errorNewPassword.innerHTML = "Entre 8 y 15 caracteres"
         return errorNewPassword.classList.remove("hide") 
+    }
+    if ( newPassword.includes(' ')) {
+        errorNewPassword.innerHTML = "No puede poseer espacios en blanco"
+        return errorNewPassword.classList.remove("hide") 
+    }
+    if(!tiene_letras(newPassword) || !tiene_numeros(newPassword)) {
+        errorNewPassword.innerHTML = "Debe tener letras y números"
+        return errorNewPassword.classList.remove("hide")
     }
     errorNewPassword.classList.add("hide")
 }
+function tiene_letras(texto){
+    var letras="abcdefghyjklmnñopqrstuvwxyz";
+    texto = texto.toLowerCase();
+    for(i=0; i<texto.length; i++){
+       if (letras.indexOf(texto.charAt(i),0)!=-1){
+          return 1;
+       }
+    }
+    return 0;
+ }
+ function tiene_numeros(texto){
+    var letras="0123456789";
+    texto = texto.toLowerCase();
+    for(i=0; i<texto.length; i++){
+       if (letras.indexOf(texto.charAt(i),0)!=-1){
+          return 1;
+       }
+    }
+    return 0;
+ }
 function validarFormPass() {
     let pass = document.getElementById("inputPassword").value
     let newPass = document.getElementById("inputNewPassword").value

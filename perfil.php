@@ -83,7 +83,7 @@ require("funciones/funcionesPerfil.php");
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="hide errorValidacion" id="errorNewPassword">Entre 8 y 15 caracteres</div>
+                                        <div class="hide errorValidacion" id="errorNewPassword"></div>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-4 columnaBloque">
                                         <label>Repita su nueva contraseña: </label>
