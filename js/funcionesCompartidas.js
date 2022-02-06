@@ -18,6 +18,9 @@ function redirect(caso){
         case "destroy":
             window.location.href='destroy.php'
         break;
+        case "iniciarPedido":
+            window.location.href='iniciarPedido.php'
+        break;
     
         default:
             break;

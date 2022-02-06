@@ -1,152 +1,7 @@
 <?php
 session_start();
 require("funciones/pdo.php");
-    $alertErrorConexion = "hide";
-    $alertConfirmacion = "hide";
-    $mensajeAlertConfirmacion="";
-        
-    if(isset($_POST["verPedido"])){
-        $id = $_POST["id"];
-        require("funciones/pdf.php");
-        require("funciones/armarPdf.php");
-        echo '<script>window.open("_blank")</script>';
-    }
-    if(isset($_COOKIE["pedidoEnviado"])){
-        if ($_COOKIE["pedidoEnviado"]) {
-            $alertConfirmacion = "show";
-            $mensajeAlertConfirmacion="El pedido se envió correctamente.";
-            setcookie("pedidoEnviado", false, time() + (86400 * 30), "/");
-        }
-    }
-    $pedidoActualizado = false;
-    if(isset($_POST["reenviarPedido"])){
-        $pedidoEnviado = false;
-        $id = $_POST["id"];
-        try {
-            $consultaUltimoPedido = $baseDeDatos ->prepare("SELECT id FROM pedidosnuevos WHERE id = '$id'"); 
-            $consultaUltimoPedido->execute();
-            require("funciones/pdf.php");
-            require("funciones/pdfMail.php");
-            include("mail.php");
-            $pedidoEnviado = true;
-        } catch (\Throwable $th) {
-            $modalConfirmacion ="show";
-            $tituloModalConfirmacion= "ERROR";
-            $mensajeModalConfirmacion = "Hubo un error y el pedido se guardó, pero no se envió.<br> No es necesario que lo generes nuevamente.<br> Presioná reintentar para enviarlo.";
-            $botonActualizarPedido ="hide";
-            $botonReenviarPedido ="show";
-            $botonConfirmarPedido ="hide";
-        }
-        
-        // SI EL PEDIDO SE ENVIO, ACTUALIZO EN BASE DE DATOS EL CAMPO "ENVIADO"
-        if($pedidoEnviado) {
-            try {
-                $consultaUltimoPedido = $baseDeDatos ->prepare("SELECT id FROM pedidosnuevos WHERE id = '$id'"); 
-                $consultaUltimoPedido->execute();
-                $consultaEnviado = $baseDeDatos ->prepare("UPDATE pedidosnuevos SET enviado = 1 WHERE id = '$id'"); 
-                $consultaEnviado->execute();
-                $pedidoActualizado = true;
-            } catch (\Throwable $th) {
-                $modalActualizacion ="show";
-            }
-        }
-    }
-
-            // SI EL PEDIDO SE GUARDO EN BASE DE DATOS CONTINUO PARA GENERAR EL PDF
-          
-        // }
-        // if(isset($_POST["botonReenviar"])){
-        //     try {
-        //         // CONSULTO EL ID DEL PEDIDO GUARDO PARA GENERAR EL PDF Y ENVIAR EL MAIL
-        //         $consultaUltimoPedido = $baseDeDatos ->prepare("SELECT id FROM pedidosnuevos WHERE usuario = '$idUser' ORDER BY fecha DESC LIMIT 1 "); 
-        //         $consultaUltimoPedido->execute();
-        //         $id = $consultaUltimoPedido -> fetchAll(PDO::FETCH_ASSOC);
-        //         $id = $id[0]["id"];
-        //         require("funciones/pdf.php");
-        //         require("funciones/pdfMail.php");
-        //         include("mail.php");
-        //         $pedidoEnviado = true;
-        //     } catch (\Throwable $th) {
-        //         $modalConfirmacion ="show";
-        //         $tituloModalConfirmacion= "ERROR";
-        //         $mensajeModalConfirmacion = "Hubo un error y el pedido se guardó, pero no se envió.<br> No es necesario que lo generes nuevamente.<br> Presioná reintentar para enviarlo nuevamente.";
-        //         $botonActualizarPedido ="hide";
-        //         $botonReenviarPedido ="show";
-        //         $botonConfirmarPedido ="hide";
-        //     }
-        //     if($pedidoEnviado) {
-        //         // SI EL PEDIDO SE ENVIO, ACTUALIZO EN BASE DE DATOS EL CAMPO "ENVIADO"
-        //         try {
-        //             $consultaUltimoPedido = $baseDeDatos ->prepare("SELECT id FROM pedidosnuevos WHERE usuario = '$idUser' ORDER BY fecha DESC LIMIT 1 "); 
-        //             $consultaUltimoPedido->execute();
-        //             $id = $consultaUltimoPedido -> fetchAll(PDO::FETCH_ASSOC);
-        //             $id = $id[0]["id"];
-        //             $consultaEnviado = $baseDeDatos ->prepare("UPDATE pedidosnuevos SET enviado = 1 WHERE id = '$id'"); 
-        //             $consultaEnviado->execute();
-        //             //$pedidoActualizado = true;
-        //         } catch (\Throwable $th) {
-        //             $modalActualizacion ="show";
-        //         }
-        //     }
-        // }
-        // if(isset($_POST["actualizarEnviado"])){
-        //     try {
-        //         $consultaUltimoPedido = $baseDeDatos ->prepare("SELECT id FROM pedidosnuevos WHERE usuario = '$idUser' ORDER BY fecha DESC LIMIT 1 "); 
-        //         $consultaUltimoPedido->execute();
-        //         $id = $consultaUltimoPedido -> fetchAll(PDO::FETCH_ASSOC);
-        //         $id = $id[0]["id"];
-        //         $modalActualizacion = "hide";
-        //         $consultaEnviado = $baseDeDatos ->prepare("UPDATE pedidosnuevos SET enviado = 1 WHERE id = '$id'"); 
-        //         $consultaEnviado->execute();
-        //         $pedidoActualizado = true;
-        //     } catch (\Throwable $th) {
-        //         $modalActualizacion ="show";
-        //     }
-        // }
-        if($pedidoActualizado) {
-            $alertConfirmacion = "show";
-            $mensajeAlertConfirmacion="El pedido se envió correctamente.";
-        }
-        // if($_SESSION["errorMail"]){
-        //     $modalConfirmacion ="show";
-        //     $tituloModalConfirmacion= "ERROR";
-        //     $mensajeModalConfirmacion = "Hubo un error y el pedido se guardó, pero no se envió.<br> No es necesario lo generes nuevamente.<br> Presioná reintentar para enviarlo nuevamente.";
-        //     $botonActualizarPedido ="hide";
-        //     $botonConfirmarPedido ="show";
-        //     $_SESSION["errorMail"] = false;
-        // }
-
-              // CONSULTAS DE TODOS LOS PEDIDOS
-    $sede = $_SESSION["sede"];
-    
-    if($_SESSION["rol"] == "stock") {
-                $consultaPedidos = $baseDeDatos ->prepare("SELECT PN.id, PN.sede, PN.fecha, PN.enviado, PN.casa, A.nombre, A.segundoNombre, A.apellido, S.descripcion nombreSede FROM pedidosnuevos PN INNER JOIN
-        agentes A ON PN.usuario = A.id INNER JOIN sedes S on PN.sede = S.id WHERE PN.sede = $sede ORDER BY PN.fecha DESC");    
-    } else {
-        $consultaPedidos = $baseDeDatos ->prepare("SELECT PN.id, PN.sede, PN.fecha, PN.enviado, A.nombre, PN.casa, A.segundoNombre, A.apellido, S.descripcion nombreSede FROM pedidosnuevos PN INNER JOIN
-        agentes A ON PN.usuario = A.id INNER JOIN sedes S on PN.sede = S.id ORDER BY PN.fecha DESC");    
-    }
-    //$consultaPedidos->execute();
-    try {
-        $consultaPedidos->execute();
-    } catch (\Throwable $th) {
-        $alertErrorConexion= "show";
-    }
-    $pedidos = $consultaPedidos -> fetchAll(PDO::FETCH_ASSOC);
-
-    $noHayDatos = "show";
-    $hayDatos = "hide";
-    if(sizeof($pedidos) != 0) {
-        $noHayDatos = "hide";
-        $hayDatos = "show";
-    }
-
-
-
-
-
-
-
+require("funciones/pedidos.php");
 
 
 ?>
@@ -158,91 +13,39 @@ require("funciones/pdo.php");
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-        <link href="css/master.css" rel="stylesheet">
-        <link href="css/master1.css" rel="stylesheet">
+        <!-- <link href="css/master.css" rel="stylesheet"> -->
+        <link href="css/master2.css" rel="stylesheet">
     </head>
     <body>
         <div class="contenedorPrincipal">
             <div class="header">
                 <?php require("componentes/header.php")?>
             </div>
-            <div class="col-12 paddingCero">
-                <div class="titleSection">
-                    Pedidos Generados
+            <div class="col-md-11 main">
+                <!-- START BREADCRUMB -->
+                <div class="col-12 p-0">
+                    <div class="titleSection">
+                        <span class="pointer" onclick="redirect('inicio')">Inicio</span> -<span class="grey"> Pedidos Realizados </span>
+                    </div>
                 </div>
-            </div>
-            <div class="sectionBloque">
-                <div class="alert alert-danger centrarTexto <?php echo $alertErrorConexion ?>" id="alertErrorConexion" role="alert" >
-                    Hubo un error de conexión. Por favor actualizá la página
+                <!-- END BREADCRUMB -->
+                <!-- START ALERTS -->
+                <div class="alert alert-danger mt-3 centrarTexto <?php echo $alertErrorConexion ?>" id="alertErrorConexion" role="alert" >
+                    <?php echo $mensajeAlertError ?>
                 </div>
-                <div class="alert alert-success centrarTexto <?php echo $alertConfirmacion ?>" id="alertConfirmacion" role="alert">
+                <div class="alert alert-secondary mt-3 centrarTexto <?php echo $hayDatos ?>"  role="alert" >
+                   Si un pedido figura no enviado, puede reenviarlo clickeando el icono de error.
+                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="alert alert-success mt-3 centrarTexto <?php echo $alertConfirmacion ?>" id="alertConfirmacion" role="alert">
                     <?php echo $mensajeAlertConfirmacion ?>
                 </div>
-                <!-- BOX LISTADO PEDIDOS -->
-                <div class="contenedorSeccion contenedorModal">
-                    <div class="d-flex anchoTotal row">
-                        <div class="subtitle col-6">
-                            Pedidos Realizados
-                        </div>
-                        <div class="col-6 d-flex align-items-end justify-content-end">
-                            <button type="submit" name="nuevoPedido" onclick="redirect()"  id="nuevoPedido" class="btn botonConfirmar col-6 col-md-3">Nuevo</button>        
-                        </div>
-                    </div>
-                    <!-- TABLA CON LISTA DE PEDIDOS -->
-                    <div class="table-responsive">
-                            <table class="table <?php echo $hayDatos ?>">
-                                <thead style="width:100%">
-                                    <tr>
-                                        <th scope="col" style="width:10%" >#</th>
-                                        <th scope="col" style="width:20%">Fecha</th>
-                                        <th scope="col" style="width:30%">Voluntario</th>
-                                        <th scope="col" style="width:20%">Sede</th>
-                                        <th scope="col" style="width:10%">Casa</th>
-                                        <th scope="col" style="width:10%">Enviado</th>
-                                        <th scope="col" style="width:10%">Ver</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach($pedidos as $pedido){ ?>
-                                        <form method="POST" action="pedidos.php">
-                                            <tr>
-                                                <td><input type="text" style ="width:50px; border: none" name="id" readonly value="<?php echo $pedido["id"] ?>"></td>
-                                                <td><?php echo $newDate = date("d/m/Y H:i:s", strtotime($pedido["fecha"]));?></td>
-                                                <td><?php echo $pedido["nombre"] . " " . $pedido["segundoNombre"] . " " . $pedido["apellido"] ?></td>
-                                                <td><?php echo $pedido["nombreSede"]?></td>
-                                                <td><?php echo $pedido["casa"]?></td>
-                                                    <td class="tdEnviado">
-                                                        <span><?php echo $pedido["enviado"] == 0 ?  "No enviado"  : "Enviado" ?></span>
-                                                        <div class="btn reenviarButton hide" name="reenviarPedido" id="botonReenviar<?php echo $pedido['id']?>" onclick="enviarPedido(<?php echo $pedido['id']?>)" onmouseout="outReenviar(<?php echo $pedido['id']?>)" onmouseover="overReenviar(<?php echo $pedido['id']?>)" data-bs-toggle="modal" data-bs-target="#modalEliminar">
-                                                            <span id="textoReenviar<?php echo $pedido['id']?>">Reenviar</span>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" id="iconoReenviar<?php echo $pedido['id']?>" class="bi bi-send hide" viewBox="0 0 16 16">
-                                                                <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
-                                                            </svg>
-                                                        </div>
-                                                        <!-- <button type="button" class="btn reenviarButton hide" id="botonCircle<?php echo $pedido['id']?>" >
-                                                            <div class="spinner-border spinnerReenviar" role="status">
-                                                                <span class="sr-only"></span>
-                                                            </div>
-                                                        </button> -->
-                                                    </td>
-                                                <!-- </form>
-                                                <form method="POST" target="_blank" action="pedidos.php"> -->
-                                                    <td> 
-                                                        <button type="submit" class="btn editButton" name="verPedido"  data-bs-toggle="modal" data-bs-target="#modalEliminar">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                                                            </svg>
-                                                        </button>
-                                                    </td>
-                                                </form>
-                                            </tr>
-                                    <?php } ?>   
-                                </tbody>               
-                            </table>
-                    </div>
-                    <!-- TABLA SIN DATOS -->
-                    <table class="table <?php echo $noHayDatos?>">
+                <!-- END ALERTS -->
+                <!-- START TABLA SIN DATOS -->
+                <div class="bloque mb-4 pb-0 <?php echo $noHayDatos?>">
+                    <table class="table">
                         <thead class="d-flex justify-content-center">
                             <tr>
                                 <th scope="col" style="width:100%">NO SE ENCONTRARON DATOS</th>
@@ -250,83 +53,202 @@ require("funciones/pdo.php");
                         </thead>
                     </table>
                 </div>
+                <!-- END TABLA SIN DATOS -->
+                <!-- TABLA CON LISTA DE PEDIDOS -->
+                <div class="<?php echo $hayDatos?>">
+                    <!-- START TABLA ROL STOCK -->
+                    <div class="table-responsive bloque mb-4 pb-0 <?php echo $mostrarStock ?>">
+                        <table class="table">
+                            <div class="d-flex anchoTotal row">
+                                <div class="col-12 col-sm-6 d-flex align-items-end justify-content-start dataSede">
+                                    <div>
+                                        Sede: <?php echo $pedidos[0]["nombreSede"]?> - Casa:  <?php echo $_SESSION["casa"]?>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 d-flex align-items-end justify-content-end">
+                                    <button type="submit" name="nuevoPedido" onclick="redirect('iniciarPedido')"  id="nuevoPedido" class="btn mb-3 boton">Generar Pedido</button>        
+                                </div>
+                            </div> 
+                            <thead style="width:100%">
+                                <tr>
+                                    <th scope="col" style="width:10%" class="hide">#</th>
+                                    <th scope="col" style="width:20%" class="centrarTexto">Fecha</th>
+                                    <th scope="col" style="width:30%" class="centrarTexto">Voluntario</th>
+                                    <th scope="col" style="width:10%" class="centrarTexto">Enviado</th>
+                                    <th scope="col" style="width:10%" class="centrarTexto">Ver</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach($pedidos as $pedido){ ?>
+                                    <form method="POST" action="pedidos.php">
+                                        <tr>
+                                            <td class="hide"><input type="text" style ="width:50px; border: none" name="id" readonly value="<?php echo $pedido["id"] ?>"></td>
+                                            <td class="centrarTexto"><?php echo $newDate = date("d/m/Y H:i:s", strtotime($pedido["fecha"]));?></td>
+                                            <td class="centrarTexto"><?php echo $pedido["nombre"] . " " . $pedido["segundoNombre"] . " " . $pedido["apellido"] ?></td>
+                                            <td class="tdEnviado centrarTexto" style="min-width: 120px">
+                                                <?php $enviado = $pedido["enviado"] == 0 ? "hide" : "show"; $noEnviado = $pedido["enviado"] == 0 ? "show" : "hide"   ?>
+                                                <div class="d-flex justify-content-center align-items-center">
+                                                    <div class="btn <?php echo $noEnviado?> reenviarButton" name="reenviarPedido" id="botonReenviar<?php echo $pedido['id']?>" onclick="enviarPedido(<?php echo $pedido['id']?>)"  onmouseout="outReenviar(<?php echo $pedido['id']?>)" onmouseover="overReenviar(<?php echo $pedido['id']?>)" data-bs-toggle="modal" data-bs-target="#modalPedidos">
+                                                        <span id="btnReenviar<?php echo $pedido['id']?>" class="hide btnReenviar">Enviar</span>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" id="iconoReenviar<?php echo $pedido['id']?>" height="22" fill="currentColor" class="bi red bi-send-x-fill" viewBox="0 0 16 16">
+                                                            <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 1.59 2.498C8 14 8 13 8 12.5a4.5 4.5 0 0 1 5.026-4.47L15.964.686Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
+                                                            <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-4.854-1.354a.5.5 0 0 0 0 .708l.647.646-.647.646a.5.5 0 0 0 .708.708l.646-.647.646.647a.5.5 0 0 0 .708-.708l-.647-.646.647-.646a.5.5 0 0 0-.708-.708l-.646.647-.646-.647a.5.5 0 0 0-.708 0Z"/>
+                                                        </svg>
+                                                    </div>
+                                                    <div class="<?php echo $enviado?>">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi green bi-send-check-fill iconoEnviado" viewBox="0 0 16 16">
+                                                            <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 1.59 2.498C8 14 8 13 8 12.5a4.5 4.5 0 0 1 5.026-4.47L15.964.686Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
+                                                            <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-1.993-1.679a.5.5 0 0 0-.686.172l-1.17 1.95-.547-.547a.5.5 0 0 0-.708.708l.774.773a.75.75 0 0 0 1.174-.144l1.335-2.226a.5.5 0 0 0-.172-.686Z"/>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td> 
+                                                <button type="submit" class="btn" name="verPedido" target="_blank">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi purple bi-eye-fill" viewBox="0 0 16 16">
+                                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                                    </svg>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </form>
+                                <?php } ?>   
+                            </tbody>               
+                        </table>
+                    </div>
+                    <!-- END TABLA ROL STOCK -->
+                    <!-- START TABLA ROL ADMIN -->
+                    <div class="table-responsive bloque mb-4 pb-0 <?php echo $mostrarAdmin?>">
+                        <table class="table">
+                            <div class="d-flex anchoTotal row">
+                                <div class="col-12 col-sm-6 d-flex align-items-end justify-content-start dataSede">
+                                    <div>
+                                        Filtros
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 d-flex align-items-end justify-content-end">
+                                    <button type="submit" name="nuevoPedido" onclick="redirect('iniciarPedido')"  id="nuevoPedido" class="btn mb-3 boton">Generar Pedido</button>        
+                                </div>
+                            </div> 
+                            <thead style="width:100%">
+                                <tr>
+                                    <th scope="col" style="width:10%" class="hide">#</th>
+                                    <th scope="col" style="width:20%" class="centrarTexto">Fecha</th>
+                                    <th scope="col" style="width:30%" class="centrarTexto">Voluntario</th>
+                                    <th scope="col" style="width:20%" class="centrarTexto">Sede / Casa</th>
+                                    <!-- <th scope="col" style="width:10%">Casa</th> -->
+                                    <th scope="col" style="width:10%" class="centrarTexto">Enviado</th>
+                                    <th scope="col" style="width:10%" class="centrarTexto">Ver</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach($pedidos as $pedido){ ?>
+                                    <form method="POST" action="pedidos.php">
+                                        <tr>
+                                            <td class="hide"><input type="text" style ="width:50px; border: none" name="id" readonly value="<?php echo $pedido["id"] ?>"></td>
+                                            <td class="centrarTexto"><?php echo $newDate = date("d/m/Y H:i:s", strtotime($pedido["fecha"]));?></td>
+                                            <td class="centrarTexto"><?php echo $pedido["nombre"] . " " . $pedido["segundoNombre"] . " " . $pedido["apellido"] ?></td>
+                                            <td class="centrarTexto"><?php echo $pedido["nombreSede"] . " / " . $pedido["casa"] ?></td>
+                                            <td class="tdEnviado centrarTexto" style="min-width: 120px">
+                                                <?php $enviado = $pedido["enviado"] == 0 ? "hide" : "show"; $noEnviado = $pedido["enviado"] == 0 ? "show" : "hide"   ?>
+                                                <div class="d-flex justify-content-center align-items-center">
+                                                    <div class="btn <?php echo $noEnviado?> reenviarButton" name="reenviarPedido" id="botonReenviar<?php echo $pedido['id']?>" onclick="enviarPedido(<?php echo $pedido['id']?>)"  onmouseout="outReenviar(<?php echo $pedido['id']?>)" onmouseover="overReenviar(<?php echo $pedido['id']?>)" data-bs-toggle="modal" data-bs-target="#modalPedidos">
+                                                        <span id="btnReenviar<?php echo $pedido['id']?>" class="hide btnReenviar">Enviar</span>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" id="iconoReenviar<?php echo $pedido['id']?>" height="22" fill="currentColor" class="bi red bi-send-x-fill" viewBox="0 0 16 16">
+                                                            <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 1.59 2.498C8 14 8 13 8 12.5a4.5 4.5 0 0 1 5.026-4.47L15.964.686Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
+                                                            <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-4.854-1.354a.5.5 0 0 0 0 .708l.647.646-.647.646a.5.5 0 0 0 .708.708l.646-.647.646.647a.5.5 0 0 0 .708-.708l-.647-.646.647-.646a.5.5 0 0 0-.708-.708l-.646.647-.646-.647a.5.5 0 0 0-.708 0Z"/>
+                                                        </svg>
+                                                    </div>
+                                                    <div class="<?php echo $enviado?>">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi green bi-send-check-fill iconoEnviado" viewBox="0 0 16 16">
+                                                            <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 1.59 2.498C8 14 8 13 8 12.5a4.5 4.5 0 0 1 5.026-4.47L15.964.686Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
+                                                            <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-1.993-1.679a.5.5 0 0 0-.686.172l-1.17 1.95-.547-.547a.5.5 0 0 0-.708.708l.774.773a.75.75 0 0 0 1.174-.144l1.335-2.226a.5.5 0 0 0-.172-.686Z"/>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td> 
+                                                <button type="submit" class="btn" name="verPedido" target="_blank">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi purple bi-eye-fill" viewBox="0 0 16 16">
+                                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                                    </svg>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </form>
+                                <?php } ?>   
+                            </tbody>               
+                        </table>
+                    </div>
+                    <!-- END TABLA ROL ADMIN -->
+                </div>
+                <!-- END TABLA PEDIDOS -->
+                <!-- START MODAL CONFIRMACION REENVIO DE PEDIDO -->
                 <div class="modal" id="modalPedidos">
+                    <form method="POST" action="pedidos.php">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header d-flex justify-content-center centrarTexto">
+                                    <b>CONFIRMACIÓN</b>
+                                </div>
+                                <div class="modal-body centrarTexto" id="mensajeModalPedido">
+                                
+                            </div>
+                            <input type="text" class="hide" name="idReenviarPedido" id="idReenviarPedido" value="">
+                            <div class="modal-footer d-flex justify-content-around">
+                                <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" id="botonReenviarPedido" name="botonReenviarPedido" class="btn boton" onclick="reenviarPedido()">Confirmar</button>
+                                <button type="button" class="btnReenviarCircle hide" id="botonCircle" >
+                                    <div class="spinner-border spinnerReenviar" role="status">
+                                        <span class="sr-only"></span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- END MODAL CONFIRMACION REEENVIO DE PEDIDO -->
+                <div class="modal <?php echo $modalActualizacion ?>" id="modalActualizacion">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
-                            <div class="modal-header d-flex justify-content-center centrarTexto">
-                                <b>CONFIRMACIÓN</b>
+                            <div class="modal-header violeta d-flex justify-content-center centrarTexto">
+                                <b>¡ATENCIÓN!</b>
                             </div>
-                            <div class="modal-body centrarTexto" id="mensajeModalPedido">
+                            <div id="mensajeActualizacion">
+                                <div class="modal-body centrarTexto">
+                                    El pedido se generó y se envió correctamente, pero no se actualizó Y figurará como NO enviado.
+                                    <br>Por favor presioná aceptar para solucionarlo.
+                                    <br>
+                                    ¡Gracias!
+                                </div>
+                                <div>
+                                    <div class="modal-footer d-flex justify-content-around">
+                                        <button type="submit" class="btn botonCancelar" name="actualizarEnviado" onclick="cerrarModalActualizacion()">ACEPTAR</button>
+                                    </div>
+                                </div> 
                             </div>
-                            <div class="modal-footer d-flex justify-content-around">
-                                <button type="button" class="btn botonCancelar" onclick="cerrarModalPedido()">Cancelar</button>
-                                <button type="submit" id="botonConfirmar" name="botonConfirmar" class="btn botonConfirmar" onclick="confirmarPedido()">Confirmar</button>
+                            <div class="modal-body hide centrarTexto" id="spinnerActualizacion">
+                                <div style="min-height:100px" class="d-flex justify-content-center align-items-center">
+                                    <div class="spinner-border violeta" role="status">
+                                        <span class="sr-only"></span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>   
-            </div>
+                </div>
+            </div>   
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>           
+        <script type="text/javascript"  src="js/funcionesCompartidas.js"></script> 
+        <script type="text/javascript"  src="js/pedidos.js"></script> 
     </body>
 </html>
 <script type="text/javascript">
-    function redirect() {
-        window.location.href="iniciarPedido.php"
-    }
-    function abrirPedido(){
-        window.open('_blank');
-    }
-    function overReenviar(id) {
-        let textoReenviar = document.getElementById("textoReenviar" + id)
-        let iconoReenviar = document.getElementById("iconoReenviar" + id)
-        textoReenviar.classList.add("hide")
-        iconoReenviar.classList.remove("hide")
-    }
-    function outReenviar(id) {
-        let textoReenviar = document.getElementById("textoReenviar" + id)
-        let iconoReenviar = document.getElementById("iconoReenviar" + id)
-        textoReenviar.classList.remove("hide")
-        iconoReenviar.classList.add("hide")
-    }
-    function enviarPedido(id) {
-        console.log(id)
-        // let botonReenviar = document.getElementById("botonReenviar" + id)
-        // botonReenviar.classList.add("hide")
-        // let botonCircle = document.getElementById("botonCircle" + id)
-        // botonCircle.classList.remove("hide")
-        let modalPedido = document.getElementById("modalPedido")
-        modalPedido.classList.remove("hide")
-        document.getElementById("modalPedido").innerHTML = "¿Confirma que desea reenviar el pedido?"
-    }
-    window.onload = function(){
-        let alertConfirmacion = document.getElementById("alertConfirmacion")
-        if (alertConfirmacion.classList.contains('show')) {
-            setTimeout(ocultarAlertConfirmacion, 5000)
-        }
-        let alertErrorConexion = document.getElementById("alertErrorConexion")
-        if (alertErrorConexion.classList.contains('show')) {
-            setTimeout(ocultarAlertError, 5000)
-        }
-
-        // MUESTRO BOTON REENVIAR EN LOS CASOS EN QUE EL PEDIDO NO SE ENVIO
-        let tdEnviado = document.getElementsByClassName("tdEnviado")
-        tdEnviado = Array.from(tdEnviado)
-        tdEnviado.forEach(function callback(value, index) {
-            if(value.firstElementChild.innerHTML.includes("No enviado")){   
-                value.firstElementChild.classList.add("hide")
-                value.firstElementChild.nextElementSibling.classList.remove("hide")
-            }
-        })
-    }
-    function ocultarAlertConfirmacion(){
-        let alertConfirmacion = document.getElementById("alertConfirmacion")
-        alertConfirmacion.classList.remove('show')
-        alertConfirmacion.classList.add('hide')
-    }
-    function ocultarAlertError(){
-        let alertErrorConexion = document.getElementById("alertErrorConexion")
-        alertErrorConexion.classList.remove('show')
-        alertErrorConexion.classList.add('hide')
-    }
+    // function redirect() {
+    //     window.location.href="iniciarPedido.php"
+    // }
+   
 </script>

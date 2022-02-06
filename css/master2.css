@@ -116,6 +116,22 @@ label{
 .eyeButton:hover{
     cursor: pointer;
 }
+.btnReenviar{
+    border-radius: 5px !important;
+    padding:0 !important;
+    border: solid 1px  rgb(236, 130, 130) !important;
+    color:  rgb(236, 130, 130) !important;
+    padding: 5px !important;
+}
+.btnReenviarCircle{
+    border-radius: 5px !important;
+    padding:0 !important;
+    width: 100px;
+    border: solid 1px  rgb(163, 73, 164) !important;
+    color:  rgb(163, 73, 164) !important;
+    padding: 5px !important;
+}
+
 
 
 
@@ -136,4 +152,28 @@ label{
 }
 .black{
     color: black;
+}
+.green{
+    color: rgb(10, 172, 5);
+}
+
+.danger {
+    color: rgb(236, 130, 130);
+}
+.red{
+    color: rgb(189, 18, 18);
+}
+.purple{
+    color: rgb(163, 73, 164);
+}
+/* .tdEnviado{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} */
+
+.dataSede{
+    padding-bottom: 15px;
+    display: flex;
+    align-self: center;
 }

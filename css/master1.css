@@ -165,24 +165,7 @@ TO DO
     color:rgb(163, 73, 164);
     border: solid 1px rgb(163, 73, 164);
 }
-.reenviarButton{
-    /* display:flex !important;
-    justify-content: center;
-    align-items: center; */
-    min-width: 60px;
-    font-size: 14px;
-    background-color:  rgb(236, 130, 130);
-    color:white;
-    height: 25px;
-    border-radius: 5px;
-    padding:0 !important;
-}
-.reenviarButton:hover{
-    cursor: pointer;
-    background-color: white;
-    color: rgb(236, 130, 130);
-    border: solid 1px  rgb(236, 130, 130);
-}
+
 /* FILTROS */
 .botonFiltro{
     display:flex !important;
