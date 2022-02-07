@@ -131,8 +131,18 @@ label{
     color:  rgb(163, 73, 164) !important;
     padding: 5px !important;
 }
+.botonEnviado:hover{
+    cursor:default !important;
+}
 
 
+.modalConfirmacion{
+    position: absolute;
+    top: 0 !important;
+    margin: auto;
+    width: 100%;
+    height: 70vh;
+}
 
 
 
@@ -177,3 +187,4 @@ label{
     display: flex;
     align-self: center;
 }
+

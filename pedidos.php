@@ -12,6 +12,8 @@ require("funciones/pedidos.php");
         <meta name="viewport" content="width=device-width, initial-scale=1.8">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
         <!-- <link href="css/master.css" rel="stylesheet"> -->
         <link href="css/master2.css" rel="stylesheet">
@@ -84,7 +86,9 @@ require("funciones/pedidos.php");
                                         <tr>
                                             <td class="hide"><input type="text" style ="width:50px; border: none" name="id" readonly value="<?php echo $pedido["id"] ?>"></td>
                                             <td class="centrarTexto"><?php echo $newDate = date("d/m/Y H:i:s", strtotime($pedido["fecha"]));?></td>
-                                            <td class="centrarTexto"><?php echo $pedido["nombre"] . " " . $pedido["segundoNombre"] . " " . $pedido["apellido"] ?></td>
+                                            <td class="centrarTexto">
+                                                    <?php echo $pedido["nombre"] . " " . $pedido["segundoNombre"] . " " . $pedido["apellido"] ?>   
+                                            </td>
                                             <td class="tdEnviado centrarTexto" style="min-width: 120px">
                                                 <?php $enviado = $pedido["enviado"] == 0 ? "hide" : "show"; $noEnviado = $pedido["enviado"] == 0 ? "show" : "hide"   ?>
                                                 <div class="d-flex justify-content-center align-items-center">
@@ -95,7 +99,7 @@ require("funciones/pedidos.php");
                                                             <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-4.854-1.354a.5.5 0 0 0 0 .708l.647.646-.647.646a.5.5 0 0 0 .708.708l.646-.647.646.647a.5.5 0 0 0 .708-.708l-.647-.646.647-.646a.5.5 0 0 0-.708-.708l-.646.647-.646-.647a.5.5 0 0 0-.708 0Z"/>
                                                         </svg>
                                                     </div>
-                                                    <div class="<?php echo $enviado?>">
+                                                    <div class="btn botonEnviado <?php echo $enviado?>">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi green bi-send-check-fill iconoEnviado" viewBox="0 0 16 16">
                                                             <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 1.59 2.498C8 14 8 13 8 12.5a4.5 4.5 0 0 1 5.026-4.47L15.964.686Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
                                                             <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-1.993-1.679a.5.5 0 0 0-.686.172l-1.17 1.95-.547-.547a.5.5 0 0 0-.708.708l.774.773a.75.75 0 0 0 1.174-.144l1.335-2.226a.5.5 0 0 0-.172-.686Z"/>
@@ -103,8 +107,8 @@ require("funciones/pedidos.php");
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td> 
-                                                <button type="submit" class="btn" name="verPedido" target="_blank">
+                                            <td class="d-flex justify-content-center align-items-center"> 
+                                                <button type="submit" class="btn" name="verPedido">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi purple bi-eye-fill" viewBox="0 0 16 16">
                                                         <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
                                                         <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
@@ -185,8 +189,70 @@ require("funciones/pedidos.php");
                     <!-- END TABLA ROL ADMIN -->
                 </div>
                 <!-- END TABLA PEDIDOS -->
+        
+                <!-- <div class="modal-open centered" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div> -->
+
+                 <!-- END MODAL CONFIRMACION REEENVIO DE PEDIDO -->
+                <div class="modalConfirmacion <?php echo $modalActualizacion?>" id="modalActualizacion">
+                    <form method="POST" action="pedidos.php">
+                    <div class="">
+                        <div  class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header violeta d-flex justify-content-center centrarTexto">
+                                    <b>¡ATENCIÓN!</b>
+                                </div>
+                                <div id="mensajeActualizacion">
+                                    <div class="modal-body centrarTexto">
+                                        El pedido se envió correctamente, pero no se actualizó y figurará como NO enviado.
+                                        <br>Por favor presioná aceptar para solucionarlo.
+                                        <br>
+                                        ¡Gracias!
+                                    </div>
+                                    <input type="text" class="hide" name="idActualizarPedido" id="idActualizarPedido" value="<?php echo $idPorActualizar?>">
+                                    <div>
+                                        <div class="modal-footer d-flex justify-content-around">
+                                            <button type="submit" class="btn botonCancelar" id="btnActualizarEnviado" name="actualizarEnviado" onclick="actualizarPedidoEnviado()">ACEPTAR</button>
+                                            <button type="button" class="boton hide" id="btnCircleActualizarEnviado" >
+                                                <div class="spinner-border" role="status">
+                                                    <span class="sr-only"></span>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </div> 
+                                </div>
+                                <div class="modal-body hide centrarTexto" id="spinnerActualizacion">
+                                    <div style="min-height:100px" class="d-flex justify-content-center align-items-center">
+                                        <div class="spinner-border violeta" role="status">
+                                            <span class="sr-only"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+
                 <!-- START MODAL CONFIRMACION REENVIO DE PEDIDO -->
-                <div class="modal" id="modalPedidos">
+                <div class="modal show" id="modalPedidos">
                     <form method="POST" action="pedidos.php">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
@@ -194,8 +260,7 @@ require("funciones/pedidos.php");
                                     <b>CONFIRMACIÓN</b>
                                 </div>
                                 <div class="modal-body centrarTexto" id="mensajeModalPedido">
-                                
-                            </div>
+                                </div>
                             <input type="text" class="hide" name="idReenviarPedido" id="idReenviarPedido" value="">
                             <div class="modal-footer d-flex justify-content-around">
                                 <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
@@ -209,46 +274,18 @@ require("funciones/pedidos.php");
                         </div>
                     </form>
                 </div>
-                <!-- END MODAL CONFIRMACION REEENVIO DE PEDIDO -->
-                <div class="modal <?php echo $modalActualizacion ?>" id="modalActualizacion">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header violeta d-flex justify-content-center centrarTexto">
-                                <b>¡ATENCIÓN!</b>
-                            </div>
-                            <div id="mensajeActualizacion">
-                                <div class="modal-body centrarTexto">
-                                    El pedido se generó y se envió correctamente, pero no se actualizó Y figurará como NO enviado.
-                                    <br>Por favor presioná aceptar para solucionarlo.
-                                    <br>
-                                    ¡Gracias!
-                                </div>
-                                <div>
-                                    <div class="modal-footer d-flex justify-content-around">
-                                        <button type="submit" class="btn botonCancelar" name="actualizarEnviado" onclick="cerrarModalActualizacion()">ACEPTAR</button>
-                                    </div>
-                                </div> 
-                            </div>
-                            <div class="modal-body hide centrarTexto" id="spinnerActualizacion">
-                                <div style="min-height:100px" class="d-flex justify-content-center align-items-center">
-                                    <div class="spinner-border violeta" role="status">
-                                        <span class="sr-only"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
+                
             </div>   
         </div>
+        
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>           
         <script type="text/javascript"  src="js/funcionesCompartidas.js"></script> 
         <script type="text/javascript"  src="js/pedidos.js"></script> 
     </body>
 </html>
-<script type="text/javascript">
-    // function redirect() {
-    //     window.location.href="iniciarPedido.php"
-    // }
-   
+<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
 </script>

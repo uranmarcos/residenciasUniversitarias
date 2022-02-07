@@ -22,7 +22,12 @@ function enviarPedido(id) {
     let idReenviarPedido = document.getElementById("idReenviarPedido")
     idReenviarPedido.value=id
 }
-
+function actualizarPedidoEnviado(){
+    let btnActualizarEnviado = document.getElementById("btnActualizarEnviado")
+    let btnCircleActualizarEnviado = document.getElementById("btnCircleActualizarEnviado")
+    btnActualizarEnviado.classList.add("hide")
+    btnCircleActualizarEnviado.classList.remove("hide")
+}
 
 
 

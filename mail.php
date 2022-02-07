@@ -49,11 +49,19 @@ try {
          ]);
 } catch (\Throwable $th) {
     $_SESSION["errorMail"] = true;
-    echo "<script>location.href='iniciarPedido.php';</script>";
+    if ($tipoMail == "reenvio") {
+        echo "<script>location.href='pedidos.php';</script>";    
+    } else {
+        echo "<script>location.href='iniciarPedido.php';</script>";
+    }
     die;
 }
 if(!$phpmailer->send()) { 
     $_SESSION["errorMail"] = true;
-    echo "<script>location.href='iniciarPedido.php';</script>";
+    if ($tipoMail == "reenvio") {
+        echo "<script>location.href='pedidos.php';</script>";    
+    } else {
+        echo "<script>location.href='iniciarPedido.php';</script>";
+    }
     die;
 }
