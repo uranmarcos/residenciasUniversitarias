@@ -134,6 +134,10 @@ label{
 .botonEnviado:hover{
     cursor:default !important;
 }
+#btnCircleVerPedido{
+    color: rgb(163, 73, 164);
+    height: 100%;;
+}
 
 
 .modalConfirmacion{

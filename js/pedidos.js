@@ -1,3 +1,9 @@
+function verPedidoRealizado() {
+    let btnVerPedido = document.getElementById("btnVerPedido")
+    let btnCircleVerPedido = document.getElementById("btnCircleVerPedido")
+    btnVerPedido.classList.add("hide")
+    btnCircleVerPedido.classList.remove("hide")
+}
 function overReenviar(id) {
     let btnReenviar = document.getElementById("btnReenviar" + id)
     let iconoReenviar = document.getElementById("iconoReenviar" + id)
@@ -48,26 +54,7 @@ function abrirPedido(){
 
 
 
-window.onload = function(){
-    let alertConfirmacion = document.getElementById("alertConfirmacion")
-    if (alertConfirmacion.classList.contains('show')) {
-        setTimeout(ocultarAlertConfirmacion, 5000)
-    }
-    let alertErrorConexion = document.getElementById("alertErrorConexion")
-    if (alertErrorConexion.classList.contains('show')) {
-        setTimeout(ocultarAlertError, 5000)
-    }
 
-    // MUESTRO BOTON REENVIAR EN LOS CASOS EN QUE EL PEDIDO NO SE ENVIO
-    let tdEnviado = document.getElementsByClassName("tdEnviado")
-    tdEnviado = Array.from(tdEnviado)
-    tdEnviado.forEach(function callback(value, index) {
-        if(value.firstElementChild.innerHTML.includes("No enviado")){   
-            value.firstElementChild.classList.add("hide")
-            value.firstElementChild.nextElementSibling.classList.remove("hide")
-        }
-    })
-}
 function ocultarAlertConfirmacion(){
     let alertConfirmacion = document.getElementById("alertConfirmacion")
     alertConfirmacion.classList.remove('show')

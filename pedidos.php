@@ -3,7 +3,6 @@ session_start();
 require("funciones/pdo.php");
 require("funciones/pedidos.php");
 
-
 ?>
 <html>
     <head>
@@ -35,7 +34,7 @@ require("funciones/pedidos.php");
                 <div class="alert alert-danger mt-3 centrarTexto <?php echo $alertErrorConexion ?>" id="alertErrorConexion" role="alert" >
                     <?php echo $mensajeAlertError ?>
                 </div>
-                <div class="alert alert-secondary mt-3 centrarTexto <?php echo $hayDatos ?>"  role="alert" >
+                <div class="alert alert-secondary mt-3 centrarTexto hide"  role="alert" id="alertAvisoReenvio" >
                    Si un pedido figura no enviado, puede reenviarlo clickeando el icono de error.
                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -108,11 +107,16 @@ require("funciones/pedidos.php");
                                                 </div>
                                             </td>
                                             <td class="d-flex justify-content-center align-items-center"> 
-                                                <button type="submit" class="btn" name="verPedido">
+                                                <button type="submit" class="btn" name="verPedido" onclick="verPedidoRealizado()" id="btnVerPedido">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi purple bi-eye-fill" viewBox="0 0 16 16">
                                                         <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
                                                         <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
                                                     </svg>
+                                                </button>
+                                                <button type="button" class="btn purple hide" id="btnCircleVerPedido" >
+                                                    <div class="spinner-border spinnerReenviar" role="status">
+                                                        <span class="sr-only"></span>
+                                                    </div>
                                                 </button>
                                             </td>
                                         </tr>
@@ -190,27 +194,8 @@ require("funciones/pedidos.php");
                 </div>
                 <!-- END TABLA PEDIDOS -->
         
-                <!-- <div class="modal-open centered" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            ...
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                        </div>
-                    </div>
-                    </div> -->
 
-                 <!-- END MODAL CONFIRMACION REEENVIO DE PEDIDO -->
+                <!-- START MODAL ERROR ACTUALIZACION ENVIO -->
                 <div class="modalConfirmacion <?php echo $modalActualizacion?>" id="modalActualizacion">
                     <form method="POST" action="pedidos.php">
                     <div class="">
@@ -250,6 +235,7 @@ require("funciones/pedidos.php");
                     </div>
                     </form>
                 </div>
+                <!-- END MODAL ERROR ACTUALIZACION ENVIO -->
 
                 <!-- START MODAL CONFIRMACION REENVIO DE PEDIDO -->
                 <div class="modal show" id="modalPedidos">
@@ -287,5 +273,32 @@ require("funciones/pedidos.php");
 <script>
     if ( window.history.replaceState ) {
         window.history.replaceState( null, null, window.location.href );
+    }
+    window.onload = function(){
+        let alertConfirmacion = document.getElementById("alertConfirmacion")
+        if (alertConfirmacion.classList.contains('show')) {
+            setTimeout(ocultarAlertConfirmacion, 5000)
+        }
+        let alertErrorConexion = document.getElementById("alertErrorConexion")
+        if (alertErrorConexion.classList.contains('show')) {
+            setTimeout(ocultarAlertError, 5000)
+        }
+        let pedidos = <?php  echo json_encode($pedidos) ?>;
+        //console.log(pedidos)
+        let pedidoNoEnviado  = pedidos.filter(element => element.enviado == 0 )
+        if (pedidoNoEnviado.length > 0) {
+            let alertAvisoReenvio = document.getElementById("alertAvisoReenvio")
+            alertAvisoReenvio.classList.remove("hide")
+        }
+
+        // MUESTRO BOTON REENVIAR EN LOS CASOS EN QUE EL PEDIDO NO SE ENVIO
+        let tdEnviado = document.getElementsByClassName("tdEnviado")
+        tdEnviado = Array.from(tdEnviado)
+        tdEnviado.forEach(function callback(value, index) {
+            if(value.firstElementChild.innerHTML.includes("No enviado")){   
+                value.firstElementChild.classList.add("hide")
+                value.firstElementChild.nextElementSibling.classList.remove("hide")
+            }
+        })
     }
 </script>

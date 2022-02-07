@@ -28,9 +28,14 @@ $idPorActualizar = null;
 // START ACCION VER PDF - ABRIR PEDIDO //        
 if(isset($_POST["verPedido"])){
   $id = $_POST["id"];
-  require("funciones/pdf.php");
-  require("funciones/armarPdf.php");
-  echo '<script>window.open("_blank")</script>';
+  try {
+    require("funciones/pdf.php");
+    require("funciones/armarPdf.php");
+    echo '<script>window.open("_blank")</script>';
+  } catch (\Throwable $th) {
+    $alertErrorConexion ="show";
+    $mensajeAlertError = "Hubo un error de conexión y el pedido no pudo reenviarse. Por favor intentalo nuevamente.";
+  }
 }
 // END ACCION VER PDF - ABRIR PEDIDO //  
 
@@ -64,7 +69,10 @@ if(isset($_POST["botonReenviarPedido"])){
   // SI EL PEDIDO SE ENVIO, ACTUALIZO EN BASE DE DATOS EL CAMPO "ENVIADO"
   if($pedidoEnviado) {
     try {
-      $consultaEnviado = $baseDeDatos ->prepare("UPDATE pedidosnuevos SET enviado = 1 WHERE id = '$id'"); 
+      date_default_timezone_set('America/Argentina/Cordoba');
+      $date = date("Y-m-d h:i:s");
+      $usuario = $_SESSION["id"];
+      $consultaEnviado = $baseDeDatos ->prepare("UPDATE pedidosnuevos SET enviado = 1, usuario = '$usuario', fecha = '$date' WHERE id = '$id'"); 
       $consultaEnviado->execute();
       $pedidoActualizado = true;
     } catch (\Throwable $th) {
@@ -78,8 +86,11 @@ if(isset($_POST["botonReenviarPedido"])){
 if(isset($_POST["actualizarEnviado"])){
   $id = $_POST["idActualizarPedido"];
   try {
+    date_default_timezone_set('America/Argentina/Cordoba');
+    $date = date("Y-m-d h:i:s");
+    $usuario = $_SESSION["id"];
     $modalActualizacion = "hide";
-    $consultaEnviado = $baseDeDatos ->prepare("UPDATE pedidosnuevos SET enviado = 1 WHERE id = '$id'"); 
+    $consultaEnviado = $baseDeDatos ->prepare("UPDATE pedidosnuevos SET enviado = 1, usuario = '$usuario', fecha = '$date'  WHERE id = '$id'"); 
     $consultaEnviado->execute();
     $pedidoActualizado = true;
   } catch (\Throwable $th) {
@@ -92,17 +103,11 @@ if($pedidoActualizado) {
   $mensajeAlertConfirmacion="El pedido se envió correctamente.";
 }
 if($_SESSION["errorMail"]){
-  // $modalConfirmacion ="show";
-  // $tituloModalConfirmacion= "ERROR";
-  // $mensajeModalConfirmacion = "Hubo un error y el pedido se guardó, pero no se envió.<br> No es necesario lo generes nuevamente.<br> Presioná reintentar para enviarlo nuevamente.";
-  // $botonActualizarPedido ="hide";
-  // $botonConfirmarPedido ="show";
-    $alertErrorConexion ="show";
-    $mensajeAlertError = "Hubo un error de conexión y el pedido no pudo reenviarse. Por favor intentalo nuevamente.";
+  $alertErrorConexion ="show";
+  $mensajeAlertError = "Hubo un error de conexión y el pedido no pudo reenviarse. Por favor intentalo nuevamente.";
   $_SESSION["errorMail"] = false;
 }
 
-              // CONSULTAS DE TODOS LOS PEDIDOS
     
     
 //START CONSULTA DE PEDIDOS REALIZADOS
@@ -124,6 +129,7 @@ try {
   $mensajeAlertError ="Hubo un error de conexión. Por favor actualice la página";
 }
 $pedidos = $consultaPedidos -> fetchAll(PDO::FETCH_ASSOC);
+
 if(sizeof($pedidos) != 0) {
   $noHayDatos = "hide";
   $hayDatos = "show";
