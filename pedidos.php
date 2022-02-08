@@ -107,13 +107,13 @@ require("funciones/pedidos.php");
                                                 </div>
                                             </td>
                                             <td class="d-flex justify-content-center align-items-center"> 
-                                                <button type="submit" class="btn" name="verPedido" onclick="verPedidoRealizado()" id="btnVerPedido">
+                                                <button type="submit" class="btn" name="verPedido" onclick="verPedidoRealizado('btnVerPedido<?php echo $pedido['id']?>', 'btnCircleVerPedido<?php echo $pedido['id']?>')" id="btnVerPedido<?php echo $pedido['id']?>">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi purple bi-eye-fill" viewBox="0 0 16 16">
                                                         <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
                                                         <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
                                                     </svg>
                                                 </button>
-                                                <button type="button" class="btn purple hide" id="btnCircleVerPedido" >
+                                                <button type="button" class="btn purple hide" id="btnCircleVerPedido<?php echo $pedido['id']?>" >
                                                     <div class="spinner-border spinnerReenviar" role="status">
                                                         <span class="sr-only"></span>
                                                     </div>
@@ -127,7 +127,7 @@ require("funciones/pedidos.php");
                     </div>
                     <!-- END TABLA ROL STOCK -->
                     <!-- START TABLA ROL ADMIN -->
-                    <div class="table-responsive bloque mb-4 pb-0 <?php echo $mostrarAdmin?>">
+                    <div class="table-responsive bloque mb-4 pb-0 <?php echo $mostrarAdmin?> ">
                         <table class="table">
                             <div class="d-flex anchoTotal row">
                                 <div class="col-12 col-sm-6 d-flex align-items-end justify-content-start dataSede">
@@ -177,11 +177,16 @@ require("funciones/pedidos.php");
                                                 </div>
                                             </td>
                                             <td> 
-                                                <button type="submit" class="btn" name="verPedido" target="_blank">
+                                                <button type="submit" class="btn" name="verPedido" onclick="verPedidoRealizado('btnAdminVerPedido<?php echo $pedido['id']?>', 'btnAdminCircleVerPedido<?php echo $pedido['id']?>')" id="btnAdminVerPedido<?php echo $pedido['id']?>" target="_blank">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi purple bi-eye-fill" viewBox="0 0 16 16">
                                                         <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
                                                         <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
                                                     </svg>
+                                                </button>
+                                                <button type="button" class="btn purple hide" id="btnAdminCircleVerPedido<?php echo $pedido['id']?>">
+                                                    <div class="spinner-border spinnerReenviar" role="status">
+                                                        <span class="sr-only"></span>
+                                                    </div>
                                                 </button>
                                             </td>
                                         </tr>
@@ -275,6 +280,7 @@ require("funciones/pedidos.php");
         window.history.replaceState( null, null, window.location.href );
     }
     window.onload = function(){
+        // START OCULTAR ALERTAS DE CONFIRMACION O ERROR LUEGO DE 5 SEGUNDOS DE CARGAR LA PAGINA
         let alertConfirmacion = document.getElementById("alertConfirmacion")
         if (alertConfirmacion.classList.contains('show')) {
             setTimeout(ocultarAlertConfirmacion, 5000)
@@ -283,15 +289,18 @@ require("funciones/pedidos.php");
         if (alertErrorConexion.classList.contains('show')) {
             setTimeout(ocultarAlertError, 5000)
         }
+        // END OCULTAR ALERTAS DE CONFIRMACION O ERROR LUEGO DE 5 SEGUNDOS DE CARGAR LA PAGINA
+
+        // START VISIBILIDAD ALERT SOBRE COMO REENVIAR PEDIDOS 
         let pedidos = <?php  echo json_encode($pedidos) ?>;
-        //console.log(pedidos)
         let pedidoNoEnviado  = pedidos.filter(element => element.enviado == 0 )
         if (pedidoNoEnviado.length > 0) {
             let alertAvisoReenvio = document.getElementById("alertAvisoReenvio")
             alertAvisoReenvio.classList.remove("hide")
         }
+        // END VISIBILIDAD ALERT SOBRE COMO REENVIAR PEDIDOS 
 
-        // MUESTRO BOTON REENVIAR EN LOS CASOS EN QUE EL PEDIDO NO SE ENVIO
+        // START MUESTRO BOTON REENVIAR EN LOS CASOS EN QUE EL PEDIDO NO SE ENVIO
         let tdEnviado = document.getElementsByClassName("tdEnviado")
         tdEnviado = Array.from(tdEnviado)
         tdEnviado.forEach(function callback(value, index) {
@@ -300,5 +309,7 @@ require("funciones/pedidos.php");
                 value.firstElementChild.nextElementSibling.classList.remove("hide")
             }
         })
+        // END MUESTRO BOTON REENVIAR EN LOS CASOS EN QUE EL PEDIDO NO SE ENVIO
+
     }
 </script>

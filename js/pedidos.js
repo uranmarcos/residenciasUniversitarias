@@ -1,8 +1,8 @@
-function verPedidoRealizado() {
-    let btnVerPedido = document.getElementById("btnVerPedido")
-    let btnCircleVerPedido = document.getElementById("btnCircleVerPedido")
-    btnVerPedido.classList.add("hide")
-    btnCircleVerPedido.classList.remove("hide")
+function verPedidoRealizado(btnNormal, btnLoading) {
+    let botonNormal = document.getElementById(btnNormal)
+    let botonLoading = document.getElementById(btnLoading)
+    botonNormal.classList.add("hide")
+    botonLoading.classList.remove("hide")
 }
 function overReenviar(id) {
     let btnReenviar = document.getElementById("btnReenviar" + id)
