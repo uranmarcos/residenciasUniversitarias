@@ -4,17 +4,17 @@ function verPedidoRealizado(btnNormal, btnLoading) {
     botonNormal.classList.add("hide")
     botonLoading.classList.remove("hide")
 }
-function overReenviar(id) {
-    let btnReenviar = document.getElementById("btnReenviar" + id)
-    let iconoReenviar = document.getElementById("iconoReenviar" + id)
-    btnReenviar.classList.remove("hide")
-    iconoReenviar.classList.add("hide")
+function overReenviar(btnMostrar, btnOcultar) {
+    let botonMostrar = document.getElementById(btnMostrar)
+    let botonOcultar = document.getElementById(btnOcultar)
+    botonMostrar.classList.remove("hide")
+    botonOcultar.classList.add("hide")
 }
-function outReenviar(id) {
-    let btnReenviar = document.getElementById("btnReenviar" + id)
-    let iconoReenviar = document.getElementById("iconoReenviar" + id)
-    btnReenviar.classList.add("hide")
-    iconoReenviar.classList.remove("hide")
+function outReenviar(btnOcultar, btnMostrar) {
+    let botonMostrar = document.getElementById(btnMostrar)
+    let botonOcultar = document.getElementById(btnOcultar)
+    botonMostrar.classList.remove("hide")
+    botonOcultar.classList.add("hide")
 }
 function reenviarPedido() {
     let botonReenviarPedido = document.getElementById("botonReenviarPedido")
@@ -23,10 +23,14 @@ function reenviarPedido() {
     botonCircle.classList.remove("hide")
 }
 function enviarPedido(id) {
-    let mensajeModalPedido = document.getElementById("mensajeModalPedido")
-    mensajeModalPedido.innerHTML = "¿Confirma que desea reenviar el pedido?"
+    let modalConfirmacionReenvio = document.getElementById("modalConfirmacionReenvio")
+    modalConfirmacionReenvio.classList.remove("hide")
     let idReenviarPedido = document.getElementById("idReenviarPedido")
     idReenviarPedido.value=id
+}
+function cancelarReenviarPedido() {
+    let modalConfirmacionReenvio = document.getElementById("modalConfirmacionReenvio")
+    modalConfirmacionReenvio.classList.add("hide")
 }
 function actualizarPedidoEnviado(){
     let btnActualizarEnviado = document.getElementById("btnActualizarEnviado")
