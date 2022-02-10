@@ -130,13 +130,63 @@ require("funciones/pedidos.php");
                     <div class="table-responsive bloque mb-4 pb-0 <?php echo $mostrarAdmin?> ">
                         <table class="table">
                             <div class="d-flex anchoTotal row">
-                                <div class="col-12 col-sm-6 d-flex align-items-end justify-content-start dataSede">
-                                    <div>
-                                        Filtros
-                                    </div>
+                                <div class="col-12 d-flex align-items-end justify-content-end">
+                                    <button type="submit" name="nuevoPedido" onclick="redirect('iniciarPedido')"  id="nuevoPedido" class="btn boton">Generar Pedido</button>        
                                 </div>
-                                <div class="col-12 col-sm-6 d-flex align-items-end justify-content-end">
-                                    <button type="submit" name="nuevoPedido" onclick="redirect('iniciarPedido')"  id="nuevoPedido" class="btn mb-3 boton">Generar Pedido</button>        
+                                <div class="col-12  d-flex align-items-end justify-content-start dataSede">
+                                   
+                                    <div class="row bg-grey d-flex align-items-center p-0 m-0 justify-content-around" style="width:100%">
+                                        <div class="col-12 col-sm-5 col-md-3">
+                                            <div class="row rowFiltro">
+                                                Mes:
+                                                <select style="height:30px" class="col-12" onchange="filtrar()" name="mes" id="selectMes">
+                                                    <option value="todos">Todos</opcion>
+                                                    <option value="01">Enero</opcion>
+                                                    <option value="02">Febrero</opcion>
+                                                    <option value="03">Marzo</opcion>
+                                                    <option value="04">Abril</opcion>
+                                                    <option value="05">Mayo</opcion>
+                                                    <option value="06">Junio</opcion>
+                                                    <option value="07">Julio</opcion>
+                                                    <option value="08">Agosto</opcion>
+                                                    <option value="09">Septiembre</opcion>
+                                                    <option value="10">Octubre</opcion>
+                                                    <option value="11">Noviembre</opcion>
+                                                    <option value="12">Diciembre</opcion>
+                                                </select>   
+                                            </div>
+                                        </div>    
+                                        <div class="col-12 col-sm-5 col-md-3">
+                                            <div class="row rowFiltro">
+                                                Voluntario:
+                                                <select style="height:30px" class="col-12" onchange="filtrar()" name="voluntario" id="selectVoluntario">
+                                                    <option value="todos">Todos</opcion>
+                                                    <?php foreach($voluntarios as $voluntario){ ?>
+                                                        <option value="<?php echo $voluntario["nombre"] . " " . $voluntario["segundoNombre"] . " " . $voluntario["apellido"] ?>" ><?php echo $voluntario["nombre"] . " " . $voluntario["segundoNombre"] . " " . $voluntario["apellido"]?></opcion>
+                                                    <?php } ?>
+                                                </select>   
+                                            </div>
+                                        </div> 
+                                        <div class="col-12 col-sm-5 col-md-3">
+                                            <div class="row rowFiltro">
+                                                Sede:
+                                                <select style="height:30px" class="col-12" onchange="filtrar()" name="categoria" id="selectSede">
+                                                    <option value="todos">Todas</opcion>
+                                                    <?php foreach($sedes as $sede){ ?>
+                                                        <option value="<?php echo $sede['descripcion'] ?>" ><?php echo $sede["descripcion"]?></opcion>
+                                                    <?php } ?>
+                                                </select>   
+                                            </div>
+                                        </div> 
+                                        <div class="col-12 col-sm-5 col-md-2 d-flex align-self-end justify-content-center mb-0" id="boxBotonFiltro">
+                                            <div class="d-flex align-items-end justify-content-center">
+                                                <button type="submit" class="botonQuitarFiltro" name="reiniciarPedido" onclick="quitarFiltros()" class="editButton botonReiniciar">
+                                                    Quitar
+                                                </button>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                   
                                 </div>
                             </div> 
                             <thead style="width:100%">
@@ -153,11 +203,13 @@ require("funciones/pedidos.php");
                             <tbody>
                                 <?php foreach($pedidos as $pedido){ ?>
                                     <form method="POST" action="pedidos.php">
-                                        <tr>
+                                        <tr name="rowTableAdmin">
                                             <td class="hide"><input type="text" style ="width:50px; border: none" name="id" readonly value="<?php echo $pedido["id"] ?>"></td>
                                             <td class="centrarTexto"><?php echo $newDate = date("d/m/Y H:i:s", strtotime($pedido["fecha"]));?></td>
                                             <td class="centrarTexto"><?php echo $pedido["nombre"] . " " . $pedido["segundoNombre"] . " " . $pedido["apellido"] ?></td>
+                                                                          
                                             <td class="centrarTexto"><?php echo $pedido["nombreSede"] . " / " . $pedido["casa"] ?></td>
+                                            
                                             <td class="tdEnviado centrarTexto" style="min-width: 120px">
                                                 <?php $enviado = $pedido["enviado"] == 0 ? "hide" : "show"; $noEnviado = $pedido["enviado"] == 0 ? "show" : "hide"   ?>
                                                 <div class="d-flex justify-content-center align-items-center">

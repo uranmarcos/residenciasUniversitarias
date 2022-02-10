@@ -186,22 +186,6 @@ TO DO
     color:rgb(163, 73, 164);
     border: solid 1px rgb(163, 73, 164);
 }
-.botonQuitarFiltro{
-    background-color: rgb(163, 73, 164);
-    color:white;
-    height: 25px;
-    border-radius: 5px;
-    padding:0 !important;
-    height: 30px;
-    width: 100px;
-    border: solid 1px rgb(163, 73, 164);
-}
-.botonQuitarFiltro:hover{
-    cursor: pointer;
-    background-color: white;
-    color:rgb(163, 73, 164);
-    border: solid 1px rgb(163, 73, 164);
-}
 .buttonSort{
     background-color: white !important;
     border: none

@@ -117,18 +117,24 @@ if($_SESSION["rol"] == "stock") {
     agentes A ON PN.usuario = A.id INNER JOIN sedes S on PN.sede = S.id WHERE PN.sede = $sede AND PN.casa = $casa ORDER BY PN.fecha DESC"); 
     $mostrarStock = "show";   
 } else {
-  $consultaPedidos = $baseDeDatos ->prepare("SELECT PN.id, PN.sede, PN.fecha, PN.enviado, A.nombre, PN.casa, A.segundoNombre, A.apellido, S.descripcion nombreSede FROM pedidosnuevos PN INNER JOIN
+  $consultaPedidos = $baseDeDatos ->prepare("SELECT PN.id, PN.sede, PN.usuario, PN.fecha, PN.enviado, A.nombre, PN.casa, A.segundoNombre, A.apellido, S.descripcion nombreSede FROM pedidosnuevos PN INNER JOIN
     agentes A ON PN.usuario = A.id INNER JOIN sedes S on PN.sede = S.id ORDER BY PN.fecha DESC"); 
     $mostrarAdmin = "show";     
 }
+$consultaSedes = $baseDeDatos ->prepare("SELECT * FROM sedes");
+$consultaVoluntarios = $baseDeDatos ->prepare("SELECT nombre, segundoNombre, apellido, id FROM agentes");
 
 try {
   $consultaPedidos->execute();
+  $consultaSedes -> execute();
+  $consultaVoluntarios -> execute();
 } catch (\Throwable $th) {
   $alertErrorConexion= "show";
   $mensajeAlertError ="Hubo un error de conexión. Por favor actualice la página";
 }
 $pedidos = $consultaPedidos -> fetchAll(PDO::FETCH_ASSOC);
+$sedes = $consultaSedes -> fetchAll(PDO::FETCH_ASSOC);
+$voluntarios = $consultaVoluntarios -> fetchAll(PDO::FETCH_ASSOC);
 
 if(sizeof($pedidos) != 0) {
   $noHayDatos = "hide";

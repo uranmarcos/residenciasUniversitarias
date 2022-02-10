@@ -53,7 +53,7 @@ function quitarFiltros(){
     resetFiltros()
     let listaFilas = document.getElementsByName("rowTable");
     listaFilas = Array.from(listaFilas)
-    listaFilas.forEach(function callback(value, index) {
+    listaFilas.forEach(function callback(value) {
         value.classList.remove("hide")
     })
 }

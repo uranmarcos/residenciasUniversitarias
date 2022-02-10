@@ -138,6 +138,23 @@ label{
     color: rgb(163, 73, 164);
     height: 100%;;
 }
+.botonQuitarFiltro{
+    background-color: rgb(236, 130, 130);
+    color:white;
+    height: 25px;
+    border-radius: 5px;
+    padding:0 !important;
+    height: 30px;
+    width: 100px;
+    border: solid 1px rgb(236, 130, 130);
+}
+.botonQuitarFiltro:hover{
+    cursor: pointer;
+    background-color: white;
+    color:rgb(163, 73, 164);
+    border: solid 1px rgb(163, 73, 164);
+}
+
 
 
 .modalConfirmacion{
@@ -185,7 +202,9 @@ label{
     align-items: center;
     justify-content: center;
 } */
-
+select{
+    outline: none;
+}
 .dataSede{
     padding-bottom: 15px;
     display: flex;
