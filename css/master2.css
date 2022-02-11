@@ -96,6 +96,13 @@ label{
     color: rgb(163, 73, 164) !important;
     border: solid 1px rgb(163, 73, 164) !important;
 }
+.btnVerPedido{
+    color: rgb(163, 73, 164) !important;
+}
+.btnVerPedido:hover{
+    background-color: rgb(163, 73, 164);
+    color:white !important;
+}
 .botonCancelar{
     background-color: rgb(236, 130, 130) !important;
     color: white !important;

@@ -81,12 +81,12 @@ require("funciones/pedidos.php");
                             </thead>
                             <tbody>
                                 <?php foreach($pedidos as $pedido){ ?>
-                                    <form method="POST" action="pedidos.php">
-                                        <tr>
+                                    <tr>
+                                        <form method="POST" action="pedidos.php">
                                             <td class="hide"><input type="text" style ="width:50px; border: none" name="id" readonly value="<?php echo $pedido["id"] ?>"></td>
                                             <td class="centrarTexto"><?php echo $newDate = date("d/m/Y H:i:s", strtotime($pedido["fecha"]));?></td>
                                             <td class="centrarTexto">
-                                                    <?php echo $pedido["nombre"] . " " . $pedido["segundoNombre"] . " " . $pedido["apellido"] ?>   
+                                                <?php echo $pedido["nombre"] . " " . $pedido["segundoNombre"] . " " . $pedido["apellido"] ?>   
                                             </td>
                                             <td class="tdEnviado centrarTexto" style="min-width: 120px">
                                                 <?php $enviado = $pedido["enviado"] == 0 ? "hide" : "show"; $noEnviado = $pedido["enviado"] == 0 ? "show" : "hide"   ?>
@@ -106,21 +106,20 @@ require("funciones/pedidos.php");
                                                     </div>
                                                 </div>
                                             </td>
+                                        </form>
+                                        <form method="POST" action="verPedido.php" target="_blank">
+                                            <td class="hide"><input type="text" style ="width:50px; border: none" name="id" readonly value="<?php echo $pedido["id"] ?>"></td> 
                                             <td class="d-flex justify-content-center align-items-center"> 
-                                                <button type="submit" class="btn" name="verPedido" onclick="verPedidoRealizado('btnVerPedido<?php echo $pedido['id']?>', 'btnCircleVerPedido<?php echo $pedido['id']?>')" id="btnVerPedido<?php echo $pedido['id']?>">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi purple bi-eye-fill" viewBox="0 0 16 16">
+                                                <button type="submit" class="btn btnVerPedido" name="verPedido" id="btnVerPedido<?php echo $pedido['id']?>">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                                         <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
                                                         <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
                                                     </svg>
                                                 </button>
-                                                <button type="button" class="btn purple hide" id="btnCircleVerPedido<?php echo $pedido['id']?>" >
-                                                    <div class="spinner-border spinnerReenviar" role="status">
-                                                        <span class="sr-only"></span>
-                                                    </div>
-                                                </button>
                                             </td>
-                                        </tr>
-                                    </form>
+                                        </form>
+                                    </tr>
+                                </form>
                                 <?php } ?>   
                             </tbody>               
                         </table>
@@ -202,14 +201,12 @@ require("funciones/pedidos.php");
                             </thead>
                             <tbody>
                                 <?php foreach($pedidos as $pedido){ ?>
-                                    <form method="POST" action="pedidos.php">
-                                        <tr name="rowTableAdmin">
+                                    <tr name="rowTableAdmin">
+                                        <form method="POST" action="pedidos.php">
                                             <td class="hide"><input type="text" style ="width:50px; border: none" name="id" readonly value="<?php echo $pedido["id"] ?>"></td>
                                             <td class="centrarTexto"><?php echo $newDate = date("d/m/Y H:i:s", strtotime($pedido["fecha"]));?></td>
-                                            <td class="centrarTexto"><?php echo $pedido["nombre"] . " " . $pedido["segundoNombre"] . " " . $pedido["apellido"] ?></td>
-                                                                          
+                                            <td class="centrarTexto"><?php echo $pedido["nombre"] . " " . $pedido["segundoNombre"] . " " . $pedido["apellido"] ?></td>              
                                             <td class="centrarTexto"><?php echo $pedido["nombreSede"] . " / " . $pedido["casa"] ?></td>
-                                            
                                             <td class="tdEnviado centrarTexto" style="min-width: 120px">
                                                 <?php $enviado = $pedido["enviado"] == 0 ? "hide" : "show"; $noEnviado = $pedido["enviado"] == 0 ? "show" : "hide"   ?>
                                                 <div class="d-flex justify-content-center align-items-center">
@@ -228,20 +225,18 @@ require("funciones/pedidos.php");
                                                     </div>
                                                 </div>
                                             </td>
-                                            
-                                            <td> 
-                                                <button type="submit" class="btn" name="verPedido" onclick="verPedidoRealizado('btnAdminVerPedido<?php echo $pedido['id']?>', 'btnAdminCircleVerPedido<?php echo $pedido['id']?>')" id="btnAdminVerPedido<?php echo $pedido['id']?>" target="_blank">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi purple bi-eye-fill" viewBox="0 0 16 16">
-                                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                                                    </svg>
-                                                </button>
-                                                <button type="button" class="btn purple hide" id="btnAdminCircleVerPedido<?php echo $pedido['id']?>">
-                                                    <div class="spinner-border spinnerReenviar" role="status">
-                                                        <span class="sr-only"></span>
-                                                    </div>
-                                                </button>
-                                            </td>
+                                        </form>
+                                            <form method="POST" action="verPedido.php" target="_blank">
+                                                <td class="hide"><input type="text" style ="width:50px; border: none" name="id" readonly value="<?php echo $pedido["id"] ?>"></td> 
+                                                <td> 
+                                                    <button type="submit" class="btnVerPedido" name="verPedido" id="btnAdminVerPedido<?php echo $pedido['id']?>" target="_blank">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi purple bi-eye-fill" viewBox="0 0 16 16">
+                                                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                                        </svg>
+                                                    </button>
+                                                </td>
+                                            </form>
                                         </tr>
                                     </form>
                                 <?php } ?>   

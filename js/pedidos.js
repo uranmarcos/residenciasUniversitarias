@@ -1,9 +1,3 @@
-function verPedidoRealizado(btnNormal, btnLoading) {
-    let botonNormal = document.getElementById(btnNormal)
-    let botonLoading = document.getElementById(btnLoading)
-    botonNormal.classList.add("hide")
-    botonLoading.classList.remove("hide")
-}
 function overReenviar(btnMostrar, btnOcultar) {
     let botonMostrar = document.getElementById(btnMostrar)
     let botonOcultar = document.getElementById(btnOcultar)
@@ -57,16 +51,6 @@ function filtrar() {
     } else {
         filtrarFilasPorDosParametros(mes, voluntario, sede)
     }
-
-    // if(mes.trim() != "todos" && voluntario != "todos" && sede != "todos"){
-    //     filtrarFilas(producto.toLowerCase(), categoria)
-    // } else if(producto.trim() != "" && categoria == "todos") {
-    //     filtrarFilasPorParametro("producto", producto.toLowerCase())
-    // }  else if(producto.trim() == "" && categoria != "todos") {
-    //     filtrarFilasPorParametro("categoria", categoria.toLowerCase())
-    // } else {
-    //     quitarFiltros()
-    // }
 }
 function quitarFiltros(){
     let listaFilas = document.getElementsByName("rowTableAdmin");
@@ -149,6 +133,7 @@ function filtrarFilasPorDosParametros(mes, voluntario, sede){
         }
     })
 }
+//END FUNCIONES DEL FILTRO ADMIN
 
 
 
@@ -157,12 +142,6 @@ function filtrarFilasPorDosParametros(mes, voluntario, sede){
 
 
 
-
-
-
-function abrirPedido(){
-    window.open('_blank');
-}
 
 
 

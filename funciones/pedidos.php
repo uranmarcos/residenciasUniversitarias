@@ -25,19 +25,19 @@ $mostrarAdmin = "hide";
 $modalActualizacion = "hide";
 $idPorActualizar = null;
 
-// START ACCION VER PDF - ABRIR PEDIDO //        
-if(isset($_POST["verPedido"])){
-  $id = $_POST["id"];
-  try {
-    require("funciones/pdf.php");
-    require("funciones/armarPdf.php");
-    echo '<script>window.open("_blank")</script>';
-  } catch (\Throwable $th) {
-    $alertErrorConexion ="show";
-    $mensajeAlertError = "Hubo un error de conexión y el pedido no pudo reenviarse. Por favor intentalo nuevamente.";
-  }
-}
-// END ACCION VER PDF - ABRIR PEDIDO //  
+// // START ACCION VER PDF - ABRIR PEDIDO //        
+// if(isset($_POST["verPedido"])){
+//   $id = $_POST["id"];
+//   try {
+//     require("funciones/pdf.php");
+//     require("funciones/armarPdf.php");
+//     echo '<script>window.open("_blank")</script>';
+//   } catch (\Throwable $th) {
+//     $alertErrorConexion ="show";
+//     $mensajeAlertError = "Hubo un error de conexión y el pedido no pudo reenviarse. Por favor intentalo nuevamente.";
+//   }
+// }
+// // END ACCION VER PDF - ABRIR PEDIDO //  
 
 // START MOSTRAR ALERT PARA PEDIDO ENVIADO //  
 if(isset($_COOKIE["pedidoEnviado"])){
