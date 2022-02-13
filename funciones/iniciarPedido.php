@@ -8,8 +8,8 @@ $idUser = $_SESSION["id"];
 $pedidoGuardado = false;
 $pedidoEnviado = false;
 $pedidoActualizado = false;
+date_default_timezone_set('America/Argentina/Cordoba');
 $date = date("Y-m-d h:i:s");
-
 // variables de alertas
 $alertErrorConexion= "hide";
 

@@ -9,6 +9,7 @@
     if(isset($_POST["crearSede"])){
         $descripcion = $_POST['inputNuevaSede'];
         $casas = $_POST['selectCasas'];
+        date_default_timezone_set('America/Argentina/Cordoba');
         $date = date("Y-m-d h:i:s");
         $insertSede = $baseDeDatos ->prepare("INSERT into sedes VALUES(default, '$descripcion','$casas', 1, '$date', '$date', '$idUsuarioLogueado)");
         try{
@@ -26,6 +27,7 @@
         $descripcion = $_POST["inputEditarSede"];
         $habilitado = $_POST["selectEditarHabilitado"];
         $casas = $_POST["selectEditarCasas"];
+        date_default_timezone_set('America/Argentina/Cordoba');
         $date = date("Y-m-d h:i:s");
         $consulta = $baseDeDatos ->prepare("UPDATE sedes SET habilitado = '$habilitado', modified = '$date', descripcion = '$descripcion', casas = '$casas', userId = '$idUsuarioLogueado' WHERE id = '$id'");
         try {
@@ -40,6 +42,7 @@
     // ACCION ELIMINAR SEDE
     if(isset($_POST["eliminarSede"])){
         $id = $_POST["idSedeEliminar"];
+        date_default_timezone_set('America/Argentina/Cordoba');
         $date = date("Y-m-d h:i:s");
         $consultaValidacion = $baseDeDatos -> prepare("SELECT count(*) from usuarios WHERE sede = '$id'");
         $consulta = $baseDeDatos ->prepare("UPDATE sedes SET habilitado = 0, modified = '$date', userId = '$idUsuarioLogueado' WHERE id = '$id'");

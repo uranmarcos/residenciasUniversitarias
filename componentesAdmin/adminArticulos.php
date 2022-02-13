@@ -8,6 +8,7 @@
         $descripcion = $_POST['descripcionNuevoArticulo'];
         $categoria = $_POST['categoriaNuevoArticulo'];
         $medida = $_POST['medidaNuevoArticulo'];
+        date_default_timezone_set('America/Argentina/Cordoba');
         $date = date("Y-m-d h:i:s");
         $insertArticulo = $baseDeDatos ->prepare("INSERT into articulos VALUES(default, '$descripcion', '$medida', '$categoria', 1, '$date', '$date', '$idUsuarioLogueado')");
         try{
@@ -26,6 +27,7 @@
         $medida = $_POST["medidaEditarArticulo"];
         $categoria = $_POST["categoriaEditarArticulo"];
         $habilitado = $_POST["habilitadoEditarArticulo"];
+        date_default_timezone_set('America/Argentina/Cordoba');
         $date = date("Y-m-d h:i:s");
         $consulta = $baseDeDatos ->prepare("UPDATE articulos SET habilitado = '$habilitado', modified = '$date', descripcion = '$descripcion', medida = '$medida', categoria = '$categoria', userId = '$idUsuarioLogueado' WHERE id = '$id'");
         try {
@@ -40,6 +42,7 @@
     // ACCION ELIMINAR ARTICULO
     if(isset($_POST["eliminarArticulo"])){
         $id = $_POST["idArticuloEliminar"];
+        date_default_timezone_set('America/Argentina/Cordoba');
         $date = date("Y-m-d h:i:s");
         $consulta = $baseDeDatos ->prepare("UPDATE articulos SET habilitado = 0, modified = '$date', userId = '$idUsuarioLogueado' WHERE id = '$id'");
         try {
