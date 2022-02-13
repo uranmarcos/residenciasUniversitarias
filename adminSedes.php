@@ -210,8 +210,8 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                 <thead>
                                     <tr>
                                         <th scope="col" class="hide">#</th>
-                                        <th scope="col" style="width:60%">Provincia</th>
-                                        <th scope="col" style="width:60%">Localidad</th>
+                                        <th scope="col" style="width:40%">Provincia</th>
+                                        <th scope="col" style="width:35%">Localidad</th>
                                         <th scope="col" style="width:10%; text-align:center">Casas</th>
                                         <th scope="col" style="width:10%"></th>
                                         <th scope="col" style="width:10%"></th>
@@ -226,11 +226,11 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                             <td><?php echo $sede["descripcion"] ?></td>
                                             <td style="text-align: center"><?php echo $sede["casas"] ?></td>
                                             <td class="d-flex justify-content-end"> 
-                                                <button type="button" onmouseover="deshabilitarBotonTrash(<?php echo $sede['id']?>, <?php echo $sede['habilitado']?>)" name="trashButton<?php echo $sede['id']?>" id="trashButton<?php echo $sede['id']?>" class="btn trashButton" onclick="eliminarSedes(<?php echo $sede['id']?>, '<?php echo $sede['descripcion'];?>')" data-bs-toggle="modal" data-bs-target="#modalEliminar">
+                                                <div name="trashButton<?php echo $sede['id']?>" id="trashButton<?php echo $sede['id']?>" class="trashButton" onclick="eliminarSedes(<?php echo $sede['id']?>, '<?php echo $sede['descripcion'];?>')" data-bs-toggle="modal" data-bs-target="#modalEliminar">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                                         <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                                                     </svg>
-                                                </button>
+                                                </div>
                                             </td>
                                             <td>
                                                 <button type="button" class="btn editButton" onclick="mostrarCaja('boxEditarSede', 'boxCrearSede', 'botonNuevaSede'), cargarDatosEdicion('<?php echo $sede['id']?>', '<?php echo $sede['descripcion']?>', '<?php echo $sede['casas']?>', <?php echo $sede['habilitado']?>)">
@@ -263,11 +263,16 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body centrarTexto">
-                                    ¿Confirma que desea eliminar la sede <b><span id="sedeAEliminar"></span></b>?</br> Si desea habilitarla nuevamente, en la opción editar podrá hacerlo.
+                                    ¿Confirma que desea eliminar la sede <b><span id="sedeAEliminar"></span></b>?
                                 </div>
                                 <div class="modal-footer d-flex justify-content-around">
                                     <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="submit" name="eliminarSede" class="btn botonConfirmar">Confirmar</button>
+                                    <button type="submit" name="eliminarSede" onclick="confirmarEliminarSede()" id="btnEliminarSede" class="btn boton">Confirmar</button>
+                                    <button type="button" class="btnReenviarCircle hide" id="spinnerEliminarSede" >
+                                        <div class="spinner-border spinnerReenviar" role="status">
+                                            <span class="sr-only"></span>
+                                        </div>
+                                    </button>
                                 </div>
                             </div>
                         </div>

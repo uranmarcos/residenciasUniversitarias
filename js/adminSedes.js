@@ -40,6 +40,12 @@ function confirmarCrearSede () {
     botonConfirmarCrearSede.classList.add("hide")
     spinnerGenerarSede.classList.remove("hide")
 }
+function confirmarEliminarSede () {
+    let btnEliminarSede = document.getElementById("btnEliminarSede") 
+    let spinnerEliminarSede = document.getElementById("spinnerEliminarSede") 
+    btnEliminarSede.classList.add("hide")
+    spinnerEliminarSede.classList.remove("hide")
+}
 
 
 
@@ -83,11 +89,7 @@ function eliminarSedes(id, descripcion) {
     document.getElementById("sedeAEliminar").innerHTML = " - " + descripcion + " - "
     document.getElementById("idSedeEliminar").value = id
 }
-function deshabilitarBotonTrash (id, habilitado) {
-    if (habilitado == 0){
-        document.getElementById("trashButton"+id).setAttribute("disabled", true)    
-    }
-}
+
 function habilitarBotonDirecto (id) {
     let boton = document.getElementById(id)
     if (boton.hasAttribute("disabled")){
