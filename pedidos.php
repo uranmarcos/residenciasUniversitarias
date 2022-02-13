@@ -18,7 +18,7 @@ require("funciones/pedidos.php");
         <link href="css/master2.css" rel="stylesheet">
     </head>
     <body>
-        <div class="contenedorPrincipal">
+        <div>
             <div class="header">
                 <?php require("componentes/header.php")?>
             </div>

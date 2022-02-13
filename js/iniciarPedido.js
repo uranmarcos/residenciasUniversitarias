@@ -115,28 +115,63 @@ function validarPedido() {
     showModal(otrosValidado, formularioValidado)
 }
 function showModal(otrosValidado, formularioValidado) {
-    let modalPedido = document.getElementById("modalPedido")
+    let modalPedido = document.getElementById("modalIniciarPedido")
+    let titleModalPedido = document.getElementById("titleModalPedido")
     let mensajeModalPedido = document.getElementById("mensajeModalPedido")
+    let btnCancelarEnvio = document.getElementById("btnCancelarEnvio")
+    let btnAceptarModalIniciarPedido = document.getElementById("btnAceptarModalIniciarPedido")
+    let btnConfirmarIniciarPedido = document.getElementById("btnConfirmarIniciarPedido")
+    btnCancelarEnvio.classList.add("hide")
+    btnConfirmarIniciarPedido.classList.add("hide")
+    btnAceptarModalIniciarPedido.classList.add("hide")
+
     let botonConfirmar = document.getElementById("botonConfirmar")
     if(!otrosValidado && !formularioValidado) {
         modalPedido.classList.remove("hide")
-        modalPedido.classList.add("show")
+        modalPedido.scrollIntoView()
+        titleModalPedido.innerHTML =  "¡ATENCIÓN!"
+        titleModalPedido.classList.add("red")
         mensajeModalPedido.innerHTML="Disculpe, no puede generar un pedido vacio."
+        btnAceptarModalIniciarPedido.classList.remove("hide")
         botonConfirmar.classList.add("hide")
         botonConfirmar.classList.remove("show")
     } else if (otrosValidado && !formularioValidado){
         modalPedido.classList.remove("hide")
-        modalPedido.classList.add("show")
-        botonConfirmar.classList.add("show")
-        botonConfirmar.classList.remove("hide")
+        modalPedido.scrollIntoView()
+        btnCancelarEnvio.classList.remove("hide")
+        btnConfirmarIniciarPedido.classList.remove("hide")
+        titleModalPedido.innerHTML =  "CONFIRMACIÓN!"
+        titleModalPedido.classList.add("purple")
         mensajeModalPedido.innerHTML="El pedido no tiene productos del listado cargados.<br> Solo se pedirá lo agregado en el campo adicional. <br> ¿Desea confirmar el pedido?"
     } else {
         modalPedido.classList.remove("hide")
-        modalPedido.classList.add("show")
-        botonConfirmar.classList.add("show")
-        botonConfirmar.classList.remove("hide")
+        titleModalPedido.innerHTML =  "CONFIRMACIÓN!"
+        titleModalPedido.classList.add("purple")
+        modalPedido.scrollIntoView()
+        btnCancelarEnvio.classList.remove("hide")    
+        btnConfirmarIniciarPedido.classList.remove("hide")         
         mensajeModalPedido.innerHTML="¿Desea confirmar el pedido?"
     }
+}
+function cancelarGenerarPedido () {
+    let modalPedido = document.getElementById("modalIniciarPedido")
+    modalPedido.classList.add("hide")
+}
+function mostrarSpinnerBoton(idBotonOcultar, ibBotonSpinner) {
+    let botonOcultar = document.getElementById(idBotonOcultar)
+    botonOcultar.classList.add("hide")
+    let botonSpinner = document.getElementById(ibBotonSpinner)
+    botonSpinner.classList.remove("hide")
+}
+function cerrarModal (idModal) {
+    let modal = document.getElementById(idModal)
+    modal.classList.add("hide")
+}
+function confirmarIniciarPedido() {
+    let btnConfirmarIniciarPedido = document.getElementById("btnConfirmarIniciarPedido")
+    btnConfirmarIniciarPedido.classList.add("hide")
+    let spinnerConfirmarPedido = document.getElementById("spinnerConfirmarPedido")
+    spinnerConfirmarPedido.classList.remove("hide")
 }
 function inputFocusOn(){
     //marcarProducto();

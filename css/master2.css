@@ -5,6 +5,10 @@
 .subMenuInicio{
     width: 100%
 }
+.contenedorPrincipal{
+    min-height: 70vh;
+    height: 100%;
+}
 .titleSection{
     color: rgb(163, 73, 164);
     font-size:18px;
@@ -41,6 +45,18 @@
     margin: 0 !important;;
 }
 
+.cajaInternaBloque{
+    padding:20px 0;
+    width: 90%;
+    margin: auto !important;
+}
+
+
+.textarea{
+    width:80%;
+    height:100px;
+    margin:auto;
+}
 
 
 /* //BLOQUE */
@@ -53,6 +69,7 @@
     font-size: 16px;
     color: rgb(163, 73, 164);
     margin: 20px 0;
+    margin-bottom: 20px;;
 }
 .columnaBloque{
     display: flex;
@@ -88,13 +105,19 @@ label{
     line-height: 30px;
     height: 40px;
     min-width: 100px;
+    border: solid 1px rgb(163, 73, 164) !important;
     width:auto !important;
     border-radius: 5px;
+    outline: none;
 }
 .boton:hover {
     background-color: white !important;
     color: rgb(163, 73, 164) !important;
     border: solid 1px rgb(163, 73, 164) !important;
+}
+.boton:active{
+    border: solid 1px rgb(163, 73, 164) !important;
+    outline: none !important;
 }
 .btnVerPedido{
     color: rgb(163, 73, 164) !important;
@@ -156,6 +179,47 @@ label{
     border: solid 1px rgb(236, 130, 130);
 }
 .botonQuitarFiltro:hover{
+    cursor: pointer;
+    background-color: white;
+    color:rgb(163, 73, 164);
+    border: solid 1px rgb(163, 73, 164);
+}
+.buttonSort{
+    background-color: white !important;
+    border: none;
+    outline: none !important;
+}
+.buttonSort:hover{
+    color: rgb(163, 73, 164) !important;
+}
+.trashButton{
+    display:flex !important;
+    justify-content: center;
+    align-items: center;
+    min-width: 40px;
+    color: rgb(236, 130, 130);
+    height: 25px;
+    border-radius: 5px;
+    padding:0 !important;
+}
+.trashButton:hover{
+    cursor: pointer;
+    background-color: white;
+    color: rgb(236, 130, 130);
+    border: solid 1px rgb(236, 130, 130);
+}
+.editButton{
+    display:flex !important;
+    justify-content: center;
+    align-items: center;
+    min-width: 40px;
+    background-color: rgb(163, 73, 164);
+    color:white;
+    height: 25px;
+    border-radius: 5px;
+    padding:0 !important;
+}
+.editButton:hover{
     cursor: pointer;
     background-color: white;
     color:rgb(163, 73, 164);

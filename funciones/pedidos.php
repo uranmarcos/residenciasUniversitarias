@@ -1,15 +1,4 @@
 <?php 
-
-    // $consultaProductos = $baseDeDatos ->prepare("SELECT A.id, A.descripcio, M.descripcion medida, C.descripcion categoria  FROM articulos A 
-    // INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id ORDER BY descripcion ASC");
-    // try {
-    //     $consultaProductos->execute();
-    // } catch (\Throwable $th) {
-    //     $alertErrorConexion= "show";
-    //   //  return $alertErrorConexion;
-    // }
-    // $productos = $consultaProductos -> fetchAll(PDO::FETCH_ASSOC);
-    // //return $productos;
 // START VARIABLES UTILIZADAS //
 $alertErrorConexion = "hide";
 $alertConfirmacion = "hide";
@@ -24,20 +13,6 @@ $mostrarStock = "hide";
 $mostrarAdmin = "hide";    
 $modalActualizacion = "hide";
 $idPorActualizar = null;
-
-// // START ACCION VER PDF - ABRIR PEDIDO //        
-// if(isset($_POST["verPedido"])){
-//   $id = $_POST["id"];
-//   try {
-//     require("funciones/pdf.php");
-//     require("funciones/armarPdf.php");
-//     echo '<script>window.open("_blank")</script>';
-//   } catch (\Throwable $th) {
-//     $alertErrorConexion ="show";
-//     $mensajeAlertError = "Hubo un error de conexión y el pedido no pudo reenviarse. Por favor intentalo nuevamente.";
-//   }
-// }
-// // END ACCION VER PDF - ABRIR PEDIDO //  
 
 // START MOSTRAR ALERT PARA PEDIDO ENVIADO //  
 if(isset($_COOKIE["pedidoEnviado"])){

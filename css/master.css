@@ -250,13 +250,6 @@ main{
     padding:0;
 }
 
-.cajaInternaBloque{
-    padding:20px 0;
-    width: 100%;
-    margin: auto;
-}
-
-
 .mensajeConfirmacion{
     height:80vh;
     /* width:80%; */
@@ -272,11 +265,7 @@ main{
     border-radius:10px;
     border: solid 1px grey;
 }
-.textarea{
-    width:90%;
-    height:100px;
-    margin:auto;
-}
+
 .nameButtonMenu{
     margin-right: 5px;;
 }
