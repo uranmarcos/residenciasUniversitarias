@@ -153,7 +153,7 @@ require("funciones/generarPedido.php");
                                         </div> 
                                     </div>
                                     <div>
-                                        <div class="row rowBoton d-flex justify-content-center"> 
+                                        <div class="row rowBoton mb-5 d-flex justify-content-center"> 
                                             <button type="button" id="generarPedido" name="generarPedido" onclick="validarPedido()" class="boton">Confirmar</button>
                                         </div>
                                     </div> 
