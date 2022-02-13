@@ -45,7 +45,7 @@ if(isset($_POST["botonReenviarPedido"])){
   if($pedidoEnviado) {
     try {
       date_default_timezone_set('America/Argentina/Cordoba');
-      $date = date("Y-m-d h:i:s");
+      $date = date("Y-m-d H:i:s");
       $usuario = $_SESSION["id"];
       $consultaEnviado = $baseDeDatos ->prepare("UPDATE pedidosnuevos SET enviado = 1, usuario = '$usuario', fecha = '$date' WHERE id = '$id'"); 
       $consultaEnviado->execute();
@@ -62,7 +62,7 @@ if(isset($_POST["actualizarEnviado"])){
   $id = $_POST["idActualizarPedido"];
   try {
     date_default_timezone_set('America/Argentina/Cordoba');
-    $date = date("Y-m-d h:i:s");
+    $date = date("Y-m-d H:i:s");
     $usuario = $_SESSION["id"];
     $modalActualizacion = "hide";
     $consultaEnviado = $baseDeDatos ->prepare("UPDATE pedidosnuevos SET enviado = 1, usuario = '$usuario', fecha = '$date'  WHERE id = '$id'"); 

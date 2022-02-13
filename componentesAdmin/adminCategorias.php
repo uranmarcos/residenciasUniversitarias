@@ -8,7 +8,7 @@
     if(isset($_POST["confirmarCategoria"])){
         $categoria = $_POST['inputNuevaCategoria'];
         date_default_timezone_set('America/Argentina/Cordoba');
-        $date = date("Y-m-d h:i:s");
+        $date = date("Y-m-d H:i:s");
         $insertCategoria = $baseDeDatos ->prepare("INSERT into categorias VALUES(default, '$categoria', 1, '$date', '$date', '$idUsuarioLogueado')");
         try{
             $insertCategoria->execute();
@@ -25,7 +25,7 @@
         $descripcion = $_POST["inputEditarCategoria"];
         $habilitado = $_POST["selectEditarCategoria"];
         date_default_timezone_set('America/Argentina/Cordoba');
-        $date = date("Y-m-d h:i:s");
+        $date = date("Y-m-d H:i:s");
         $consulta = $baseDeDatos ->prepare("UPDATE categorias SET habilitado = '$habilitado', modified = '$date', descripcion = '$descripcion', idUser = '$idUsuarioLogueado' WHERE id = '$id'");
         try {
             $consulta->execute();
@@ -40,7 +40,7 @@
     if(isset($_POST["eliminarCategoria"])){
         $id = $_POST["inputCategoriaEliminar"];
         date_default_timezone_set('America/Argentina/Cordoba');
-        $date = date("Y-m-d h:i:s");
+        $date = date("Y-m-d H:i:s");
         $consultaValidacion = $baseDeDatos -> prepare("SELECT count(*) from articulos WHERE categoria = '$id'");
         $consulta = $baseDeDatos ->prepare("UPDATE categorias SET habilitado = 0, modified = '$date', userId = '$idUsuarioLogueado' WHERE id = '$id'");
         

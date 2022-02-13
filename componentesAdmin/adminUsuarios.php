@@ -28,7 +28,7 @@
             $casa = $_POST["casaNuevoUsuario"];
         }
         date_default_timezone_set('America/Argentina/Cordoba');
-        $date = date("Y-m-d h:i:s");
+        $date = date("Y-m-d H:i:s");
         $insertUsuario = $baseDeDatos ->prepare("INSERT into agentes VALUES(default, '$dni', '$nombre', '$segundoNombre', '$apellido', '$mail', '$rol', '$password', '$sede', '$casa',1, '$date', '$date', '$idUsuarioLogueado')");
         $consultaDni = $baseDeDatos ->prepare("SELECT id from agentes WHERE dni = $dni");
         try{
@@ -70,7 +70,7 @@
         }
         $habilitado = $_POST["habilitadoEditarUsuario"];
         date_default_timezone_set('America/Argentina/Cordoba');
-        $date = date("Y-m-d h:i:s");
+        $date = date("Y-m-d H:i:s");
         $consulta = $baseDeDatos ->prepare("UPDATE agentes SET nombre = '$primerNombre', segundoNombre = '$segundoNombre',
         apellido = '$apellido', rol = '$rol', mail = '$mail', sede = '$sede', casa = '$casa', habilitado = '$habilitado',  modified = '$date', userId = '$idUsuarioLogueado' WHERE id = '$id'");
         //$consulta->execute();
@@ -88,7 +88,7 @@
     if(isset($_POST["eliminarUsuario"])){
         $id = $_POST["idUsuarioEliminar"];
         date_default_timezone_set('America/Argentina/Cordoba');
-        $date = date("Y-m-d h:i:s");
+        $date = date("Y-m-d H:i:s");
         $consulta = $baseDeDatos ->prepare("UPDATE agentes SET habilitado = 0, modified = '$date', userId = '$idUsuarioLogueado' WHERE id = '$id'");
         try {
             $consulta->execute();
