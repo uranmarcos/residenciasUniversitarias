@@ -1,28 +1,8 @@
 <?php
 session_start();
 require("funciones/pdo.php");
-
 if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
     echo "<script> window.location.href='inicio.php' </script>";
-}
-$subSeccionAdmin = null;
-$mostrarBloque="hide";
-if(isset($_GET["adminSedes"])){
-    $subSeccionAdmin = "componentesAdmin/adminSedes.php";
-    $mostrarBloque="show";
-}
-if(isset($_GET["adminCategorias"])){
-    $mostrarBloque="show";
-    $subSeccionAdmin = "componentesAdmin/adminCategorias.php";
-    
-}
-if(isset($_GET["adminArticulos"])){
-    $mostrarBloque="show";
-    $subSeccionAdmin = "componentesAdmin/adminArticulos.php";
-}
-if(isset($_GET["adminUsuarios"])){
-    $mostrarBloque="show";
-    $subSeccionAdmin = "componentesAdmin/adminUsuarios.php";
 }
 ?>
 <html>
@@ -33,28 +13,62 @@ if(isset($_GET["adminUsuarios"])){
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-        <link href="css/master.css" rel="stylesheet">
-        <link href="css/master1.css" rel="stylesheet">
+        <link href="css/master2.css" rel="stylesheet">
     </head>
     <body>
         <div class="contenedorPrincipal">
             <div class="header">
                 <?php require("componentes/header.php")?>
             </div>
-            <div class="submenu">
-                <form method="GET" action="admin.php">
-                    <div class="row navAdmin">
-                        <button type="submit" name="adminSedes" class="btn botonNavAdmin col-6 col-md-3">Sedes</button>
-                        <button type="submit" name="adminCategorias" class="btn botonNavAdmin col-6 col-md-3">Categorias</button>
-                        <button type="submit" name="adminUsuarios" onclick="resetSede()" class="btn botonNavAdmin col-6 col-md-3">Usuarios</button>
-                        <button type="submit" name="adminArticulos" class="btn botonNavAdmin col-6 col-md-3">Articulos</button>           
+            <div class="col-md-11 main">
+                <div class="col-12 p-0">
+                    <div class="titleSection">
+                        <span class="pointer" onclick="redirect('inicio')">Inicio</span> -<span class="grey"> Admin </span>
                     </div>
-                </form>
+                </div>
+                <div class="subMenuInicio">
+                    <div class="row rowSubMenuInicio d-flex justify-content-around">
+                        <div class="col-5 col-sm-4 botonSubmenu" onclick="redirect('adminSedes')" onmouseout="outBoton('spanPerfil', 'iconoPerfil')" onmouseover="overBoton('spanPerfil', 'iconoPerfil')">
+                            <span id="spanPerfil">
+                                Sedes  
+                            </span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" id="iconoPerfil" fill="currentColor" class="icono hide bi bi-person-fill" viewBox="0 0 16 16">
+                                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                                </svg>
+                        </div>
+                        <div class="col-5 col-sm-4 botonSubmenu" onclick="redirect('adminUsuarios')"  onmouseout="outBoton('spanPedidos', 'iconoPedidos')" onmouseover="overBoton('spanPedidos', 'iconoPedidos')">
+                            <span id="spanPedidos">
+                                Usuarios   
+                            </span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" id="iconoPedidos" fill="currentColor" class="icono hide bi bi-cart-fill" viewBox="0 0 16 16">
+                                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="row rowSubMenuInicio">
+                        <div class="row rowSubMenuInicio d-flex justify-content-around">
+                            <div class="col-5 col-sm-4 botonSubmenu" onclick="redirect('adminCategorias')" onmouseout="outBoton('spanAyuda', 'iconoAyuda')" onmouseover="overBoton('spanAyuda', 'iconoAyuda')">
+                                <span id="spanAyuda">
+                                    Categorias   
+                                </span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" id="iconoAyuda" fill="currentColor" class="icono hide bi bi-question-lg" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M4.475 5.458c-.284 0-.514-.237-.47-.517C4.28 3.24 5.576 2 7.825 2c2.25 0 3.767 1.36 3.767 3.215 0 1.344-.665 2.288-1.79 2.973-1.1.659-1.414 1.118-1.414 2.01v.03a.5.5 0 0 1-.5.5h-.77a.5.5 0 0 1-.5-.495l-.003-.2c-.043-1.221.477-2.001 1.645-2.712 1.03-.632 1.397-1.135 1.397-2.028 0-.979-.758-1.698-1.926-1.698-1.009 0-1.71.529-1.938 1.402-.066.254-.278.461-.54.461h-.777ZM7.496 14c.622 0 1.095-.474 1.095-1.09 0-.618-.473-1.092-1.095-1.092-.606 0-1.087.474-1.087 1.091S6.89 14 7.496 14Z"/>
+                                </svg>
+                            </div>
+                            <div class="col-5 col-sm-4 botonSubmenu" onclick="redirect('adminArticulos')"  onmouseout="outBoton('spanAdmin', 'iconoAdmin')" onmouseover="overBoton('spanAdmin', 'iconoAdmin')">
+                                <span id="spanAdmin">
+                                    Articulos   
+                                </span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" id="iconoAdmin" fill="currentColor" class="icono hide bi bi-gear-fill" viewBox="0 0 16 16">
+                                    <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="<?php echo $mostrarBloque?>">
-                <?php require($subSeccionAdmin)?>
-            </div>    
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>           
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>          
+        <script type="text/javascript"  src="js/funcionesCompartidas.js"></script> 
     </body>
 </html>

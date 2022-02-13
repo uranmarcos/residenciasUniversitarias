@@ -21,6 +21,18 @@ function redirect(caso){
         case "iniciarPedido":
             window.location.href='iniciarPedido.php'
         break;
+        case "adminSedes":
+            window.location.href='adminSedes.php'
+        break;
+        case "adminArticulos":
+            window.location.href='componentesAdmin/adminArticulos.php'
+        break;
+        case "adminCategorias":
+            window.location.href='componentesAdmin/adminCategorias.php'
+        break;
+        case "adminUsuarios":
+            window.location.href='componentesAdmin/adminUsuarios.php'
+        break;
     
         default:
             break;
