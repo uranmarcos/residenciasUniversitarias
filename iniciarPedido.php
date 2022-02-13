@@ -317,7 +317,9 @@ require("funciones/generarPedido.php");
         alertErrorConexion.classList.add('hide')
     }
     function borrarCantidad(id) {
-        console.log(id)
+        let input = document.getElementById("input" + id)
+        console.log(input)
+        input.value = 0
     }
     function changeCategoria() {
         let categoriaDesc = document.getElementById("categoriaDesc");
