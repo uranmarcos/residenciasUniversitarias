@@ -14,9 +14,7 @@ if(empty($datosUsuarios)){
     $error = "El DNI ingresado no está registrado";
 } else {    
     if(password_verify($password, $datosUsuarios[0]["password"])) {
-        if ($datosUsuarios[0]["habilitado"] == 0) {
-            $error = "Usuario sin permisos";
-        } else {
+        
             $_SESSION["autenticado"] = true;
             $_SESSION["name"] = $datosUsuarios[0]["nombre"] . " " . $datosUsuarios[0]["segundoNombre"];
             $_SESSION["apellido"] = $datosUsuarios[0]["apellido"];
@@ -41,7 +39,6 @@ if(empty($datosUsuarios)){
             }
             //setcookie("id_usuario_dw", $usuario_encontrado->id_usuario , time()+(60*60*24*365));
             echo "<script>location.href='inicio.php';</script>";
-        }
     } else {
         $error="Los datos ingresados son erróneos";
     }

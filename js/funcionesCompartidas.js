@@ -25,18 +25,25 @@ function redirect(caso){
             window.location.href='adminSedes.php'
         break;
         case "adminArticulos":
-            window.location.href='componentesAdmin/adminArticulos.php'
+            window.location.href='adminArticulos.php'
         break;
         case "adminCategorias":
-            window.location.href='componentesAdmin/adminCategorias.php'
+            window.location.href='adminCategorias.php'
         break;
         case "adminUsuarios":
-            window.location.href='componentesAdmin/adminUsuarios.php'
+            window.location.href='adminUsuarios.php'
         break;
     
         default:
             break;
     }
+}
+function mostrarSpinner(idBotonOcultar, ibBotonSpinner) {
+    console.log("hey")
+    let botonOcultar = document.getElementById(idBotonOcultar)
+    botonOcultar.classList.add("hide")
+    let botonSpinner = document.getElementById(ibBotonSpinner)
+    botonSpinner.classList.remove("hide")
 }
 
 //FUNCION LOADING BOOTN
