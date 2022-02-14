@@ -70,7 +70,8 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                 </div>
                                 <div class="col-12 col-md-5 columna">
                                     <label >Ciudad</label>
-                                    <input maxlength="30" style="width:100%" autocomplete="off" name="inputNuevaSede" id="inputNuevaSede" onkeyup="validarFormCreacion(), validarSedeExistente(value)">
+                                    <input maxlength="30" style="width:100%" autocomplete="off" name="inputNuevaSede" id="inputNuevaSede" onkeyup="validarFormCreacion(), validarSedeExistente('mensajeErrorCrear', value)">
+                                    <div class="hide errorValidacion" id="mensajeErrorCrear"></div>
                                     <div class="hide errorValidacion" id="mensajeValidacionCrear">5 o mas caracteres</div>
                                     <div class="hide errorValidacion" id="mensajeSedeExistente"></div>
                                 </div>
@@ -125,24 +126,55 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                 
                         <form name="formEdicion" method="POST" action="adminSedes.php">
                             <!-- BOX EDICION SEDE -->
-                            <div class="contenedorSeccion contenedorModal hide mb-4" id="boxEditarSede">
+                            <div class="contenedorSeccion contenedorModal mb-4" id="boxEditarSede">
                                 <div class="d-flex anchoTotal justify-content-between">
                                     <div class="subtitle mb-2">
                                         Editar Sede
                                     </div> 
                                 </div>
                                 <div class="row">
-                                    <div class="col-2 col-md-1  col-lg-1 columna">
+                                    <div class=" hide columna">
                                         <label >#</label>
                                         <input type="text" style="width:100%" readonly class="centrarTexto" name="idSedePorEditar" id="idSedePorEditar">
                                     </div>
-                                    <div class="col-10 col-md-7 col-lg-4 columna">
-                                        <label> Descripción: </label>
-                                        <input maxlength="30" name="inputEditarSede" onkeyup="habilitarBoton(value, 3, 'botonEditar', 'mensajeValidacionEditar')" id="inputEditarSede">
+                                    <div class="col-12 col-md-5 columna">
+                                        <label >Provincia</label>
+                                        <select id="selectEdicionProvincia" name="selectEdicionProvincia" onchange="validarFormEdicion()" style="width:100%; height:30px">
+                                            <option value="">Seleccione</option>
+                                            <option value="Buenos Aires">Buenos Aires</option>
+                                            <option value="Catamarca">Catamarca</option>
+                                            <option value="Chaco">Chaco</option>
+                                            <option value="Chubut">Chubut</option>
+                                            <option value="Córdoba">Córdoba</option>
+                                            <option value="Corrientes">Corrientes</option>
+                                            <option value="Entre Ríos">Entre Ríos</option>
+                                            <option value="Formosa">Formosa</option>
+                                            <option value="Jujuy">Jujuy</option>
+                                            <option value="La Pampa">La Pampa</option>
+                                            <option value="La Rioja">La Rioja</option>
+                                            <option value="Mendoza">Mendoza</option>
+                                            <option value="Misiones">Misiones</option>
+                                            <option value="Nequén">Neuquén</option>
+                                            <option value="Río Negro">Río Negro</option>
+                                            <option value="Salta">Salta</option>
+                                            <option value="San Juan">San Juan</option>
+                                            <option value="San Luis">San Luis</option>
+                                            <option value="Santa Cruz">Santa Cruz</option>
+                                            <option value="Santa Fe">Santa Fe</option>
+                                            <option value="Santiago del Estero">Santiago del Estero</option>
+                                            <option value="Tierra del Fuego">Tierra del Fuego</option>
+                                            <option value="Tucumán">Tucumán</option>
+                                        </select>   
                                     </div>
-                                    <div class="col-6 col-sm-2 col-md-2 col-lg-1 columna">
+                                    <div class="col-12 col-md-5 columna">
+                                        <label> Ciudad: </label>
+                                        <input maxlength="30" autocomplete="off" style="width:100%" name="inputEditarSede" onkeyup="validarFormEdicion(), validarSedeExistente('mensajeErrorEditar', value)" id="inputEditarSede">
+                                        <div class="hide errorValidacion" id="mensajeErrorEditar"></div>
+                                        <div class="hide errorValidacion" id="mensajeValidacionEditar">5 o mas caracteres</div>
+                                    </div>
+                                    <div class="col-12 col-md-2 columna">
                                         <label> Casas: </label>
-                                        <select id="selectEditarCasas" style="width:100%; height:30px" name="selectEditarCasas" onchange="habilitarBotonDirecto('botonEditar')" style="width:100px">
+                                        <select id="selectEditarCasas" style="width:100%; height:30px" name="selectEditarCasas" onchange="validarFormEdicion()" style="width:100px">
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -150,36 +182,33 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                             <option value="5">5</option> 
                                         </select>
                                     </div>
-                                    <div class="col-6 col-sm-2 col-md-2 col-lg-2 columna">
-                                        <label> Habilitar: </label>
-                                        <select name="selectEditarHabilitado"  style="width:100%; height:30px" onchange="habilitarBotonDirecto('botonEditar')" id="selectEditarHabilitado" >
-                                            <option value="0">No</option>
-                                            <option value="1">Si</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12 col-sm-8 col-md-12 col-lg-4 d-flex align-items-end justify-content-around mt-2  mb-0">
-                                        <button type="submit" name="botonCancelar" onclick="ocultarCaja('boxEditarSede')" class="btn botonCancelar col-6 col-md-3">Cancelar</button>
-                                        <button type="button" name="botonEditarSede" onclick="enviarDatosEdicion('inputEditarSede', 'selectEditarHabilitado', 'selectEditarCasas')" disabled id="botonEditar" class="btn botonConfirmar col-6 col-md-3" data-bs-toggle="modal" data-bs-target="#modalEdicionSede">
+                                    <div class="col-12 d-flex align-items-end justify-content-around mt-5">
+                                        <button type="submit" name="botonCancelar" onclick="ocultarCaja('boxEditarSede')" class="btn botonCancelar">Cancelar</button>
+                                        <button type="button" name="botonEditarSede" onclick="enviarDatosEdicion('selectEdicionProvincia', 'inputEditarSede', 'selectEditarCasas')" disabled id="botonEditar" class="btn boton" data-bs-toggle="modal" data-bs-target="#modalEdicionSede">
                                             Editar
                                         </button>
                                     </div>
                                 </div>
-                                <div class="hide errorValidacion marginl100" id="mensajeValidacionEditar">3 o mas caracteres</div>
                             </div>
                             <!-- MODAL CONFIRMACION EDICION SEDE -->
                             <div class="modal fade" id="modalEdicionSede" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body centrarTexto">
-                                        ¿Confirma los cambios: <b><span id="spanEdicionSede"></span></b>?
-                                    </div>
-                                    <div class="modal-footer d-flex justify-content-around">
-                                        <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
-                                        <button type="submit" name="editarSede" class="btn botonConfirmar">Confirmar</button>
-                                    </div>
+                                        <div class="modal-header">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body centrarTexto">
+                                            ¿Confirma los cambios: <b><span id="spanEdicionSede"></span></b>?
+                                        </div>
+                                        <div class="modal-footer d-flex justify-content-around">
+                                            <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" name="editarSede" id="confirmarEditarSede" onclick="mostrarSpinner('confirmarEditarSede','spinnerEditarSede' )" class="btn boton">Confirmar</button>
+                                            <button type="button" class="btnReenviarCircle hide" id="spinnerEditarSede" >
+                                                <div class="spinner-border spinnerReenviar" role="status">
+                                                    <span class="sr-only"></span>
+                                                </div>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -226,18 +255,18 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                             <td><?php echo $sede["descripcion"] ?></td>
                                             <td style="text-align: center"><?php echo $sede["casas"] ?></td>
                                             <td class="d-flex justify-content-end"> 
-                                                <div name="trashButton<?php echo $sede['id']?>" id="trashButton<?php echo $sede['id']?>" class="trashButton" onclick="eliminarSedes(<?php echo $sede['id']?>, '<?php echo $sede['descripcion'];?>')" data-bs-toggle="modal" data-bs-target="#modalEliminar">
+                                                <div name="trashButton<?php echo $sede['id']?>" id="trashButton<?php echo $sede['id']?>" class="trashButton" onclick="eliminarSedes(<?php echo $sede['id']?>, '<?php echo $sede['provincia'] . ', ' .$sede['descripcion'];?>')" data-bs-toggle="modal" data-bs-target="#modalEliminar">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                                         <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                                                     </svg>
                                                 </div>
                                             </td>
                                             <td>
-                                                <button type="button" class="btn editButton" onclick="mostrarCaja('boxEditarSede', 'boxCrearSede', 'botonNuevaSede'), cargarDatosEdicion('<?php echo $sede['id']?>', '<?php echo $sede['descripcion']?>', '<?php echo $sede['casas']?>', <?php echo $sede['habilitado']?>)">
+                                                <div class="editButton" onclick="mostrarCaja('boxEditarSede', 'boxCrearSede', 'botonNuevaSede'), cargarDatosEdicion('<?php echo $sede['id']?>', '<?php echo $sede['provincia']?>', '<?php echo $sede['descripcion']?>', '<?php echo $sede['casas']?>')">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                                                         <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
                                                     </svg> 
-                                                </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     <?php } ?>   
@@ -253,7 +282,7 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                             </thead>
                         </table>
                         <!-- </div> -->
-                        </div>
+                    </div>
                     <!-- MODAL CONFIRMACION ELIMINACION SEDE -->
                     <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
@@ -302,24 +331,25 @@ window.onload = function(){
     }
 }
 
-function validarSedeExistente(value){
-    let boxMensajeSedeExistente = document.getElementById("mensajeSedeExistente")
-    let sedes = <?php  echo json_encode($sedes) ?>;
+function validarSedeExistente(idBox, value){
+    let boxMensaje = document.getElementById(idBox)
+    let sedes = <?php echo json_encode($sedes) ?>;
     if(value.length >=5) {
-        let sedesExistentes = sedes.filter(element => element.descripcion.toLowerCase().includes(value))
+        let sedesExistentes = sedes.filter(element => element.descripcion.toLowerCase().includes(value.toLowerCase()))
         let descripcionesSedesExistentes = ""
         sedesExistentes.forEach(function callback(value, index) {
             descripcionesSedesExistentes = descripcionesSedesExistentes + value.descripcion + " "
         })
         if(sedesExistentes.length > 0) {
-            boxMensajeSedeExistente.classList.remove("hide")
-            boxMensajeSedeExistente.innerHTML = "Ya existen las siguientes sedes: " + descripcionesSedesExistentes
+            console.log("hey")
+            boxMensaje.classList.remove("hide")
+            boxMensaje.innerHTML = "Ya existen las siguientes sedes: " + descripcionesSedesExistentes
         }else{
-            boxMensajeSedeExistente.classList.add("hide")
+            boxMensaje.classList.add("hide")
         }
     } else {
-        boxMensajeSedeExistente.classList.remove("hide")
-        boxMensajeSedeExistente.innerHTML = "Minimo 5 caracteres"
+        boxMensaje.classList.remove("hide")
+        boxMensaje.innerHTML = "Minimo 5 caracteres"
     }
 }
 

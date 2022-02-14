@@ -25,12 +25,12 @@
     // // ACCION EDITAR SEDE
     if (isset($_POST["editarSede"])){
         $id = $_POST["idSedePorEditar"];
+        $provincia = $_POST["selectEdicionProvincia"];
         $descripcion = $_POST["inputEditarSede"];
-        $habilitado = $_POST["selectEditarHabilitado"];
         $casas = $_POST["selectEditarCasas"];
         date_default_timezone_set('America/Argentina/Cordoba');
         $date = date("Y-m-d H:i:s");
-        $consulta = $baseDeDatos ->prepare("UPDATE sedes SET habilitado = '$habilitado', modified = '$date', descripcion = '$descripcion', casas = '$casas', userId = '$idUsuarioLogueado' WHERE id = '$id'");
+        $consulta = $baseDeDatos ->prepare("UPDATE sedes SET provincia = '$provincia', modified = '$date', descripcion = '$descripcion', casas = '$casas', userId = '$idUsuarioLogueado' WHERE id = '$id'");
         try {
             $consulta->execute();
             $alertConfirmacion = "show";

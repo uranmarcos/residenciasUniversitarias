@@ -214,8 +214,7 @@ label{
     justify-content: center;
     align-items: center;
     min-width: 40px;
-    background-color: rgb(163, 73, 164);
-    color:white;
+    color:rgb(163, 73, 164);
     height: 25px;
     border-radius: 5px;
     padding:0 !important;

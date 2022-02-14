@@ -23,6 +23,17 @@ function validarFormCreacion () {
         boton.setAttribute("disabled", true)
     }
 }
+function validarFormEdicion () {
+    let botonEditar = document.getElementById("botonEditar")
+    let provincia = document.getElementById("selectEdicionProvincia").value
+    let ciudad = document.getElementById("inputEditarSede").value
+    if (provincia != "" && ciudad.length > 4) {
+        botonEditar.removeAttribute("disabled")
+    } else {
+        botonEditar.setAttribute("disabled", true)
+    }
+
+}
 function crearNuevaSede () {
     let provincia = document.getElementById("selectProvincia").value
     let ciudad = document.getElementById("inputNuevaSede").value
@@ -33,6 +44,12 @@ function crearNuevaSede () {
         casas = "casa"
     }
     spanNuevaSede.innerHTML = provincia + " - " + ciudad + " con " + cantidadCasas + " " + casas +"?"
+}
+function mostrarSpinner (idBotonOcultar, idBotonMostrar) {
+    let botonOcultar = document.getElementById(idBotonOcultar) 
+    let botonMostrar = document.getElementById(idBotonMostrar) 
+    botonOcultar.classList.add("hide")
+    botonMostrar.classList.remove("hide")
 }
 function confirmarCrearSede () {
     let botonConfirmarCrearSede = document.getElementById("botonConfirmarCrearSede") 
@@ -46,8 +63,18 @@ function confirmarEliminarSede () {
     btnEliminarSede.classList.add("hide")
     spinnerEliminarSede.classList.remove("hide")
 }
-
-
+function eliminarSedes(id, descripcion) {
+    document.getElementById("sedeAEliminar").innerHTML = " - " + descripcion + " - "
+    document.getElementById("idSedeEliminar").value = id
+}
+// CARGA LOS DATOS DE BASE DE LA SEDE EN EL BOX EDITABLE 
+function cargarDatosEdicion(id, provincia, descripcion, casas){
+    document.getElementById("idSedePorEditar").value = id
+    document.getElementById("selectEdicionProvincia").value = provincia
+    document.getElementById("inputEditarSede").value = descripcion
+    document.getElementById("selectEditarCasas").value = casas
+    document.getElementById("mensajeValidacionEditar").classList.add("hide")
+}
 
 
 
@@ -85,10 +112,7 @@ function actualizarDatosModalCrear(cantidad){
         spanSede.innerHTML = descripcion + " con " + (cantidad == 1 ? "1 casa" : cantidad + " casas")
     } 
 }
-function eliminarSedes(id, descripcion) {
-    document.getElementById("sedeAEliminar").innerHTML = " - " + descripcion + " - "
-    document.getElementById("idSedeEliminar").value = id
-}
+
 
 function habilitarBotonDirecto (id) {
     let boton = document.getElementById(id)
@@ -96,20 +120,14 @@ function habilitarBotonDirecto (id) {
         boton.removeAttribute("disabled")    
     }
 }
-// CARGA LOS DATOS DE BASE DE LA SEDE EN EL BOX EDITABLE 
-function cargarDatosEdicion(id, descripcion, casas, habilitado){
-    document.getElementById("idSedePorEditar").value = id
-    document.getElementById("inputEditarSede").value = descripcion
-    document.getElementById("selectEditarHabilitado").value = habilitado
-    document.getElementById("selectEditarCasas").value = casas
-}
+
 // CARGA LOS DATOS NUEVOS DE LA SEDE EN EL MODAL PIDIENDO CONFIRMACION
-function enviarDatosEdicion(descripcion, habilitado, casas) {
+function enviarDatosEdicion(provincia, descripcion, casas) {
     let descripcionSede = document.getElementById(descripcion).value
-    let habilitadoSede = document.getElementById(habilitado).value
+    let descripcionProvincia = document.getElementById(provincia).value
     let casasSede = document.getElementById(casas).value
     let spanEdicionSede = document.getElementById("spanEdicionSede")
-    spanEdicionSede.innerHTML = descripcionSede + " - " + (habilitadoSede == 0 ? "Eliminado" : "Habilitado") + " - " +  (casasSede == 1 ? " 1 casa" : casasSede + " casas")
+    spanEdicionSede.innerHTML = descripcionProvincia + ", " + descripcionSede + " - " +  (casasSede == 1 ? " 1 casa" : casasSede + " casas")
 }
 function ocultarAlertConfirmacion(){
     let alertConfirmacion = document.getElementById("alertConfirmacion")
