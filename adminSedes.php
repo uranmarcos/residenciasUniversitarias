@@ -242,8 +242,7 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                         <th scope="col" style="width:40%">Provincia</th>
                                         <th scope="col" style="width:35%">Localidad</th>
                                         <th scope="col" style="width:10%; text-align:center">Casas</th>
-                                        <th scope="col" style="width:10%"></th>
-                                        <th scope="col" style="width:10%"></th>
+                                        <th scope="col" style="width:100px; text-align:center">Acciones</th>
                                     </tr>
                                 </thead>
                                 <form name="form2" method="POST" action="adminSedes.php">
@@ -254,18 +253,29 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                             <td><?php echo $sede["provincia"] ?></td>
                                             <td><?php echo $sede["descripcion"] ?></td>
                                             <td style="text-align: center"><?php echo $sede["casas"] ?></td>
-                                            <td class="d-flex justify-content-end"> 
-                                                <div name="trashButton<?php echo $sede['id']?>" id="trashButton<?php echo $sede['id']?>" class="trashButton" onclick="eliminarSedes(<?php echo $sede['id']?>, '<?php echo $sede['provincia'] . ', ' .$sede['descripcion'];?>')" data-bs-toggle="modal" data-bs-target="#modalEliminar">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
-                                                    </svg>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="editButton" onclick="mostrarCaja('boxEditarSede', 'boxCrearSede', 'botonNuevaSede'), cargarDatosEdicion('<?php echo $sede['id']?>', '<?php echo $sede['provincia']?>', '<?php echo $sede['descripcion']?>', '<?php echo $sede['casas']?>')">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                                                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
-                                                    </svg> 
+                                            <td class="pl-0 pr-0" style="width:100px; text-align:center"> 
+                                                <div class="row" style="width:90px; margin:auto;">
+                                                    <!-- START BOTON TRASH -->
+                                                    <div style="width:45px" name="trashButton<?php echo $sede['id']?>" id="trashButton<?php echo $sede['id']?>" class="trashButton" onmouseover="overBotonAccion('btnTrash<?php echo $sede['id']?>','btnTrashFill<?php echo $sede['id']?>')"  onmouseout="overBotonAccion('btnTrashFill<?php echo $sede['id']?>', 'btnTrash<?php echo $sede['id']?>')" onclick="eliminarSedes(<?php echo $sede['id']?>, '<?php echo $sede['provincia'] . ', ' .$sede['descripcion'];?>')" data-bs-toggle="modal" data-bs-target="#modalEliminar">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" id="btnTrash<?php echo $sede['id']?>" viewBox="0 0 16 16">
+                                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                                        </svg>    
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi hide bi-trash-fill" id="btnTrashFill<?php echo $sede['id']?>" viewBox="0 0 16 16">
+                                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                                                        </svg>
+                                                    </div>
+                                                    <!-- END BOTON TRASH -->
+                                                    <!-- START BOTON EDIT -->
+                                                    <div style="width:45px" class="editButton" onmouseover="overBotonAccion('btnPen<?php echo $sede['id']?>','btnPenFill<?php echo $sede['id']?>')"  onmouseout="overBotonAccion('btnPenFill<?php echo $sede['id']?>', 'btnPen<?php echo $sede['id']?>')" onclick="mostrarCaja('boxEditarSede', 'boxCrearSede', 'botonNuevaSede'), cargarDatosEdicion('<?php echo $sede['id']?>', '<?php echo $sede['provincia']?>', '<?php echo $sede['descripcion']?>', '<?php echo $sede['casas']?>')">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" id="btnPen<?php echo $sede['id']?>" class="bi bi-pencil" viewBox="0 0 16 16">
+                                                            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                                                        </svg>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" id="btnPenFill<?php echo $sede['id']?>" class="bi hide bi-pencil-fill" viewBox="0 0 16 16">
+                                                            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                                                        </svg> 
+                                                    </div>
+                                                    <!-- END BOTON EDIT -->
                                                 </div>
                                             </td>
                                         </tr>

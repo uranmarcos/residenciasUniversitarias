@@ -197,7 +197,7 @@ label{
     display:flex !important;
     justify-content: center;
     align-items: center;
-    min-width: 40px;
+    width: 50px;
     color: rgb(236, 130, 130);
     height: 25px;
     border-radius: 5px;
@@ -205,25 +205,20 @@ label{
 }
 .trashButton:hover{
     cursor: pointer;
-    background-color: white;
-    color: rgb(236, 130, 130);
-    border: solid 1px rgb(236, 130, 130);
 }
 .editButton{
     display:flex !important;
     justify-content: center;
     align-items: center;
-    min-width: 40px;
+    width: 50px;
     color:rgb(163, 73, 164);
     height: 25px;
     border-radius: 5px;
+    margin: 0 !important;
     padding:0 !important;
 }
 .editButton:hover{
     cursor: pointer;
-    background-color: white;
-    color:rgb(163, 73, 164);
-    border: solid 1px rgb(163, 73, 164);
 }
 
 

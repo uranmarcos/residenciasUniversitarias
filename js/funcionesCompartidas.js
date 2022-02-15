@@ -39,7 +39,12 @@ function redirect(caso){
     }
 }
 function mostrarSpinner(idBotonOcultar, ibBotonSpinner) {
-    console.log("hey")
+    let botonOcultar = document.getElementById(idBotonOcultar)
+    botonOcultar.classList.add("hide")
+    let botonSpinner = document.getElementById(ibBotonSpinner)
+    botonSpinner.classList.remove("hide")
+}
+function overBotonAccion(idBotonOcultar, ibBotonSpinner) {
     let botonOcultar = document.getElementById(idBotonOcultar)
     botonOcultar.classList.add("hide")
     let botonSpinner = document.getElementById(ibBotonSpinner)

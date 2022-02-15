@@ -4,6 +4,29 @@ function eliminarUsuarios(id, nombre, apellido) {
     let idUsuarioEliminar = document.getElementById("idUsuarioEliminar")
     idUsuarioEliminar.value = id
 }
+function deshabilitarBotonTrash (id, rol) {
+    let boton = document.getElementById("trashButton"+id)
+    if (rol.toLowerCase() == "admin"){
+        boton.setAttribute("disabled", true)    
+    }
+}
+// CARGA LOS DATOS DE BASE DE LA SEDE EN EL BOX EDITABLE 
+function cargarDatosEdicion(id, nombre, segundoNombre, apellido, dni, rol, mail, sede, casa){
+    let boton = document.getElementById("botonEditarUsuario")
+    boton.setAttribute("disabled", true)
+    document.getElementById("idUsuarioPorEditar").value = id
+    document.getElementById("primerNombreEditarUsuario").value = nombre
+    document.getElementById("segundoNombreEditarUsuario").value = segundoNombre
+    document.getElementById("apellidoEditarUsuario").value = apellido
+    document.getElementById("dniEditarUsuario").value = dni
+    document.getElementById("rolEditarUsuario").value = rol
+    document.getElementById("mailEditarUsuario").value = mail
+    document.getElementById("sedeEditarUsuario").value = sede
+    document.getElementById("casaEditarUsuario").value = casa
+}
+
+
+
 
 
 
@@ -54,12 +77,7 @@ function eliminarUsuarios(id, nombre, apellido) {
         spanEditarUsuario.innerHTML = "Usuario: <b>" + nombre + " " + apellido + "</b>  - DNI: <b>" + dni + "</b> - rol: <b>" + rolSelected + "</b> - mail: <b>" + mail + "</b> - sede: <b>" + sedeSelected + "</b> - casa: <b>" + casa +"</b>"
     }
 
-    function deshabilitarBotonTrash (id, rol, habilitado) {
-        let boton = document.getElementById("trashButton"+id)
-        if (habilitado == 0 || rol == "admin"){
-            boton.setAttribute("disabled", true)    
-        }
-    }
+ 
     function deshabilitarBotonEdit (id, rol) {
         let boton = document.getElementById("editButton"+id)
         if (rol == "admin"){
@@ -78,21 +96,7 @@ function eliminarUsuarios(id, nombre, apellido) {
             boton.removeAttribute("disabled")    
         }
     }
-    // CARGA LOS DATOS DE BASE DE LA SEDE EN EL BOX EDITABLE 
-    function cargarDatosEdicion(id, nombre, segundoNombre, apellido, dni, rol, mail, sede, casa, habilitado){
-        let boton = document.getElementById("botonEditarUsuario")
-        boton.setAttribute("disabled", true)
-        document.getElementById("idUsuarioPorEditar").value = id
-        document.getElementById("primerNombreEditarUsuario").value = nombre
-        document.getElementById("segundoNombreEditarUsuario").value = segundoNombre
-        document.getElementById("apellidoEditarUsuario").value = apellido
-        document.getElementById("dniEditarUsuario").value = dni
-        document.getElementById("rolEditarUsuario").value = rol
-        document.getElementById("mailEditarUsuario").value = mail
-        document.getElementById("sedeEditarUsuario").value = sede
-        document.getElementById("casaEditarUsuario").value = casa
-        document.getElementById("habilitadoEditarUsuario").value = habilitado
-    }
+
     // CARGA LOS DATOS NUEVOS DE LA SEDE EN EL MODAL PIDIENDO CONFIRMACION
     function enviarDatosEdicion(descripcion, medida, categoria, habilitado) {
         let descripcionArticulo = document.getElementById(descripcion).value

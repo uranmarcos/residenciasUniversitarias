@@ -5,6 +5,7 @@ $mensajeAlertError = "";
 $alertConfirmacion = "hide";
 $mensajeAlertConfirmacion="";
 $idUsuarioLogueado = $_SESSION["id"];
+$rol = $_SESSION["rol"];
     // VARIABLES CON LOS CAMPOS A REVISAR AL VALIDAR EL FORMULARIO DE EDICION/CREACION
     $camposCreacion = ["primerNombreNuevoUsuario", "segundoNombreNuevoUsuario", "apellidoNuevoUsuario", "dniNuevoUsuario", "mailNuevoUsuario", "sedeNuevoUsuario"];
     $camposErroresCreacion = ["errorPrimerNombreNuevoUsuario", "errorSegundoNombreNuevoUsuario", "errorApellidoNuevoUsuario",
@@ -62,19 +63,12 @@ $idUsuarioLogueado = $_SESSION["id"];
         $apellido = $_POST["apellidoEditarUsuario"];
         $rol = $_POST["rolEditarUsuario"];
         $mail = $_POST["mailEditarUsuario"];
-        if ($rol == "general") {
-            $sede = 6;
-            $casa = 0;
-        } else {
-            $sede = $_POST["sedeEditarUsuario"];
-            $casa = $_POST["casaEditarUsuario"];
-        }
-        $habilitado = $_POST["habilitadoEditarUsuario"];
+        $sede = $_POST["sedeEditarUsuario"];
+        $casa = $_POST["casaEditarUsuario"];
         date_default_timezone_set('America/Argentina/Cordoba');
         $date = date("Y-m-d H:i:s");
         $consulta = $baseDeDatos ->prepare("UPDATE agentes SET nombre = '$primerNombre', segundoNombre = '$segundoNombre',
-        apellido = '$apellido', rol = '$rol', mail = '$mail', sede = '$sede', casa = '$casa', habilitado = '$habilitado',  modified = '$date', userId = '$idUsuarioLogueado' WHERE id = '$id'");
-        //$consulta->execute();
+        apellido = '$apellido', rol = '$rol', mail = '$mail', sede = '$sede', casa = '$casa', modified = '$date', idUser = '$idUsuarioLogueado' WHERE id = '$id'");
         try {
             $consulta->execute();
             $alertConfirmacion = "show";
@@ -115,7 +109,7 @@ $idUsuarioLogueado = $_SESSION["id"];
     }
 
     // CONSULTAS INICIALES LISTADO DE ARTICULOS, MEDIDAS Y CATEGORIAS
-    $consultaUsuarios = $baseDeDatos ->prepare("SELECT U.id, U.nombre, U.segundoNombre, U.apellido, U.mail, U.dni, U.sede idSede, U.rol, S.descripcion 'sede', U.casa FROM agentes U INNER JOIN sedes S ON U.sede = S.id");
+    $consultaUsuarios = $baseDeDatos ->prepare("SELECT U.id, U.nombre, U.segundoNombre, U.apellido, U.mail, U.dni, U.sede idSede, U.rol, S.provincia 'provincia', S.descripcion 'sede', U.casa FROM agentes U INNER JOIN sedes S ON U.sede = S.id");
     $consultaSedes = $baseDeDatos ->prepare("SELECT * FROM sedes");
     
     try {
@@ -136,7 +130,6 @@ $idUsuarioLogueado = $_SESSION["id"];
     }
  
     // OPCIONES DE ROLES PARA LA CREACION DE USUARIOS
-    $rol = "general";
     if($rol == "admin") {
         $roles = [
             [ "value"=> "admin", "descripcion"=> "Admin"],
