@@ -92,7 +92,7 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                                             </svg> 
                                                         </div>
                                                         <!-- BOTON KEY -->
-                                                        <div style="width:45px" class="editButton" id="passwordButton<?php echo $usuario['id']?>" onmouseover="overBotonAccion('btnKey<?php echo $usuario['id']?>','btnKeyFill<?php echo $usuario['id']?>')"  onmouseout=" overBotonAccion('btnKeyFill<?php echo $usuario['id']?>', 'btnKey<?php echo $usuario['id']?>')" onclick="cargarResetPassword('<?php echo $usuario['id']?>', '<?php echo $usuario['dni']?>', '<?php echo $usuario['nombre']?>', '<?php echo $usuario['segundoNombre']?>', '<?php echo $usuario['apellido']?>')" data-bs-toggle="modal" data-bs-target="#modalResetPassword" >
+                                                        <div style="width:45px" class="editButton" id="passwordButton<?php echo $usuario['id']?>" onmouseover="overBotonAccion('btnKey<?php echo $usuario['id']?>','btnKeyFill<?php echo $usuario['id']?>')"  onmouseout=" overBotonAccion('btnKeyFill<?php echo $usuario['id']?>', 'btnKey<?php echo $usuario['id']?>')" onclick="cargarResetPassword('<?php echo $usuario['id']?>', '<?php echo $usuario['dni']?>', '<?php echo $usuario['nombre']?>', '<?php echo $usuario['segundoNombre']?>', '<?php echo $usuario['apellido']?>')" data-bs-toggle="modal" data-bs-target="#resetModal" >
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key" id="btnKey<?php echo $usuario['id']?>" viewBox="0 0 16 16">
                                                                 <path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z"/>
                                                                 <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
@@ -346,6 +346,33 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                     </div>
                 </form>
                 <!----     END MODAL EDICION DE USUARIO    ----->
+
+                <!-- MODAL CONFIRMACION RESET PASSWORD -->
+                <form name="formEdicion" method="POST" action="adminUsuarios.php">
+                    <div class="modal fade" id="resetModal" tabindex="-1" aria-labelledby="resetModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <input type="text" hidden name="idUsuarioResetPassword" id="idUsuarioResetPassword"></input>
+                                    <input type="text" hidden name="dniUsuarioResetPassword" id="dniUsuarioResetPassword"></input>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body centrarTexto">
+                                    ¿Confirma que desea resetear la contraseña <br>de <b><span id="spanResetPassword"></span></b>?</br> Se le asignará como nueva contraseña su DNI.
+                                </div>
+                                <div class="modal-footer d-flex justify-content-around">
+                                    <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" name="resetPassword" id="btnResetPassword" onclick="mostrarSpinner('btnResetPassword','spinnerResetPassword')" class="btn boton">Confirmar</button>
+                                    <button type="button" class="btnReenviarCircle hide" id="spinnerResetPassword" >
+                                        <div class="spinner-border spinnerReenviar" role="status">
+                                            <span class="sr-only"></span>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>          
