@@ -117,6 +117,8 @@ function validarCampo (idCampo, idCampoError) {
     }  
 }
 function bloquearFormularioCreacion() {
+    let btnLimpiar = document.getElementById("btnLimpiarCreacion")
+    btnLimpiar.setAttribute("disabled", true)
     let primerNombre = document.getElementById("primerNombreCreacion")
     primerNombre.setAttribute("disabled", true)
     let segundoNombre = document.getElementById("segundoNombreCreacion")
@@ -135,6 +137,8 @@ function bloquearFormularioCreacion() {
     casa.setAttribute("disabled", true)
 }
 function desbloquearFormularioCreacion() {
+    let btnLimpiar = document.getElementById("btnLimpiarCreacion")
+    btnLimpiar.removeAttribute("disabled")
     let primerNombre = document.getElementById("primerNombreCreacion")
     primerNombre.removeAttribute("disabled")
     let segundoNombre = document.getElementById("segundoNombreCreacion")
@@ -267,6 +271,8 @@ function validarFormEdicion () {
 
 }
 function bloquearFormularioEdicion() {
+    let btnLimpiar = document.getElementById("btnLimpiarEdicion")
+    btnLimpiar.setAttribute("disabled", true)
     let primerNombre = document.getElementById("primerNombreEdicion")
     primerNombre.setAttribute("disabled", true)
     let segundoNombre = document.getElementById("segundoNombreEdicion")
@@ -283,6 +289,8 @@ function bloquearFormularioEdicion() {
     casa.setAttribute("disabled", true)
 }
 function desbloquearFormularioEdicion() {
+    let btnLimpiar = document.getElementById("btnLimpiarEdicion")
+    btnLimpiar.removeAttribute("disabled")
     let primerNombre = document.getElementById("primerNombreEdicion")
     primerNombre.removeAttribute("disabled")
     let segundoNombre = document.getElementById("segundoNombreEdicion")

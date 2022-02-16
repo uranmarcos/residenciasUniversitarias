@@ -160,10 +160,10 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                     </button>
                                 </div>
                                 <div class="modal-body" id="bodyModalCrear">
-                                    <div class="contenedorSeccion purple contenedorModal mb-4" id="boxEditarUsuario">        
+                                    <div class="contenedorSeccion purple contenedorModal mb-4" id="boxCrearUsuario">        
                                         <div class="row">
                                             <div class="col-12 columna">
-                                                <button type="button" class="btn botonLimpiar" onclick="limpiarFormularioCreacion()">Limpiar Formulario</button>
+                                                <button type="button" class="btn botonLimpiar" id="btnLimpiarCreacion" onclick="limpiarFormularioCreacion()">Limpiar Formulario</button>
                                             </div>
                                             <div class="col-12 columna">
                                                 <label >Primer Nombre: </label>
@@ -263,7 +263,7 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                     <div class="contenedorSeccion purple contenedorModal mb-4" id="boxEditarUsuario">        
                                         <div class="row">
                                             <div class="col-12 columna">
-                                                <button type="button" class="btn botonLimpiar" onclick="limpiarFormularioEdicion()">Limpiar Formulario</button>
+                                                <button type="button" class="btn botonLimpiar" id="btnLimpiarEdicion" onclick="limpiarFormularioEdicion()">Limpiar Formulario</button>
                                             </div>
                                             <input class="hide" name="idUsuarioEdicion" id="idUsuarioEdicion">
                                             <div class="col-12 columna">
