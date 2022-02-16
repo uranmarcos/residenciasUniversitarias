@@ -165,14 +165,15 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                         </div>
                     </div>
                 </form>
-                <!-- END MODAL CONFIRMACION ELIMINACION USUARIO -->
-                <!----     START MODAL CREACION DE USUARIO    ----->
+                <!-- END MODAL CONFIRMACION ELIMINACION ARTICULO -->
+
+                <!----     START MODAL CREACION DE ARTICULO    ----->
                 <form name="formCreacion" method="POST" action="adminArticulos.php">
                     <div class="modal fade" id="pruebaModal" tabindex="-1" role="dialog" aria-labelledby="pruebaModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title centrarTexto purple" id="pruebaModalLabel">CREACIÓN DE USUARIO</h5>
+                                    <h5 class="modal-title centrarTexto purple" id="pruebaModalLabel">CREACIÓN DE ARTICULO</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -184,58 +185,26 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                                 <button type="button" class="btn botonLimpiar" onclick="limpiarFormularioCreacion()">Limpiar Formulario</button>
                                             </div>
                                             <div class="col-12 columna">
-                                                <label >Primer Nombre: </label>
-                                                <input  maxlength="12" style="width:100%" name="primerNombreCreacion" id="primerNombreCreacion" autocomplete="off" onkeyup="validarCampo('primerNombreCreacion', 'errorPrimerNombreCreacion'), validarFormCreacion()">
-                                                <div class="hide errorValidacion" id="errorPrimerNombreCreacion"></div>
+                                                <label> Descripción: </label>
+                                                <input maxlength="30" style="width:100%" id="descripcionCreacion" name="descripcionCreacion" autocomplete="off" onkeyup="validarDescripcion(value)" id="descripcionNuevoArticulo">
+                                                <div class="hide errorValidacion" id="mensajeValidacionCreacion"></div>
                                             </div>
                                             <div class="col-12 columna">
-                                                <label>Segundo Nombre: </label>
-                                                <input maxlength="12"  style="width:100%" name="segundoNombreCreacion" id="segundoNombreCreacion" autocomplete="off" onkeyup="validarCampo('segundoNombreCreacion', 'errorSegundoNombreCreacion'), validarFormCreacion()">                                               
-                                                <div class="hide errorValidacion" id="errorSegundoNombreCreacion"></div>
-                                            </div>
-                                            <div class="col-12 columna">
-                                                <label>Apellido: </label>
-                                                <input maxlength="12"  style="width:100%" name="apellidoCreacion" id="apellidoCreacion" autocomplete="off" onkeyup="validarCampo('apellidoCreacion', 'errorApellidoCreacion'), validarFormCreacion()">
-                                                <div class="hide errorValidacion" id="errorApellidoCreacion"></div>
-                                            </div>
-                                            <div class="col-6 columna">
-                                                <label>DNI: </label>
-                                                <input maxlength="8"  style="width:100%" name="dniCreacion" id="dniCreacion" autocomplete="off" onkeyup="validarCampo('dniCreacion', 'errorDniCreacion'), validarFormCreacion()">
-                                                <div class="hide errorValidacion" id="errorDniCreacion"></div>
-                                            </div>
-                                            <div class="col-6 columna">
-                                                <label>Rol: </label>
-                                                <select  style="width:100%; height: 30px"  name="rolCreacion" id="rolCreacion" onchange="validarFormCreacion()">
-                                                    <?php foreach($roles as $rol){ ?>
-                                                        <option value="<?php echo $rol["value"] ?>"><?php echo $rol["descripcion"] ?></option>
-                                                    <?php } ?>
-                                                </select>   
-                                                <div class="hide errorValidacion" id="errorRolCreacion"></div>
-                                            </div>
-                                            <div class="col-12 columna">                                                    
-                                                <label>Mail: </label>
-                                                <input name="mailCreacion"  style="width:100%" id="mailCreacion" type="email" autocomplete="off" onkeyup="validarCampo('mailCreacion', 'errorMailCreacion'), validarFormCreacion()"> 
-                                                <div class="hide errorValidacion" id="errorMailCreacion"></div>
-                                            </div>
-                                            <div class="col-9 columna">
-                                                <label>Sede: </label>
-                                                <select style="height:30px; width: 100%;" id="sedeCreacion" name="sedeCreacion" onchange="selectSede(value), validarFormCreacion()">
-                                                    <?php foreach($sedes as $sede){ ?>
-                                                        <option value="<?php echo $sede['id']?>"><?php echo $sede['provincia'] . " - " . $sede['descripcion']?></option>
+                                                <label class="labelForm"> Medida: </label>
+                                                <select id="medidaCreacion" style="width:100%; height:30px"  name="medidaCreacion">
+                                                <?php foreach($medidas as $medida){ ?>
+                                                        <option value="<?php echo $medida['id']?>"><?php echo $medida['descripcion']?></option>
                                                     <?php } ?> 
-                                                </select>    
-                                                <div class="hide errorValidacion" id="errorSedeCreacion"></div>
+                                                </select>   
                                             </div>
-                                            <div class="col-3 columna">
-                                                <label>Casa: </label>
-                                                <select  id="casaCreacion" name="casaCreacion" style="height:30px; width:100%" onchange="validarFormCreacion()">
-                                                    <option value="1" name="opcionSelectCasa">1</option>
-                                                    <option value="2" name="opcionSelectCasa">2</option>
-                                                    <option value="3" name="opcionSelectCasa">3</option>
-                                                    <option value="4" name="opcionSelectCasa">4</option>
-                                                    <option value="5" name="opcionSelectCasa">5</option>
-                                                </select>    
-                                            </div>
+                                            <div class="col-12 columna">
+                                                <label class="labelForm"> Categoria: </label>
+                                                <select id="categoriaCreacion" style="width:100%; height:30px" name="categoriaCreacion">
+                                                    <?php foreach($categorias as $categoria){ ?>
+                                                        <option value="<?php echo $categoria['id']?>"><?php echo $categoria['descripcion']?></option>
+                                                    <?php } ?>  
+                                                </select>   
+                                            </div>                
                                         </div>
                                     </div>
                                 </div>
@@ -248,7 +217,7 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                     </div>
                                     <div class="col-12  hide" id="confirmacionCreacion">
                                         <div class="d-flex align-items-center mb-3 purple justify-content-around">
-                                            ¿Confirma la creación del usuario?
+                                            ¿Confirma la creación del articulo?
                                         </div>
                                         <div class="d-flex align-items-center justify-content-around">
                                             <button type="button" class="btn botonCancelar" onclick="cancelarConfirmacion('confirmacionCreacion', 'botonesModalCreacion', 'crear')">Cancelar</button>
@@ -387,6 +356,55 @@ window.onload = function(){
         setTimeout(ocultarAlertError, 5000)
     }
 }
+
+
+function validarDescripcion(value){
+    let boxMensajeArticuloExistente = document.getElementById("mensajeValidacionCreacion")
+    let btnCreacion = document.getElementById("btnCreacion")
+    btnCreacion.setAttribute("disabled", true)
+    let articulos = <?php  echo json_encode($articulos) ?>;
+    if(value.length >=3) {
+        let articulosExistentes = articulos.filter(element => element.descripcion.toLowerCase().includes(value.toLowerCase()))
+        let descripcionesArticulosExistentes = ""
+        articulosExistentes.forEach(function callback(value, index) {
+            descripcionesArticulosExistentes = descripcionesArticulosExistentes + value.descripcion + " "
+        })
+        if(articulosExistentes.length > 0) {
+            boxMensajeArticuloExistente.classList.remove("hide")
+            boxMensajeArticuloExistente.innerHTML = "Ya existen los siguientes articulos: " + descripcionesArticulosExistentes
+        }else{
+            btnCreacion.removeAttribute("disabled")
+            boxMensajeArticuloExistente.classList.add("hide")
+        }
+    } else {
+        boxMensajeArticuloExistente.classList.remove("hide")
+        boxMensajeArticuloExistente.innerHTML = "3 o mas caracteres"
+    }
+}
+
+
+
+function limpiarFormularioCreacion () {
+    document.getElementById("descripcionCreacion").value = ""
+    document.getElementById("medidaCreacion").value = 1
+    document.getElementById("categoriaCreacion").value = 1
+    limpiarValidaciones("crear")
+}
+function limpiarFormularioEdicion () {
+    document.getElementById("descripcionEdicion").value = ""
+    limpiarValidaciones("editar")
+}
+function limpiarValidaciones(accion) {
+    if(accion == "crear") {
+        document.getElementById("mensajeValidacionCreacion").classList.add("hide")
+    } else {
+        document.getElementById("mensajeValidacionEdicion").classList.add("hide")
+    }
+}
+
+
+
+
 
 function eliminarArticulo(id, descripcion) {
     document.getElementById("articuloAEliminar").innerHTML = " - " + descripcion + " - "
