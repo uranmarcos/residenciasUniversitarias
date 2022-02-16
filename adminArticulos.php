@@ -27,6 +27,7 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                         <span class="pointer" onclick="redirect('inicio')">Inicio</span> -<span class="pointer" onclick="redirect('admin')"> Admin </span> - <span class="grey"> Admin ARTICULOS</span>
                     </div>
                 </div>
+
                 <!--    START BOX LISTADO ARTICULOS    -->
                 <div class="bloque">
                     <div class="alert alert-danger centrarTexto <?php echo $alertError ?>" id="alertErrorConexion" role="alert" >
@@ -111,7 +112,7 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                                                 </svg>
                                                             </div>
                                                             <!-- BOTON EDIT -->
-                                                            <div style="width:45px" class="editButton" id="editButton<?php echo $articulo['id']?>" onmouseover="overBotonAccion('btnPen<?php echo $articulo['id']?>','btnPenFill<?php echo $articulo['id']?>')" onmouseout="overBotonAccion('btnPenFill<?php echo $articulo['id']?>', 'btnPen<?php echo $articulo['id']?>')" onclick="cargarDatosEdicion('<?php echo $articulo['id']?>', '<?php echo $articulo['descripcion']?>', '<?php echo $articulo['medida']?>', '<?php echo $articulo['categoria']?>')" data-toggle="modal" data-target="#edicionModal">
+                                                            <div style="width:45px" class="editButton" id="editButton<?php echo $articulo['id']?>" onmouseover="overBotonAccion('btnPen<?php echo $articulo['id']?>','btnPenFill<?php echo $articulo['id']?>')" onmouseout="overBotonAccion('btnPenFill<?php echo $articulo['id']?>', 'btnPen<?php echo $articulo['id']?>')" onclick="cargarDatosEdicion('<?php echo $articulo['id']?>', '<?php echo $articulo['descripcion']?>', '<?php echo $articulo['idMedida']?>', '<?php echo $articulo['idCategoria']?>')" data-toggle="modal" data-target="#edicionModal">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" id="btnPen<?php echo $articulo['id']?>" class="bi bi-pencil" viewBox="0 0 16 16">
                                                                     <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
                                                                 </svg>
@@ -140,6 +141,7 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                     </div>
                 </div>
                 <!--    END BOX LISTADO USUARIOS    -->
+
                 <!-- START MODAL CONFIRMACION ELIMINACION ARTICULO -->                    
                 <form action="adminArticulos.php" method="POST">
                     <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -182,11 +184,11 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                     <div class="contenedorSeccion purple contenedorModal mb-4" id="boxEditarUsuario">        
                                         <div class="row">
                                             <div class="col-12 columna">
-                                                <button type="button" class="btn botonLimpiar" onclick="limpiarFormularioCreacion()">Limpiar Formulario</button>
+                                                <button type="button" class="btn botonLimpiar" id="btnLimpiarFormCreacion" onclick="limpiarFormularioCreacion()">Limpiar Formulario</button>
                                             </div>
                                             <div class="col-12 columna">
                                                 <label> Descripción: </label>
-                                                <input maxlength="30" style="width:100%" id="descripcionCreacion" name="descripcionCreacion" autocomplete="off" onkeyup="validarDescripcion(value)" id="descripcionNuevoArticulo">
+                                                <input maxlength="30" style="width:100%" id="descripcionCreacion" name="descripcionCreacion" autocomplete="off" onkeyup="validarDescripcionCreacion(value)">
                                                 <div class="hide errorValidacion" id="mensajeValidacionCreacion"></div>
                                             </div>
                                             <div class="col-12 columna">
@@ -234,75 +236,48 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                         </div>
                     </div>
                 </form>
-                <!----     END MODAL CREACION DE USUARIO    ----->
-                <!----     START MODAL EDICION DE USUARIO    ----->
+                <!----     END MODAL CREACION DE ARTICULO    ----->
+
+                <!----     START MODAL EDICION DE ARTICULO    ----->
                 <form name="formEdicion" method="POST" action="adminArticulos.php">
                     <div class="modal fade" id="edicionModal" tabindex="-1" role="dialog" aria-labelledby="edicionModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title centrarTexto purple" id="edicionModalLabel">EDICIÓN DE USUARIO</h5>
+                                    <h5 class="modal-title centrarTexto purple" id="edicionModalLabel">EDICIÓN DE ARTICULO</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body" id="bodyModalCrear">
-                                    <div class="contenedorSeccion purple contenedorModal mb-4" id="boxEditarUsuario">        
+                                    <div class="contenedorSeccion purple contenedorModal mb-4" id="boxEditarArticulo">        
                                         <div class="row">
                                             <div class="col-12 columna">
-                                                <button type="button" class="btn botonLimpiar" onclick="limpiarFormularioEdicion()">Limpiar Formulario</button>
+                                                <button type="button" class="btn botonLimpiar" id="btnLimpiarFormEdicion" onclick="limpiarFormularioEdicion()">Limpiar Formulario</button>
                                             </div>
-                                            <input class="hide" name="idUsuarioEdicion" id="idUsuarioEdicion">
+                                            <input id="idArticuloEdicion" name="idArticuloEdicion" class="hide">
+                                                
                                             <div class="col-12 columna">
-                                                <label >Primer Nombre: </label>
-                                                <input  maxlength="12" style="width:100%" name="primerNombreEdicion" id="primerNombreEdicion" autocomplete="off" onkeyup="validarCampo('primerNombreEdicion', 'errorPrimerNombreEdicion'), validarFormEdicion()">
-                                                <div class="hide errorValidacion" id="errorPrimerNombreEdicion"></div>
-                                            </div>
-                                            <div class="col-12 columna">
-                                                <label>Segundo Nombre: </label>
-                                                <input maxlength="12"  style="width:100%" name="segundoNombreEdicion" id="segundoNombreEdicion" autocomplete="off" onkeyup="validarCampo('segundoNombreEdicion', 'errorSegundoNombreEdicion'), validarFormEdicion()">                                               
-                                                <div class="hide errorValidacion" id="errorSegundoNombreEdicion"></div>
+                                                <label> Descripción: </label>
+                                                <input maxlength="30" style="width:100%" id="descripcionEdicion" name="descripcionEdicion" autocomplete="off" onkeyup="validarDescripcionEdicion(value)">
+                                                <div class="hide errorValidacion" id="mensajeValidacionEdicion"></div>
                                             </div>
                                             <div class="col-12 columna">
-                                                <label>Apellido: </label>
-                                                <input maxlength="12"  style="width:100%" name="apellidoEdicion" id="apellidoEdicion" autocomplete="off" onkeyup="validarCampo('apellidoEdicion', 'errorApellidoEdicion'), validarFormEdicion()">
-                                                <div class="hide errorValidacion" id="errorApellidoEdicion"></div>
-                                            </div>
-                                            <div class="col-6 columna">
-                                                <label>DNI: </label>
-                                                <input maxlength="8" disabled style="width:100%" name="dniEdicion" id="dniEdicion" autocomplete="off" onkeyup="validarCampo('dniEdicion', 'errorDniEdicion'), validarFormEdicion()">
-                                            </div>
-                                            <div class="col-6 columna">
-                                                <label>Rol: </label>
-                                                <select  style="width:100%; height: 30px"  name="rolEdicion" id="rolEdicion" onchange="validarFormEdicion()">
-                                                    <?php foreach($roles as $rol){ ?>
-                                                        <option value="<?php echo $rol["value"] ?>"><?php echo $rol["descripcion"] ?></option>
-                                                    <?php } ?>
+                                                <label class="labelForm"> Medida: </label>
+                                                <select id="medidaEdicion" style="width:100%; height:30px" onchange="validarFormularioEdicion()" name="medidaEdicion">
+                                                <?php foreach($medidas as $medida){ ?>
+                                                        <option value="<?php echo $medida['id']?>"><?php echo $medida['descripcion']?></option>
+                                                    <?php } ?> 
                                                 </select>   
                                             </div>
-                                            <div class="col-12 columna">                                                    
-                                                <label>Mail: </label>
-                                                <input name="mailEdicion"  style="width:100%" id="mailEdicion" type="email" autocomplete="off" onkeyup="validarCampo('mailEdicion', 'errorMailEdicion'), validarFormEdicion()"> 
-                                                <div class="hide errorValidacion" id="errorMailEdicion"></div>
-                                            </div>
-                                            <div class="col-9 columna">
-                                                <label>Sede: </label>
-                                                <select style="height:30px; width: 100%;" id="sedeEdicion" name="sedeEdicion" onchange="selectSede(value), validarFormEdicion()">
-                                                    <?php foreach($sedes as $sede){ ?>
-                                                        <option value="<?php echo $sede['id']?>"><?php echo $sede['provincia'] . " - " . $sede['descripcion']?></option>
-                                                    <?php } ?> 
-                                                </select>    
-                                            </div>
-                                            <div class="col-3 columna">
-                                                <label>Casa: </label>
-                                                <select  id="casaEdicion" name="casaEdicion" style="height:30px; width:100%" onchange="validarFormEdicion()">
-                                                    <option value="1" name="opcionSelectCasa">1</option>
-                                                    <option value="2" name="opcionSelectCasa">2</option>
-                                                    <option value="3" name="opcionSelectCasa">3</option>
-                                                    <option value="4" name="opcionSelectCasa">4</option>
-                                                    <option value="5" name="opcionSelectCasa">5</option>
-                                                </select>    
-                                            </div>
+                                            <div class="col-12 columna">
+                                                <label class="labelForm"> Categoria: </label>
+                                                <select id="categoriaEdicion" style="width:100%; height:30px" onchange="validarFormularioEdicion()" name="categoriaEdicion">
+                                                    <?php foreach($categorias as $categoria){ ?>
+                                                        <option value="<?php echo $categoria['id']?>"><?php echo $categoria['descripcion']?></option>
+                                                    <?php } ?>  
+                                                </select>   
+                                            </div>                
                                         </div>
                                     </div>
                                 </div>
@@ -315,12 +290,12 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                     </div>
                                     <div class="col-12  hide" id="confirmacionEdicion">
                                         <div class="d-flex align-items-center mb-3 purple justify-content-around">
-                                            ¿Confirma la edición del usuario?
+                                            ¿Confirma la edición del articulo?
                                         </div>
                                         <div class="d-flex align-items-center justify-content-around">
                                             <button type="button" class="btn botonCancelar" onclick="cancelarConfirmacion('confirmacionEdicion', 'botonesModalEdicion', 'editar')">Cancelar</button>
-                                            <button type="submit" name="editarUsuario" id="btnEditar" onclick="desbloquearFormularioEdicion(), mostrarSpinner('btnEditar','spinnerEditarUsuario')" class="btn boton">Confirmar</button>
-                                            <button type="button" class="btnReenviarCircle hide" id="spinnerEditarUsuario" >
+                                            <button type="submit" name="editarArticulo" id="btnEditarArticulo" onclick="desbloquearFormularioEdicion(), mostrarSpinner('btnEditarArticulo','spinnerEditarArticulo')" class="btn boton">Confirmar</button>
+                                            <button type="button" class="btnReenviarCircle hide" id="spinnerEditarArticulo" >
                                                 <div class="spinner-border spinnerReenviar" role="status">
                                                     <span class="sr-only"></span>
                                                 </div>
@@ -333,8 +308,6 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                     </div>
                 </form>
                 <!----     END MODAL EDICION DE USUARIO    ----->
-
-
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>          
@@ -356,9 +329,30 @@ window.onload = function(){
         setTimeout(ocultarAlertError, 5000)
     }
 }
-
-
-function validarDescripcion(value){
+function validarDescripcionEdicion(value){
+    let boxMensajeArticuloExistente = document.getElementById("mensajeValidacionEdicion")
+    let btnEdicion = document.getElementById("btnEdicion")
+    btnEdicion.setAttribute("disabled", true)
+    let articulos = <?php  echo json_encode($articulos) ?>;
+    if(value.length >=3) {
+        let articulosExistentes = articulos.filter(element => element.descripcion.toLowerCase().includes(value.toLowerCase()))
+        let descripcionesArticulosExistentes = ""
+        articulosExistentes.forEach(function callback(value, index) {
+            descripcionesArticulosExistentes = descripcionesArticulosExistentes + value.descripcion + " "
+        })
+        if(articulosExistentes.length > 0) {
+            boxMensajeArticuloExistente.classList.remove("hide")
+            boxMensajeArticuloExistente.innerHTML = "Ya existen los siguientes articulos: " + descripcionesArticulosExistentes
+        }else{
+            btnEdicion.removeAttribute("disabled")
+            boxMensajeArticuloExistente.classList.add("hide")
+        }
+    } else {
+        boxMensajeArticuloExistente.classList.remove("hide")
+        boxMensajeArticuloExistente.innerHTML = "3 o mas caracteres"
+    }
+}
+function validarDescripcionCreacion(value){
     let boxMensajeArticuloExistente = document.getElementById("mensajeValidacionCreacion")
     let btnCreacion = document.getElementById("btnCreacion")
     btnCreacion.setAttribute("disabled", true)
@@ -380,81 +374,6 @@ function validarDescripcion(value){
         boxMensajeArticuloExistente.classList.remove("hide")
         boxMensajeArticuloExistente.innerHTML = "3 o mas caracteres"
     }
-}
-function limpiarFormularioCreacion () {
-    document.getElementById("descripcionCreacion").value = ""
-    document.getElementById("medidaCreacion").value = 1
-    document.getElementById("categoriaCreacion").value = 1
-    limpiarValidaciones("crear")
-}
-function limpiarFormularioEdicion () {
-    document.getElementById("descripcionEdicion").value = ""
-    limpiarValidaciones("editar")
-}
-function limpiarValidaciones(accion) {
-    if(accion == "crear") {
-        document.getElementById("mensajeValidacionCreacion").classList.add("hide")
-    } else {
-        document.getElementById("mensajeValidacionEdicion").classList.add("hide")
-    }
-}
-
-function pedirConfirmacion(idOcultar, idMostrar, accion) {
-    let cajaOcultar = document.getElementById(idOcultar)
-    cajaOcultar.classList.add("hide")
-    let cajaMostrar = document.getElementById(idMostrar)
-    cajaMostrar.classList.remove("hide")
-    if (accion == "crear") {
-        bloquearFormularioCreacion()
-    } else {
-        bloquearFormularioEdicion()
-    }
-}
-function cancelarConfirmacion(idOcultar, idMostrar, accion) {
-    let cajaOcultar = document.getElementById(idOcultar)
-    cajaOcultar.classList.add("hide")
-    let cajaMostrar = document.getElementById(idMostrar)
-    cajaMostrar.classList.remove("hide")
-    if (accion == "crear") {
-        desbloquearFormularioCreacion()
-    } else {
-        desbloquearFormularioEdicion()
-    }
-}
-function bloquearFormularioCreacion() {
-    let descripcion = document.getElementById("descripcionCreacion")
-    descripcion.setAttribute("disabled", true)
-    let medida = document.getElementById("medidaCreacion")
-    medida.setAttribute("disabled", true)
-    let categoria = document.getElementById("categoriaCreacion")
-    categoria.setAttribute("disabled", true)
-}
-function desbloquearFormularioCreacion() {
-    let descripcion = document.getElementById("descripcionCreacion")
-    descripcion.removeAttribute("disabled")
-    let medida = document.getElementById("medidaCreacion")
-    medida.removeAttribute("disabled")
-    let categoria = document.getElementById("categoriaCreacion")
-    categoria.removeAttribute("disabled")
-}
-function ocultarAlertConfirmacion(){
-    let alertConfirmacion = document.getElementById("alertConfirmacion")
-    alertConfirmacion.classList.remove('show')
-    alertConfirmacion.classList.add('hide')
-}
-function ocultarAlertError(){
-    let alertErrorConexion = document.getElementById("alertErrorConexion")
-    alertErrorConexion.classList.remove('show')
-    alertErrorConexion.classList.add('hide')
-}
-
-
-
-
-
-function eliminarArticulo(id, descripcion) {
-    document.getElementById("articuloAEliminar").innerHTML = " - " + descripcion + " - "
-    document.getElementById("idArticuloEliminar").value = id
 }
 
 </script>

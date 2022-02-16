@@ -254,25 +254,7 @@
     </div>
 <script>
 
-function validarArticuloExistente(value){
-    let boxMensajeArticuloExistente = document.getElementById("mensajeArticuloExistente")
-    let articulos = <?php  echo json_encode($articulos) ?>;
-    if(value.length >=3) {
-        let articulosExistentes = articulos.filter(element => element.descripcion.toLowerCase().includes(value))
-        let descripcionesArticulosExistentes = ""
-        articulosExistentes.forEach(function callback(value, index) {
-            descripcionesArticulosExistentes = descripcionesArticulosExistentes + value.descripcion + " "
-        })
-        if(articulosExistentes.length > 0) {
-            boxMensajeArticuloExistente.classList.remove("hide")
-            boxMensajeArticuloExistente.innerHTML = "Ya existen los siguientes articulos: " + descripcionesArticulosExistentes
-        }else{
-            boxMensajeArticuloExistente.classList.add("hide")
-        }
-    } else {
-        boxMensajeArticuloExistente.classList.add("hide")
-    }
-}
+
 
 function mostrarCaja(idCaja, idCajaOcultar, idBoton=null) {
     ocultarCaja(idCajaOcultar)
@@ -333,27 +315,7 @@ function habilitarBotonDirecto (id) {
         boton.removeAttribute("disabled")    
     }
 }
-// CARGA LOS DATOS DE BASE DE LA SEDE EN EL BOX EDITABLE 
-function cargarDatosEdicion(id, descripcion, medida, categoria, habilitado){
-    document.getElementById("botonEditar").setAttribute("disabled", true)
-    document.getElementById("idArticuloPorEditar").value = id
-    document.getElementById("descripcionEditarArticulo").value = descripcion
-    document.getElementById("medidaEditarArticulo").value = medida
-    document.getElementById("categoriaEditarArticulo").value = categoria
-    document.getElementById("habilitadoEditarArticulo").value = habilitado
-}
-// CARGA LOS DATOS NUEVOS DE LA SEDE EN EL MODAL PIDIENDO CONFIRMACION
-function enviarDatosEdicion(descripcion, medida, categoria, habilitado) {
-    let descripcionArticulo = document.getElementById(descripcion).value
-    let medidaArticulo = document.getElementById(medida)
-    let medidaSelected = medidaArticulo.options[medidaArticulo.selectedIndex].text;
-    let categoriaArticulo = document.getElementById(categoria)
-    let categoriaSelected = categoriaArticulo.options[categoriaArticulo.selectedIndex].text;
-    let habilitadoArticulo = document.getElementById(habilitado).value
-    let spanEdicionArticulo = document.getElementById("spanEdicionArticulo")
-    spanEdicionArticulo.innerHTML = descripcionArticulo + " en " + medidaSelected + " para " +  categoriaSelected + " - " + (habilitadoArticulo == 0 ? "Eliminado" : "Habilitado")
 
-}
 window.onload = function(){
     let alertConfirmacion = document.getElementById("alertConfirmacion")
     if (alertConfirmacion.classList.contains('show')) {
