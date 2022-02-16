@@ -127,6 +127,15 @@ label{
     background-color: rgb(163, 73, 164);
     color:white !important;
 }
+.botonLimpiar{
+    background-color: rgb(236, 130, 130) !important;
+    color: white !important;
+    line-height: 30px;
+    height: 30px;
+    margin:auto;
+    padding: 0 10 !important;
+    width:auto !important; 
+}
 .botonCancelar{
     background-color: rgb(236, 130, 130) !important;
     color: white !important;

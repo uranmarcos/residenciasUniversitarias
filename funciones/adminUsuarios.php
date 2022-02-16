@@ -6,32 +6,32 @@ $alertConfirmacion = "hide";
 $mensajeAlertConfirmacion="";
 $idUsuarioLogueado = $_SESSION["id"];
 $rol = $_SESSION["rol"];
-    // VARIABLES CON LOS CAMPOS A REVISAR AL VALIDAR EL FORMULARIO DE EDICION/CREACION
-    $camposCreacion = ["primerNombreNuevoUsuario", "segundoNombreNuevoUsuario", "apellidoNuevoUsuario", "dniNuevoUsuario", "mailNuevoUsuario", "sedeNuevoUsuario"];
-    $camposErroresCreacion = ["errorPrimerNombreNuevoUsuario", "errorSegundoNombreNuevoUsuario", "errorApellidoNuevoUsuario",
-    "errorDniNuevoUsuario", "errorMailNuevoUsuario", "errorSedeNuevoUsuario" ];
-    $camposEdicion = ["primerNombreEditarUsuario", "segundoNombreEditarUsuario", "apellidoEditarUsuario", "dniEditarUsuario", "mailEditarUsuario", "sedeEditarUsuario"];
-    $camposErroresEdicion = ["errorPrimerNombreEditarUsuario", "errorSegundoNombreEditarUsuario", "errorApellidoEditarUsuario",
-    "errorDniEditarUsuario", "errorMailEditarUsuario", "errorSedeEditarUsuario" ];
+    
+    // // VARIABLES CON LOS CAMPOS A REVISAR AL VALIDAR EL FORMULARIO DE EDICION/CREACION
+    // $camposCreacion = ["primerNombreNuevoUsuario", "segundoNombreNuevoUsuario", "apellidoNuevoUsuario", "dniNuevoUsuario", "mailNuevoUsuario", "sedeNuevoUsuario"];
+    // $camposErroresCreacion = ["errorPrimerNombreNuevoUsuario", "errorSegundoNombreNuevoUsuario", "errorApellidoNuevoUsuario",
+    // "errorDniNuevoUsuario", "errorMailNuevoUsuario", "errorSedeNuevoUsuario" ];
+    // $camposEdicion = ["primerNombreEditarUsuario", "segundoNombreEditarUsuario", "apellidoEditarUsuario", "dniEditarUsuario", "mailEditarUsuario", "sedeEditarUsuario"];
+    // $camposErroresEdicion = ["errorPrimerNombreEditarUsuario", "errorSegundoNombreEditarUsuario", "errorApellidoEditarUsuario",
+    // "errorDniEditarUsuario", "errorMailEditarUsuario", "errorSedeEditarUsuario" ];
+    
+    
+    
     // ACCION CREAR USUARIO
     if(isset($_POST["crearUsuario"])){
-        $nombre = $_POST['primerNombreNuevoUsuario'];
-        $segundoNombre = $_POST['segundoNombreNuevoUsuario']; 
-        $apellido = $_POST['apellidoNuevoUsuario'];
-        $dni = $_POST['dniNuevoUsuario'];
+        $nombre = $_POST['primerNombreCreacion'];
+        $segundoNombre = $_POST['segundoNombreCreacion']; 
+        $apellido = $_POST['apellidoCreacion'];
+        $dni = $_POST['dniCreacion'];
         $password = password_hash($dni, PASSWORD_DEFAULT);
-        $rol = $_POST["rolNuevoUsuario"];
-        $mail = $_POST["mailNuevoUsuario"];
-        if ($rol == "general") {
-            $sede = 6;
-            $casa = 0;
-        } else {
-            $sede = $_POST["sedeNuevoUsuario"];
-            $casa = $_POST["casaNuevoUsuario"];
-        }
+        $rol = $_POST["rolCreacion"];
+        $mail = $_POST["mailCreacion"];
+        $sede = $_POST["sedeCreacion"];
+        $casa = $_POST["casaCreacion"];
+     
         date_default_timezone_set('America/Argentina/Cordoba');
         $date = date("Y-m-d H:i:s");
-        $insertUsuario = $baseDeDatos ->prepare("INSERT into agentes VALUES(default, '$dni', '$nombre', '$segundoNombre', '$apellido', '$mail', '$rol', '$password', '$sede', '$casa',1, '$date', '$date', '$idUsuarioLogueado')");
+        $insertUsuario = $baseDeDatos ->prepare("INSERT into agentes VALUES(default, '$dni', '$nombre', '$segundoNombre', '$apellido', '$mail', '$rol', '$password', '$sede', '$casa', '$date', '$date', '$idUsuarioLogueado')");
         $consultaDni = $baseDeDatos ->prepare("SELECT id from agentes WHERE dni = $dni");
         try{
             $consultaDni->execute();
@@ -55,16 +55,22 @@ $rol = $_SESSION["rol"];
         }
     }
 
+
+
+
+
+
+
     // ACCION EDITAR USUARIO
     if (isset($_POST["editarUsuario"])){
-        $id = $_POST["idUsuarioPorEditar"];
-        $primerNombre = $_POST["primerNombreEditarUsuario"];
-        $segundoNombre = $_POST["segundoNombreEditarUsuario"];
-        $apellido = $_POST["apellidoEditarUsuario"];
-        $rol = $_POST["rolEditarUsuario"];
-        $mail = $_POST["mailEditarUsuario"];
-        $sede = $_POST["sedeEditarUsuario"];
-        $casa = $_POST["casaEditarUsuario"];
+        $id = $_POST["idUsuarioEdicion"];
+        $primerNombre = $_POST["primerNombreEdicion"];
+        $segundoNombre = $_POST["segundoNombreEdicion"];
+        $apellido = $_POST["apellidoEdicion"];
+        $rol = $_POST["rolEdicion"];
+        $mail = $_POST["mailEdicion"];
+        $sede = $_POST["sedeEdicion"];
+        $casa = $_POST["casaEdicion"];
         date_default_timezone_set('America/Argentina/Cordoba');
         $date = date("Y-m-d H:i:s");
         $consulta = $baseDeDatos ->prepare("UPDATE agentes SET nombre = '$primerNombre', segundoNombre = '$segundoNombre',
