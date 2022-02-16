@@ -221,8 +221,8 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                         </div>
                                         <div class="d-flex align-items-center justify-content-around">
                                             <button type="button" class="btn botonCancelar" onclick="cancelarConfirmacion('confirmacionCreacion', 'botonesModalCreacion', 'crear')">Cancelar</button>
-                                            <button type="submit" name="crearUsuario" id="btnCrearUsuario" onclick="desbloquearFormularioCreacion(), mostrarSpinner('btnCrearUsuario','spinnerCrearUsuario')" class="btn boton">Confirmar</button>
-                                            <button type="button" class="btnReenviarCircle hide" id="spinnerCrearUsuario" >
+                                            <button type="submit" name="crearArticulo" id="btnCrearArticulo" onclick="desbloquearFormularioCreacion(), mostrarSpinner('btnCrearArticulo','spinnerCrearArticulo')" class="btn boton">Confirmar</button>
+                                            <button type="button" class="btnReenviarCircle hide" id="spinnerCrearArticulo" >
                                                 <div class="spinner-border spinnerReenviar" role="status">
                                                     <span class="sr-only"></span>
                                                 </div>
@@ -339,7 +339,7 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>          
         <script type="text/javascript"  src="js/funcionesCompartidas.js"></script> 
-        <script type="text/javascript"  src="js/adminUsuarios.js"></script> 
+        <script type="text/javascript"  src="js/adminArticulos.js"></script> 
     </body>
 </html>
 <script>
@@ -381,9 +381,6 @@ function validarDescripcion(value){
         boxMensajeArticuloExistente.innerHTML = "3 o mas caracteres"
     }
 }
-
-
-
 function limpiarFormularioCreacion () {
     document.getElementById("descripcionCreacion").value = ""
     document.getElementById("medidaCreacion").value = 1
@@ -400,6 +397,55 @@ function limpiarValidaciones(accion) {
     } else {
         document.getElementById("mensajeValidacionEdicion").classList.add("hide")
     }
+}
+
+function pedirConfirmacion(idOcultar, idMostrar, accion) {
+    let cajaOcultar = document.getElementById(idOcultar)
+    cajaOcultar.classList.add("hide")
+    let cajaMostrar = document.getElementById(idMostrar)
+    cajaMostrar.classList.remove("hide")
+    if (accion == "crear") {
+        bloquearFormularioCreacion()
+    } else {
+        bloquearFormularioEdicion()
+    }
+}
+function cancelarConfirmacion(idOcultar, idMostrar, accion) {
+    let cajaOcultar = document.getElementById(idOcultar)
+    cajaOcultar.classList.add("hide")
+    let cajaMostrar = document.getElementById(idMostrar)
+    cajaMostrar.classList.remove("hide")
+    if (accion == "crear") {
+        desbloquearFormularioCreacion()
+    } else {
+        desbloquearFormularioEdicion()
+    }
+}
+function bloquearFormularioCreacion() {
+    let descripcion = document.getElementById("descripcionCreacion")
+    descripcion.setAttribute("disabled", true)
+    let medida = document.getElementById("medidaCreacion")
+    medida.setAttribute("disabled", true)
+    let categoria = document.getElementById("categoriaCreacion")
+    categoria.setAttribute("disabled", true)
+}
+function desbloquearFormularioCreacion() {
+    let descripcion = document.getElementById("descripcionCreacion")
+    descripcion.removeAttribute("disabled")
+    let medida = document.getElementById("medidaCreacion")
+    medida.removeAttribute("disabled")
+    let categoria = document.getElementById("categoriaCreacion")
+    categoria.removeAttribute("disabled")
+}
+function ocultarAlertConfirmacion(){
+    let alertConfirmacion = document.getElementById("alertConfirmacion")
+    alertConfirmacion.classList.remove('show')
+    alertConfirmacion.classList.add('hide')
+}
+function ocultarAlertError(){
+    let alertErrorConexion = document.getElementById("alertErrorConexion")
+    alertErrorConexion.classList.remove('show')
+    alertErrorConexion.classList.add('hide')
 }
 
 

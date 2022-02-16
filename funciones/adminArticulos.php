@@ -6,9 +6,9 @@
     $idUsuarioLogueado = $_SESSION["id"];
     // // ACCION CREAR SEDE
     if(isset($_POST["crearArticulo"])){
-        $descripcion = $_POST['descripcionNuevoArticulo'];
-        $categoria = $_POST['categoriaNuevoArticulo'];
-        $medida = $_POST['medidaNuevoArticulo'];
+        $descripcion = $_POST['descripcionCreacion'];
+        $categoria = $_POST['categoriaCreacion'];
+        $medida = $_POST['medidaCreacion'];
         date_default_timezone_set('America/Argentina/Cordoba');
         $date = date("Y-m-d H:i:s");
         $insertArticulo = $baseDeDatos ->prepare("INSERT into articulos VALUES(default, '$descripcion', '$medida', '$categoria', 1, '$date', '$date', '$idUsuarioLogueado')");
@@ -18,8 +18,13 @@
             $mensajeAlertConfirmacion="El articulo se creó correctamente";
         } catch (\Throwable $th) {
             $alertError= "show";
+            $mensajeAlertError = "Hubo un error de conexión. Por favor intente nuevamente.";
         }
     }
+
+
+
+
 
     // ACCION EDITAR ARTICULO
     if (isset($_POST["editarArticulo"])){
@@ -55,6 +60,9 @@
             $mensajeAlertError = "Hubo un error de conexión. Por favor intente nuevamente.";
         }
     }
+
+
+
 
     // CONSULTAS INICIALES LISTADO DE ARTICULOS, MEDIDAS Y CATEGORIAS
     $consultaArticulos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, A.categoria 'idCategoria', C.descripcion 'categoria',  A.medida 'idMedida', M.descripcion 'medida', A.habilitado FROM articulos A INNER JOIN categorias C ON A.categoria = C.id INNER JOIN medidas M ON A.medida = M.id");
