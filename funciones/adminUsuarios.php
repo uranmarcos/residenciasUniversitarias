@@ -6,16 +6,22 @@ $alertConfirmacion = "hide";
 $mensajeAlertConfirmacion="";
 $idUsuarioLogueado = $_SESSION["id"];
 $rol = $_SESSION["rol"];
-    
-    // // VARIABLES CON LOS CAMPOS A REVISAR AL VALIDAR EL FORMULARIO DE EDICION/CREACION
-    // $camposCreacion = ["primerNombreNuevoUsuario", "segundoNombreNuevoUsuario", "apellidoNuevoUsuario", "dniNuevoUsuario", "mailNuevoUsuario", "sedeNuevoUsuario"];
-    // $camposErroresCreacion = ["errorPrimerNombreNuevoUsuario", "errorSegundoNombreNuevoUsuario", "errorApellidoNuevoUsuario",
-    // "errorDniNuevoUsuario", "errorMailNuevoUsuario", "errorSedeNuevoUsuario" ];
-    // $camposEdicion = ["primerNombreEditarUsuario", "segundoNombreEditarUsuario", "apellidoEditarUsuario", "dniEditarUsuario", "mailEditarUsuario", "sedeEditarUsuario"];
-    // $camposErroresEdicion = ["errorPrimerNombreEditarUsuario", "errorSegundoNombreEditarUsuario", "errorApellidoEditarUsuario",
-    // "errorDniEditarUsuario", "errorMailEditarUsuario", "errorSedeEditarUsuario" ];
-    
-    
+$roles = [
+    [ "value"=> "admin", "descripcion"=> "Admin"],
+    ["value"=> "general", "descripcion"=> "General"],
+    [ "value"=> "stock", "descripcion"=> "Stock"]
+];
+
+if($rol == "general") {
+    $roles = [
+        [ "value"=> "stock", "descripcion"=> "Stock"],
+    ];
+}
+
+
+
+
+
     
     // ACCION CREAR USUARIO
     if(isset($_POST["crearUsuario"])){
@@ -99,6 +105,7 @@ $rol = $_SESSION["rol"];
         }
     }
 
+
     if (isset($_POST["resetPassword"])){
         $id = $_POST["idUsuarioResetPassword"];
         $pass = password_hash($_POST["dniUsuarioResetPassword"], PASSWORD_DEFAULT);
@@ -135,16 +142,5 @@ $rol = $_SESSION["rol"];
         $hayDatos = "show";
     }
  
-    // OPCIONES DE ROLES PARA LA CREACION DE USUARIOS
-    if($rol == "admin") {
-        $roles = [
-            [ "value"=> "admin", "descripcion"=> "Admin"],
-            ["value"=> "general", "descripcion"=> "General"],
-            [ "value"=> "stock", "descripcion"=> "Stock"]
-        ];
-    } else if($rol == "general") {
-        $roles = [
-            [ "value"=> "stock", "descripcion"=> "Stock"],
-        ];
-    }
+    
 
