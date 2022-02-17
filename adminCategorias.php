@@ -69,7 +69,7 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                                     <td class="pl-0 pr-0" style="width:100px; text-align:center"> 
                                                         <div class="row" style="width:90px; margin:auto;">
                                                             <!-- BOTON TRASH -->
-                                                            <div style="width:45px" onmouseover="overBotonAccion('btnTrash<?php echo $categoria['id']?>','btnTrashFill<?php echo $categoria['id']?>')" onmouseout="overBotonAccion('btnTrashFill<?php echo $categoria['id']?>', 'btnTrash<?php echo $categoria['id']?>')" name="trashButton<?php echo $categoria['id']?>" id="trashButton<?php echo $categoria['id']?>" class="trashButton" onclick="eliminarcategoria(<?php echo $categoria['id']?>, '<?php echo $categoria['descripcion'];?>')" data-bs-toggle="modal" data-bs-target="#modalEliminar">
+                                                            <div style="width:45px" onmouseover="overBotonAccion('btnTrash<?php echo $categoria['id']?>','btnTrashFill<?php echo $categoria['id']?>')" onmouseout="overBotonAccion('btnTrashFill<?php echo $categoria['id']?>', 'btnTrash<?php echo $categoria['id']?>')" name="trashButton<?php echo $categoria['id']?>" id="trashButton<?php echo $categoria['id']?>" class="trashButton" onclick="eliminarCategoria(<?php echo $categoria['id']?>, '<?php echo $categoria['descripcion'];?>')" data-bs-toggle="modal" data-bs-target="#modalEliminar">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" id="btnTrash<?php echo $categoria['id']?>" viewBox="0 0 16 16">
                                                                     <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                                                                     <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
@@ -109,22 +109,22 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                 </div>
                 <!--    END BOX LISTADO CATEGORIAS    -->
 
-                <!-- START MODAL CONFIRMACION ELIMINACION ARTICULO -->                    
+                <!-- START MODAL CONFIRMACION ELIMINACION CATEGORIA -->                    
                 <form action="adminCategorias.php" method="POST">
                     <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <input type="text" hidden name="idArticuloEliminar" id="idArticuloEliminar"></input>
+                                    <input type="text" hidden name="idCategoriaEliminar" id="idCategoriaEliminar"></input>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body centrarTexto">
-                                    ¿Confirma que desea eliminar el articulo <b><span id="articuloAEliminar"></span></b>?
+                                    ¿Confirma que desea eliminar la categoria:  <b><span id="categoriaAEliminar"></span></b>?
                                 </div>
                                 <div class="modal-footer d-flex justify-content-around">
                                     <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="submit" name="eliminarArticulo" id="btnEliminarArticulo" onclick="mostrarSpinner('btnEliminarArticulo', 'spinnerEliminarArticulo')" class="btn boton">Confirmar</button>
-                                    <button type="button" class="btnReenviarCircle hide" id="spinnerEliminarArticulo">
+                                    <button type="submit" name="eliminarCategoria" id="btnEliminarCategoria" onclick="mostrarSpinner('btnEliminarCategoria', 'spinnerEliminarCategoria')" class="btn boton">Confirmar</button>
+                                    <button type="button" class="btnReenviarCircle hide" id="spinnerEliminarCategoria">
                                         <div class="spinner-border spinnerReenviar" role="status">
                                             <span class="sr-only"></span>
                                         </div>
@@ -134,7 +134,9 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                         </div>
                     </div>
                 </form>
-                <!-- END MODAL CONFIRMACION ELIMINACION ARTICULO -->
+                <!-- END MODAL CONFIRMACION ELIMINACION CATEGORIA -->
+
+
 
                 <!----     START MODAL CREACION DE CATEGORIA    ----->
                 <form name="formCreacion" method="POST" action="adminCategorias.php">
@@ -188,6 +190,8 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                     </div>
                 </form>
                 <!----     END MODAL CREACION DE CATEGORIA    ----->
+
+
 
                 <!----     START MODAL EDICION DE ARTICULO    ----->
                 <form name="formEdicion" method="POST" action="adminCategorias.php">
@@ -280,6 +284,26 @@ window.onload = function(){
         setTimeout(ocultarAlertError, 5000)
     }
 }
+function ocultarAlertConfirmacion(){
+    let alertConfirmacion = document.getElementById("alertConfirmacion")
+    alertConfirmacion.classList.remove('show')
+    alertConfirmacion.classList.add('hide')
+}
+function ocultarAlertError(){
+    let alertErrorConexion = document.getElementById("alertErrorConexion")
+    alertErrorConexion.classList.remove('show')
+    alertErrorConexion.classList.add('hide')
+}
+function eliminarCategoria(id, descripcion) {
+    let categoriaAEliminar = document.getElementById("categoriaAEliminar")
+    categoriaAEliminar.innerHTML = " - " + descripcion + " - "
+    let idcategoriaEliminar = document.getElementById("idCategoriaEliminar")
+    idcategoriaEliminar.value = id
+}
+
+
+
+
 // function validarDescripcionEdicion(value){
 //     let boxMensajeArticuloExistente = document.getElementById("mensajeValidacionEdicion")
 //     let btnEdicion = document.getElementById("btnEdicion")
@@ -303,6 +327,9 @@ window.onload = function(){
 //         boxMensajeArticuloExistente.innerHTML = "3 o mas caracteres"
 //     }
 // }
+
+
+
 function validarDescripcionCreacion(value){
     let mensajeValidacion = document.getElementById("mensajeValidacionCreacion")
     let btnCreacion = document.getElementById("btnCreacion")

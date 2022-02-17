@@ -38,16 +38,16 @@ $alertError = "hide";
     }
     // ACCION ELIMINAR CATEGORIA
     if(isset($_POST["eliminarCategoria"])){
-        $id = $_POST["inputCategoriaEliminar"];
+        $id = $_POST["idCategoriaEliminar"];
         date_default_timezone_set('America/Argentina/Cordoba');
         $date = date("Y-m-d H:i:s");
         $consultaValidacion = $baseDeDatos -> prepare("SELECT count(*) from articulos WHERE categoria = '$id'");
-        $consulta = $baseDeDatos ->prepare("UPDATE categorias SET habilitado = 0, modified = '$date', userId = '$idUsuarioLogueado' WHERE id = '$id'");
+        $consulta = $baseDeDatos ->prepare("DELETE from categorias WHERE id = '$id'");
         
         try {
             $consultaValidacion->execute();
             $validacion = $consultaValidacion -> fetchAll(PDO::FETCH_ASSOC);
-            $cantidad = count($validacion);
+            $cantidad = $validacion[0]["count(*)"];
             if($cantidad > 0 ){
                 $alertError= "show";
                 $mensajeAlertError = "La categoria no puede eliminarse ya que existen articulos pertenecientes a la misma. <br> Modifique primero los articulos y luego elimine la categoria.";

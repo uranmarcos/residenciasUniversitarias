@@ -61,6 +61,10 @@ function mostrarLoading(idOcultar, idMostrar) {
 }
 
 
+
+
+
+
 //FUNCIONES OVER BOTON DE MENU DE SECCION
 function overBoton(idTexto, idIcono){
     let texto = document.getElementById(idTexto)
