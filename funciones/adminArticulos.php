@@ -57,13 +57,14 @@ if(isset($_POST["eliminarArticulo"])){
 // CONSULTAS INICIALES LISTADO DE ARTICULOS, MEDIDAS Y CATEGORIAS
 $consultaArticulos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, A.categoria 'idCategoria', C.descripcion 'categoria',  A.medida 'idMedida', M.descripcion 'medida', A.habilitado FROM articulos A INNER JOIN categorias C ON A.categoria = C.id INNER JOIN medidas M ON A.medida = M.id");
 $consultaMedidas = $baseDeDatos ->prepare("SELECT * FROM medidas");
-$consultaCategorias = $baseDeDatos ->prepare("SELECT * FROM categorias WHERE habilitado = 1");
+$consultaCategorias = $baseDeDatos ->prepare("SELECT * FROM categorias");
 try {
     $consultaArticulos->execute();
     $consultaMedidas->execute();
     $consultaCategorias->execute();
 } catch (\Throwable $th) {
     $alertError= "show";
+    $mensajeAlertError="Hubo un error de conexión. Por favor intente nuevamente.";
 }
 $articulos = $consultaArticulos -> fetchAll(PDO::FETCH_ASSOC);
 $medidas = $consultaMedidas -> fetchAll(PDO::FETCH_ASSOC);
