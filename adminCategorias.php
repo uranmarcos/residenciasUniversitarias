@@ -79,7 +79,7 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                                                 </svg>
                                                             </div>
                                                             <!-- BOTON EDIT -->
-                                                            <div style="width:45px" class="editButton" id="editButton<?php echo $categoria['id']?>" onmouseover="overBotonAccion('btnPen<?php echo $categoria['id']?>','btnPenFill<?php echo $categoria['id']?>')" onmouseout="overBotonAccion('btnPenFill<?php echo $categoria['id']?>', 'btnPen<?php echo $categoria['id']?>')" onclick="cargarDatosEdicion('<?php echo $categoria['id']?>', '<?php echo $categoria['descripcion']?>', '<?php echo $categoria['idMedida']?>', '<?php echo $categoria['idCategoria']?>')" data-toggle="modal" data-target="#edicionModal">
+                                                            <div style="width:45px" class="editButton" id="editButton<?php echo $categoria['id']?>" onmouseover="overBotonAccion('btnPen<?php echo $categoria['id']?>','btnPenFill<?php echo $categoria['id']?>')" onmouseout="overBotonAccion('btnPenFill<?php echo $categoria['id']?>', 'btnPen<?php echo $categoria['id']?>')" onclick="cargarDatosEdicion('<?php echo $categoria['id']?>', '<?php echo $categoria['descripcion']?>')" data-toggle="modal" data-target="#edicionModal">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" id="btnPen<?php echo $categoria['id']?>" class="bi bi-pencil" viewBox="0 0 16 16">
                                                                     <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
                                                                 </svg>
@@ -193,46 +193,30 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
 
 
 
-                <!----     START MODAL EDICION DE ARTICULO    ----->
+                <!----     START MODAL EDICION DE CATEGORIA    ----->
                 <form name="formEdicion" method="POST" action="adminCategorias.php">
                     <div class="modal fade" id="edicionModal" tabindex="-1" role="dialog" aria-labelledby="edicionModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title centrarTexto purple" id="edicionModalLabel">EDICIÓN DE ARTICULO</h5>
+                                    <h5 class="modal-title centrarTexto purple" id="edicionModalLabel">EDICIÓN DE CATEGORIA</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body" id="bodyModalCrear">
-                                    <div class="contenedorSeccion purple contenedorModal mb-4" id="boxEditarArticulo">        
+                                    <div class="contenedorSeccion purple contenedorModal mb-4">        
                                         <div class="row">
                                             <div class="col-12 columna">
-                                                <button type="button" class="btn botonLimpiar" id="btnLimpiarFormEdicion" onclick="limpiarFormularioEdicion()">Limpiar Formulario</button>
+                                                <button type="button" class="btn botonLimpiar" id="btnLimpiarEdicion" onclick="limpiarFormularioEdicion()">Limpiar Formulario</button>
                                             </div>
-                                            <input id="idArticuloEdicion" name="idArticuloEdicion" class="hide">
+                                            <input id="idCategoriaEdicion" name="idCategoriaEdicion" class="hide">
                                                 
                                             <div class="col-12 columna">
                                                 <label> Descripción: </label>
                                                 <input maxlength="30" style="width:100%" id="descripcionEdicion" name="descripcionEdicion" autocomplete="off" onkeyup="validarDescripcionEdicion(value)">
                                                 <div class="hide errorValidacion" id="mensajeValidacionEdicion"></div>
-                                            </div>
-                                            <div class="col-12 columna">
-                                                <label class="labelForm"> Medida: </label>
-                                                <select id="medidaEdicion" style="width:100%; height:30px" onchange="validarFormularioEdicion()" name="medidaEdicion">
-                                                <?php foreach($medidas as $medida){ ?>
-                                                        <option value="<?php echo $medida['id']?>"><?php echo $medida['descripcion']?></option>
-                                                    <?php } ?> 
-                                                </select>   
-                                            </div>
-                                            <div class="col-12 columna">
-                                                <label class="labelForm"> Categoria: </label>
-                                                <select id="categoriaEdicion" style="width:100%; height:30px" onchange="validarFormularioEdicion()" name="categoriaEdicion">
-                                                    <?php foreach($categorias as $categoria){ ?>
-                                                        <option value="<?php echo $categoria['id']?>"><?php echo $categoria['descripcion']?></option>
-                                                    <?php } ?>  
-                                                </select>   
-                                            </div>                
+                                            </div>         
                                         </div>
                                     </div>
                                 </div>
@@ -245,12 +229,12 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                     </div>
                                     <div class="col-12  hide" id="confirmacionEdicion">
                                         <div class="d-flex align-items-center mb-3 purple justify-content-around">
-                                            ¿Confirma la edición del articulo?
+                                            ¿Confirma la edición de la categoria?
                                         </div>
                                         <div class="d-flex align-items-center justify-content-around">
                                             <button type="button" class="btn botonCancelar" onclick="cancelarConfirmacion('confirmacionEdicion', 'botonesModalEdicion', 'editar')">Cancelar</button>
-                                            <button type="submit" name="editarArticulo" id="btnEditarArticulo" onclick="desbloquearFormularioEdicion(), mostrarSpinner('btnEditarArticulo','spinnerEditarArticulo')" class="btn boton">Confirmar</button>
-                                            <button type="button" class="btnReenviarCircle hide" id="spinnerEditarArticulo" >
+                                            <button type="submit" name="editarCategoria" id="btnEditarCategoria" onclick="desbloquearFormularioEdicion(), mostrarSpinner('btnEditarCategoria','spinnerEditarCategoria')" class="btn boton">Confirmar</button>
+                                            <button type="button" class="btnReenviarCircle hide" id="spinnerEditarCategoria" >
                                                 <div class="spinner-border spinnerReenviar" role="status">
                                                     <span class="sr-only"></span>
                                                 </div>
@@ -262,12 +246,12 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                         </div>
                     </div>
                 </form>
-                <!----     END MODAL EDICION DE USUARIO    ----->
+                <!----     END MODAL EDICION DE CATEGORIA    ----->
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>          
         <script type="text/javascript"  src="js/funcionesCompartidas.js"></script> 
-        <!-- <script type="text/javascript"  src="js/adminArticulos.js"></script>  -->
+        <script type="text/javascript"  src="js/adminCategorias.js"></script> 
     </body>
 </html>
 <script>
@@ -284,49 +268,29 @@ window.onload = function(){
         setTimeout(ocultarAlertError, 5000)
     }
 }
-function ocultarAlertConfirmacion(){
-    let alertConfirmacion = document.getElementById("alertConfirmacion")
-    alertConfirmacion.classList.remove('show')
-    alertConfirmacion.classList.add('hide')
+function validarDescripcionEdicion(value){
+    let boxMensajeArticuloExistente = document.getElementById("mensajeValidacionEdicion")
+    let btnEdicion = document.getElementById("btnEdicion")
+    btnEdicion.setAttribute("disabled", true)
+    let categorias = <?php  echo json_encode($categorias) ?>;
+    if(value.length >=5) {
+        let categoriasExistentes = categorias.filter(element => element.descripcion.toLowerCase().includes(value.toLowerCase()))
+        let descripcionesCategoriasExistentes = ""
+        categoriasExistentes.forEach(function callback(value, index) {
+            descripcionesCategoriasExistentes = descripcionesCategoriasExistentes + value.descripcion + " "
+        })
+        if(categoriasExistentes.length > 0) {
+            boxMensajeArticuloExistente.classList.remove("hide")
+            boxMensajeArticuloExistente.innerHTML = "Ya existen las siguientes categorias: " + descripcionesCategoriasExistentes
+        }else{
+            btnEdicion.removeAttribute("disabled")
+            boxMensajeArticuloExistente.classList.add("hide")
+        }
+    } else {
+        boxMensajeArticuloExistente.classList.remove("hide")
+        boxMensajeArticuloExistente.innerHTML = "5 o mas caracteres"
+    }
 }
-function ocultarAlertError(){
-    let alertErrorConexion = document.getElementById("alertErrorConexion")
-    alertErrorConexion.classList.remove('show')
-    alertErrorConexion.classList.add('hide')
-}
-function eliminarCategoria(id, descripcion) {
-    let categoriaAEliminar = document.getElementById("categoriaAEliminar")
-    categoriaAEliminar.innerHTML = " - " + descripcion + " - "
-    let idcategoriaEliminar = document.getElementById("idCategoriaEliminar")
-    idcategoriaEliminar.value = id
-}
-
-
-
-
-// function validarDescripcionEdicion(value){
-//     let boxMensajeArticuloExistente = document.getElementById("mensajeValidacionEdicion")
-//     let btnEdicion = document.getElementById("btnEdicion")
-//     btnEdicion.setAttribute("disabled", true)
-//     let articulos = <?php  echo json_encode($categorias) ?>;
-//     if(value.length >=3) {
-//         let articulosExistentes = articulos.filter(element => element.descripcion.toLowerCase().includes(value.toLowerCase()))
-//         let descripcionesArticulosExistentes = ""
-//         articulosExistentes.forEach(function callback(value, index) {
-//             descripcionesArticulosExistentes = descripcionesArticulosExistentes + value.descripcion + " "
-//         })
-//         if(articulosExistentes.length > 0) {
-//             boxMensajeArticuloExistente.classList.remove("hide")
-//             boxMensajeArticuloExistente.innerHTML = "Ya existen los siguientes articulos: " + descripcionesArticulosExistentes
-//         }else{
-//             btnEdicion.removeAttribute("disabled")
-//             boxMensajeArticuloExistente.classList.add("hide")
-//         }
-//     } else {
-//         boxMensajeArticuloExistente.classList.remove("hide")
-//         boxMensajeArticuloExistente.innerHTML = "3 o mas caracteres"
-//     }
-// }
 
 
 
@@ -353,71 +317,6 @@ function validarDescripcionCreacion(value){
         mensajeValidacion.innerHTML = "5 o mas caracteres"
     }
 }
-function pedirConfirmacion(idOcultar, idMostrar, accion) {
-    let cajaOcultar = document.getElementById(idOcultar)
-    cajaOcultar.classList.add("hide")
-    let cajaMostrar = document.getElementById(idMostrar)
-    cajaMostrar.classList.remove("hide")
-    if (accion == "crear") {
-        bloquearFormularioCreacion()
-    } else {
-        bloquearFormularioEdicion()
-    }
-}
-function cancelarConfirmacion(idOcultar, idMostrar, accion) {
-    let cajaOcultar = document.getElementById(idOcultar)
-    cajaOcultar.classList.add("hide")
-    let cajaMostrar = document.getElementById(idMostrar)
-    cajaMostrar.classList.remove("hide")
-    if (accion == "crear") {
-        desbloquearFormularioCreacion()
-    } else {
-        desbloquearFormularioEdicion()
-    }
-}
-function bloquearFormularioCreacion() {
-    let btnLimpiar = document.getElementById("btnLimpiarCreacion")
-    btnLimpiar.setAttribute("disabled", true)
-    let descripcion = document.getElementById("descripcionCreacion")
-    descripcion.setAttribute("disabled", true)
-}
-function desbloquearFormularioCreacion() {
-    let btnLimpiar = document.getElementById("btnLimpiarCreacion")
-    btnLimpiar.removeAttribute("disabled")
-    let descripcion = document.getElementById("descripcionCreacion")
-    descripcion.removeAttribute("disabled")
-}
-function bloquearFormularioEdicion() {
-    let btnLimpiar = document.getElementById("btnLimpiarEdicion")
-    btnLimpiar.setAttribute("disabled", true)
-    let descripcion = document.getElementById("descripcionEdicion")
-    descripcion.setAttribute("disabled", true)
-}
-function desbloquearFormularioEdicion() {
-    let btnLimpiar = document.getElementById("btnLimpiarEdicion")
-    btnLimpiar.removeAttribute("disabled")
-    let descripcion = document.getElementById("descripcionEdicion")
-    descripcion.removeAttribute("disabled")
-}
-function limpiarFormularioCreacion () {
-    document.getElementById("descripcionCreacion").value = ""
-    let btnCrear = document.getElementById("btnCreacion")
-    btnCrear.setAttribute("disabled", true)
-    limpiarValidaciones("crear")
-}
-function limpiarFormularioEdicion () {
-    document.getElementById("idCategoriaEdicion").value = ""
-    document.getElementById("descripcionEdicion").value = ""
-    let btnEdicion = document.getElementById("btnEdicion")
-    btnEdicion.setAttribute("disabled", true)
-    limpiarValidaciones("editar")
-}
-function limpiarValidaciones(accion) {
-    if(accion == "crear") {
-        document.getElementById("mensajeValidacionCreacion").classList.add("hide")
-    } else {
-        document.getElementById("errorDescripcionEdicion").classList.add("hide")
-    }
-}
+
 
 </script>
