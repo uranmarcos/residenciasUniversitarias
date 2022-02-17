@@ -160,7 +160,7 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                     </button>
                                 </div>
                                 <div class="modal-body" id="bodyModalCrear">
-                                    <div class="contenedorSeccion purple contenedorModal mb-4" id="boxCrearUsuario">        
+                                    <div class="contenedorSeccion purple contenedorModal mb-4">        
                                         <div class="row">
                                             <div class="col-12 columna">
                                                 <button type="button" class="btn botonLimpiar" id="btnLimpiarCreacion" onclick="limpiarFormularioCreacion()">Limpiar Formulario</button>
@@ -260,7 +260,7 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                     </button>
                                 </div>
                                 <div class="modal-body" id="bodyModalCrear">
-                                    <div class="contenedorSeccion purple contenedorModal mb-4" id="boxEditarUsuario">        
+                                    <div class="contenedorSeccion purple contenedorModal mb-4">        
                                         <div class="row">
                                             <div class="col-12 columna">
                                                 <button type="button" class="btn botonLimpiar" id="btnLimpiarEdicion" onclick="limpiarFormularioEdicion()">Limpiar Formulario</button>
