@@ -245,7 +245,7 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                     <div class="contenedorSeccion purple contenedorModal mb-4">        
                                         <div class="row">
                                             <div class="col-12 columna">
-                                                <button type="button" class="btn botonLimpiar" id="btnLimpiarEdicion" onclick="limpiarFormularioCreacion()">Limpiar Formulario</button>
+                                                <button type="button" class="btn botonLimpiar" id="btnLimpiarEdicion" onclick="limpiarFormularioEdicion()">Limpiar Formulario</button>
                                             </div>
                                             <input name="idSedeEdicion" id="idSedeEdicion" class="hide">                                          
                                             <div class="col-12 columna ">
@@ -472,7 +472,22 @@ function cancelarConfirmacion(idOcultar, idMostrar, accion) {
         desbloquearFormularioEdicion()
     }
 }
-
+function limpiarFormularioCreacion () {
+    document.getElementById("provinciaCreacion").value = "Buenos Aires"
+    document.getElementById("sedeCreacion").value = ""
+    document.getElementById("casasCreacion").value = 1
+    let btnCreacion = document.getElementById("btnCrear")
+    btnCreacion.setAttribute("disabled", true)
+    limpiarValidaciones("crear")
+}
+function limpiarFormularioEdicion () {
+    document.getElementById("provincia").value = "Buenos Aires"
+    document.getElementById("sede").value = ""
+    document.getElementById("casas").value = 1
+    let btnEdicion = document.getElementById("btnEditar")
+    btnEdicion.setAttribute("disabled", true)
+    limpiarValidaciones("editar")
+}
 
 
 
