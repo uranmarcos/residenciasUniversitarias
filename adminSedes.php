@@ -28,195 +28,9 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                     </div>
                 </div>
                 
-                <!-- CREACION DE SEDE -->
-                <div class="bloque hide" id="boxCrearSede">
-                    <form name="form1" method="POST" action="adminSedes.php">
-                        <!-- BOX NUEVA SEDE -->
-                        <div class="contenedorSeccion contenedorModal mb-4">
-                            <div class="d-flex anchoTotal justify-content-between">
-                                <div class="subtitle mb-2">
-                                    Nueva Sede
-                                </div> 
-                            </div>
-                            <div class="row">
-                                <div class="col-12 col-md-5 columna">
-                                    <label >Provincia</label>
-                                    <select id="selectProvincia" name="selectProvincia" onchange="validarFormCreacion()" style="width:100%; height:30px">
-                                        <option value="">Seleccione</option>
-                                        <option value="Buenos Aires">Buenos Aires</option>
-                                        <option value="Catamarca">Catamarca</option>
-                                        <option value="Chaco">Chaco</option>
-                                        <option value="Chubut">Chubut</option>
-                                        <option value="Córdoba">Córdoba</option>
-                                        <option value="Corrientes">Corrientes</option>
-                                        <option value="Entre Ríos">Entre Ríos</option>
-                                        <option value="Formosa">Formosa</option>
-                                        <option value="Jujuy">Jujuy</option>
-                                        <option value="La Pampa">La Pampa</option>
-                                        <option value="La Rioja">La Rioja</option>
-                                        <option value="Mendoza">Mendoza</option>
-                                        <option value="Misiones">Misiones</option>
-                                        <option value="Nequén">Neuquén</option>
-                                        <option value="Río Negro">Río Negro</option>
-                                        <option value="Salta">Salta</option>
-                                        <option value="San Juan">San Juan</option>
-                                        <option value="San Luis">San Luis</option>
-                                        <option value="Santa Cruz">Santa Cruz</option>
-                                        <option value="Santa Fe">Santa Fe</option>
-                                        <option value="Santiago del Estero">Santiago del Estero</option>
-                                        <option value="Tierra del Fuego">Tierra del Fuego</option>
-                                        <option value="Tucumán">Tucumán</option>
-                                    </select>   
-                                </div>
-                                <div class="col-12 col-md-5 columna">
-                                    <label >Ciudad</label>
-                                    <input maxlength="30" style="width:100%" autocomplete="off" name="inputNuevaSede" id="inputNuevaSede" onkeyup="validarFormCreacion(), validarSedeExistente('mensajeErrorCrear', value)">
-                                    <div class="hide errorValidacion" id="mensajeErrorCrear"></div>
-                                    <div class="hide errorValidacion" id="mensajeValidacionCrear">5 o mas caracteres</div>
-                                    <div class="hide errorValidacion" id="mensajeSedeExistente"></div>
-                                </div>
-                                <div class="col-12 col-md-2 columna">
-                                    <label> Casas: </label>
-                                    <select id="selectCasas" name="selectCasas" style="width:100%; height:30px">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option> 
-                                    </select>   
-                                </div>
-                                <div class="col-12 d-flex align-items-end justify-content-around mt-5">
-                                    <button type="submit" name="botonCancelar" class="btn botonCancelar">Cancelar</button>
-                                    <button type="button" name="botonGenerar" disabled onclick="crearNuevaSede()" id="botonCrearSede" class="btn boton" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                        Generar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                         
-                        <!-- MODAL CONFIRMACION CREACION SEDE -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header d-flex justify-content-center">
-                                        CONFIRMACIÓN
-                                    </div>
-                                    <div class="modal-body centrarTexto">
-                                        ¿Confirma la nueva sede: <b><span id="spanNuevaSede"></span></b>?
-                                    </div>
-                                    <div class="modal-footer d-flex justify-content-around">
-                                        <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
-                                        <button type="submit" name="crearSede" onclick="confirmarCrearSede()" id="botonConfirmarCrearSede" class="btn boton">Confirmar</button>
-                                        <button type="button" class="btnReenviarCircle hide" id="spinnerGenerarSede" >
-                                            <div class="spinner-border spinnerReenviar" role="status">
-                                                <span class="sr-only"></span>
-                                            </div>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>   
-                    </form>
-                </div>
-                <!-- END CREACION DE SEDE -->
-                
-                    
-                <!-- EDICION DE SEDE -->
-                <div class="bloque hide" id="boxEditarSede">
-                
-                        <form name="formEdicion" method="POST" action="adminSedes.php">
-                            <!-- BOX EDICION SEDE -->
-                            <div class="contenedorSeccion contenedorModal mb-4" id="boxEditarSede">
-                                <div class="d-flex anchoTotal justify-content-between">
-                                    <div class="subtitle mb-2">
-                                        Editar Sede
-                                    </div> 
-                                </div>
-                                <div class="row">
-                                    <div class=" hide columna">
-                                        <label >#</label>
-                                        <input type="text" style="width:100%" readonly class="centrarTexto" name="idSedePorEditar" id="idSedePorEditar">
-                                    </div>
-                                    <div class="col-12 col-md-5 columna">
-                                        <label >Provincia</label>
-                                        <select id="selectEdicionProvincia" name="selectEdicionProvincia" onchange="validarFormEdicion()" style="width:100%; height:30px">
-                                            <option value="">Seleccione</option>
-                                            <option value="Buenos Aires">Buenos Aires</option>
-                                            <option value="Catamarca">Catamarca</option>
-                                            <option value="Chaco">Chaco</option>
-                                            <option value="Chubut">Chubut</option>
-                                            <option value="Córdoba">Córdoba</option>
-                                            <option value="Corrientes">Corrientes</option>
-                                            <option value="Entre Ríos">Entre Ríos</option>
-                                            <option value="Formosa">Formosa</option>
-                                            <option value="Jujuy">Jujuy</option>
-                                            <option value="La Pampa">La Pampa</option>
-                                            <option value="La Rioja">La Rioja</option>
-                                            <option value="Mendoza">Mendoza</option>
-                                            <option value="Misiones">Misiones</option>
-                                            <option value="Nequén">Neuquén</option>
-                                            <option value="Río Negro">Río Negro</option>
-                                            <option value="Salta">Salta</option>
-                                            <option value="San Juan">San Juan</option>
-                                            <option value="San Luis">San Luis</option>
-                                            <option value="Santa Cruz">Santa Cruz</option>
-                                            <option value="Santa Fe">Santa Fe</option>
-                                            <option value="Santiago del Estero">Santiago del Estero</option>
-                                            <option value="Tierra del Fuego">Tierra del Fuego</option>
-                                            <option value="Tucumán">Tucumán</option>
-                                        </select>   
-                                    </div>
-                                    <div class="col-12 col-md-5 columna">
-                                        <label> Ciudad: </label>
-                                        <input maxlength="30" autocomplete="off" style="width:100%" name="inputEditarSede" onkeyup="validarFormEdicion(), validarSedeExistente('mensajeErrorEditar', value)" id="inputEditarSede">
-                                        <div class="hide errorValidacion" id="mensajeErrorEditar"></div>
-                                        <div class="hide errorValidacion" id="mensajeValidacionEditar">5 o mas caracteres</div>
-                                    </div>
-                                    <div class="col-12 col-md-2 columna">
-                                        <label> Casas: </label>
-                                        <select id="selectEditarCasas" style="width:100%; height:30px" name="selectEditarCasas" onchange="validarFormEdicion()" style="width:100px">
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option> 
-                                        </select>
-                                    </div>
-                                    <div class="col-12 d-flex align-items-end justify-content-around mt-5">
-                                        <button type="submit" name="botonCancelar" onclick="ocultarCaja('boxEditarSede')" class="btn botonCancelar">Cancelar</button>
-                                        <button type="button" name="botonEditarSede" onclick="enviarDatosEdicion('selectEdicionProvincia', 'inputEditarSede', 'selectEditarCasas')" disabled id="botonEditar" class="btn boton" data-bs-toggle="modal" data-bs-target="#modalEdicionSede">
-                                            Editar
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- MODAL CONFIRMACION EDICION SEDE -->
-                            <div class="modal fade" id="modalEdicionSede" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body centrarTexto">
-                                            ¿Confirma los cambios: <b><span id="spanEdicionSede"></span></b>?
-                                        </div>
-                                        <div class="modal-footer d-flex justify-content-around">
-                                            <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
-                                            <button type="submit" name="editarSede" id="confirmarEditarSede" onclick="mostrarSpinner('confirmarEditarSede','spinnerEditarSede' )" class="btn boton">Confirmar</button>
-                                            <button type="button" class="btnReenviarCircle hide" id="spinnerEditarSede" >
-                                                <div class="spinner-border spinnerReenviar" role="status">
-                                                    <span class="sr-only"></span>
-                                                </div>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                </div>
-                <!-- END EDICION DE SEDE -->
 
                 <!-- BOX LISTADO SEDES -->
+                <form name="form2" method="POST" action="adminSedes.php">
                 <div class="bloque">
                     <div class="alert alert-danger centrarTexto <?php echo $alertErrorConexion ?>" id="alertErrorConexion" role="alert" >
                         <?php echo $mensajeAlertError ?>
@@ -230,7 +44,7 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                 Sedes Disponibles
                             </div>
                             <div class="col-6 d-flex align-items-end justify-content-end">
-                                <button type="submit" name="botonNuevaSede" onclick="mostrarCaja('boxCrearSede', 'boxEditarSede', 'botonNuevaSede')" id="botonNuevaSede" class="btn boton">Nueva Sede</button>        
+                                <button type="button" class="btn boton" data-toggle="modal" data-target="#creacionSedeModal">Nueva Sede</button>        
                             </div>
                         </div>
                         <!-- TABLA CON LISTA DE SEDES -->
@@ -240,12 +54,11 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                     <tr>
                                         <th scope="col" class="hide">#</th>
                                         <th scope="col" style="width:40%">Provincia</th>
-                                        <th scope="col" style="width:35%">Localidad</th>
+                                        <th scope="col" style="width:40%">Localidad</th>
                                         <th scope="col" style="width:10%; text-align:center">Casas</th>
                                         <th scope="col" style="width:100px; text-align:center">Acciones</th>
                                     </tr>
                                 </thead>
-                                <form name="form2" method="POST" action="adminSedes.php">
                                 <tbody>
                                     <?php foreach($sedes as $sede){ ?>
                                         <tr>
@@ -267,7 +80,7 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                                     </div>
                                                     <!-- END BOTON TRASH -->
                                                     <!-- START BOTON EDIT -->
-                                                    <div style="width:45px" class="editButton" onmouseover="overBotonAccion('btnPen<?php echo $sede['id']?>','btnPenFill<?php echo $sede['id']?>')"  onmouseout="overBotonAccion('btnPenFill<?php echo $sede['id']?>', 'btnPen<?php echo $sede['id']?>')" onclick="mostrarCaja('boxEditarSede', 'boxCrearSede', 'botonNuevaSede'), cargarDatosEdicion('<?php echo $sede['id']?>', '<?php echo $sede['provincia']?>', '<?php echo $sede['descripcion']?>', '<?php echo $sede['casas']?>')">
+                                                    <div style="width:45px" class="editButton" onmouseover="overBotonAccion('btnPen<?php echo $sede['id']?>','btnPenFill<?php echo $sede['id']?>')"  onmouseout="overBotonAccion('btnPenFill<?php echo $sede['id']?>', 'btnPen<?php echo $sede['id']?>')" onclick="cargarDatosEdicion('<?php echo $sede['id']?>', '<?php echo $sede['provincia']?>', '<?php echo $sede['descripcion']?>', '<?php echo $sede['casas']?>')" data-bs-toggle="modal" data-bs-target="#edicionSedeModal">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" id="btnPen<?php echo $sede['id']?>" class="bi bi-pencil" viewBox="0 0 16 16">
                                                             <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
                                                         </svg>
@@ -293,7 +106,12 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                         </table>
                         <!-- </div> -->
                     </div>
-                    <!-- MODAL CONFIRMACION ELIMINACION SEDE -->
+
+                </form>
+
+
+                <!-- START MODAL CONFIRMACION ELIMINACION SEDE -->
+                <form name="formCreacion" method="POST" action="adminSedes.php">
                     <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
@@ -315,8 +133,231 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                 </div>
                             </div>
                         </div>
-                        </form>
                     </div>
+                </form>
+                <!-- END MODAL CONFIRMACION ELIMINACION SEDE -->
+
+
+                <!----     START MODAL CREACION DE SEDES    ----->
+                <form name="formCreacion" method="POST" action="adminSedes.php">
+                    <div class="modal fade" id="creacionSedeModal" tabindex="-1" role="dialog" aria-labelledby="creacionSedeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title centrarTexto purple" id="creacionSedeModalLabel">CREACIÓN DE SEDE</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" id="bodyModalCrear">
+                                    <div class="contenedorSeccion purple contenedorModal mb-4">        
+                                        <div class="row">
+                                            <div class="col-12 columna">
+                                                <button type="button" class="btn botonLimpiar" id="btnLimpiarCreacion" onclick="limpiarFormularioCreacion()">Limpiar Formulario</button>
+                                            </div>
+                                            <div class="col-12 columna">
+                                                <label >Provincia</label>
+                                                <select id="provinciaCreacion" name="provinciaCreacion" style="width:100%; height:30px">
+                                                    <option value="Buenos Aires">Buenos Aires</option>
+                                                    <option value="Catamarca">Catamarca</option>
+                                                    <option value="Chaco">Chaco</option>
+                                                    <option value="Chubut">Chubut</option>
+                                                    <option value="Córdoba">Córdoba</option>
+                                                    <option value="Corrientes">Corrientes</option>
+                                                    <option value="Entre Ríos">Entre Ríos</option>
+                                                    <option value="Formosa">Formosa</option>
+                                                    <option value="Jujuy">Jujuy</option>
+                                                    <option value="La Pampa">La Pampa</option>
+                                                    <option value="La Rioja">La Rioja</option>
+                                                    <option value="Mendoza">Mendoza</option>
+                                                    <option value="Misiones">Misiones</option>
+                                                    <option value="Nequén">Neuquén</option>
+                                                    <option value="Río Negro">Río Negro</option>
+                                                    <option value="Salta">Salta</option>
+                                                    <option value="San Juan">San Juan</option>
+                                                    <option value="San Luis">San Luis</option>
+                                                    <option value="Santa Cruz">Santa Cruz</option>
+                                                    <option value="Santa Fe">Santa Fe</option>
+                                                    <option value="Santiago del Estero">Santiago del Estero</option>
+                                                    <option value="Tierra del Fuego">Tierra del Fuego</option>
+                                                    <option value="Tucumán">Tucumán</option>
+                                                </select>   
+                                            </div>
+                                            <div class="col-10 columna">
+                                                <label >Ciudad</label>
+                                                <input maxlength="30" style="width:100%" autocomplete="off" name="sedeCreacion" id="sedeCreacion" onkeyup="validarSedeCreacion(value)">
+                                                <div class="hide errorValidacion" id="mensajeErrorCrear"></div>
+                                            </div>
+                                            <div class="col-2 columna">
+                                                <label> Casas: </label>
+                                                <select id="casasCreacion" name="casasCreacion" style="width:100%; height:30px">
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option> 
+                                                </select>   
+                                            </div>           
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="col-12" id="botonesModalCreacion">
+                                        <div class="d-flex align-items-center justify-content-around">
+                                            <button type="button" class="btn botonCancelar" data-dismiss="modal">Cancelar</button>
+                                            <button type="button" class="btn boton" id="btnCrear" disabled onclick="pedirConfirmacion('botonesModalCreacion', 'confirmacionCreacion', 'crear')">Confirmar</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-12  hide" id="confirmacionCreacion">
+                                        <div class="d-flex align-items-center mb-3 purple justify-content-around">
+                                            ¿Confirma la creación de la sede?
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-around">
+                                            <button type="button" class="btn botonCancelar" onclick="cancelarConfirmacion('confirmacionCreacion', 'botonesModalCreacion', 'crear')">Cancelar</button>
+                                            <button type="submit" name="crearSede" id="btnCrearSede" onclick="desbloquearFormularioCreacion(), mostrarSpinner('btnCrearSede','spinnerCrearSede')" class="btn boton">Confirmar</button>
+                                            <button type="button" class="btnReenviarCircle hide" id="spinnerCrearSede" >
+                                                <div class="spinner-border spinnerReenviar" role="status">
+                                                    <span class="sr-only"></span>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!----     END MODAL CREACION DE SEDES    ----->
+
+
+                <!----     START MODAL EDICION DE SEDES    ----->
+                <form name="formEdicion" method="POST" action="adminSedes.php">
+                    <div class="modal fade" id="edicionSedeModal" tabindex="-1" role="dialog" aria-labelledby="edicionSedeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title centrarTexto purple" id="edicionSedeModalLabel">EDICIÓN DE SEDE</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" id="bodyModalEditar">
+                                    <div class="contenedorSeccion purple contenedorModal mb-4">        
+                                        <div class="row">
+                                            <div class="col-12 columna">
+                                                <button type="button" class="btn botonLimpiar" id="btnLimpiarEdicion" onclick="limpiarFormularioCreacion()">Limpiar Formulario</button>
+                                            </div>
+                                            <input name="idSedeEdicion" id="idSedeEdicion" class="hide">                                          
+                                            <div class="col-12 columna ">
+                                                <label >Provincia</label>
+                                                <select id="provincia" name="provincia" onchange="validarFormEdicion()" style="width:100%; height:30px">
+                                                    <option value="Buenos Aires">Buenos Aires</option>
+                                                    <option value="Catamarca">Catamarca</option>
+                                                    <option value="Chaco">Chaco</option>
+                                                    <option value="Chubut">Chubut</option>
+                                                    <option value="Córdoba">Córdoba</option>
+                                                    <option value="Corrientes">Corrientes</option>
+                                                    <option value="Entre Ríos">Entre Ríos</option>
+                                                    <option value="Formosa">Formosa</option>
+                                                    <option value="Jujuy">Jujuy</option>
+                                                    <option value="La Pampa">La Pampa</option>
+                                                    <option value="La Rioja">La Rioja</option>
+                                                    <option value="Mendoza">Mendoza</option>
+                                                    <option value="Misiones">Misiones</option>
+                                                    <option value="Nequén">Neuquén</option>
+                                                    <option value="Río Negro">Río Negro</option>
+                                                    <option value="Salta">Salta</option>
+                                                    <option value="San Juan">San Juan</option>
+                                                    <option value="San Luis">San Luis</option>
+                                                    <option value="Santa Cruz">Santa Cruz</option>
+                                                    <option value="Santa Fe">Santa Fe</option>
+                                                    <option value="Santiago del Estero">Santiago del Estero</option>
+                                                    <option value="Tierra del Fuego">Tierra del Fuego</option>
+                                                    <option value="Tucumán">Tucumán</option>
+                                                </select>  
+                                            </div>
+                                            <div class="col-10 columna ">
+                                                <label >Ciudad</label>
+                                                <input maxlength="30" style="width:100%" autocomplete="off" name="sede" id="sede" onkeyup="validarSedeEdicion(value)">
+                                                <div class="hide errorValidacion" id="mensajeErrorEditar"></div>
+                                            </div>
+
+
+                                            <!-- <div class="col-12 columna">
+                                                <label >Provincia</label>
+                                                <select id="provinciaEdicion" name="provinciaEdicion" onchange="validarFormEdicion()" style="width:100%; height:30px">
+                                                    <option value="Buenos Aires">Buenos Aires</option>
+                                                    <option value="Catamarca">Catamarca</option>
+                                                    <option value="Chaco">Chaco</option>
+                                                    <option value="Chubut">Chubut</option>
+                                                    <option value="Córdoba">Córdoba</option>
+                                                    <option value="Corrientes">Corrientes</option>
+                                                    <option value="Entre Ríos">Entre Ríos</option>
+                                                    <option value="Formosa">Formosa</option>
+                                                    <option value="Jujuy">Jujuy</option>
+                                                    <option value="La Pampa">La Pampa</option>
+                                                    <option value="La Rioja">La Rioja</option>
+                                                    <option value="Mendoza">Mendoza</option>
+                                                    <option value="Misiones">Misiones</option>
+                                                    <option value="Nequén">Neuquén</option>
+                                                    <option value="Río Negro">Río Negro</option>
+                                                    <option value="Salta">Salta</option>
+                                                    <option value="San Juan">San Juan</option>
+                                                    <option value="San Luis">San Luis</option>
+                                                    <option value="Santa Cruz">Santa Cruz</option>
+                                                    <option value="Santa Fe">Santa Fe</option>
+                                                    <option value="Santiago del Estero">Santiago del Estero</option>
+                                                    <option value="Tierra del Fuego">Tierra del Fuego</option>
+                                                    <option value="Tucumán">Tucumán</option>
+                                                </select>   
+                                            </div>
+                                            <div class="col-10 columna">
+                                                <label >Ciudad</label>
+                                                <input maxlength="30" style="width:100%" autocomplete="off" name="sedeEdicion" id="sedeEdicion" onkeyup="validarSedeEdicion(value)">
+                                                <div class="hide errorValidacion" id="mensajeErrorEditar"></div>
+                                            </div> -->
+                                            <div class="col-2 columna">
+                                                <label> Casas: </label>
+                                                <select id="casas" name="casas" onchange="validarFormEdicion()" style="width:100%; height:30px">
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option> 
+                                                </select>   
+                                            </div>           
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="col-12" id="botonesModalEdicion">
+                                        <div class="d-flex align-items-center justify-content-around">
+                                        <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="button" class="btn boton" id="btnEditar" disabled onclick="pedirConfirmacion('botonesModalEdicion', 'confirmacionEdicion', 'editar')">Confirmar</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-12  hide" id="confirmacionEdicion">
+                                        <div class="d-flex align-items-center mb-3 purple justify-content-around">
+                                            ¿Confirma la edición de la sede?
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-around">
+                                            <button type="button" class="btn botonCancelar" onclick="cancelarConfirmacion('confirmacionEdicion', 'botonesModalEdicion', 'editar')">Cancelar</button>
+                                            <button type="submit" name="editarSede" id="btnEditarSede" onclick="desbloquearFormularioCreacion(), mostrarSpinner('btnEditarSede','spinnerEditarSede')" class="btn boton">Confirmar</button>
+                                            <button type="button" class="btnReenviarCircle hide" id="spinnerEditarSede" >
+                                                <div class="spinner-border spinnerReenviar" role="status">
+                                                    <span class="sr-only"></span>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!----     END MODAL EDICION DE SEDES    ----->
+
+
                 </div>
             </div>
         </div>
@@ -341,9 +382,14 @@ window.onload = function(){
     }
 }
 
-function validarSedeExistente(idBox, value){
-    let boxMensaje = document.getElementById(idBox)
-    let sedes = <?php echo json_encode($sedes) ?>;
+
+
+
+function validarSedeEdicion(value){
+    let mensajeError = document.getElementById("mensajeErrorEditar")
+    let btnEdicion = document.getElementById("btnEditar")
+    btnEdicion.setAttribute("disabled", true)
+    let sedes = <?php  echo json_encode($sedes) ?>;
     if(value.length >=5) {
         let sedesExistentes = sedes.filter(element => element.descripcion.toLowerCase().includes(value.toLowerCase()))
         let descripcionesSedesExistentes = ""
@@ -351,15 +397,131 @@ function validarSedeExistente(idBox, value){
             descripcionesSedesExistentes = descripcionesSedesExistentes + value.descripcion + " "
         })
         if(sedesExistentes.length > 0) {
-            console.log("hey")
-            boxMensaje.classList.remove("hide")
-            boxMensaje.innerHTML = "Ya existen las siguientes sedes: " + descripcionesSedesExistentes
+            mensajeError.classList.remove("hide")
+            mensajeError.innerHTML = "Ya existen las siguientes sedes: " + descripcionesSedesExistentes
         }else{
-            boxMensaje.classList.add("hide")
+            btnEdicion.removeAttribute("disabled")
+            mensajeError.classList.add("hide")
         }
     } else {
-        boxMensaje.classList.remove("hide")
-        boxMensaje.innerHTML = "Minimo 5 caracteres"
+        mensajeError.classList.remove("hide")
+        mensajeError.innerHTML = "5 o mas caracteres"
+    }
+}
+function validarSedeCreacion(value){
+    let mensajeError = document.getElementById("mensajeErrorCrear")
+    let btnEdicion = document.getElementById("btnCrear")
+    btnEdicion.setAttribute("disabled", true)
+    let sedes = <?php  echo json_encode($sedes) ?>;
+    if(value.length >=5) {
+        let sedesExistentes = sedes.filter(element => element.descripcion.toLowerCase().includes(value.toLowerCase()))
+        let descripcionesSedesExistentes = ""
+        sedesExistentes.forEach(function callback(value, index) {
+            descripcionesSedesExistentes = descripcionesSedesExistentes + value.descripcion + " "
+        })
+        if(sedesExistentes.length > 0) {
+            mensajeError.classList.remove("hide")
+            mensajeError.innerHTML = "Ya existen las siguientes sedes: " + descripcionesSedesExistentes
+        }else{
+            btnEdicion.removeAttribute("disabled")
+            mensajeError.classList.add("hide")
+        }
+    } else {
+        mensajeError.classList.remove("hide")
+        mensajeError.innerHTML = "5 o mas caracteres"
+    }
+}
+
+
+function validarFormEdicion () {
+    let sede  = document.getElementById("sede").value
+    let btnEditar  = document.getElementById("btnEditar")
+    btnEditar.setAttribute("disabled", true)
+    if (sede.length >= 5) {
+        btnEditar.removeAttribute("disabled")
+    }
+}
+
+function cargarDatosEdicion(id, provincia, sede, casas){
+    document.getElementById("idSedeEdicion").value = id
+    document.getElementById("provincia").value = provincia
+    document.getElementById("sede").value = sede
+    document.getElementById("casas").value = casas
+    limpiarValidaciones("editar")
+}
+
+function pedirConfirmacion(idOcultar, idMostrar, accion) {
+    let cajaOcultar = document.getElementById(idOcultar)
+    cajaOcultar.classList.add("hide")
+    let cajaMostrar = document.getElementById(idMostrar)
+    cajaMostrar.classList.remove("hide")
+    if (accion == "crear") {
+        bloquearFormularioCreacion()
+    } else {
+        bloquearFormularioEdicion()
+    }
+}
+function cancelarConfirmacion(idOcultar, idMostrar, accion) {
+    let cajaOcultar = document.getElementById(idOcultar)
+    cajaOcultar.classList.add("hide")
+    let cajaMostrar = document.getElementById(idMostrar)
+    cajaMostrar.classList.remove("hide")
+    if (accion == "crear") {
+        desbloquearFormularioCreacion()
+    } else {
+        desbloquearFormularioEdicion()
+    }
+}
+
+
+
+
+function bloquearFormularioCreacion() {
+    let btnLimpiar = document.getElementById("btnLimpiarCreacion")
+    btnLimpiar.setAttribute("disabled", true)
+    let provincia = document.getElementById("provinciaCreacion")
+    provincia.setAttribute("disabled", true)
+    let sede = document.getElementById("sedeCreacion")
+    sede.setAttribute("disabled", true)
+    let casas = document.getElementById("casasCreacion")
+    casas.setAttribute("disabled", true)
+}
+function desbloquearFormularioCreacion() {
+    let btnLimpiar = document.getElementById("btnLimpiarCreacion")
+    btnLimpiar.removeAttribute("disabled")
+    let provincia = document.getElementById("provinciaCreacion")
+    provincia.removeAttribute("disabled")
+    let sede = document.getElementById("sedeCreacion")
+    sede.removeAttribute("disabled")
+    let casas = document.getElementById("casasCreacion")
+    casas.removeAttribute("disabled")
+}
+function bloquearFormularioEdicion() {
+    let btnLimpiar = document.getElementById("btnLimpiarEdicion")
+    btnLimpiar.setAttribute("disabled", true)
+    let provincia = document.getElementById("provincia")
+    provincia.setAttribute("disabled", true)
+    let sede = document.getElementById("sede")
+    sede.setAttribute("disabled", true)
+    let casas = document.getElementById("casas")
+    casas.setAttribute("disabled", true)
+}
+function desbloquearFormularioEdicion() {
+    let btnLimpiar = document.getElementById("btnLimpiarEdicion")
+    btnLimpiar.removeAttribute("disabled")
+    let provincia = document.getElementById("provincia")
+    provincia.removeAttribute("disabled")
+    let sede = document.getElementById("sede")
+    sede.removeAttribute("disabled")
+    let casas = document.getElementById("casas")
+    casas.removeAttribute("disabled")
+}
+
+function limpiarValidaciones(accion) {
+    if(accion == "crear") {
+        document.getElementById("mensajeErrorCrear").classList.add("hide")
+    } else {
+        document.getElementById("mensajeErrorEditar").classList.add("hide")
     }
 }
 
