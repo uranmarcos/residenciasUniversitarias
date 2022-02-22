@@ -332,7 +332,7 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                 <div class="modal-footer">
                                     <div class="col-12" id="botonesModalEdicion">
                                         <div class="d-flex align-items-center justify-content-around">
-                                        <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
                                             <button type="button" class="btn boton" id="btnEditar" disabled onclick="pedirConfirmacion('botonesModalEdicion', 'confirmacionEdicion', 'editar')">Confirmar</button>
                                         </div>
                                     </div>
@@ -367,9 +367,9 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
     </body>
 </html>
 <script>
-    if ( window.history.replaceState ) {
-        window.history.replaceState( null, null, window.location.href );
-    }
+if ( window.history.replaceState ) {
+    window.history.replaceState( null, null, window.location.href );
+}
 
 window.onload = function(){
     let alertConfirmacion = document.getElementById("alertConfirmacion")
