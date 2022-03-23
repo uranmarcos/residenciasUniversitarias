@@ -18,13 +18,13 @@ TO DO
 
 /* NAV  */
 .navegador{
-    background-color: rgb(163, 73, 164);
+    background-color: rgb(124, 69, 153);
     color: white;
     height: 6vh;
     text-transform: uppercase;
 }
 .navegadorResponsive{
-    background-color: rgb(163, 73, 164);
+    background-color: rgb(124, 69, 153);
     color: white;
     height: 6vh;
     text-transform: uppercase;
@@ -74,7 +74,7 @@ TO DO
     height:75vh;
 
     background-color: white;
-    border: solid 1px rgb(163, 73, 164);
+    border: solid 1px rgb(124, 69, 153);
     border-radius: 10px;
     z-index:5;
 } */
@@ -83,8 +83,8 @@ TO DO
     height: 50px;
     line-height: 45px;
     margin: 10px 0;
-    background-color: rgb(163, 73, 164);
-    border: solid 1px rgb(163, 73, 164);
+    background-color: rgb(124, 69, 153);
+    border: solid 1px rgb(124, 69, 153);
     border-radius: 5px;
     color: white;
     font-size: 18px;
@@ -93,7 +93,7 @@ TO DO
     outline: none !important;
 }
 .asideButton:hover{
-    color: rgb(163, 73, 164);
+    color: rgb(124, 69, 153);
     background-color: white;
 }
 .contenedorMenuBurguer{
@@ -138,25 +138,25 @@ TO DO
     display:flex !important;
     justify-content: center;
     align-items: center;
-    background-color: rgb(163, 73, 164);
+    background-color: rgb(124, 69, 153);
     color:white;
     height: 25px;
     border-radius: 5px;
     padding:0 !important;
     height: 30px;
     width: 30px !important;
-    border: solid 1px rgb(163, 73, 164);
+    border: solid 1px rgb(124, 69, 153);
 }
 .botonFiltro:hover{
     cursor: pointer;
     background-color: white;
-    color:rgb(163, 73, 164);
-    border: solid 1px rgb(163, 73, 164);
+    color:rgb(124, 69, 153);
+    border: solid 1px rgb(124, 69, 153);
 }
 
 .buttonLogOut{
     color: white;
-    background-color:rgb(163, 73, 164);
+    background-color:rgb(124, 69, 153);
     height: 100%;
     display:flex;
     justify-content: center;
@@ -172,7 +172,7 @@ TO DO
     padding:10px;
 }
 .violeta {
-    color: rgb(163, 73, 164)
+    color: rgb(124, 69, 153)
 }
 #validacion{
     border: solid 1px black;
