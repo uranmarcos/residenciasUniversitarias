@@ -48,8 +48,8 @@ if($_SESSION["rol"] == "admin" || $_SESSION["rol"] == "general"){
                             <div name="inicio" class="row burguerButton" onclick="redirect('inicio')" id="btnInicio" data-toggle="tooltip" data-placement="bottom" >
                                 <div class="nameButtonAside">Inicio</div>
                             </div>
-                            <div name="perfil" class="row burguerButton" onclick="redirect('perfil')" id="btnPerfil" data-toggle="tooltip" data-placement="bottom" onclick="activarBoton('perfil', 'perfilSeccion')">
-                                <div class="nameButtonAside">Perfil</div> 
+                            <div name="perfil" class="row burguerButton" onclick="redirect('ajustes')" id="btnAjustes" data-toggle="tooltip" data-placement="bottom" onclick="activarBoton('perfil', 'perfilSeccion')">
+                                <div class="nameButtonAside">Ajustes</div> 
                             </div>
                             <div name="admin" class="row burguerButton <?php echo $mostrarBotonAdmin?>" onclick="redirect('admin')" onclick="resetStorage()" id="admin" data-toggle="tooltip" data-placement="bottom" onclick="activarBoton('admin', 'adminSeccion')">
                                 <div class="nameButtonAside botonAdmin">Admin</div>

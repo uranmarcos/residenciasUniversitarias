@@ -300,7 +300,6 @@ function validarPassword () {
         boxError.classList.add("hide")
         return
 }
-
 function validarFormPass () {
     let password = document.getElementById("inputPassword").value
     let newPassword = document.getElementById("inputNewPassword").value
@@ -315,7 +314,6 @@ function validarFormPass () {
     } 
     return btnEdicion.setAttribute("disabled", true)
 }
-
 function validarNewPassword () {
     let password = document.getElementById("inputNewPassword").value
     let boxError = document.getElementById("errorNewPassword")
@@ -341,7 +339,6 @@ function validarNewPassword () {
     boxError.classList.add("hide")
     return
 }
-
 function compararContrasenias () {
     let newPassword = document.getElementById("inputNewPassword").value
     let confirmPassword = document.getElementById("inputConfirmPassword").value

@@ -21,7 +21,7 @@ if (isset($_COOKIE["recordarDatos"])) {
     $cbxDatosChecked = $_COOKIE["recordarDatos"];
 }
 if($_POST){
-    if(isset($_POST["ingresar"])){
+    if(isset($_POST["btnIngresar"])){
         require("funciones/validarLogin.php");
         // header("Location:http://localhost/repositorioPedidos/componentes/home.php");
     }

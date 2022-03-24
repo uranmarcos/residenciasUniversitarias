@@ -149,7 +149,7 @@ label{
     border: solid 1px rgb(236, 130, 130) !important;
 }
 .eyeButton {
-    height: 30px !important;
+    height: 35px !important;
     color: rgb(124, 69, 153);
     line-height: 30px;
 }
@@ -255,6 +255,12 @@ label{
 }
 .centrarTexto{
     text-align: center;
+}
+.inputForm{
+    border-radius: 5px;
+    outline: none;
+    height: 35px;
+    border: solid 1px rgb(124, 69, 153);
 }
 .black{
     color: black;

@@ -9,6 +9,9 @@ function redirect(caso){
         case "ayuda":
             window.location.href='ayuda.php'
         break;
+        case "ajustes":
+            window.location.href='ajustes.php'
+        break;
         case "admin":
             window.location.href='admin.php'
         break;
