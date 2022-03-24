@@ -61,6 +61,22 @@ function quitarFiltros(){
     document.getElementById("selectMes").value = "todos"
     document.getElementById("selectVoluntario").value = "todos"
     document.getElementById("selectSede").value = "todos"
+    document.getElementById("boxFiltros").classList.add("hide")
+    document.getElementById("btnVerFiltros").classList.remove("hide")
+    document.getElementById("btnQuitarFiltros").classList.add("hide")
+}
+function ocultarFiltros() {
+    quitarFiltros()
+    document.getElementById("boxFiltros").classList.add("hide")
+    document.getElementById("btnVerFiltros").classList.remove("hide")
+    document.getElementById("btnQuitarFiltros").classList.add("hide")
+}
+
+
+function mostrarFiltros() {
+    document.getElementById("boxFiltros").classList.remove("hide")
+    document.getElementById("btnVerFiltros").classList.add("hide")
+    document.getElementById("btnQuitarFiltros").classList.remove("hide")
 }
 function filtrarFilas(param, param2){
     let listaFilas = document.getElementsByName("rowTableAdmin");

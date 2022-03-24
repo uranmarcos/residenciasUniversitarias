@@ -62,8 +62,8 @@ if($_SESSION["rol"] == "admin" || $_SESSION["rol"] == "general"){
                                     </svg>
                                 </div>
                             </div>
-                            <div class="row mt-3 mb-3">    
-                                <div class="col-5 col-sm-4 botonSubmenu <?php echo $mostrarBotonAdmin?>" onclick="redirect('admin')"  onmouseout="outBoton('spanAdmin', 'iconoAdmin')" onmouseover="overBoton('spanAdmin', 'iconoAdmin')">
+                            <div class="row mt-3 mb-3 d-flex justify-content-between">    
+                                <div class="col-12 col-md-5 mb-3 mb-md-0 botonSubmenu <?php echo $mostrarBotonAdmin?>" onclick="redirect('admin')"  onmouseout="outBoton('spanAdmin', 'iconoAdmin')" onmouseover="overBoton('spanAdmin', 'iconoAdmin')">
                                     <span id="spanAdmin">
                                         Admin   
                                     </span>
@@ -73,7 +73,7 @@ if($_SESSION["rol"] == "admin" || $_SESSION["rol"] == "general"){
                                 </div>
                         
                 
-                                <div class="col-5 col-sm-4 botonSubmenu <?php echo $mostrarBotonAdmin?>" onclick="redirect('ayuda')" onmouseout="outBoton('spanAyuda', 'iconoAyuda')" onmouseover="overBoton('spanAyuda', 'iconoAyuda')">
+                                <div class="col-12 col-md-5 botonSubmenu <?php echo $mostrarBotonAdmin?>" onclick="redirect('ayuda')" onmouseout="outBoton('spanAyuda', 'iconoAyuda')" onmouseover="overBoton('spanAyuda', 'iconoAyuda')">
                                     <span id="spanAyuda">
                                         Ayuda   
                                     </span>

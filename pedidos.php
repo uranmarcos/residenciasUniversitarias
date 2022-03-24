@@ -125,20 +125,22 @@ require("funciones/pedidos.php");
                         </table>
                     </div>
                     <!-- END TABLA ROL STOCK -->
+                   
                     <!-- START TABLA ROL ADMIN -->
                     <div class="table-responsive bloque mb-4 pb-0 <?php echo $mostrarAdmin?> ">
                         <table class="table">
                             <div class="d-flex anchoTotal row">
-                                <div class="col-12 d-flex align-items-end justify-content-end">
+                                <div class="col-12 mb-3 d-flex align-items-end justify-content-between">
+                                    <button type="button" name="btnVerFiltros" onclick="mostrarFiltros()"  id="btnVerFiltros" class="btn boton">Ver Filtros</button>
+                                    <button type="button" name="btnQuitarFiltros" onclick="ocultarFiltros()"  id="btnQuitarFiltros" class="btn hide botonCancelar">Quitar Filtros</button>
                                     <button type="submit" name="nuevoPedido" onclick="redirect('iniciarPedido')"  id="nuevoPedido" class="btn boton">Generar Pedido</button>        
                                 </div>
-                                <div class="col-12  d-flex align-items-end justify-content-start dataSede">
-                                   
+                                <div class="hide mb-2" id="boxFiltros">
                                     <div class="row bg-grey d-flex align-items-center p-0 m-0 justify-content-around" style="width:100%">
-                                        <div class="col-12 col-sm-5 col-md-3">
+                                        <div class="col-12 col-sm-3">
                                             <div class="row rowFiltro">
                                                 Mes:
-                                                <select style="height:30px" class="col-12" onchange="filtrar()" name="mes" id="selectMes">
+                                                <select style="height:30px" class="col-12 inputForm" onchange="filtrar()" name="mes" id="selectMes">
                                                     <option value="todos">Todos</opcion>
                                                     <option value="01">Enero</opcion>
                                                     <option value="02">Febrero</opcion>
@@ -155,10 +157,10 @@ require("funciones/pedidos.php");
                                                 </select>   
                                             </div>
                                         </div>    
-                                        <div class="col-12 col-sm-5 col-md-3">
+                                        <div class="col-12 col-sm-4">
                                             <div class="row rowFiltro">
                                                 Voluntario:
-                                                <select style="height:30px" class="col-12" onchange="filtrar()" name="voluntario" id="selectVoluntario">
+                                                <select style="height:30px" class="col-12 inputForm" onchange="filtrar()" name="voluntario" id="selectVoluntario">
                                                     <option value="todos">Todos</opcion>
                                                     <?php foreach($voluntarios as $voluntario){ ?>
                                                         <option value="<?php echo $voluntario["nombre"] . " " . $voluntario["segundoNombre"] . " " . $voluntario["apellido"] ?>" ><?php echo $voluntario["nombre"] . " " . $voluntario["segundoNombre"] . " " . $voluntario["apellido"]?></opcion>
@@ -166,10 +168,10 @@ require("funciones/pedidos.php");
                                                 </select>   
                                             </div>
                                         </div> 
-                                        <div class="col-12 col-sm-5 col-md-3">
+                                        <div class="col-12 col-sm-4">
                                             <div class="row rowFiltro">
                                                 Sede:
-                                                <select style="height:30px" class="col-12" onchange="filtrar()" name="categoria" id="selectSede">
+                                                <select style="height:30px" class="col-12 inputForm" onchange="filtrar()" name="categoria" id="selectSede">
                                                     <option value="todos">Todas</opcion>
                                                     <?php foreach($sedes as $sede){ ?>
                                                         <option value="<?php echo $sede['descripcion'] ?>" ><?php echo $sede["descripcion"]?></opcion>
@@ -177,13 +179,13 @@ require("funciones/pedidos.php");
                                                 </select>   
                                             </div>
                                         </div> 
-                                        <div class="col-12 col-sm-5 col-md-2 d-flex align-self-end justify-content-center mb-0" id="boxBotonFiltro">
+                                        <!-- <div class="col-12 col-sm-5 col-md-2 d-flex align-self-end justify-content-center mb-0" id="boxBotonFiltro">
                                             <div class="d-flex align-items-end justify-content-center">
                                                 <button type="submit" class="botonQuitarFiltro" name="reiniciarPedido" onclick="quitarFiltros()" class="editButton botonReiniciar">
                                                     Quitar
                                                 </button>
                                             </div>
-                                        </div> 
+                                        </div>  -->
                                     </div>
                                    
                                 </div>
@@ -226,18 +228,18 @@ require("funciones/pedidos.php");
                                                 </div>
                                             </td>
                                         </form>
-                                            <form method="POST" action="verPedido.php" target="_blank">
-                                                <td class="hide"><input type="text" style ="width:50px; border: none" name="id" readonly value="<?php echo $pedido["id"] ?>"></td> 
-                                                <td> 
-                                                    <button type="submit" class="btnVerPedido" name="verPedido" id="btnAdminVerPedido<?php echo $pedido['id']?>" target="_blank">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi purple bi-eye-fill" viewBox="0 0 16 16">
-                                                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                                                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                                                        </svg>
-                                                    </button>
-                                                </td>
-                                            </form>
-                                        </tr>
+                                        <form method="POST" action="verPedido.php" target="_blank">
+                                            <td class="hide"><input type="text" style ="width:50px; border: none" name="id" readonly value="<?php echo $pedido["id"] ?>"></td> 
+                                            <td> 
+                                                <button type="submit" class="btnVerPedido" name="verPedido" id="btnAdminVerPedido<?php echo $pedido['id']?>" target="_blank">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi purple bi-eye-fill" viewBox="0 0 16 16">
+                                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                                    </svg>
+                                                </button>
+                                            </td>
+                                        </form>
+                                    </tr>
                                     </form>
                                 <?php } ?>   
                             </tbody>               

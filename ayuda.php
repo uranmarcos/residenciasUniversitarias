@@ -40,7 +40,12 @@ if(isset($_GET["adminUsuarios"])){
             <div class="header">
                 <?php require("componentes/header.php")?>
             </div>
-            <div>
+            <div class="d-flex align-items-center justify-content-center">
+
+                <h2>Sitio en construcción</h2>
+
+            </div>
+            <!-- <div>
                 Cada articulo tiene asociada una categoria a la cual pertenece. Si al crear un articulo, la categoria no figura en el listado seleccionable, primero deberá crearse la categoria en la opción correspondiente.
                 <br>
                 Cada usuario tiene asociada una sede y una casa respectiva, si al momento de crear el usuario, la sede no figura en el listado seleccionable la misma dberá crearse en la opcion crear Sede.
@@ -48,7 +53,7 @@ if(isset($_GET["adminUsuarios"])){
                 La eliminacion (de articulos, usuarios, sedes o categorias) funciona inhabilitando la opcion seleccionada, pero no borrandola de base de datos, por lo que si se dese habilitar nuevamente, no debe crearse de cero, si no en la opcion editar, modificar el campo "habilitado"
                 <br>
                 Puede resetear la contraseña de un usuario ingresando a la opcion Admin/Usuarios, y luego seleccionando la opcion editar. Dentro el
-            </div>
+            </div> -->
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>           
     </body>
