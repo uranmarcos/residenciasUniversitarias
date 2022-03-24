@@ -25,9 +25,9 @@ $phpmailer->SMTPAuth = true;
 $phpmailer->setFrom($phpmailer->Username,$from_name);
 $phpmailer->AddAddress($address_to); // recipients email
 $phpmailer->Subject = $the_subject;	
-$phpmailer->Body .="<p>Recibimos una solicitud de recuperación de contraseña. Si no fuiste vos, desestimá este mail.</p>";
-$phpmailer->Body .="<p>Si necesitás hacerlo ingresá al siguiente link: https://pedidos.fundacionsi.org.ar/recuperar.php</p>";
-$phpmailer->Body .="<p>Tu código de validación es: " . $token . " y expira a las: " . $horaExpired;
+$phpmailer->Body .="<p>Hemos recibido una solicitud de recuperación de contraseña para tu usuario</p>";
+$phpmailer->Body .="<p>Tu nueva contraseña es: " . $password . "</p>";
+$phpmailer->Body .="<p>Podrás modificarla desde la opción Ajustes si lo deseas.</p>";
 $phpmailer->IsHTML(true);
 try {
     $phpmailer->smtpConnect([

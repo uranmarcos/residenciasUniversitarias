@@ -1,10 +1,13 @@
 <?php
 session_start();
+require("funciones/pdo.php");
 $error = "";
 $dniUsuario = "";
 $password = "";
 $cbxUserChecked = false;
 $cbxDatosChecked = false;
+$mensajeError = "";
+$boxMensajeError = "hide";
 if (isset($_COOKIE["usuario"])) {
     $dniUsuario = $_COOKIE["usuario"];
 }
@@ -22,7 +25,52 @@ if($_POST){
         require("funciones/validarLogin.php");
         // header("Location:http://localhost/repositorioPedidos/componentes/home.php");
     }
+    if(isset($_POST["resetPassword"])){
+        $dni = $_POST["dniReset"];
+        $mail = $_POST["mailReset"];
+        try {
+            $consulta = $baseDeDatos ->prepare("SELECT * FROM agentes WHERE dni = '$dni' AND mail='$mail'");
+            $consulta->execute();
+            $datosUsuarios = $consulta -> fetchAll(PDO::FETCH_ASSOC);
+            if(empty($datosUsuarios)){
+                $boxMensajeError = "show";
+                $mensajeError = "Los datos ingresados no coinciden <br> con ningún registro.<br> El reseteo de contraseña no pudo realizarse.";
+            } else {
+                $newPassword = randomPassword();
+                $pass = password_hash($newPassword, PASSWORD_DEFAULT);
+                $consultaToken = $baseDeDatos ->prepare("UPDATE agentes SET password = '$pass' WHERE dni = '$dni'"); 
+                try {
+                    $consulta->execute();
+                    try {
+                        include("mailRecuperoPassword.php");
+                        $boxMensajeError = "show";
+                        $mensajeError = "El reseteo de contraseña se realizó correctamente y te enviamos un mail. <br> Revisá tu casilla de correo no deseado";
+                    } catch (\Throwable $th) {
+                        $boxMensajeError = "show";
+                        $mensajeError = "Disculpe, hubo un error de conexión <br> y el reseteo de contraseña no pudo realizarse. <br> Por favor intente nuevamente.";
+                    }
+                } catch (\Throwable $th) {
+                    $boxMensajeError = "show";
+                    $mensajeError = "Disculpe, hubo un error de conexión <br> y el reseteo de contraseña no pudo realizarse. <br> Por favor intente nuevamente.";
+                }
+            }
+        } catch (\Throwable $th) {
+            $boxMensajeError = "show";
+            $mensajeError = "Disculpe, hubo un error de conexión <br> y el reseteo de contraseña no pudo realizarse. <br> Por favor intente nuevamente.";
+        }
+    }
 }
+function randomPassword() {
+    $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+    $pass = array(); //remember to declare $pass as an array
+    $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+    for ($i = 0; $i < 8; $i++) {
+        $n = rand(0, $alphaLength);
+        $pass[] = $alphabet[$n];
+    }
+    return implode($pass); //turn the array into a string
+}
+
 ?>
 <script>
     localStorage.clear();
@@ -44,7 +92,7 @@ if($_POST){
                 <section class="row">
                     <img src="img/si.jpg">
                 </section>
-                <section class="row">
+                <section class="row contenedorForm">
                     <form action="index.php" method="POST">                      
                         <div class="row rowForm">
                             <input class="inputLabel" placeholder="DNI" maxlength="8" autocomplete="off" value="<?php echo $dniUsuario?>" onkeyup="validarDni()" type="text" name="dni" id="dni">
@@ -73,19 +121,61 @@ if($_POST){
                         <div class="row rowForm">
                             <label class="labelCheckbox"><input type="checkbox" name="cbxUsuario" onchange="alternarCheckbox('cbxDatos')" id="cbxUsuario"> Recordar usuario</label>
                             <label class="labelCheckbox"><input type="checkbox" name="cbxDatos" id="cbxDatos" onchange="alternarCheckbox('cbxUsuario')"> Recordar usuario y contraseña</label>
-                            <span class="recuperar"><a href="recuperar.php">Recuperar contraseña</a></span>
                         </div>    
                         <div class="row justify-content-center" >
                             <input type="submit" disabled class="col-6 botonSubmit" name="btnIngresar" id="btnIngresar" value="Ingresar">
+                            <span class="recuperar" data-bs-toggle="modal" data-bs-target="#resetModal">
+                                Recuperar contraseña
+                            </span>
                         </div>     
                     </form>
+                    <div class="boxError <?php echo $boxMensajeError ?>" id="boxError">
+                        <div class="boxMensajeError">
+                            <div class="cierreMensaje" onclick="cerrarError()">x</div>
+                            <div class="cajaMensaje">
+                                <div><?php echo $mensajeError;?></div>
+                                <br>
+                                <div>
+                                    <button onclick="cerrarError()">Aceptar</button>
+                                </div>
+                            </div>    
+                        </div>
+                    </div>
                 </section>
+                <form name="formRecupero" method="POST" action="index.php">
+                    <div class="modal fade" id="resetModal" tabindex="-1" aria-labelledby="resetModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">RESETEO DE CONTRASEÑA
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body centrarTexto">
+                                    Para resetear su contraseña por favor ingrese<br> su correo electrónico y su DNI
+                                </div>
+                                <input type="mail" class="inputReset" placeholder="Correo electrónico" name="mailReset" id="mailReset"></input>
+                                <input type="text" class="inputReset" placeholder="DNI" name="dniReset" id="dniReset"></input>
+                                <div class="modal-footer d-flex justify-content-around">
+                                    <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" name="resetPassword" id="btnResetPassword" onclick="mostrarSpinner('btnResetPassword','spinnerResetPassword')" class="btn boton">Confirmar</button>
+                                    <button type="button" class="btnReenviarCircle hide" id="spinnerResetPassword" >
+                                        <div class="spinner-border spinnerReenviar" role="status">
+                                            <span class="sr-only"></span>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </main>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
     </body>
 </html>
 <script>
+    if ( window.history.replaceState ) {
+       window.history.replaceState( null, null, window.location.href );
+    }
     window.onload = function(){
         let cbxUserChecked =  <?php  echo json_encode($cbxUserChecked) ?>;
         let cbxDatosChecked = <?php  echo json_encode($cbxDatosChecked) ?>;
@@ -166,5 +256,17 @@ if($_POST){
     function isNumber(str) {
         var pattern = /^\d+$/;
         return pattern.test(str);  // returns a boolean
+    }
+    function mostrarSpinner(idBotonOcultar, ibBotonSpinner) {
+        let botonOcultar = document.getElementById(idBotonOcultar)
+        botonOcultar.classList.add("hide")
+        let botonSpinner = document.getElementById(ibBotonSpinner)
+        botonSpinner.classList.remove("hide")
+    }
+    function cerrarError(){
+        console.log("ocultar")
+        let boxError = document.getElementById("boxError")
+        boxError.classList.remove("show")
+        boxError.classList.add("hide")
     }
 </script>

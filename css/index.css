@@ -25,6 +25,9 @@ img{
 .hide{
     display: none;
 }
+.show{
+    display: block;
+}
 .centrarTexto{
     text-align: center !important;
 }
@@ -69,7 +72,7 @@ form{
     border-radius: 7px;
     outline: none;
     height:40px;
-    margin-bottom: 20px;
+    margin-top: 20px;
 }
 .botonSubmit:hover{
     background-color: white;
@@ -89,12 +92,8 @@ form{
     font-size: 18px;
     text-align:center;
 }
-.recuperar a:hover{
+.recuperar:hover{
     font-weight: bolder;
-}
-.recuperar a{
-    color:rgb(124, 69, 153); 
-    text-decoration: none;;
 }
 .eyeButton {
     height: 40px !important;
@@ -111,4 +110,105 @@ form{
     height: 100%;;
     align-items: center;
     justify-content: center;
+}
+
+.contenedorForm{
+    position:relative;
+}
+.cierreMensaje{
+    height: 10%;
+}
+.cajaMensaje{
+    height: 90%;
+}
+.boxError{
+    position: absolute;
+    top:0;
+    height: 100%;;
+    z-index: 2;
+    border-radius: 10px;
+    background-color: rgb(124, 69, 153)
+}
+.boxMensajeError{
+    width: 100%;
+    height: 100%;
+    font-size: 16px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+.cajaMensaje{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+.cierreMensaje{
+    text-align: right;
+}
+.cierreMensaje:hover{
+    cursor: pointer;
+}
+button{
+    background-color: rgb(124, 69, 153);
+    border-radius: 5px;
+    height: 30px;
+    font-size: 16px;
+    color:white;
+    line-height: 20px;
+    border: solid 1px white;
+    outline: none;
+}
+button:hover{
+    cursor: pointer;
+}
+button:active{
+    border: solid 1px rgb(124, 69, 153) !important;
+    outline: none !important;
+}
+
+
+/* MODAL RESET PASSWORD */
+.botonCancelar{
+    background-color: rgb(236, 130, 130) !important;
+    color: white !important;
+    line-height: 20px;
+    height: 40px;
+    width:auto !important;
+}
+.botonCancelar:hover {
+    background-color: white !important;
+    color: rgb(236, 130, 130) !important;
+    border: solid 1px rgb(236, 130, 130) !important;
+}
+.boton{
+    background-color: rgb(124, 69, 153) !important;
+    color: white !important;
+    line-height: 20px;
+    height: 40px;
+    min-width: 100px;
+    border: solid 1px rgb(124, 69, 153) !important;
+    width:auto !important;
+    border-radius: 5px;
+    outline: none;
+}
+.boton:hover {
+    background-color: white !important;
+    color: rgb(124, 69, 153) !important;
+    border: solid 1px rgb(124, 69, 153) !important;
+}
+.boton:active{
+    border: solid 1px rgb(124, 69, 153) !important;
+    outline: none !important;
+}
+.inputReset{
+    width: 80%;
+    height: 40px;
+    margin: 10px auto;
+    outline: none;
+    border: solid 1px rgb(124, 69, 153);
+    border-radius: 10px;
+    text-align: center;
+
 }
