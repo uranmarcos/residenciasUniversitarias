@@ -4,7 +4,9 @@
     padding-bottom: 20px;;
 }
 .subMenuInicio{
-    width: 100%
+    width: 100%;
+    height: 70vh;
+
 }
 .contenedorPrincipal{
     min-height: 70vh;
@@ -35,14 +37,21 @@
     color:white;
     cursor: pointer;
 }
+#textareaOtros{
+    width: 100%;
+    margin: auto;;
+}
 .icono{
     margin: auto;
 }
 .rowSubMenuInicio{
-    height: calc(40vh - 40px);
     display: flex;
     align-items: center;
+    display: flex;
+    align-items: center;
+   
     width: 100%;
+    height: 100%;
     margin: 0 !important;;
 }
 

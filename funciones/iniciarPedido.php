@@ -21,7 +21,7 @@ $categoriaDesc= "hide";
 
 // CONSULTA DE PRODUCTOS DISPONIBLES A BASE DE DATOS
 $consultaProductos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, M.descripcion medida, C.descripcion categoria  FROM articulos A 
-    INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id WHERE A.habilitado = 1 ORDER BY descripcion ASC");
+    INNER JOIN medidas M on A.medida = M.id INNER JOIN categorias C on A.categoria = C.id ORDER BY descripcion ASC");
 try {
     $consultaProductos->execute();
 } catch (\Throwable $th) {
@@ -30,14 +30,13 @@ try {
 $productos = $consultaProductos -> fetchAll(PDO::FETCH_ASSOC);
     
 // CONSULTA DE CATEGORIAS DISPONIBLES A BASE DE DATOS PARA EL SELECT
-$consultaCategorias = $baseDeDatos ->prepare("SELECT * FROM categorias WHERE habilitado = 1");
+$consultaCategorias = $baseDeDatos ->prepare("SELECT * FROM categorias");
 try {
     $consultaCategorias->execute();
 } catch (\Throwable $th) {
     $alertErrorConexion= "show";
 }
-$categorias = $consultaCategorias -> fetchAll(PDO::FETCH_ASSOC);
-    
+$categorias = $consultaCategorias -> fetchAll(PDO::FETCH_ASSOC);  
     
 // START FUNCIONES SORT TABLA
 // REACOMODO PRODUCTOS POR DESCRIPCION EN ORDEN ASCENDENTE

@@ -48,19 +48,22 @@ if($_SESSION["rol"] == "admin" || $_SESSION["rol"] == "general"){
                             <div name="inicio" class="row burguerButton" onclick="redirect('inicio')" id="btnInicio" data-toggle="tooltip" data-placement="bottom" >
                                 <div class="nameButtonAside">Inicio</div>
                             </div>
-                            <div name="perfil" class="row burguerButton" onclick="redirect('ajustes')" id="btnAjustes" data-toggle="tooltip" data-placement="bottom" onclick="activarBoton('perfil', 'perfilSeccion')">
+                            <div name="iniciarPedido" class="row burguerButton" id="iniciarPedido" onclick="redirect('iniciarPedido')" data-toggle="tooltip" data-placement="bottom">
+                                <div class="nameButtonAside">Iniciar Pedido</div>
+                            </div>
+                            <div name="perfil" class="row burguerButton" onclick="redirect('ajustes')" id="btnAjustes" data-toggle="tooltip" data-placement="bottom">
                                 <div class="nameButtonAside">Ajustes</div> 
                             </div>
-                            <div name="admin" class="row burguerButton <?php echo $mostrarBotonAdmin?>" onclick="redirect('admin')" onclick="resetStorage()" id="admin" data-toggle="tooltip" data-placement="bottom" onclick="activarBoton('admin', 'adminSeccion')">
+                            <div name="admin" class="row burguerButton <?php echo $mostrarBotonAdmin?>" onclick="redirect('admin')" onclick="resetStorage()" id="admin" data-toggle="tooltip" data-placement="bottom">
                                 <div class="nameButtonAside botonAdmin">Admin</div>
                             </div>
-                            <div name="pedidos" class="row burguerButton" id="pedidos" onclick="redirect('pedidos')" data-toggle="tooltip" data-placement="bottom" onclick="activarBoton('listadoPedidos', 'listadoPedidosSeccion')">
+                            <div name="pedidos" class="row burguerButton" id="pedidos" onclick="redirect('pedidos')" data-toggle="tooltip" data-placement="bottom">
                                 <div class="nameButtonAside">Pedidos</div>
                             </div>
-                            <div name="ayuda" class="row burguerButton <?php echo $mostrarBotonAdmin?>" onclick="redirect('ayuda')" id="ayuda" data-toggle="tooltip" data-placement="bottom" onclick="activarBoton('admin', 'adminSeccion')">
+                            <div name="ayuda" class="row burguerButton <?php echo $mostrarBotonAdmin?>" onclick="redirect('ayuda')" id="ayuda" data-toggle="tooltip" data-placement="bottom">
                                 <div class="nameButtonAside botonAdmin">Ayuda</div>
                             </div>
-                            <div name="desloguear" class="row burguerButton" id="desloguear" onclick="redirect('destroy')" data-toggle="tooltip" data-placement="bottom" onclick="activarBoton('cerrarSesion', 'cerrarSesion')">
+                            <div name="desloguear" class="row burguerButton" id="desloguear" onclick="redirect('destroy')" data-toggle="tooltip" data-placement="bottom">
                                 <div class="nameButtonAside">Cerrar sesión</div>
                             </div>
                         </div>

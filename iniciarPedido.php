@@ -48,13 +48,13 @@ require("funciones/generarPedido.php");
                                 <form method="POST" action="iniciarPedido.php" onkeypress="return pulsar(event)">
                                     <table class="table table-hover" id="tablePedidos">
                                         <!-- FILTROS -->
-                                        <div class="row bg-grey d-flex align-items-center p-0 mb-2 justify-content-around" style="width:100%">
-                                            <div class="col-12 col-sm-6 col-md-4">
+                                        <div class="row d-flex align-items-center p-0 mb-2 justify-content-around" style="width:100%; margin:auto">
+                                            <div class="col-10 col-sm-6 col-md-4 mb-2 mb-sm-0">
                                                 <div class="row rowFiltro">
                                                     <input type="textarea" autocomplete="off" class="col-12" placeholder="Buscar por producto" onkeyup="filtrar(), guardarFiltro('buscadorProducto')" name="buscadorProducto" id="buscadorProducto">
                                                 </div>
                                             </div>    
-                                            <div class="col-12 col-sm-6 col-md-4">
+                                            <div class="col-10 col-sm-6 col-md-4">
                                                 <div class="row rowFiltro">
                                                     <select style="height:30px" class="col-12" onchange="filtrar(), changeCategoria(), guardarFiltro('selectCategoria')" name="categoria" id="selectCategoria">
                                                         <option value="todos">Todas las categorias</opcion>
@@ -64,7 +64,7 @@ require("funciones/generarPedido.php");
                                                     </select>   
                                                 </div>
                                             </div> 
-                                            <div class="col-12 col-md-2 mb-2 hide mb-md-0" id="boxBotonFiltro">
+                                            <div class="col-12 col-md-2 mt-2 mt-md-0 hide" id="boxBotonFiltro">
                                                 <div class="d-flex align-items-center justify-content-center">
                                                     <button type="submit" class="botonQuitarFiltro" name="reiniciarPedido" onclick="quitarFiltros()" class="editButton botonReiniciar">
                                                         Quitar
@@ -147,7 +147,7 @@ require("funciones/generarPedido.php");
                                     </table>             
                                     <div class="row cajaInternaBloque" id="cajaOtros">
                                         <div class="centrarTexto">¿Falta algo en el listado?</div>
-                                            <div class="row anchoTotal">
+                                            <div class="">
                                                 <input  type="textarea" id="textareaOtros" class="textarea" autocomplete="off" onblur="guardarOtros('textareaOtros')" name="otros" for="producto">    
                                             </div>    
                                         </div> 
