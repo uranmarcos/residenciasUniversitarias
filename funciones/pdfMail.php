@@ -1,7 +1,7 @@
 <?php 
 //consulto a base de datos el pedido clickeado para ver
         $pedidoConsultado = $baseDeDatos ->prepare("SELECT PN.pedido, PN.sede, PN.fecha, PN.casa, A.nombre, A.segundoNombre, A.apellido FROM pedidosnuevos PN INNER JOIN
-        agentes A ON PN.usuario = A.id WHERE PN.id = $id");
+        agentes A ON PN.usuario = A.id WHERE PN.id = $idPedido");
         try {
             $pedidoConsultado->execute();
         } catch (\Throwable $th) {

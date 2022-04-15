@@ -227,7 +227,6 @@ require("funciones/pedidos.php");
         let sedes = <?php  echo json_encode($sedes) ?>;
         let pedido = pedidos.filter(element => element.id == param)[0]; 
         let fecha = pedido.fecha;
-        let usuario = usuarios.filter(element=> element.id == pedido.usuario)[0]
         let sede = sedes.filter(element=> element.id == pedido.sede)[0]
         let pedidoAMostrar = pedido.pedido.split(";");
         let pedidoModal = "";
@@ -238,8 +237,9 @@ require("funciones/pedidos.php");
         for (p of pedidoAMostrar){
             if(p != ""){
                 if(!p.includes("otros")) {
+                    p = p.split(":")
                     let articulo = articulos.filter(element => element.id == p[0])[0]
-                    pedidoModal = pedidoModal + "<b>" + articulo.descripcion + ":</b> " + p[2] + " " + articulo.medida + ", <br>"
+                    pedidoModal = pedidoModal + "<b>" + articulo.descripcion + ":</b> " + p[1] + " " + articulo.medida + ", <br>"
                 } else {
                     let otros = p.split(":")
                     pedidoModal = pedidoModal + "<b>Otros:</b> " + otros[1] + ", <br>"
@@ -247,7 +247,7 @@ require("funciones/pedidos.php");
             }
         }
         fechaPedidoModal.innerHTML = fecha
-        usuarioPedidoModal.innerHTML = usuario.nombre + " " + usuario.segundoNombre + " " + usuario.apellido
+        usuarioPedidoModal.innerHTML = pedido.nombre + " " + pedido.segundoNombre + " " + pedido.apellido
         sedePedidoModal.innerHTML = sede.provincia + ", " + sede.descripcion
         casaPedidoModal.innerHTML = pedido.casa
         descripcionPedidoModal.innerHTML = pedidoModal

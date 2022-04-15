@@ -157,6 +157,7 @@ require("funciones/generarPedido.php");
                                             <button type="button" id="generarPedido" name="generarPedido" onclick="validarPedido()" class="boton">Confirmar</button>
                                         </div>
                                     </div> 
+                                    
                                     <!-- START MODAL AVISO PEDIDO VACIO / CONFIRMACION INICIAR PEDIDO -->
                                     <div class="modalConfirmacion hide" id="modalIniciarPedido">
                                         <div class="">
@@ -172,7 +173,7 @@ require("funciones/generarPedido.php");
                                                             <div class="modal-footer d-flex justify-content-around">
                                                                 <button type="button" class="btn hide botonCancelar" id="btnCancelarEnvio" onclick="cancelarGenerarPedido()">CANCELAR</button>
                                                                 <button type="button" class="btn boton hide" id="btnAceptarModalIniciarPedido" name="btnAceptarModalIniciarPedido" onclick="cancelarGenerarPedido()">ACEPTAR</button>
-                                                                <button type="submit" class="btn boton hide" id="btnConfirmarIniciarPedido" name="botonConfirmar" onclick="confirmarIniciarPedido()">ACEPTAR</button>
+                                                                <button type="submit" class="btn boton hide" id="btnConfirmarIniciarPedido" name="generarPedido" onclick="confirmarIniciarPedido()">ACEPTAR</button>
                                                                 <button type="button" class="boton hide" id="spinnerConfirmarPedido" >
                                                                     <div class="spinner-border" role="status">
                                                                         <span class="sr-only"></span>
@@ -209,7 +210,7 @@ require("funciones/generarPedido.php");
                                                     <div>
                                                         <div class="modal-footer d-flex justify-content-around">
                                                             <button type="button" class="btn botonCancelar" id="btnCancelarEnvio" onclick="cerrarModal('modalPedidoNoGenerado')">CANCELAR</button>
-                                                            <button type="submit" class="btn boton" id="btnConfirmarIniciarPedido" name="botonConfirmar" onclick="confirmarIniciarPedido()">ACEPTAR</button>
+                                                            <button type="submit" class="btn boton" id="btnConfirmarIniciarPedido" name="generarPedido" onclick="confirmarIniciarPedido()">ACEPTAR</button>
                                                             <button type="button" class="boton hide" id="spinnerConfirmarPedido" >
                                                                 <div class="spinner-border" role="status">
                                                                     <span class="sr-only"></span>
@@ -223,37 +224,6 @@ require("funciones/generarPedido.php");
                                     </div>
                                     <!-- END MODAL ERROR PEDIDO NO GENERADO -->
                                 </form>
-                                <!-- START MODAL ERROR PEDIDO GUARDADO NO ENVIADO -->
-                                <div class="modalConfirmacion <?php echo $modalPedidoNoEnviado ?>" id="modalPedidoNoEnviado">
-                                    <div class="">
-                                        <form method="POST" action="iniciarPedido.php">
-                                            <div  class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <div class="modal-header red d-flex justify-content-center centrarTexto" id="titleModalPedido">
-                                                        ERROR
-                                                    </div>
-                                                    <div>
-                                                        <div class="modal-body red centrarTexto" id="mensajeModalPedido">
-                                                            Hubo un error y el pedido se guardó, pero no se envió.<br> No es necesario que lo generes nuevamente.<br> Por favor presioná ACEPTAR para enviarlo.
-                                                        </div>
-                                                        <input type="text" class="hide" name="idActualizarPedido" id="idActualizarPedido" value="<?php echo $idPorActualizar?>">
-                                                        <div>
-                                                            <div class="modal-footer d-flex justify-content-center">
-                                                                <button type="submit" class="btn boton" id="botonReenviarPedido" name="botonReenviar" onclick="mostrarSpinnerBoton('botonReenviarPedido','spinnerBotonReenviarPedido' )">ACEPTAR</button>
-                                                                <button type="button" class="boton hide" id="spinnerBotonReenviarPedido" >
-                                                                    <div class="spinner-border" role="status">
-                                                                        <span class="sr-only"></span>
-                                                                    </div>
-                                                                </button>
-                                                            </div>
-                                                        </div> 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <!-- END MODAL ERROR PEDIDO GUARDADO NO ENVIADO -->
 
                                 <!-- START MODAL ERROR PEDIDO ENVIADO NO ACTUALIZADO -->
                                 <div class="modalConfirmacion <?php echo $modalPedidoNoActualizado ?>" id="modalPedidoNoActualizado">
@@ -266,7 +236,7 @@ require("funciones/generarPedido.php");
                                                     </div>
                                                     <div>
                                                         <div class="modal-body centrarTexto" id="mensajeModalPedido">
-                                                            El pedido se generó y se envió correctamente, pero no se actualizó como enviado.
+                                                            El pedido se generó y se envió correctamente, pero no se guardó.
                                                             <br>Por favor presioná ACTUALIZAR para solucionarlo.
                                                             <br>
                                                             ¡Gracias!
