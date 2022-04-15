@@ -287,11 +287,6 @@ label{
 .purple{
     color: rgb(124, 69, 153);
 }
-/* .tdEnviado{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-} */
 select{
     outline: none;
 }

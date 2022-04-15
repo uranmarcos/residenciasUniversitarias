@@ -71,6 +71,10 @@ function ocultarFiltros() {
     document.getElementById("btnVerFiltros").classList.remove("hide")
     document.getElementById("btnQuitarFiltros").classList.add("hide")
 }
+function cerrarModalPedido(){
+    document.getElementById("modalVerPedido").classList.remove("show")
+    document.getElementById("modalVerPedido").classList.add("hide")
+}
 
 
 function mostrarFiltros() {

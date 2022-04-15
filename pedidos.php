@@ -30,20 +30,18 @@ require("funciones/pedidos.php");
                     </div>
                 </div>
                 <!-- END BREADCRUMB -->
+                
+                
                 <!-- START ALERTS -->
                 <div class="alert alert-danger mt-3 centrarTexto <?php echo $alertErrorConexion ?>" id="alertErrorConexion" role="alert" >
                     <?php echo $mensajeAlertError ?>
-                </div>
-                <div class="alert alert-secondary mt-3 centrarTexto hide"  role="alert" id="alertAvisoReenvio" >
-                   Si un pedido figura no enviado, puede reenviarlo clickeando el icono de error.
-                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                 </div>
                 <div class="alert alert-success mt-3 centrarTexto <?php echo $alertConfirmacion ?>" id="alertConfirmacion" role="alert">
                     <?php echo $mensajeAlertConfirmacion ?>
                 </div>
                 <!-- END ALERTS -->
+                
+                
                 <!-- START TABLA SIN DATOS -->
                 <div class="bloque mb-4 pb-0 <?php echo $noHayDatos?>">
                     <table class="table">
@@ -55,6 +53,8 @@ require("funciones/pedidos.php");
                     </table>
                 </div>
                 <!-- END TABLA SIN DATOS -->
+
+
                 <!-- TABLA CON LISTA DE PEDIDOS -->
                 <div class="<?php echo $hayDatos?>">
                     <!-- START TABLA ROL STOCK -->
@@ -88,7 +88,7 @@ require("funciones/pedidos.php");
                                             <td class="centrarTexto">
                                                 <?php echo $pedido["nombre"] . " " . $pedido["segundoNombre"] . " " . $pedido["apellido"] ?>   
                                             </td>
-                                            <td class="tdEnviado centrarTexto" style="min-width: 120px">
+                                            <td class="tdEnviado centrarTexto" style="width: 60px">
                                                 <?php $enviado = $pedido["enviado"] == 0 ? "hide" : "show"; $noEnviado = $pedido["enviado"] == 0 ? "show" : "hide"   ?>
                                                 <div class="d-flex justify-content-center align-items-center">
                                                     <div class="btn <?php echo $noEnviado?> reenviarButton" name="reenviarPedido" id="botonReenviar<?php echo $pedido['id']?>" onclick="enviarPedido(<?php echo $pedido['id']?>)"  onmouseout="outReenviar('btnReenviar<?php echo $pedido['id']?>', 'iconoReenviar<?php echo $pedido['id']?>')" onmouseover="overReenviar('btnReenviar<?php echo $pedido['id']?>', 'iconoReenviar<?php echo $pedido['id']?>')" data-bs-toggle="modal" data-bs-target="#modalPedidosAdmin">
@@ -110,7 +110,7 @@ require("funciones/pedidos.php");
                                         <form method="POST" action="verPedido.php" target="_blank">
                                             <td class="hide"><input type="text" style ="width:50px; border: none" name="id" readonly value="<?php echo $pedido["id"] ?>"></td> 
                                             <td class="d-flex justify-content-center align-items-center"> 
-                                                <button type="submit" class="btn btnVerPedido" name="verPedido" id="btnVerPedido<?php echo $pedido['id']?>">
+                                                <button type="submit" class="btn btnVerPedido" name="descargarPedido" id="btnVerPedido<?php echo $pedido['id']?>">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                                         <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
                                                         <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
@@ -191,56 +191,43 @@ require("funciones/pedidos.php");
                                 </div>
                             </div> 
                             <thead style="width:100%">
-                                <tr>
-                                    <th scope="col" style="width:10%" class="hide">#</th>
-                                    <th scope="col" style="width:20%" class="centrarTexto">Fecha</th>
-                                    <th scope="col" style="width:30%" class="centrarTexto">Voluntario</th>
-                                    <th scope="col" style="width:20%" class="centrarTexto">Sede / Casa</th>
-                                    <!-- <th scope="col" style="width:10%">Casa</th> -->
-                                    <th scope="col" style="width:10%" class="centrarTexto">Enviado</th>
-                                    <th scope="col" style="width:10%" class="centrarTexto">Ver</th>
+                                <tr style="width:100%">
+                                    <th scope="col" style="width:20%" class="hide">#</th>
+                                    <th scope="col" style="width:30%" class="centrarTexto">Fecha</th>
+                                    <th scope="col" style="width:40%" class="centrarTexto">Voluntario</th>
+                                    <th scope="col" style="width:30%" class="centrarTexto">Sede / Casa</th>
+                                    <th scope="col" style="width:40%; text-align:center">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach($pedidos as $pedido){ ?>
                                     <tr name="rowTableAdmin">
-                                        <form method="POST" action="pedidos.php">
-                                            <td class="hide"><input type="text" style ="width:50px; border: none" name="id" readonly value="<?php echo $pedido["id"] ?>"></td>
-                                            <td class="centrarTexto"><?php echo $newDate = date("d/m/Y H:i:s", strtotime($pedido["fecha"]));?></td>
-                                            <td class="centrarTexto"><?php echo $pedido["nombre"] . " " . $pedido["segundoNombre"] . " " . $pedido["apellido"] ?></td>              
-                                            <td class="centrarTexto"><?php echo $pedido["nombreSede"] . " / " . $pedido["casa"] ?></td>
-                                            <td class="tdEnviado centrarTexto" style="min-width: 120px">
-                                                <?php $enviado = $pedido["enviado"] == 0 ? "hide" : "show"; $noEnviado = $pedido["enviado"] == 0 ? "show" : "hide"   ?>
-                                                <div class="d-flex justify-content-center align-items-center">
-                                                    <div class="btn <?php echo $noEnviado?> reenviarButton" name="reenviarPedido" id="botonReenviar<?php echo $pedido['id']?>" onclick="enviarPedido(<?php echo $pedido['id']?>)"  onmouseout="outReenviar('btnAdminReenviar<?php echo $pedido['id']?>', 'iconoAdminReenviar<?php echo $pedido['id']?>')" onmouseover="overReenviar('btnAdminReenviar<?php echo $pedido['id']?>', 'iconoAdminReenviar<?php echo $pedido['id']?>')">
-                                                        <span id="btnAdminReenviar<?php echo $pedido['id']?>" class="hide btnReenviar">Enviar</span>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" id="iconoAdminReenviar<?php echo $pedido['id']?>" height="22" fill="currentColor" class="bi red bi-send-x-fill" viewBox="0 0 16 16">
-                                                            <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 1.59 2.498C8 14 8 13 8 12.5a4.5 4.5 0 0 1 5.026-4.47L15.964.686Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
-                                                            <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-4.854-1.354a.5.5 0 0 0 0 .708l.647.646-.647.646a.5.5 0 0 0 .708.708l.646-.647.646.647a.5.5 0 0 0 .708-.708l-.647-.646.647-.646a.5.5 0 0 0-.708-.708l-.646.647-.646-.647a.5.5 0 0 0-.708 0Z"/>
-                                                        </svg>
-                                                    </div>
-                                                    <div class="btn botonEnviado <?php echo $enviado?>">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi green bi-send-check-fill iconoEnviado" viewBox="0 0 16 16">
-                                                            <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 1.59 2.498C8 14 8 13 8 12.5a4.5 4.5 0 0 1 5.026-4.47L15.964.686Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
-                                                            <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-1.993-1.679a.5.5 0 0 0-.686.172l-1.17 1.95-.547-.547a.5.5 0 0 0-.708.708l.774.773a.75.75 0 0 0 1.174-.144l1.335-2.226a.5.5 0 0 0-.172-.686Z"/>
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </form>
-                                        <form method="POST" action="verPedido.php" target="_blank">
-                                            <td class="hide"><input type="text" style ="width:50px; border: none" name="id" readonly value="<?php echo $pedido["id"] ?>"></td> 
-                                            <td> 
-                                                <button type="submit" class="btnVerPedido" name="verPedido" id="btnAdminVerPedido<?php echo $pedido['id']?>" target="_blank">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi purple bi-eye-fill" viewBox="0 0 16 16">
+                                        <td class="centrarTexto"><?php echo $newDate = date("d/m/Y H:i:s", strtotime($pedido["fecha"]));?></td>
+                                        <td class="centrarTexto"><?php echo $pedido["nombre"] . " " . $pedido["segundoNombre"] . " " . $pedido["apellido"] ?></td>              
+                                        <td class="centrarTexto"><?php echo $pedido["nombreSede"] . " / " . $pedido["casa"] ?></td>
+                                        <td class="pl-0 pr-0" style="width:50px;"> 
+                                            <form method="POST"  action="pedidos.php">
+                                                <input type="text" class="hide" style ="border: none" name="id" readonly value="<?php echo $pedido["id"] ?>">
+                                                <button type="button" class="btn btnVerPedido" name="verPedido" onclick="verPedidoModal(<?php echo $pedido['id'] ?>)" id="btnVerPedido<?php echo $pedido['id']?>" data-bs-toggle="modal" data-bs-target="#modalVerPedido">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                                         <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
                                                         <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
                                                     </svg>
                                                 </button>
-                                            </td>
-                                        </form>
+                                            </form>
+                                        </td>
+                                        <td class="pl-0 pr-0"> 
+                                            <form method="POST" action="verPedido.php" target="_blank">
+                                                <input type="text" style ="border: none" name="id" class="hide" readonly value="<?php echo $pedido["id"] ?>"> 
+                                                <button type="submit" class="btn btnVerPedido" name="descargarPedido" id="btnVerPedido<?php echo $pedido['id']?>">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                                                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                                                    </svg>
+                                                </button>
+                                            </form>
+                                        </td>
                                     </tr>
-                                    </form>
                                 <?php } ?>   
                             </tbody>               
                         </table>
@@ -248,80 +235,34 @@ require("funciones/pedidos.php");
                     <!-- END TABLA ROL ADMIN -->
                 </div>
                 <!-- END TABLA PEDIDOS -->
-        
 
-                <!-- START MODAL ERROR ACTUALIZACION ENVIO -->
-                <div class="modalConfirmacion <?php echo $modalActualizacion?>" id="modalActualizacion">
-                    <form method="POST" action="pedidos.php">
-                    <div class="">
-                        <div  class="modal-dialog modal-dialog-centered">
+                <!-- START MODAL VER PEDIDO -->
+                <div class="modal fade" id="modalVerPedido" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
-                                <div class="modal-header violeta d-flex justify-content-center centrarTexto">
-                                    <b>¡ATENCIÓN!</b>
-                                </div>
-                                <div id="mensajeActualizacion">
-                                    <div class="modal-body centrarTexto">
-                                        El pedido se envió correctamente, pero no se actualizó y figurará como NO enviado.
-                                        <br>Por favor presioná aceptar para solucionarlo.
-                                        <br>
-                                        ¡Gracias!
-                                    </div>
-                                    <input type="text" class="hide" name="idActualizarPedido" id="idActualizarPedido" value="<?php echo $idPorActualizar?>">
+                                <div class="modal-header d-flex justify-content-left">
                                     <div>
-                                        <div class="modal-footer d-flex justify-content-around">
-                                            <button type="submit" class="btn botonCancelar" id="btnActualizarEnviado" name="actualizarEnviado" onclick="actualizarPedidoEnviado()">ACEPTAR</button>
-                                            <button type="button" class="boton hide" id="btnCircleActualizarEnviado" >
-                                                <div class="spinner-border" role="status">
-                                                    <span class="sr-only"></span>
-                                                </div>
-                                            </button>
-                                        </div>
-                                    </div> 
+                                    <b>Fecha: </b><span id="fechaPedidoModal"></span>
+                                    <br>
+                                    <b>Voluntario: </b><span id="usuarioPedidoModal"></span>
+                                    <br>
+                                    <b>Sede: </b><span id="sedePedidoModal"></span>
+                                    <br>
+                                    <b>Casa: </b><span id="casaPedidoModal"></span>
                                 </div>
-                                <div class="modal-body hide centrarTexto" id="spinnerActualizacion">
-                                    <div style="min-height:100px" class="d-flex justify-content-center align-items-center">
-                                        <div class="spinner-border violeta" role="status">
-                                            <span class="sr-only"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </form>
-                </div>
-                <!-- END MODAL ERROR ACTUALIZACION ENVIO -->
-
-                <!-- START MODAL CONFIRMACION REENVIO -->
-                <div class="modalConfirmacion hide" id="modalConfirmacionReenvio">
-                    <form method="POST" action="pedidos.php">
-                    <div class="">
-                        <div  class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header violeta d-flex justify-content-center centrarTexto">
-                                    <b>CONFIRMACION!</b>
                                 </div>
                                 <div id="mensajeActualizacion">
-                                    <div class="modal-body centrarTexto">
-                                        ¿Confirma que desea reenviar el pedido?
+                                    <div class="modal-body" id="descripcionPedidoModal">
                                     </div>
-                                    <input type="text" class="hide" name="idReenviarPedido" id="idReenviarPedido" value="">
                                     <div class="modal-footer d-flex justify-content-around">
-                                        <button type="button" class="btn botonCancelar" onclick="cancelarReenviarPedido()">Cancelar</button>
-                                        <button type="submit" id="botonReenviarPedido" name="botonReenviarPedido" class="btn boton" onclick="reenviarPedido()">Confirmar</button>
-                                        <button type="button" class="btnReenviarCircle hide" id="botonCircle" >
-                                            <div class="spinner-border spinnerReenviar" role="status">
-                                                <span class="sr-only"></span>
-                                            </div>
-                                        </button>
+                                        <button type="button" class="btn boton" data-bs-dismiss="modal">Cerrar</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    </form>
                 </div>
-                <!-- END MODAL CONFIRMACION REENVIO -->
+                <!-- END MODAL VER PEDIDO -->
                 
             </div>   
         </div>
@@ -334,6 +275,38 @@ require("funciones/pedidos.php");
 <script>
     if ( window.history.replaceState ) {
         window.history.replaceState( null, null, window.location.href );
+    }
+    function verPedidoModal(param){
+        let articulos = <?php  echo json_encode($articulos) ?>;
+        let pedidos = <?php  echo json_encode($pedidos) ?>;
+        let usuarios = <?php  echo json_encode($voluntarios) ?>;
+        let sedes = <?php  echo json_encode($sedes) ?>;
+        let pedido = pedidos.filter(element => element.id == param)[0]; 
+        let fecha = pedido.fecha;
+        let usuario = usuarios.filter(element=> element.id == pedido.usuario)[0]
+        let sede = sedes.filter(element=> element.id == pedido.sede)[0]
+        let pedidoAMostrar = pedido.pedido.split(";");
+        let pedidoModal = "";
+
+        
+        let fechaPedidoModal = document.getElementById("fechaPedidoModal")
+        let descripcionPedidoModal = document.getElementById("descripcionPedidoModal")
+        for (p of pedidoAMostrar){
+            if(p != ""){
+                if(!p.includes("otros")) {
+                    let articulo = articulos.filter(element => element.id == p[0])[0]
+                    pedidoModal = pedidoModal + "<b>" + articulo.descripcion + ":</b> " + p[2] + " " + articulo.medida + ", <br>"
+                } else {
+                    let otros = p.split(":")
+                    pedidoModal = pedidoModal + "<b>Otros:</b> " + otros[1] + ", <br>"
+                }
+            }
+        }
+        fechaPedidoModal.innerHTML = fecha
+        usuarioPedidoModal.innerHTML = usuario.nombre + " " + usuario.segundoNombre + " " + usuario.apellido
+        sedePedidoModal.innerHTML = sede.provincia + ", " + sede.descripcion
+        casaPedidoModal.innerHTML = pedido.casa
+        descripcionPedidoModal.innerHTML = pedidoModal
     }
     window.onload = function(){
         // START OCULTAR ALERTAS DE CONFIRMACION O ERROR LUEGO DE 5 SEGUNDOS DE CARGAR LA PAGINA

@@ -12,9 +12,10 @@ class PDF extends FPDF
    {
     foreach($data as $row)
     {
-        foreach($row as $col)
+        foreach($row as $col){
             $this->Cell(190,8,$col,1);
-        $this->Ln();
+            $this->Ln();
+        }
     }
    }   
 }
