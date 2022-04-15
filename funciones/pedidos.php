@@ -8,15 +8,10 @@ $casa = $_SESSION["casa"];
 $noHayDatos = "show";
 $hayDatos = "hide";
 $mostrarStock = "hide";
-$mostrarAdmin = "hide";    
-$modalActualizacion = "hide";
-$idPorActualizar = null;
-$verPedido = "hide";
-$pedido = [];
-      
+$mostrarAdmin = "hide";     
+
 //START CONSULTA DE PEDIDOS REALIZADOS
 if($_SESSION["rol"] == "stock") {
-  $sede = $_SESSION["sede"];
   $consultaPedidos = $baseDeDatos ->prepare("SELECT PN.id, PN.sede, PN.fecha, PN.pedido, PN.casa, A.nombre, A.segundoNombre, A.apellido, S.descripcion nombreSede FROM pedidosnuevos PN INNER JOIN
     agentes A ON PN.usuario = A.id INNER JOIN sedes S on PN.sede = S.id WHERE PN.sede = $sede AND PN.casa = $casa ORDER BY PN.fecha DESC"); 
     $mostrarStock = "show";   
@@ -29,7 +24,6 @@ $consultaSedes = $baseDeDatos ->prepare("SELECT * FROM sedes");
 $consultaVoluntarios = $baseDeDatos ->prepare("SELECT nombre, segundoNombre, apellido, id FROM agentes");
 $consultaArticulos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, A.medida, M.descripcion medida from articulos A INNER JOIN medidas M WHERE A.medida = M.id");
   
-
 try {
   $consultaPedidos->execute();
   $consultaSedes -> execute();

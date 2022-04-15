@@ -197,6 +197,10 @@ label{
     width: 100px;
     border: solid 1px rgb(236, 130, 130);
 }
+.tdp{
+    height: 40px;
+    line-height: 40px;
+}
 .botonQuitarFiltro:hover{
     cursor: pointer;
     background-color: white;

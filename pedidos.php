@@ -56,176 +56,120 @@ require("funciones/pedidos.php");
 
 
                 <!-- TABLA CON LISTA DE PEDIDOS -->
-                <div class="<?php echo $hayDatos?>">
-                    <!-- START TABLA ROL STOCK -->
-                    <div class="table-responsive bloque mb-4 pb-0 <?php echo $mostrarStock ?>">
-                        <table class="table">
-                            <div class="d-flex anchoTotal row">
-                                <div class="col-12 col-sm-6 d-flex align-items-end justify-content-start dataSede">
-                                    <div>
-                                        Sede: <?php echo $pedidos[0]["nombreSede"]?> - Casa:  <?php echo $_SESSION["casa"]?>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6 d-flex align-items-end justify-content-end">
-                                    <button type="submit" name="nuevoPedido" onclick="redirect('iniciarPedido')"  id="nuevoPedido" class="btn mb-3 boton">Generar Pedido</button>        
-                                </div>
-                            </div> 
-                            <thead style="width:100%">
-                                <tr>
-                                    <th scope="col" style="width:10%" class="hide">#</th>
-                                    <th scope="col" style="width:20%" class="centrarTexto">Fecha</th>
-                                    <th scope="col" style="width:30%" class="centrarTexto">Voluntario</th>
-                                    <th scope="col" style="width:10%" class="centrarTexto">Enviado</th>
-                                    <th scope="col" style="width:10%" class="centrarTexto">Ver</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach($pedidos as $pedido){ ?>
-                                    <tr>
-                                        <form method="POST" action="pedidos.php">
-                                            <td class="hide"><input type="text" style ="width:50px; border: none" name="id" readonly value="<?php echo $pedido["id"] ?>"></td>
-                                            <td class="centrarTexto"><?php echo $newDate = date("d/m/Y H:i:s", strtotime($pedido["fecha"]));?></td>
-                                            <td class="centrarTexto">
-                                                <?php echo $pedido["nombre"] . " " . $pedido["segundoNombre"] . " " . $pedido["apellido"] ?>   
-                                            </td>
-                                            <td class="tdEnviado centrarTexto" style="width: 60px">
-                                                <?php $enviado = $pedido["enviado"] == 0 ? "hide" : "show"; $noEnviado = $pedido["enviado"] == 0 ? "show" : "hide"   ?>
-                                                <div class="d-flex justify-content-center align-items-center">
-                                                    <div class="btn <?php echo $noEnviado?> reenviarButton" name="reenviarPedido" id="botonReenviar<?php echo $pedido['id']?>" onclick="enviarPedido(<?php echo $pedido['id']?>)"  onmouseout="outReenviar('btnReenviar<?php echo $pedido['id']?>', 'iconoReenviar<?php echo $pedido['id']?>')" onmouseover="overReenviar('btnReenviar<?php echo $pedido['id']?>', 'iconoReenviar<?php echo $pedido['id']?>')" data-bs-toggle="modal" data-bs-target="#modalPedidosAdmin">
-                                                        <span id="btnReenviar<?php echo $pedido['id']?>" class="hide btnReenviar">Enviar</span>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" id="iconoReenviar<?php echo $pedido['id']?>" height="22" fill="currentColor" class="bi red bi-send-x-fill" viewBox="0 0 16 16">
-                                                            <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 1.59 2.498C8 14 8 13 8 12.5a4.5 4.5 0 0 1 5.026-4.47L15.964.686Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
-                                                            <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-4.854-1.354a.5.5 0 0 0 0 .708l.647.646-.647.646a.5.5 0 0 0 .708.708l.646-.647.646.647a.5.5 0 0 0 .708-.708l-.647-.646.647-.646a.5.5 0 0 0-.708-.708l-.646.647-.646-.647a.5.5 0 0 0-.708 0Z"/>
-                                                        </svg>
-                                                    </div>
-                                                    <div class="btn botonEnviado <?php echo $enviado?>">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi green bi-send-check-fill iconoEnviado" viewBox="0 0 16 16">
-                                                            <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 1.59 2.498C8 14 8 13 8 12.5a4.5 4.5 0 0 1 5.026-4.47L15.964.686Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
-                                                            <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-1.993-1.679a.5.5 0 0 0-.686.172l-1.17 1.95-.547-.547a.5.5 0 0 0-.708.708l.774.773a.75.75 0 0 0 1.174-.144l1.335-2.226a.5.5 0 0 0-.172-.686Z"/>
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </form>
-                                        <form method="POST" action="verPedido.php" target="_blank">
-                                            <td class="hide"><input type="text" style ="width:50px; border: none" name="id" readonly value="<?php echo $pedido["id"] ?>"></td> 
-                                            <td class="d-flex justify-content-center align-items-center"> 
-                                                <button type="submit" class="btn btnVerPedido" name="descargarPedido" id="btnVerPedido<?php echo $pedido['id']?>">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                                                    </svg>
-                                                </button>
-                                            </td>
-                                        </form>
-                                    </tr>
-                                </form>
-                                <?php } ?>   
-                            </tbody>               
-                        </table>
-                    </div>
-                    <!-- END TABLA ROL STOCK -->
-                   
+                <div class="<?php echo $hayDatos?>">                   
                     <!-- START TABLA ROL ADMIN -->
-                    <div class="table-responsive bloque mb-4 pb-0 <?php echo $mostrarAdmin?> ">
+                    <div class="table-responsive bloque mb-4 pb-0 ">
                         <table class="table">
-                            <div class="d-flex anchoTotal row">
-                                <div class="col-12 mb-3 d-flex align-items-end justify-content-between">
-                                    <button type="button" name="btnVerFiltros" onclick="mostrarFiltros()"  id="btnVerFiltros" class="btn boton">Ver Filtros</button>
-                                    <button type="button" name="btnQuitarFiltros" onclick="ocultarFiltros()"  id="btnQuitarFiltros" class="btn hide botonCancelar">Quitar Filtros</button>
-                                    <button type="submit" name="nuevoPedido" onclick="redirect('iniciarPedido')"  id="nuevoPedido" class="btn boton">Generar Pedido</button>        
-                                </div>
-                                <div class="hide mb-2" id="boxFiltros">
-                                    <div class="row bg-grey d-flex align-items-center p-0 m-0 justify-content-around" style="width:100%">
-                                        <div class="col-12 col-sm-3">
-                                            <div class="row rowFiltro">
-                                                Mes:
-                                                <select style="height:30px" class="col-12 inputForm" onchange="filtrar()" name="mes" id="selectMes">
-                                                    <option value="todos">Todos</opcion>
-                                                    <option value="01">Enero</opcion>
-                                                    <option value="02">Febrero</opcion>
-                                                    <option value="03">Marzo</opcion>
-                                                    <option value="04">Abril</opcion>
-                                                    <option value="05">Mayo</opcion>
-                                                    <option value="06">Junio</opcion>
-                                                    <option value="07">Julio</opcion>
-                                                    <option value="08">Agosto</opcion>
-                                                    <option value="09">Septiembre</opcion>
-                                                    <option value="10">Octubre</opcion>
-                                                    <option value="11">Noviembre</opcion>
-                                                    <option value="12">Diciembre</opcion>
-                                                </select>   
-                                            </div>
-                                        </div>    
-                                        <div class="col-12 col-sm-4">
-                                            <div class="row rowFiltro">
-                                                Voluntario:
-                                                <select style="height:30px" class="col-12 inputForm" onchange="filtrar()" name="voluntario" id="selectVoluntario">
-                                                    <option value="todos">Todos</opcion>
-                                                    <?php foreach($voluntarios as $voluntario){ ?>
-                                                        <option value="<?php echo $voluntario["nombre"] . " " . $voluntario["segundoNombre"] . " " . $voluntario["apellido"] ?>" ><?php echo $voluntario["nombre"] . " " . $voluntario["segundoNombre"] . " " . $voluntario["apellido"]?></opcion>
-                                                    <?php } ?>
-                                                </select>   
-                                            </div>
-                                        </div> 
-                                        <div class="col-12 col-sm-4">
-                                            <div class="row rowFiltro">
-                                                Sede:
-                                                <select style="height:30px" class="col-12 inputForm" onchange="filtrar()" name="categoria" id="selectSede">
-                                                    <option value="todos">Todas</opcion>
-                                                    <?php foreach($sedes as $sede){ ?>
-                                                        <option value="<?php echo $sede['descripcion'] ?>" ><?php echo $sede["descripcion"]?></opcion>
-                                                    <?php } ?>
-                                                </select>   
-                                            </div>
-                                        </div> 
-                                        <!-- <div class="col-12 col-sm-5 col-md-2 d-flex align-self-end justify-content-center mb-0" id="boxBotonFiltro">
-                                            <div class="d-flex align-items-end justify-content-center">
-                                                <button type="submit" class="botonQuitarFiltro" name="reiniciarPedido" onclick="quitarFiltros()" class="editButton botonReiniciar">
-                                                    Quitar
-                                                </button>
-                                            </div>
-                                        </div>  -->
+                            <div class="<?php echo $mostrarAdmin?>">
+                                <div class="d-flex anchoTotal row">
+                                    <div class="col-12 mb-3 d-flex align-items-end justify-content-between">
+                                        <button type="button" name="btnVerFiltros" onclick="mostrarFiltros()"  id="btnVerFiltros" class="btn boton">Ver Filtros</button>
+                                        <button type="button" name="btnQuitarFiltros" onclick="ocultarFiltros()"  id="btnQuitarFiltros" class="btn hide botonCancelar">Quitar Filtros</button>
+                                        <button type="submit" name="nuevoPedido" onclick="redirect('iniciarPedido')"  id="nuevoPedido" class="btn boton">Generar Pedido</button>        
                                     </div>
-                                   
-                                </div>
-                            </div> 
+                                    <div class="hide mb-2" id="boxFiltros">
+                                        <div class="row bg-grey d-flex align-items-center p-0 m-0 justify-content-around" style="width:100%">
+                                            <div class="col-12 col-sm-3">
+                                                <div class="row rowFiltro">
+                                                    Mes:
+                                                    <select style="height:30px" class="col-12 inputForm" onchange="filtrar()" name="mes" id="selectMes">
+                                                        <option value="todos">Todos</opcion>
+                                                        <option value="01">Enero</opcion>
+                                                        <option value="02">Febrero</opcion>
+                                                        <option value="03">Marzo</opcion>
+                                                        <option value="04">Abril</opcion>
+                                                        <option value="05">Mayo</opcion>
+                                                        <option value="06">Junio</opcion>
+                                                        <option value="07">Julio</opcion>
+                                                        <option value="08">Agosto</opcion>
+                                                        <option value="09">Septiembre</opcion>
+                                                        <option value="10">Octubre</opcion>
+                                                        <option value="11">Noviembre</opcion>
+                                                        <option value="12">Diciembre</opcion>
+                                                    </select>   
+                                                </div>
+                                            </div>    
+                                            <div class="col-12 col-sm-4">
+                                                <div class="row rowFiltro">
+                                                    Voluntario:
+                                                    <select style="height:30px" class="col-12 inputForm" onchange="filtrar()" name="voluntario" id="selectVoluntario">
+                                                        <option value="todos">Todos</opcion>
+                                                        <?php foreach($voluntarios as $voluntario){ ?>
+                                                            <option value="<?php echo $voluntario["nombre"] . " " . $voluntario["segundoNombre"] . " " . $voluntario["apellido"] ?>" ><?php echo $voluntario["nombre"] . " " . $voluntario["segundoNombre"] . " " . $voluntario["apellido"]?></opcion>
+                                                        <?php } ?>
+                                                    </select>   
+                                                </div>
+                                            </div> 
+                                            <div class="col-12 col-sm-4">
+                                                <div class="row rowFiltro">
+                                                    Sede:
+                                                    <select style="height:30px" class="col-12 inputForm" onchange="filtrar()" name="categoria" id="selectSede">
+                                                        <option value="todos">Todas</opcion>
+                                                        <?php foreach($sedes as $sede){ ?>
+                                                            <option value="<?php echo $sede['descripcion'] ?>" ><?php echo $sede["descripcion"]?></opcion>
+                                                        <?php } ?>
+                                                    </select>   
+                                                </div>
+                                            </div> 
+                                            <!-- <div class="col-12 col-sm-5 col-md-2 d-flex align-self-end justify-content-center mb-0" id="boxBotonFiltro">
+                                                <div class="d-flex align-items-end justify-content-center">
+                                                    <button type="submit" class="botonQuitarFiltro" name="reiniciarPedido" onclick="quitarFiltros()" class="editButton botonReiniciar">
+                                                        Quitar
+                                                    </button>
+                                                </div>
+                                            </div>  -->
+                                        </div>
+                                    
+                                    </div>
+                                </div> 
+                            </div>
+                            <div class="<?php echo $mostrarStock ?>">
+                                <div class="d-flex anchoTotal row">
+                                    <div class="col-12 col-sm-6 d-flex align-items-end justify-content-start dataSede">
+                                        <div>
+                                            Sede: <?php echo $pedidos[0]["nombreSede"]?> <br> Casa:  <?php echo $_SESSION["casa"]?>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6 d-flex align-items-end justify-content-end">
+                                        <button type="submit" name="nuevoPedido" onclick="redirect('iniciarPedido')"  id="nuevoPedido" class="btn mb-3 boton">Generar Pedido</button>        
+                                    </div>
+                                </div> 
+                            </div>
                             <thead style="width:100%">
                                 <tr style="width:100%">
-                                    <th scope="col" style="width:20%" class="hide">#</th>
                                     <th scope="col" style="width:30%" class="centrarTexto">Fecha</th>
                                     <th scope="col" style="width:40%" class="centrarTexto">Voluntario</th>
-                                    <th scope="col" style="width:30%" class="centrarTexto">Sede / Casa</th>
-                                    <th scope="col" style="width:40%; text-align:center">Acciones</th>
+                                    <th scope="col" style="width:20%" class="centrarTexto">Sede / Casa</th>
+                                    <th scope="col" style="width:10%; text-align:center">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach($pedidos as $pedido){ ?>
                                     <tr name="rowTableAdmin">
-                                        <td class="centrarTexto"><?php echo $newDate = date("d/m/Y H:i:s", strtotime($pedido["fecha"]));?></td>
-                                        <td class="centrarTexto"><?php echo $pedido["nombre"] . " " . $pedido["segundoNombre"] . " " . $pedido["apellido"] ?></td>              
-                                        <td class="centrarTexto"><?php echo $pedido["nombreSede"] . " / " . $pedido["casa"] ?></td>
-                                        <td class="pl-0 pr-0" style="width:50px;"> 
-                                            <form method="POST"  action="pedidos.php">
-                                                <input type="text" class="hide" style ="border: none" name="id" readonly value="<?php echo $pedido["id"] ?>">
-                                                <button type="button" class="btn btnVerPedido" name="verPedido" onclick="verPedidoModal(<?php echo $pedido['id'] ?>)" id="btnVerPedido<?php echo $pedido['id']?>" data-bs-toggle="modal" data-bs-target="#modalVerPedido">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                                                    </svg>
-                                                </button>
-                                            </form>
-                                        </td>
-                                        <td class="pl-0 pr-0"> 
-                                            <form method="POST" action="verPedido.php" target="_blank">
-                                                <input type="text" style ="border: none" name="id" class="hide" readonly value="<?php echo $pedido["id"] ?>"> 
-                                                <button type="submit" class="btn btnVerPedido" name="descargarPedido" id="btnVerPedido<?php echo $pedido['id']?>">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
-                                                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-                                                    </svg>
-                                                </button>
-                                            </form>
+                                        <td class="tdp centrarTexto pt-0 pb-0"><?php echo $newDate = date("d/m/Y H:i:s", strtotime($pedido["fecha"]));?></td>
+                                        <td class="tdp centrarTexto pt-0 pb-0"><?php echo $pedido["nombre"] . " " . $pedido["segundoNombre"] . " " . $pedido["apellido"] ?></td>              
+                                        <td class="tdp centrarTexto pt-0 pb-0"><?php echo $pedido["nombreSede"] . " / " . $pedido["casa"] ?></td>
+                                        <td class="tdp pl-0 pr-0 pt-0 pb-0"> 
+                                            <div class="d-flex tdp">
+                                                <form method="POST" class="mb-0" style="height:48px" action="pedidos.php">
+                                                    <input type="text" class="hide" style ="border: none" name="id" readonly value="<?php echo $pedido["id"] ?>">
+                                                    <button type="button" class="btn btnVerPedido" name="verPedido" onclick="verPedidoModal(<?php echo $pedido['id'] ?>)" id="btnVerPedido<?php echo $pedido['id']?>" data-bs-toggle="modal" data-bs-target="#modalVerPedido">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                                        </svg>
+                                                    </button>
+                                                </form>
+                                                <form method="POST" action="verPedido.php" target="_blank">
+                                                    <input type="text" style ="border: none" name="id" class="hide" readonly value="<?php echo $pedido["id"] ?>"> 
+                                                    <button type="submit" class="btn btnVerPedido" name="descargarPedido" id="btnVerPedido<?php echo $pedido['id']?>">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                                                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                                            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                                                        </svg>
+                                                    </button>
+                                                </form>
+                                            <div>
                                         </td>
                                     </tr>
                                 <?php } ?>   
