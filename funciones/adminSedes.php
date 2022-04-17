@@ -7,7 +7,7 @@ $mensajeAlertError="";
 // ACCION CREAR SEDE
 if(isset($_POST["crearSede"])){
     $provincia = $_POST['provinciaCreacion'];
-    $sede = $_POST['sedeCreacion'];
+    $sede = $_POST['ciudadCreacion'];
     $casas = $_POST['casasCreacion'];
     date_default_timezone_set('America/Argentina/Cordoba');
     $date = date("Y-m-d h:i:s");

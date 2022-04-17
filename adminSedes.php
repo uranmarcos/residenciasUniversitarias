@@ -5,6 +5,10 @@ require("funciones/adminSedes.php");
 if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
     echo "<script> window.location.href='inicio.php' </script>";
 }
+
+$data = file_get_contents("sedes.json");
+$localidades = json_decode($data, true);
+ 
 ?>
 <html>
     <head>
@@ -157,35 +161,21 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                             </div>
                                             <div class="col-12 columna">
                                                 <label >Provincia</label>
-                                                <select id="provinciaCreacion" name="provinciaCreacion" style="width:100%; height:30px">
-                                                    <option value="Buenos Aires">Buenos Aires</option>
-                                                    <option value="Catamarca">Catamarca</option>
-                                                    <option value="Chaco">Chaco</option>
-                                                    <option value="Chubut">Chubut</option>
-                                                    <option value="Córdoba">Córdoba</option>
-                                                    <option value="Corrientes">Corrientes</option>
-                                                    <option value="Entre Ríos">Entre Ríos</option>
-                                                    <option value="Formosa">Formosa</option>
-                                                    <option value="Jujuy">Jujuy</option>
-                                                    <option value="La Pampa">La Pampa</option>
-                                                    <option value="La Rioja">La Rioja</option>
-                                                    <option value="Mendoza">Mendoza</option>
-                                                    <option value="Misiones">Misiones</option>
-                                                    <option value="Nequén">Neuquén</option>
-                                                    <option value="Río Negro">Río Negro</option>
-                                                    <option value="Salta">Salta</option>
-                                                    <option value="San Juan">San Juan</option>
-                                                    <option value="San Luis">San Luis</option>
-                                                    <option value="Santa Cruz">Santa Cruz</option>
-                                                    <option value="Santa Fe">Santa Fe</option>
-                                                    <option value="Santiago del Estero">Santiago del Estero</option>
-                                                    <option value="Tierra del Fuego">Tierra del Fuego</option>
-                                                    <option value="Tucumán">Tucumán</option>
+                                                <select id="provinciaCreacion" onchange="changeProvinciaCreacion()" name="provinciaCreacion" style="width:100%">
+                                                    <option value="">Seleccione...</option>
+                                                    <?php foreach($localidades as $localidad){ ?>
+                                                        <option value="<?php echo $localidad["provincia"] ?>"><?php echo $localidad["provincia"] ?></option>
+                                                    <?php } ?>   
                                                 </select>   
                                             </div>
                                             <div class="col-10 columna">
                                                 <label >Ciudad</label>
+                                                <select id="ciudadCreacion" onchange="validarSedeCreacion(value)" name="ciudadCreacion" style="width:100%">
+                                                    <option value="">Seleccione una provincia primero</option>
+                                                </select> 
+<!--                                                 
                                                 <input maxlength="30" style="width:100%" autocomplete="off" name="sedeCreacion" id="sedeCreacion" onkeyup="validarSedeCreacion(value)">
+                                                 -->
                                                 <div class="hide errorValidacion" id="mensajeErrorCrear"></div>
                                             </div>
                                             <div class="col-2 columna">
@@ -244,9 +234,6 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                 <div class="modal-body" id="bodyModalEditar">
                                     <div class="contenedorSeccion purple contenedorModal mb-4">        
                                         <div class="row">
-                                            <div class="col-12 columna">
-                                                <button type="button" class="btn botonLimpiar" id="btnLimpiarEdicion" onclick="limpiarFormularioEdicion()">Limpiar Formulario</button>
-                                            </div>
                                             <input name="idSedeEdicion" id="idSedeEdicion" class="hide">                                          
                                             <div class="col-12 columna ">
                                                 <label >Provincia</label>
@@ -382,6 +369,72 @@ window.onload = function(){
     }
 }
 
+function changeProvinciaCreacion (){
+    let provinciaCreacion = document.getElementById("provinciaCreacion").value;
+    let localidades = <?php  echo json_encode($localidades) ?>;
+    let ciudades = localidades.filter(element => element.provincia == provinciaCreacion)[0].localidades
+    let opciones = document.getElementById("ciudadCreacion")
+    opciones.innerHTML = ""
+    const option = document.createElement("option")
+    option.value = ""
+    option.text = "Seleccione la localidad"
+    opciones.appendChild(option)
+    for (let index = 0; index < ciudades.length; index++) {
+        const option = document.createElement("option")
+        option.value = ciudades[index]
+        option.text = ciudades[index]
+        opciones.appendChild(option)
+    }  
+}
+function limpiarFormularioCreacion () {
+    document.getElementById("provinciaCreacion").value = ""
+    let opciones = document.getElementById("ciudadCreacion")
+    opciones.innerHTML = ""
+    const option = document.createElement("option")
+    option.value = ""
+    option.text = "Seleccione una provincia primero"
+    opciones.appendChild(option)
+    document.getElementById("casasCreacion").value = 1
+    let btnCreacion = document.getElementById("btnCrear")
+    btnCreacion.setAttribute("disabled", true)
+    limpiarValidaciones("crear")
+}
+function validarSedeCreacion(value){
+    let btnEdicion = document.getElementById("btnCrear")
+    if (value != "") {
+        btnEdicion.removeAttribute("disabled")        
+    } else {
+        btnEdicion.setAttribute("disabled", true)       
+    }
+}
+function bloquearFormularioCreacion() {
+    let btnLimpiar = document.getElementById("btnLimpiarCreacion")
+    btnLimpiar.setAttribute("disabled", true)
+    let provincia = document.getElementById("provinciaCreacion")
+    provincia.setAttribute("disabled", true)
+    let localidad = document.getElementById("ciudadCreacion")
+    localidad.setAttribute("disabled", true)
+    let casas = document.getElementById("casasCreacion")
+    casas.setAttribute("disabled", true)
+}
+function desbloquearFormularioCreacion() {
+    let btnLimpiar = document.getElementById("btnLimpiarCreacion")
+    btnLimpiar.removeAttribute("disabled")
+    let provincia = document.getElementById("provinciaCreacion")
+    provincia.removeAttribute("disabled")
+    let localidad = document.getElementById("ciudadCreacion")
+    localidad.removeAttribute("disabled")
+    let casas = document.getElementById("casasCreacion")
+    casas.removeAttribute("disabled")
+}
+
+
+
+
+
+
+
+
 
 
 
@@ -408,29 +461,7 @@ function validarSedeEdicion(value){
         mensajeError.innerHTML = "5 o mas caracteres"
     }
 }
-function validarSedeCreacion(value){
-    let mensajeError = document.getElementById("mensajeErrorCrear")
-    let btnEdicion = document.getElementById("btnCrear")
-    btnEdicion.setAttribute("disabled", true)
-    let sedes = <?php  echo json_encode($sedes) ?>;
-    if(value.length >=5) {
-        let sedesExistentes = sedes.filter(element => element.descripcion.toLowerCase().includes(value.toLowerCase()))
-        let descripcionesSedesExistentes = ""
-        sedesExistentes.forEach(function callback(value, index) {
-            descripcionesSedesExistentes = descripcionesSedesExistentes + value.descripcion + " "
-        })
-        if(sedesExistentes.length > 0) {
-            mensajeError.classList.remove("hide")
-            mensajeError.innerHTML = "Ya existen las siguientes sedes: " + descripcionesSedesExistentes
-        }else{
-            btnEdicion.removeAttribute("disabled")
-            mensajeError.classList.add("hide")
-        }
-    } else {
-        mensajeError.classList.remove("hide")
-        mensajeError.innerHTML = "5 o mas caracteres"
-    }
-}
+
 
 
 function validarFormEdicion () {
@@ -472,14 +503,6 @@ function cancelarConfirmacion(idOcultar, idMostrar, accion) {
         desbloquearFormularioEdicion()
     }
 }
-function limpiarFormularioCreacion () {
-    document.getElementById("provinciaCreacion").value = "Buenos Aires"
-    document.getElementById("sedeCreacion").value = ""
-    document.getElementById("casasCreacion").value = 1
-    let btnCreacion = document.getElementById("btnCrear")
-    btnCreacion.setAttribute("disabled", true)
-    limpiarValidaciones("crear")
-}
 function limpiarFormularioEdicion () {
     document.getElementById("provincia").value = "Buenos Aires"
     document.getElementById("sede").value = ""
@@ -491,26 +514,7 @@ function limpiarFormularioEdicion () {
 
 
 
-function bloquearFormularioCreacion() {
-    let btnLimpiar = document.getElementById("btnLimpiarCreacion")
-    btnLimpiar.setAttribute("disabled", true)
-    let provincia = document.getElementById("provinciaCreacion")
-    provincia.setAttribute("disabled", true)
-    let sede = document.getElementById("sedeCreacion")
-    sede.setAttribute("disabled", true)
-    let casas = document.getElementById("casasCreacion")
-    casas.setAttribute("disabled", true)
-}
-function desbloquearFormularioCreacion() {
-    let btnLimpiar = document.getElementById("btnLimpiarCreacion")
-    btnLimpiar.removeAttribute("disabled")
-    let provincia = document.getElementById("provinciaCreacion")
-    provincia.removeAttribute("disabled")
-    let sede = document.getElementById("sedeCreacion")
-    sede.removeAttribute("disabled")
-    let casas = document.getElementById("casasCreacion")
-    casas.removeAttribute("disabled")
-}
+
 function bloquearFormularioEdicion() {
     let btnLimpiar = document.getElementById("btnLimpiarEdicion")
     btnLimpiar.setAttribute("disabled", true)

@@ -197,6 +197,11 @@ label{
     width: 100px;
     border: solid 1px rgb(236, 130, 130);
 }
+select{
+    height: 40px !important;
+    border-radius: 5px;
+    border: solid 1px rgb(124, 69, 153);;
+}
 .tdp{
     height: 40px;
     line-height: 40px;

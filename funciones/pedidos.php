@@ -8,7 +8,7 @@ $casa = $_SESSION["casa"];
 $noHayDatos = "show";
 $hayDatos = "hide";
 $mostrarStock = "hide";
-$mostrarAdmin = "hide";     
+$mostrarAdmin = "hide";    
 
 //START CONSULTA DE PEDIDOS REALIZADOS
 if($_SESSION["rol"] == "stock") {
