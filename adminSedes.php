@@ -124,7 +124,7 @@ $localidades = json_decode($data, true);
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body centrarTexto">
-                                    ¿Confirma que desea eliminar la sede <b><span id="sedeAEliminar"></span></b>?
+                                    ¿Confirma que desea eliminar la sede <br> <b><span id="sedeAEliminar"></span></b>?
                                 </div>
                                 <div class="modal-footer d-flex justify-content-around">
                                     <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
@@ -173,9 +173,6 @@ $localidades = json_decode($data, true);
                                                 <select id="ciudadCreacion" onchange="validarSedeCreacion(value)" name="ciudadCreacion" style="width:100%">
                                                     <option value="">Seleccione una provincia primero</option>
                                                 </select> 
-<!--                                                 
-                                                <input maxlength="30" style="width:100%" autocomplete="off" name="sedeCreacion" id="sedeCreacion" onkeyup="validarSedeCreacion(value)">
-                                                 -->
                                                 <div class="hide errorValidacion" id="mensajeErrorCrear"></div>
                                             </div>
                                             <div class="col-2 columna">
@@ -235,77 +232,18 @@ $localidades = json_decode($data, true);
                                     <div class="contenedorSeccion purple contenedorModal mb-4">        
                                         <div class="row">
                                             <input name="idSedeEdicion" id="idSedeEdicion" class="hide">                                          
+                                                                                 
                                             <div class="col-12 columna ">
                                                 <label >Provincia</label>
-                                                <select id="provincia" name="provincia" onchange="validarFormEdicion()" style="width:100%; height:30px">
-                                                    <option value="Buenos Aires">Buenos Aires</option>
-                                                    <option value="Catamarca">Catamarca</option>
-                                                    <option value="Chaco">Chaco</option>
-                                                    <option value="Chubut">Chubut</option>
-                                                    <option value="Córdoba">Córdoba</option>
-                                                    <option value="Corrientes">Corrientes</option>
-                                                    <option value="Entre Ríos">Entre Ríos</option>
-                                                    <option value="Formosa">Formosa</option>
-                                                    <option value="Jujuy">Jujuy</option>
-                                                    <option value="La Pampa">La Pampa</option>
-                                                    <option value="La Rioja">La Rioja</option>
-                                                    <option value="Mendoza">Mendoza</option>
-                                                    <option value="Misiones">Misiones</option>
-                                                    <option value="Nequén">Neuquén</option>
-                                                    <option value="Río Negro">Río Negro</option>
-                                                    <option value="Salta">Salta</option>
-                                                    <option value="San Juan">San Juan</option>
-                                                    <option value="San Luis">San Luis</option>
-                                                    <option value="Santa Cruz">Santa Cruz</option>
-                                                    <option value="Santa Fe">Santa Fe</option>
-                                                    <option value="Santiago del Estero">Santiago del Estero</option>
-                                                    <option value="Tierra del Fuego">Tierra del Fuego</option>
-                                                    <option value="Tucumán">Tucumán</option>
-                                                </select>  
+                                                <input maxlength="30" style="width:100%" readonly autocomplete="off" name="provinciaEdicion" id="provinciaEdicion">
                                             </div>
                                             <div class="col-10 columna ">
                                                 <label >Ciudad</label>
-                                                <input maxlength="30" style="width:100%" autocomplete="off" name="sede" id="sede" onkeyup="validarSedeEdicion(value)">
-                                                <div class="hide errorValidacion" id="mensajeErrorEditar"></div>
+                                                <input maxlength="30" style="width:100%" readonly autocomplete="off" name="ciudadEdicion" id="ciudadEdicion">
                                             </div>
-
-
-                                            <!-- <div class="col-12 columna">
-                                                <label >Provincia</label>
-                                                <select id="provinciaEdicion" name="provinciaEdicion" onchange="validarFormEdicion()" style="width:100%; height:30px">
-                                                    <option value="Buenos Aires">Buenos Aires</option>
-                                                    <option value="Catamarca">Catamarca</option>
-                                                    <option value="Chaco">Chaco</option>
-                                                    <option value="Chubut">Chubut</option>
-                                                    <option value="Córdoba">Córdoba</option>
-                                                    <option value="Corrientes">Corrientes</option>
-                                                    <option value="Entre Ríos">Entre Ríos</option>
-                                                    <option value="Formosa">Formosa</option>
-                                                    <option value="Jujuy">Jujuy</option>
-                                                    <option value="La Pampa">La Pampa</option>
-                                                    <option value="La Rioja">La Rioja</option>
-                                                    <option value="Mendoza">Mendoza</option>
-                                                    <option value="Misiones">Misiones</option>
-                                                    <option value="Nequén">Neuquén</option>
-                                                    <option value="Río Negro">Río Negro</option>
-                                                    <option value="Salta">Salta</option>
-                                                    <option value="San Juan">San Juan</option>
-                                                    <option value="San Luis">San Luis</option>
-                                                    <option value="Santa Cruz">Santa Cruz</option>
-                                                    <option value="Santa Fe">Santa Fe</option>
-                                                    <option value="Santiago del Estero">Santiago del Estero</option>
-                                                    <option value="Tierra del Fuego">Tierra del Fuego</option>
-                                                    <option value="Tucumán">Tucumán</option>
-                                                </select>   
-                                            </div>
-                                            <div class="col-10 columna">
-                                                <label >Ciudad</label>
-                                                <input maxlength="30" style="width:100%" autocomplete="off" name="sedeEdicion" id="sedeEdicion" onkeyup="validarSedeEdicion(value)">
-                                                <div class="hide errorValidacion" id="mensajeErrorEditar"></div>
-                                            </div> -->
                                             <div class="col-2 columna">
                                                 <label> Casas: </label>
-                                                <select id="casas" name="casas" onchange="validarFormEdicion()" style="width:100%; height:30px">
+                                                <select id="casasEdicion" name="casasEdicion" onchange="validarFormEdicion()" style="width:100%; height:30px">
                                                     <option value="1">1</option>
                                                     <option value="2">2</option>
                                                     <option value="3">3</option>
@@ -436,50 +374,29 @@ function desbloquearFormularioCreacion() {
 
 
 
-
-
-function validarSedeEdicion(value){
-    let mensajeError = document.getElementById("mensajeErrorEditar")
-    let btnEdicion = document.getElementById("btnEditar")
-    btnEdicion.setAttribute("disabled", true)
-    let sedes = <?php  echo json_encode($sedes) ?>;
-    if(value.length >=5) {
-        let sedesExistentes = sedes.filter(element => element.descripcion.toLowerCase().includes(value.toLowerCase()))
-        let descripcionesSedesExistentes = ""
-        sedesExistentes.forEach(function callback(value, index) {
-            descripcionesSedesExistentes = descripcionesSedesExistentes + value.descripcion + " "
-        })
-        if(sedesExistentes.length > 0) {
-            mensajeError.classList.remove("hide")
-            mensajeError.innerHTML = "Ya existen las siguientes sedes: " + descripcionesSedesExistentes
-        }else{
-            btnEdicion.removeAttribute("disabled")
-            mensajeError.classList.add("hide")
-        }
-    } else {
-        mensajeError.classList.remove("hide")
-        mensajeError.innerHTML = "5 o mas caracteres"
-    }
-}
-
-
-
 function validarFormEdicion () {
-    let sede  = document.getElementById("sede").value
-    let btnEditar  = document.getElementById("btnEditar")
-    btnEditar.setAttribute("disabled", true)
-    if (sede.length >= 5) {
         btnEditar.removeAttribute("disabled")
-    }
 }
-
 function cargarDatosEdicion(id, provincia, sede, casas){
     document.getElementById("idSedeEdicion").value = id
-    document.getElementById("provincia").value = provincia
-    document.getElementById("sede").value = sede
-    document.getElementById("casas").value = casas
-    limpiarValidaciones("editar")
+    document.getElementById("provinciaEdicion").value = provincia
+    document.getElementById("ciudadEdicion").value = sede
+    document.getElementById("casasEdicion").value = casas
 }
+
+function bloquearFormularioEdicion() {
+    let casas = document.getElementById("casasEdicion")
+    casas.setAttribute("readonly", true)
+}
+function desbloquearFormularioEdicion() {
+   
+    let casas = document.getElementById("casasEdicion")
+    casas.removeAttribute("disabled")
+}
+
+
+
+
 
 function pedirConfirmacion(idOcultar, idMostrar, accion) {
     let cajaOcultar = document.getElementById(idOcultar)
@@ -503,38 +420,8 @@ function cancelarConfirmacion(idOcultar, idMostrar, accion) {
         desbloquearFormularioEdicion()
     }
 }
-function limpiarFormularioEdicion () {
-    document.getElementById("provincia").value = "Buenos Aires"
-    document.getElementById("sede").value = ""
-    document.getElementById("casas").value = 1
-    let btnEdicion = document.getElementById("btnEditar")
-    btnEdicion.setAttribute("disabled", true)
-    limpiarValidaciones("editar")
-}
 
 
-
-
-function bloquearFormularioEdicion() {
-    let btnLimpiar = document.getElementById("btnLimpiarEdicion")
-    btnLimpiar.setAttribute("disabled", true)
-    let provincia = document.getElementById("provincia")
-    provincia.setAttribute("disabled", true)
-    let sede = document.getElementById("sede")
-    sede.setAttribute("disabled", true)
-    let casas = document.getElementById("casas")
-    casas.setAttribute("disabled", true)
-}
-function desbloquearFormularioEdicion() {
-    let btnLimpiar = document.getElementById("btnLimpiarEdicion")
-    btnLimpiar.removeAttribute("disabled")
-    let provincia = document.getElementById("provincia")
-    provincia.removeAttribute("disabled")
-    let sede = document.getElementById("sede")
-    sede.removeAttribute("disabled")
-    let casas = document.getElementById("casas")
-    casas.removeAttribute("disabled")
-}
 
 function limpiarValidaciones(accion) {
     if(accion == "crear") {
