@@ -44,7 +44,7 @@ if(isset($_POST["eliminarArticulo"])){
     $id = $_POST["idArticuloEliminar"];
     date_default_timezone_set('America/Argentina/Cordoba');
     $date = date("Y-m-d H:i:s");
-    $consulta = $baseDeDatos ->prepare("DELETE from articulos WHERE id = '$id'");
+    $consulta = $baseDeDatos ->prepare("UPDATE articulos SET modified = '$date', habilitado = 0, userId = '$idUsuarioLogueado' WHERE id = '$id'");
     try {
         $consulta->execute();
         $alertConfirmacion = "show";
@@ -55,7 +55,7 @@ if(isset($_POST["eliminarArticulo"])){
     }
 }
 // CONSULTAS INICIALES LISTADO DE ARTICULOS, MEDIDAS Y CATEGORIAS
-$consultaArticulos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, A.categoria 'idCategoria', C.descripcion 'categoria',  A.medida 'idMedida', M.descripcion 'medida', A.habilitado FROM articulos A INNER JOIN categorias C ON A.categoria = C.id INNER JOIN medidas M ON A.medida = M.id");
+$consultaArticulos = $baseDeDatos ->prepare("SELECT A.id, A.descripcion, A.categoria 'idCategoria', C.descripcion 'categoria',  A.medida 'idMedida', M.descripcion 'medida', A.habilitado FROM articulos A INNER JOIN categorias C ON A.categoria = C.id INNER JOIN medidas M ON A.medida = M.id WHERE A.habilitado = 1");
 $consultaMedidas = $baseDeDatos ->prepare("SELECT * FROM medidas");
 $consultaCategorias = $baseDeDatos ->prepare("SELECT * FROM categorias");
 try {
