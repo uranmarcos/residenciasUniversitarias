@@ -18,6 +18,7 @@ if (isset($_POST["changePassword"])) {
             $update = $baseDeDatos ->prepare("UPDATE agentes SET password = '$newPass' WHERE id = '$id'");
             try {
                 $update->execute();
+                $_SESSION["pedirCambioPassword"] = "hide";
                 $mensajeAlertConfirmacion = "¡La contraseña se modificó correctamente!";
                 $alertConfirmacion = "show";
             } catch (\Throwable $th) {
@@ -62,6 +63,9 @@ if (isset($_POST["changePassword"])) {
                     </div>
                     <div class="alert alert-success mt-3 centrarTexto <?php echo $alertConfirmacion ?>" id="alertConfirmacion" role="alert">
                         <?php echo $mensajeAlertConfirmacion ?>
+                    </div>
+                    <div class="alert alert-success mt-3  <?php echo $_SESSION["pedirCambioPassword"] ?>" id="alertConfirmacion" role="alert">
+                        Por seguridad, te pedimos que cambies tu contraseña. La misma debe tener como mínimo 8 digitos, y debe ser alfanumérica. Gracias.
                     </div>
                     <form name="formEdicion" method="POST" action="ajustes.php">
                         <!----     START BLOQUE CAMBIO DE CONTRASEÑA   ----->
@@ -192,6 +196,26 @@ if (isset($_POST["changePassword"])) {
 <script>
 if ( window.history.replaceState ) {
     window.history.replaceState( null, null, window.location.href );
+}
+window.onload = function(){
+    let alertConfirmacion = document.getElementById("alertConfirmacion")
+    if (alertConfirmacion.classList.contains('show')) {
+        setTimeout(ocultarAlertConfirmacion, 5000)
+    }
+    let alertErrorConexion = document.getElementById("alertErrorConexion")
+    if (alertErrorConexion.classList.contains('show')) {
+        setTimeout(ocultarAlertError, 5000)
+    }
+}
+function ocultarAlertConfirmacion(){
+    let alertConfirmacion = document.getElementById("alertConfirmacion")
+    alertConfirmacion.classList.remove('show')
+    alertConfirmacion.classList.add('hide')
+}
+function ocultarAlertError(){
+    let alertErrorConexion = document.getElementById("alertErrorConexion")
+    alertErrorConexion.classList.remove('show')
+    alertErrorConexion.classList.add('hide')
 }
 
 function validarPassword () {

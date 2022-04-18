@@ -24,6 +24,7 @@ if(empty($datosUsuarios)){
             $_SESSION["casa"] = $datosUsuarios[0]["casa"];
             $_SESSION["id"] = $datosUsuarios[0]["id"];
             $_SESSION["errorMail"] = false;
+            $_SESSION["pedirCambioPassword"] = "hide";
             if(isset($_POST["cbxUsuario"])){
                 setcookie("usuario", $dni, time()+(60*60*24*365));
                 setcookie("recordarUsuario", true, time()+(60*60*24*365));
@@ -37,8 +38,13 @@ if(empty($datosUsuarios)){
                 setcookie("recordarDatos", false, time()+(60*60*24*365));
                 setcookie("recordarUsuario", false, time()+(60*60*24*365));
             }
+            if ($password == $dni) {
+                $_SESSION["pedirCambioPassword"] = "show";
+                echo "<script>location.href='ajustes.php';</script>";
+            } else {
+                echo "<script>location.href='inicio.php';</script>";
+            }
             //setcookie("id_usuario_dw", $usuario_encontrado->id_usuario , time()+(60*60*24*365));
-            echo "<script>location.href='inicio.php';</script>";
     } else {
         $error="Los datos ingresados son erróneos";
     }
