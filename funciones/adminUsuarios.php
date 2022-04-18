@@ -111,7 +111,7 @@ if (isset($_POST["resetPassword"])){
 }
 
 // CONSULTAS INICIALES LISTADO DE ARTICULOS, MEDIDAS Y CATEGORIAS
-$consultaUsuarios = $baseDeDatos ->prepare("SELECT U.id, U.nombre, U.segundoNombre, U.apellido, U.mail, U.dni, U.sede idSede, U.rol, S.provincia 'provincia', S.descripcion 'sede', U.casa FROM agentes U INNER JOIN sedes S ON U.sede = S.id");
+$consultaUsuarios = $baseDeDatos ->prepare("SELECT U.id, U.nombre, U.segundoNombre, U.apellido, U.mail, U.dni, U.sede idSede, U.rol, S.provincia 'provincia', S.localidad 'sede', U.casa FROM agentes U INNER JOIN sedes S ON U.sede = S.id");
 $consultaSedes = $baseDeDatos ->prepare("SELECT * FROM sedes");
 try {
     $consultaUsuarios->execute();

@@ -53,9 +53,9 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                     <thead>
                                         <tr>
                                             <th scope="col" class="hide">#</th>
-                                            <th scope="col" style="width:20%">Nombre</th>
+                                            <th scope="col" style="width:30%">Nombre</th>
                                             <th scope="col" style="width:20%">Apellido</th>
-                                            <th scope="col" style="width:20%; text-align:center">Sede</th>
+                                            <th scope="col" style="width:30%; text-align:center">Sede</th>
                                             <th scope="col" style="width:5%; text-align:center">Casa</th>
                                             <th scope="col" style="width:10%; text-align:center">Rol</th>
                                             <th scope="col" style="width:150px; text-align:center">Acciones</th>
@@ -203,7 +203,7 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                                 <label>Sede: </label>
                                                 <select style="height:30px; width: 100%;" id="sedeCreacion" name="sedeCreacion" onchange="selectSede(value), validarFormCreacion()">
                                                     <?php foreach($sedes as $sede){ ?>
-                                                        <option value="<?php echo $sede['id']?>"><?php echo $sede['provincia'] . " - " . $sede['descripcion']?></option>
+                                                        <option value="<?php echo $sede['id']?>"><?php echo $sede['provincia'] . " - " . $sede['localidad']?></option>
                                                     <?php } ?> 
                                                 </select>    
                                                 <div class="hide errorValidacion" id="errorSedeCreacion"></div>
@@ -262,9 +262,9 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                 <div class="modal-body" id="bodyModalCrear">
                                     <div class="contenedorSeccion purple contenedorModal mb-4">        
                                         <div class="row">
-                                            <div class="col-12 columna">
+                                            <!-- <div class="col-12 columna">
                                                 <button type="button" class="btn botonLimpiar" id="btnLimpiarEdicion" onclick="limpiarFormularioEdicion()">Limpiar Formulario</button>
-                                            </div>
+                                            </div> -->
                                             <input class="hide" name="idUsuarioEdicion" id="idUsuarioEdicion">
                                             <div class="col-12 columna">
                                                 <label >Primer Nombre: </label>
