@@ -106,7 +106,7 @@ require("funciones/pedidos.php");
                                                     <select style="height:30px" class="col-12 inputForm" onchange="filtrar()" name="categoria" id="selectSede">
                                                         <option value="todos">Todas</opcion>
                                                         <?php foreach($sedes as $sede){ ?>
-                                                            <option value="<?php echo $sede['descripcion'] ?>" ><?php echo $sede["descripcion"]?></opcion>
+                                                            <option value="<?php echo $sede['localidad'] ?>" ><?php echo $sede["localidad"]?></opcion>
                                                         <?php } ?>
                                                     </select>   
                                                 </div>
@@ -127,7 +127,7 @@ require("funciones/pedidos.php");
                                 <div class="d-flex anchoTotal row">
                                     <div class="col-12 col-sm-6 d-flex align-items-end justify-content-start dataSede">
                                         <div>
-                                            Sede: <?php echo $pedidos[0]["nombreSede"]?> <br> Casa:  <?php echo $_SESSION["casa"]?>
+                                            Sede: <?php echo $pedidos[0]["provinciaSede"] . ", " . $pedidos[0]["localidadSede"]?> <br> Casa:  <?php echo $_SESSION["casa"]?>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-6 d-flex align-items-end justify-content-end">
@@ -148,7 +148,7 @@ require("funciones/pedidos.php");
                                     <tr name="rowTableAdmin">
                                         <td class="tdp centrarTexto pt-0 pb-0"><?php echo $newDate = date("d/m/Y H:i:s", strtotime($pedido["fecha"]));?></td>
                                         <td class="tdp centrarTexto pt-0 pb-0"><?php echo $pedido["nombre"] . " " . $pedido["segundoNombre"] . " " . $pedido["apellido"] ?></td>              
-                                        <td class="tdp centrarTexto pt-0 pb-0"><?php echo $pedido["nombreSede"] . " / " . $pedido["casa"] ?></td>
+                                        <td class="tdp centrarTexto pt-0 pb-0"><?php echo $pedido["provinciaSede"] . ", " . $pedido["localidadSede"] . " / " . $pedido["casa"] ?></td>
                                         <td class="tdp pl-0 pr-0 pt-0 pb-0"> 
                                             <div class="d-flex tdp">
                                                 <form method="POST" class="mb-0" style="height:48px" action="pedidos.php">
@@ -248,7 +248,7 @@ require("funciones/pedidos.php");
         }
         fechaPedidoModal.innerHTML = fecha
         usuarioPedidoModal.innerHTML = pedido.nombre + " " + pedido.segundoNombre + " " + pedido.apellido
-        sedePedidoModal.innerHTML = sede.provincia + ", " + sede.descripcion
+        sedePedidoModal.innerHTML = sede.provincia + ", " + sede.localidad
         casaPedidoModal.innerHTML = pedido.casa
         descripcionPedidoModal.innerHTML = pedidoModal
     }

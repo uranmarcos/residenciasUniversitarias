@@ -302,7 +302,7 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                                 <label>Sede: </label>
                                                 <select style="height:30px; width: 100%;" id="sedeEdicion" name="sedeEdicion" onchange="selectSede(value), validarFormEdicion()">
                                                     <?php foreach($sedes as $sede){ ?>
-                                                        <option value="<?php echo $sede['id']?>"><?php echo $sede['provincia'] . " - " . $sede['descripcion']?></option>
+                                                        <option value="<?php echo $sede['id']?>"><?php echo $sede['provincia'] . " - " . $sede['localidad']?></option>
                                                     <?php } ?> 
                                                 </select>    
                                             </div>

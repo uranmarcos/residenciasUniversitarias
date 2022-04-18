@@ -19,6 +19,7 @@
             $alertErrorConexion= "show";
         }
         $sede = $consultaSede -> fetchAll(PDO::FETCH_ASSOC);
+        $sedePedido = $sede[0]["provincia"] . ", " . $sede[0]["localidad"];
         // conversion de formato de fecha
         $newDate = date("d-m-Y", strtotime($pedido[0]["fecha"]));
         $otrosTabla = "";
@@ -66,7 +67,7 @@
             $header = array('Listado de articulos pedidos');
             $pdf->AddPage();
             $pdf->SetFont('Arial','B',12);
-            $pdf->Cell(0,5,"Pedido Mensual de " . utf8_decode($sede[0]["descripcion"]),0,1,'C');
+            $pdf->Cell(0,5,"Pedido Mensual de " . utf8_decode($sedePedido),0,1,'C');
             $pdf->Cell(0,10,'Fecha: ' . $newDate,0,1);
             $pdf->Cell(0,10,'Casa: ' . $pedido[0]["casa"] . " -  Voluntario: " . $pedido[0]["nombre"] . " " . $pedido[0]["segundoNombre"] . " " . $pedido[0]["apellido"],0,1);
             $pdf->SetFont('Arial','B',12);

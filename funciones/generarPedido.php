@@ -38,6 +38,7 @@ if(isset($_POST["generarPedido"])){
             $id = $consultaUltimoPedido -> fetchAll(PDO::FETCH_ASSOC);
             $idPedido = $id[0]["id"];
             $tipoMail = "envio";
+            $sedePedido = $sede[0]["provincia"] . ", " . $sede[0]["localidad"];
             require("funciones/pdf.php");
             require("funciones/pdfMail.php");
             include("mail.php");

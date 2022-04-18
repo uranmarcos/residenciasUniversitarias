@@ -12,11 +12,11 @@ $mostrarAdmin = "hide";
 
 //START CONSULTA DE PEDIDOS REALIZADOS
 if($_SESSION["rol"] == "stock") {
-  $consultaPedidos = $baseDeDatos ->prepare("SELECT PN.id, PN.sede, PN.fecha, PN.pedido, PN.casa, A.nombre, A.segundoNombre, A.apellido, S.descripcion nombreSede FROM pedidosnuevos PN INNER JOIN
+  $consultaPedidos = $baseDeDatos ->prepare("SELECT PN.id, PN.sede, PN.fecha, PN.pedido, PN.casa, A.nombre, A.segundoNombre, A.apellido, S.provincia provinciaSede, S.localidad localidadSede FROM pedidosnuevos PN INNER JOIN
     agentes A ON PN.usuario = A.id INNER JOIN sedes S on PN.sede = S.id WHERE PN.sede = $sede AND PN.casa = $casa AND PN.enviado = 1 ORDER BY PN.fecha DESC"); 
     $mostrarStock = "show";   
 } else {
-  $consultaPedidos = $baseDeDatos ->prepare("SELECT PN.id, PN.sede, PN.usuario, PN.fecha, PN.pedido, A.nombre, PN.casa, A.segundoNombre, A.apellido, S.descripcion nombreSede FROM pedidosnuevos PN INNER JOIN
+  $consultaPedidos = $baseDeDatos ->prepare("SELECT PN.id, PN.sede, PN.usuario, PN.fecha, PN.pedido, A.nombre, PN.casa, A.segundoNombre, A.apellido, S.provincia provinciaSede, S.localidad localidadSede FROM pedidosnuevos PN INNER JOIN
     agentes A ON PN.usuario = A.id INNER JOIN sedes S on PN.sede = S.id WHERE PN.enviado = 1 ORDER BY PN.fecha DESC"); 
     $mostrarAdmin = "show";     
 }
