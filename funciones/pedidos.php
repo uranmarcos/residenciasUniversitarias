@@ -8,7 +8,13 @@ $casa = $_SESSION["casa"];
 $noHayDatos = "show";
 $hayDatos = "hide";
 $mostrarStock = "hide";
-$mostrarAdmin = "hide";    
+$mostrarAdmin = "hide";  
+if(isset($_COOKIE["pedidoEnviado"])) {
+  if($_COOKIE["pedidoEnviado"]){
+    $alertConfirmacion = "show";
+    $mensajeAlertConfirmacion = "El pedido se envio correctamente";
+  }
+}  
 
 //START CONSULTA DE PEDIDOS REALIZADOS
 if($_SESSION["rol"] == "stock") {

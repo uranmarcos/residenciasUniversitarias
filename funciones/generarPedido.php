@@ -80,7 +80,7 @@ if(isset($_POST["actualizarEnviado"])){
 
 
 if($pedidoActualizado) {
-    setcookie("pedidoEnviado", true, time() + (86400 * 30), "/");
+    setcookie("pedidoEnviado", true, time() + (10), "/");
     echo "<script>location.href='pedidos.php';</script>";
 }
 if($_SESSION["errorMail"]){
