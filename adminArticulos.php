@@ -48,7 +48,7 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                     </button>
                                 </div>
                             </div>
-                            <!-- START TABLA CON LISTA DE USUARIOS -->
+                            <!-- START TABLA CON LISTA DE ARTICULOS -->
                             <div class="table-responsive">
                                 <table class="table <?php echo $hayDatos ?>">
                                     <div class="row bg-grey d-flex align-items-center p-0 mt-2 mb-2 justify-content-around" style="width:100%">
@@ -127,7 +127,7 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                         </tbody>               
                                 </table>                            
                             </div>
-                            <!-- END TABLA CON LISTA DE USUARIOS -->
+                            <!-- END TABLA CON LISTA DE ARTICULOS -->
                             <!-- START TABLA SIN DATOS -->
                             <table class="table <?php echo $noHayDatos?>">
                                 <thead class="d-flex justify-content-center">

@@ -115,8 +115,41 @@ function eliminarArticulo(id, descripcion) {
     document.getElementById("idArticuloEliminar").value = id
 }
 //START FUNCIONES DEL FILTRO ADMIN
+// function filtrar() {
+//     let producto = document.getElementById("buscadorProducto").value.toLowerCase();
+//     let listaFilas = document.getElementsByName("rowTable");
+//     listaFilas = Array.from(listaFilas)
+//     listaFilas.forEach(function callback(value) {
+//         if (value.classList.contains("hide")) {
+//             value.classList.remove("hide")
+//         }
+//     })
+//     listaFilas.forEach(function callback(value) {
+//         let parametro = null
+//         parametro = value.firstElementChild.nextElementSibling.firstElementChild.innerHTML.toLowerCase()
+//         if (!parametro.includes(producto)) {
+//             value.classList.add("hide")
+//         }
+//     })
+// }
 function filtrar() {
-    let producto = document.getElementById("buscadorProducto").value.toLowerCase();
+    let producto = document.getElementById("buscadorProducto").value;
+    let categoria = document.getElementById("selectCategoria").value;
+    //let sede = document.getElementById("selectSede").value;
+    if (producto != "" && categoria == "todos"){
+        filtrarFilas(producto, "producto")
+    } else if (producto == "" && categoria != "todos"){
+        filtrarFilas(categoria, "categoria")
+    } else if(producto != "" && categoria != "todos") {
+        filtrarDoble(producto, categoria)
+    } else {
+        mostrarFilas()
+    }
+    // else {
+    //     filtrarFilasPorDosParametros(mes, voluntario, sede)
+    // }
+}
+function mostrarFilas() {
     let listaFilas = document.getElementsByName("rowTable");
     listaFilas = Array.from(listaFilas)
     listaFilas.forEach(function callback(value) {
@@ -124,10 +157,31 @@ function filtrar() {
             value.classList.remove("hide")
         }
     })
+}
+function filtrarFilas(param, param2){
+    mostrarFilas()
+    let listaFilas = document.getElementsByName("rowTable");
     listaFilas.forEach(function callback(value) {
         let parametro = null
-        parametro = value.firstElementChild.nextElementSibling.firstElementChild.innerHTML.toLowerCase()
-        if (!parametro.includes(producto)) {
+        if (param2 == "producto") {
+            parametro = value.firstElementChild.nextElementSibling.firstElementChild.innerHTML.toLowerCase()
+        } else if (param2 == "categoria") {
+            parametro = value.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.firstElementChild.innerHTML.toLowerCase()
+        } 
+        if (!parametro.includes(param.toLowerCase())) {
+            value.classList.add("hide")
+        }
+    })
+}
+function filtrarDoble(producto, categoria){
+    mostrarFilas()
+    let listaFilas = document.getElementsByName("rowTable");
+    listaFilas.forEach(function callback(value) {
+        //let parametro = null
+        let productoValue = value.firstElementChild.nextElementSibling.firstElementChild.innerHTML.toLowerCase()
+        let categoriaValue = value.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.firstElementChild.innerHTML
+        
+        if(!productoValue.includes(producto.toLowerCase()) || !categoriaValue.includes(categoria.toLowerCase())) {
             value.classList.add("hide")
         }
     })
