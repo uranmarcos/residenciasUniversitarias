@@ -177,6 +177,7 @@ function randomPassword() {
        window.history.replaceState( null, null, window.location.href );
     }
     window.onload = function(){
+        validarFormulario()
         let cbxUserChecked =  <?php  echo json_encode($cbxUserChecked) ?>;
         let cbxDatosChecked = <?php  echo json_encode($cbxDatosChecked) ?>;
         let cbxUsuario = document.getElementById("cbxUsuario")
@@ -189,6 +190,7 @@ function randomPassword() {
         }
         cbxDatos.removeAttribute("checked")
         cbxUsuario.removeAttribute("checked")
+       
     }
     function alternarCheckbox(id) {
         let idChecked = document.getElementById(id)
@@ -231,6 +233,14 @@ function randomPassword() {
                 btnIngresar.setAttribute("disabled", true)
             }
             errorDni.innerHTML = "";
+        }
+    }
+    function validarFormulario() {
+        let dni = document.getElementById("dni").value
+        let password = document.getElementById("password").value
+        let btnIngresar = document.getElementById("btnIngresar")
+        if (password.trim().length >= 8 && dni.length == 8 && isNumber(dni)) {
+            btnIngresar.removeAttribute("disabled")
         }
     }
     function validarPassword() {

@@ -2,6 +2,7 @@
 session_start();
 require("funciones/pdo.php");
 $id = $_SESSION["id"];
+$dni = $_SESSION["dni"];
 $alertErrorConexion = "hide";
 $alertConfirmacion = "hide";
 $mensajeAlertError = "";
@@ -21,6 +22,16 @@ if (isset($_POST["changePassword"])) {
                 $_SESSION["pedirCambioPassword"] = "hide";
                 $mensajeAlertConfirmacion = "¡La contraseña se modificó correctamente!";
                 $alertConfirmacion = "show";
+                if(isset($_POST["cbxDatos"])){
+                    setcookie("usuario", $dni, time()+(60*60*24*365));
+                    setcookie("password", $_POST["inputNewPassword"], time()+(60*60*24*365));
+                    setcookie("recordarDatos", true, time()+(60*60*24*365));
+                } else {
+                    setcookie("usuario", "", time()+(60*60*24*365));
+                    setcookie("password", "", time()+(60*60*24*365));
+                    setcookie("recordarDatos", false, time()+(60*60*24*365));
+                    setcookie("recordarUsuario", false, time()+(60*60*24*365));
+                }
             } catch (\Throwable $th) {
                 $mensajeAlertError = "Hubo un error de conexión. Por favor realizá el cambio nuevamente";
                 $alertErrorConexion = "show";
@@ -76,7 +87,7 @@ if (isset($_POST["changePassword"])) {
                                 <div class="col-12 col-md-6 columna">
                                     <label>Actual contraseña </label>
                                     <div class="row m-0">
-                                        <input class="col-11 col-md-10 inputForm" maxlength="15" type="password" onkeyup="validarPassword(), validarFormPass()" name="inputPassword" autocomplete="off" id="inputPassword">
+                                        <input class="col-10 col-sm-11 col-md-10 inputForm" maxlength="15" type="password" onkeyup="validarPassword(), validarFormPass()" name="inputPassword" autocomplete="off" id="inputPassword">
                                         <div class="col-1">
                                             <div class="eyeButton pt-1" id="mostrarContraseniaPerfil" onclick="mostrarContrasenia('mostrarContraseniaPerfil', 'ocultarContraseniaPerfil', 'inputPassword')">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -100,7 +111,7 @@ if (isset($_POST["changePassword"])) {
                                 <div class="col-12 col-md-6 columna">
                                     <label>Nueva contraseña </label>
                                     <div class="row m-0">
-                                        <input class="col-11 col-md-10 inputForm" maxlength="15" type="password" onkeyup="validarNewPassword(), validarFormPass()" name="inputNewPassword" autocomplete="off" id="inputNewPassword"> 
+                                        <input class="col-10 col-sm-11 col-md-10 inputForm" maxlength="15" type="password" onkeyup="validarNewPassword(), validarFormPass()" name="inputNewPassword" autocomplete="off" id="inputNewPassword"> 
                                         <div class="col-1">
                                             <div class="eyeButton pt-1" id="mostrarNewContraseniaPerfil" onclick="mostrarContrasenia('mostrarNewContraseniaPerfil', 'ocultarNewContraseniaPerfil', 'inputNewPassword')">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -124,7 +135,7 @@ if (isset($_POST["changePassword"])) {
                                 <div class="col-12 col-md-6 columna">
                                     <label>Repita su nueva contraseña: </label>
                                     <div class="row m-0">
-                                        <input class="col-11 col-md-10 inputForm" maxlength="15" type="password" name="confirmPassword" autocomplete="off" onkeyup="compararContrasenias(), validarFormPass()" id="inputConfirmPassword">
+                                        <input class="col-10 col-sm-11 col-md-10 inputForm" maxlength="15" type="password" name="confirmPassword" autocomplete="off" onkeyup="compararContrasenias(), validarFormPass()" id="inputConfirmPassword">
                                         <div class="col-1">
                                             <div class="eyeButton pt-1" id="mostrarConfirmContraseniaPerfil" onclick="mostrarContrasenia('mostrarConfirmContraseniaPerfil', 'ocultarConfirmContraseniaPerfil', 'inputConfirmPassword')">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -142,10 +153,14 @@ if (isset($_POST["changePassword"])) {
                                     </div>
                                     <div class=" errorValidacion" id="errorConfirmPassword"></div>
                                 </div>     
+
                                 <!-- END INPUT REPEAT NEW PASSWORD -->
+                                <div class="col-12 col-sm-6 col-md-3 d-flex pt-4 pt-md-0 align-items-end justify-content-center columna">
+                                    <label class="labelCheckbox d-flex align-items-center"><input type="checkbox" class="mr-2" name="cbxDatos" id="cbxDatos"> Recordar usuario y contraseña</label>
+                                </div> 
 
                                 <!-- START BOTON CONFIRMACION -->
-                                <div class="col-12 col-md-6 d-flex pt-4 pt-md-0 align-items-end justify-content-center columna">
+                                <div class="col-12 col-sm-6 col-md-3 d-flex pt-4 pt-md-0 align-items-end justify-content-center columna">
                                     <button type="button" class="btn boton" disabled id="btnConfirmar" data-bs-toggle="modal" data-bs-target="#passwordModal">Confirmar</button>
                                 </div>     
                                 <!-- END BOTON CONFIRMACION -->
