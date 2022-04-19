@@ -53,14 +53,14 @@ function desbloquearFormularioCreacion() {
     descripcion.removeAttribute("disabled")
 }
 function bloquearFormularioEdicion() {
-    let btnLimpiar = document.getElementById("btnLimpiarEdicion")
-    btnLimpiar.setAttribute("disabled", true)
+    // let btnLimpiar = document.getElementById("btnLimpiarEdicion")
+    // btnLimpiar.setAttribute("disabled", true)
     let descripcion = document.getElementById("descripcionEdicion")
     descripcion.setAttribute("disabled", true)
 }
 function desbloquearFormularioEdicion() {
-    let btnLimpiar = document.getElementById("btnLimpiarEdicion")
-    btnLimpiar.removeAttribute("disabled")
+    // let btnLimpiar = document.getElementById("btnLimpiarEdicion")
+    // btnLimpiar.removeAttribute("disabled")
     let descripcion = document.getElementById("descripcionEdicion")
     descripcion.removeAttribute("disabled")
 }

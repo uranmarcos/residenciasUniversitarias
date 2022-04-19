@@ -252,9 +252,9 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                 <div class="modal-body" id="bodyModalCrear">
                                     <div class="contenedorSeccion purple contenedorModal mb-4" id="boxEditarArticulo">        
                                         <div class="row">
-                                            <div class="col-12 columna">
+                                            <!-- <div class="col-12 columna">
                                                 <button type="button" class="btn botonLimpiar" id="btnLimpiarFormEdicion" onclick="limpiarFormularioEdicion()">Limpiar Formulario</button>
-                                            </div>
+                                            </div> -->
                                             <input id="idArticuloEdicion" name="idArticuloEdicion" class="hide">
                                                 
                                             <div class="col-12 columna">

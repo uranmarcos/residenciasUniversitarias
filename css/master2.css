@@ -5,8 +5,10 @@
 }
 .subMenuInicio{
     width: 100%;
-    height: 70vh;
-
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 .contenedorPrincipal{
     min-height: 70vh;
@@ -51,7 +53,7 @@
     align-items: center;
    
     width: 100%;
-    height: 100%;
+  
     margin: 0 !important;;
 }
 

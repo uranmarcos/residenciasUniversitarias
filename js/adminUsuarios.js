@@ -271,8 +271,8 @@ function validarFormEdicion () {
 
 }
 function bloquearFormularioEdicion() {
-    let btnLimpiar = document.getElementById("btnLimpiarEdicion")
-    btnLimpiar.setAttribute("disabled", true)
+    // let btnLimpiar = document.getElementById("btnLimpiarEdicion")
+    // btnLimpiar.setAttribute("disabled", true)
     let primerNombre = document.getElementById("primerNombreEdicion")
     primerNombre.setAttribute("disabled", true)
     let segundoNombre = document.getElementById("segundoNombreEdicion")
@@ -289,8 +289,8 @@ function bloquearFormularioEdicion() {
     casa.setAttribute("disabled", true)
 }
 function desbloquearFormularioEdicion() {
-    let btnLimpiar = document.getElementById("btnLimpiarEdicion")
-    btnLimpiar.removeAttribute("disabled")
+    // let btnLimpiar = document.getElementById("btnLimpiarEdicion")
+    // btnLimpiar.removeAttribute("disabled")
     let primerNombre = document.getElementById("primerNombreEdicion")
     primerNombre.removeAttribute("disabled")
     let segundoNombre = document.getElementById("segundoNombreEdicion")

@@ -28,7 +28,7 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                 </div>
                 <div class="subMenuInicio">
                     <div class="row rowSubMenuInicio d-flex justify-content-around">
-                        <div class="col-5 col-sm-4 botonSubmenu" onclick="redirect('adminSedes')" onmouseout="outBoton('spanSedes', 'iconoSedes')" onmouseover="overBoton('spanSedes', 'iconoSedes')">
+                        <div class="col-12 col-sm-4 mt-2 mt-sm-0 mb-2 mb-sm-0 botonSubmenu" onclick="redirect('adminSedes')" onmouseout="outBoton('spanSedes', 'iconoSedes')" onmouseover="overBoton('spanSedes', 'iconoSedes')">
                             <span id="spanSedes">
                                 Sedes  
                             </span>
@@ -36,7 +36,7 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                                 <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5z"/>
                             </svg>
                         </div>
-                        <div class="col-5 col-sm-4 botonSubmenu" onclick="redirect('adminUsuarios')"  onmouseout="outBoton('spanUsuarios', 'iconoUsuarios')" onmouseover="overBoton('spanUsuarios', 'iconoUsuarios')">
+                        <div class="col-12 col-sm-4 mt-sm-0 mb-2 mb-sm-0 botonSubmenu" onclick="redirect('adminUsuarios')"  onmouseout="outBoton('spanUsuarios', 'iconoUsuarios')" onmouseover="overBoton('spanUsuarios', 'iconoUsuarios')">
                             <span id="spanUsuarios">
                                 Usuarios   
                             </span>
@@ -45,26 +45,24 @@ if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "general"){
                             </svg>
                         </div>
                     </div>
-                    <div class="row rowSubMenuInicio">
-                        <div class="row rowSubMenuInicio d-flex justify-content-around">
-                            <div class="col-5 col-sm-4 botonSubmenu" onclick="redirect('adminCategorias')" onmouseout="outBoton('spanCategorias', 'iconoCategorias')" onmouseover="overBoton('spanCategorias', 'iconoCategorias')">
-                                <span id="spanCategorias">
-                                    Categorias   
-                                </span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="50" id="iconoCategorias" height="50" fill="currentColor" class="bi icono hide bi-diagram-3-fill" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M6 3.5A1.5 1.5 0 0 1 7.5 2h1A1.5 1.5 0 0 1 10 3.5v1A1.5 1.5 0 0 1 8.5 6v1H14a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0V8h-5v.5a.5.5 0 0 1-1 0V8h-5v.5a.5.5 0 0 1-1 0v-1A.5.5 0 0 1 2 7h5.5V6A1.5 1.5 0 0 1 6 4.5v-1zm-6 8A1.5 1.5 0 0 1 1.5 10h1A1.5 1.5 0 0 1 4 11.5v1A1.5 1.5 0 0 1 2.5 14h-1A1.5 1.5 0 0 1 0 12.5v-1zm6 0A1.5 1.5 0 0 1 7.5 10h1a1.5 1.5 0 0 1 1.5 1.5v1A1.5 1.5 0 0 1 8.5 14h-1A1.5 1.5 0 0 1 6 12.5v-1zm6 0a1.5 1.5 0 0 1 1.5-1.5h1a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5v-1z"/>
-                                </svg>
-                            </div>
-                            <div class="col-5 col-sm-4 botonSubmenu" onclick="redirect('adminArticulos')"  onmouseout="outBoton('spanArticulos', 'iconoArticulos')" onmouseover="overBoton('spanArticulos', 'iconoArticulos')">
-                                <span id="spanArticulos">
-                                    Articulos   
-                                </span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="50" id="iconoArticulos" height="50" fill="currentColor" class="bi icono hide bi-cart-fill" viewBox="0 0 16 16">
-                                    <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                                </svg>
-                            </div>
+                    <div class="row rowSubMenuInicio d-flex justify-content-around">
+                        <div class="col-12 col-sm-4 mb-2 mb-sm-0  botonSubmenu" onclick="redirect('adminCategorias')" onmouseout="outBoton('spanCategorias', 'iconoCategorias')" onmouseover="overBoton('spanCategorias', 'iconoCategorias')">
+                            <span id="spanCategorias">
+                                Categorias   
+                            </span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="50" id="iconoCategorias" height="50" fill="currentColor" class="bi icono hide bi-diagram-3-fill" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M6 3.5A1.5 1.5 0 0 1 7.5 2h1A1.5 1.5 0 0 1 10 3.5v1A1.5 1.5 0 0 1 8.5 6v1H14a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0V8h-5v.5a.5.5 0 0 1-1 0V8h-5v.5a.5.5 0 0 1-1 0v-1A.5.5 0 0 1 2 7h5.5V6A1.5 1.5 0 0 1 6 4.5v-1zm-6 8A1.5 1.5 0 0 1 1.5 10h1A1.5 1.5 0 0 1 4 11.5v1A1.5 1.5 0 0 1 2.5 14h-1A1.5 1.5 0 0 1 0 12.5v-1zm6 0A1.5 1.5 0 0 1 7.5 10h1a1.5 1.5 0 0 1 1.5 1.5v1A1.5 1.5 0 0 1 8.5 14h-1A1.5 1.5 0 0 1 6 12.5v-1zm6 0a1.5 1.5 0 0 1 1.5-1.5h1a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5v-1z"/>
+                            </svg>
                         </div>
-                    </div>
+                        <div class="col-12 col-sm-4 mt-sm-0 mb-2 mb-sm-0 botonSubmenu" onclick="redirect('adminArticulos')"  onmouseout="outBoton('spanArticulos', 'iconoArticulos')" onmouseover="overBoton('spanArticulos', 'iconoArticulos')">
+                            <span id="spanArticulos">
+                                Articulos   
+                            </span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="50" id="iconoArticulos" height="50" fill="currentColor" class="bi icono hide bi-cart-fill" viewBox="0 0 16 16">
+                                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                            </svg>
+                        </div>
+                    </div>   
                 </div>
             </div>
         </div>

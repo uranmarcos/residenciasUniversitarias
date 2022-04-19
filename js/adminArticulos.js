@@ -85,8 +85,8 @@ function desbloquearFormularioCreacion() {
     categoria.removeAttribute("disabled")
 }
 function bloquearFormularioEdicion() {
-    let btnLimpiar = document.getElementById("btnLimpiarFormEdicion")
-    btnLimpiar.setAttribute("disabled", true)
+    // let btnLimpiar = document.getElementById("btnLimpiarFormEdicion")
+    // btnLimpiar.setAttribute("disabled", true)
     let descripcion = document.getElementById("descripcionEdicion")
     descripcion.setAttribute("disabled", true)
     let medida = document.getElementById("medidaEdicion")
@@ -95,8 +95,8 @@ function bloquearFormularioEdicion() {
     categoria.setAttribute("disabled", true)
 }
 function desbloquearFormularioEdicion() {
-    let btnLimpiar = document.getElementById("btnLimpiarFormEdicion")
-    btnLimpiar.removeAttribute("disabled")
+    // let btnLimpiar = document.getElementById("btnLimpiarFormEdicion")
+    // btnLimpiar.removeAttribute("disabled")
     let descripcion = document.getElementById("descripcionEdicion")
     descripcion.removeAttribute("disabled")
     let medida = document.getElementById("medidaEdicion")
@@ -113,4 +113,22 @@ function cargarDatosEdicion(id, descripcion, medida, categoria){
 function eliminarArticulo(id, descripcion) {
     document.getElementById("articuloAEliminar").innerHTML = " - " + descripcion + " - "
     document.getElementById("idArticuloEliminar").value = id
+}
+//START FUNCIONES DEL FILTRO ADMIN
+function filtrar() {
+    let producto = document.getElementById("buscadorProducto").value.toLowerCase();
+    let listaFilas = document.getElementsByName("rowTable");
+    listaFilas = Array.from(listaFilas)
+    listaFilas.forEach(function callback(value) {
+        if (value.classList.contains("hide")) {
+            value.classList.remove("hide")
+        }
+    })
+    listaFilas.forEach(function callback(value) {
+        let parametro = null
+        parametro = value.firstElementChild.nextElementSibling.firstElementChild.innerHTML.toLowerCase()
+        if (!parametro.includes(producto)) {
+            value.classList.add("hide")
+        }
+    })
 }
