@@ -9,7 +9,8 @@ $idPedido = null;
 if(isset($_POST["generarPedido"])){
     //ARMO PEDIDO PARA LA BDD RECORRIENDO INPUT DEL FORMULARIO Y CAMPO OTROS
     $pedido = "";
-    for($i = 1; $i<= 6; $i++ ){
+    
+    for($i = 1; $i<= 200; $i++ ){
         if(isset($_POST[$i])){
             if($_POST[$i] != 0) {
                 $pedido = $pedido . $i . ":" . $_POST[$i] . ";";

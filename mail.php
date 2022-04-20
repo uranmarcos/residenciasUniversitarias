@@ -38,7 +38,7 @@ $phpmailer->Body .="<p>Voluntario: " . utf8_decode($pedido[0]["nombre"]) . " " .
 $phpmailer->Body .= "<p>Fecha: " . $newDate ."</p>";
 $phpmailer->IsHTML(true);
 // $phpmailer->AddAttachment($pdf); // attachment
-$phpmailer->AddStringAttachment($archivoPdf, utf8_decode($sedePedido) . '.pdf','base64');
+$phpmailer->AddStringAttachment($archivoPdf, utf8_decode($sede[0]["provincia"]) . ", " .utf8_decode($sede[0]["localidad"]) . '.pdf','base64');
 try {
     $phpmailer->smtpConnect([
             'ssl' => [
