@@ -35,10 +35,27 @@ if(isset($_POST["crearUsuario"])){
     $date = date("Y-m-d H:i:s");
     $insertUsuario = $baseDeDatos ->prepare("INSERT into agentes VALUES(default, '$dni', '$nombre', '$segundoNombre', '$apellido', '$mail', '$rolCreacion', '$password', '$sede', '$casa', '$date', '$date', '$idUsuarioLogueado')");
     $consultaDni = $baseDeDatos ->prepare("SELECT id from agentes WHERE dni = $dni");
+    $consultaMail = $baseDeDatos ->prepare("SELECT id from agentes WHERE mail = '$mail'");
+    $crearUsuario = false;
     try{
         $consultaDni->execute();
-        $dni = $consultaDni -> fetchAll(PDO::FETCH_ASSOC);
-        if( count($dni) == 0) {
+        $consultaMail->execute();
+        $dniExistente = $consultaDni -> fetchAll(PDO::FETCH_ASSOC);
+        $mailExistente = $consultaMail -> fetchAll(PDO::FETCH_ASSOC);
+        if( count($dniExistente) == 0 && count($mailExistente) == 0) {
+            $crearUsuario = true;
+        } else if (count($dniExistente) != 0 && count($mailExistente) == 0) {
+            $alertError= "show";
+            $mensajeAlertError="El dni ingresado ya está registrado";
+        } else if( count($dniExistente) == 0 && count($mailExistente) != 0) {
+            $alertError= "show";
+            $mensajeAlertError="El mail ingresado ya está registrado";
+        } else {
+            $alertError= "show";
+            $mensajeAlertError="El dni y el mail ingresados ya están registrados";
+        }
+
+        if ($crearUsuario) {
             try{
                 $insertUsuario->execute();
                 $alertConfirmacion = "show";
@@ -47,10 +64,8 @@ if(isset($_POST["crearUsuario"])){
                 $mensajeAlertError = "Hubo un error de conexión. Por favor actualizá la página";
                 $alertError= "show";
             }
-        } else {
-            $alertError= "show";
-            $mensajeAlertError="El dni ingresado ya está registrado";
         }
+
     } catch (\Throwable $th) {
         $mensajeAlertError = "Hubo un error de conexión. Por favor actualizá la página";
         $alertError= "show";
