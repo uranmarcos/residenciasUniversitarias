@@ -40,7 +40,7 @@ if($_POST){
                 $pass = password_hash($newPassword, PASSWORD_DEFAULT);
                 $consultaToken = $baseDeDatos ->prepare("UPDATE agentes SET password = '$pass' WHERE dni = '$dni'"); 
                 try {
-                    $consulta->execute();
+                    $consultaToken->execute();
                     try {
                         include("mailRecuperoPassword.php");
                         $boxMensajeError = "show";
@@ -152,8 +152,8 @@ function randomPassword() {
                                 <div class="modal-body centrarTexto">
                                     Para resetear su contraseña por favor ingrese<br> su correo electrónico y su DNI
                                 </div>
-                                <input type="mail" class="inputReset" placeholder="Correo electrónico" name="mailReset" id="mailReset"></input>
-                                <input type="text" class="inputReset" placeholder="DNI" name="dniReset" id="dniReset"></input>
+                                <input type="mail" class="inputReset" autocomplete="OFF" placeholder="Correo electrónico" name="mailReset" id="mailReset"></input>
+                                <input type="text" class="inputReset" placeholder="DNI" autocomplete="OFF" name="dniReset" id="dniReset"></input>
                                 <div class="modal-footer d-flex justify-content-around">
                                     <button type="button" class="btn botonCancelar" data-bs-dismiss="modal">Cancelar</button>
                                     <button type="submit" name="resetPassword" id="btnResetPassword" onclick="mostrarSpinner('btnResetPassword','spinnerResetPassword')" class="btn boton">Confirmar</button>

@@ -26,7 +26,7 @@ $phpmailer->setFrom($phpmailer->Username,$from_name);
 $phpmailer->AddAddress($address_to); // recipients email
 $phpmailer->Subject = $the_subject;	
 $phpmailer->Body .="<p>Hemos recibido una solicitud de recuperación de contraseña para tu usuario</p>";
-$phpmailer->Body .="<p>Tu nueva contraseña es: " . $password . "</p>";
+$phpmailer->Body .="<p>Tu nueva contraseña es: " . $newPassword . "</p>";
 $phpmailer->Body .="<p>Podrás modificarla desde la opción Ajustes si lo deseas.</p>";
 $phpmailer->IsHTML(true);
 try {
