@@ -11,14 +11,34 @@ if(isset($_POST["crearSede"])){
     $casas = $_POST['casasCreacion'];
     date_default_timezone_set('America/Argentina/Cordoba');
     $date = date("Y-m-d h:i:s");
-    $insertSede = $baseDeDatos ->prepare("INSERT into sedes VALUES(default, '$provincia', '$sede', '$casas', '$date', '$date', '$idUsuarioLogueado')");
+    $crearSede = false;
+    $consultarSede = $baseDeDatos ->prepare("SELECT count(*) from sedes WHERE provincia = '$provincia' AND localidad = '$sede'");
     try{
-        $insertSede->execute();
-        $alertConfirmacion = "show";
-        $mensajeAlertConfirmacion="La sede se creó correctamente";
+        $consultarSede->execute();
+        $sedeExistente = $consultarSede -> fetchAll(PDO::FETCH_ASSOC);
+        
+        $cantidad = $sedeExistente[0]["count(*)"];
+        if($cantidad == 0 ){
+            $crearSede = true;
+        } else {
+            $alertErrorConexion= "show";
+            $mensajeAlertError="La sede que desea crear ya existe.";    
+        }
     } catch (\Throwable $th) {
         $alertErrorConexion= "show";
         $mensajeAlertError="Hubo un error de conexión. Por favor intente nuevamente.";
+    }
+
+    if($crearSede) {
+        $insertSede = $baseDeDatos ->prepare("INSERT into sedes VALUES(default, '$provincia', '$sede', '$casas', '$date', '$date', '$idUsuarioLogueado')");
+        try{
+            $insertSede->execute();
+            $alertConfirmacion = "show";
+            $mensajeAlertConfirmacion="La sede se creó correctamente";
+        } catch (\Throwable $th) {
+            $alertErrorConexion= "show";
+            $mensajeAlertError="Hubo un error de conexión. Por favor intente nuevamente.";
+        }
     }
 }
 
