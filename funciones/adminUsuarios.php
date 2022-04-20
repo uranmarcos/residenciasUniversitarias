@@ -54,21 +54,19 @@ if(isset($_POST["crearUsuario"])){
             $alertError= "show";
             $mensajeAlertError="El dni y el mail ingresados ya están registrados";
         }
-
-        if ($crearUsuario) {
-            try{
-                $insertUsuario->execute();
-                $alertConfirmacion = "show";
-                $mensajeAlertConfirmacion="El usuario se creó correctamente";
-            } catch (\Throwable $th) {
-                $mensajeAlertError = "Hubo un error de conexión. Por favor actualizá la página";
-                $alertError= "show";
-            }
-        }
-
     } catch (\Throwable $th) {
         $mensajeAlertError = "Hubo un error de conexión. Por favor actualizá la página";
         $alertError= "show";
+    }
+    if ($crearUsuario) {
+        try{
+            $insertUsuario->execute();
+            $alertConfirmacion = "show";
+            $mensajeAlertConfirmacion="El usuario se creó correctamente";
+        } catch (\Throwable $th) {
+            $mensajeAlertError = "Hubo un error de conexión. Por favor actualizá la página";
+            $alertError= "show";
+        }
     }
 }
 
@@ -84,15 +82,34 @@ if (isset($_POST["editarUsuario"])){
     $casa = $_POST["casaEdicion"];
     date_default_timezone_set('America/Argentina/Cordoba');
     $date = date("Y-m-d H:i:s");
-    $consulta = $baseDeDatos ->prepare("UPDATE agentes SET nombre = '$primerNombre', segundoNombre = '$segundoNombre',
-    apellido = '$apellido', rol = '$rolEdicion', mail = '$mail', sede = '$sede', casa = '$casa', modified = '$date', idUser = '$idUsuarioLogueado' WHERE id = '$id'");
-    try {
-        $consulta->execute();
-        $alertConfirmacion = "show";
-        $mensajeAlertConfirmacion="El usuario se modificó correctamente";
+    $editarUsuario = false;
+
+    $consultaMail = $baseDeDatos ->prepare("SELECT id from agentes WHERE mail = '$mail'");
+    try{
+        $consultaMail->execute();
+        $mailExistente = $consultaMail -> fetchAll(PDO::FETCH_ASSOC);
+        if( count($mailExistente) == 0) {
+            $editarUsuario = true;
+        } else {
+            $alertError= "show";
+            $mensajeAlertError="El mail ingresado ya está registrado";
+        }
     } catch (\Throwable $th) {
         $mensajeAlertError = "Hubo un error de conexión. Por favor actualizá la página";
         $alertError= "show";
+    }
+
+    if ($editarUsuario) {
+        $consulta = $baseDeDatos ->prepare("UPDATE agentes SET nombre = '$primerNombre', segundoNombre = '$segundoNombre',
+        apellido = '$apellido', rol = '$rolEdicion', mail = '$mail', sede = '$sede', casa = '$casa', modified = '$date', idUser = '$idUsuarioLogueado' WHERE id = '$id'");
+        try {
+            $consulta->execute();
+            $alertConfirmacion = "show";
+            $mensajeAlertConfirmacion="El usuario se modificó correctamente";
+        } catch (\Throwable $th) {
+            $mensajeAlertError = "Hubo un error de conexión. Por favor actualizá la página";
+            $alertError= "show";
+        }
     }
 }
 
